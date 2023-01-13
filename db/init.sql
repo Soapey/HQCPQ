@@ -1,0 +1,50 @@
+CREATE TABLE IF NOT EXISTS product (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS rate_type (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS product_rate (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_id INTEGER NOT NULL,
+    rate_type_id INTEGER NOT NULL,
+    rate REAL NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES product (id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY (rate_type_id) REFERENCES rate_type (id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS suburb (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS vehicle_combination (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL,
+    net REAL NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS suburb_combination_charge (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    suburb_id INTEGER NOT NULL,
+    vehicle_combination_id INTEGER NOT NULL,
+    FOREIGN KEY (suburb_id) REFERENCES suburb (id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY (vehicle_combination_id) REFERENCES vehicle_combination (id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
