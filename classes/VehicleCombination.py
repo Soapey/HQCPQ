@@ -6,4 +6,4 @@ class VehicleCombination():
         self.net = net
         
     def __repr__(self) -> str:
-        return f'{self.__class__.name}({vars(self)})'
+        return f'{self.__class__.__name__}({vars(self)})'
