@@ -15,7 +15,15 @@ class Product():
 
         with SQLCursor(builds[build_name]) as cur:
             cur.execute('INSERT INTO product (name) VALUES (?);', (self.name,))
-            last_record = cur.execute('SELECT id FROM product WHERE ROWID = last_insert_rowid();')
-            print(last_record)
-            self.id = last_record[0]
+            last_record = cur.execute('SELECT id FROM product WHERE ROWID = last_insert_rowid();').fetchall()
+            self.id = last_record[0][0]
 
+    def update(self, build_name='production'):
+
+        with SQLCursor(builds[build_name]) as cur:
+            cur.execute('UPDATE product SET name = ? WHERE id = ?', (self.name, self.id,))
+
+    def delete(self, build_name='production'):
+
+        with SQLCursor(builds[build_name]) as cur:
+            cur.execute('DELETE FROM product WHERE id = ?', (self.id,))
