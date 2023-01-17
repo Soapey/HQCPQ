@@ -9,7 +9,7 @@ class MainWindow():
         self.frame = QMainWindow()
         self.frame.setGeometry(xpos, ypos, width, height)
         self.frame.setWindowTitle(title)
-        self._state = None
+        self.state = _state
 
     @property
     def state(self):
