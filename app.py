@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QApplication
-from gui.classes.MainWindow import MainWindow
+from gui.classes.WinState import WinState
+from gui.classes.MainWindow import MainWindow 
 import sys
 
 
@@ -7,7 +8,7 @@ def main():
 
     app = QApplication(sys.argv)
 
-    
+    main = MainWindow(0, 0, 300, 200, WinState.MAXIMISED, 'HQCPQ')
 
     sys.exit(app.exec_())
 

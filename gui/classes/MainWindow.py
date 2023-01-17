@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow
-from WinState import WinState
+from .WinState import WinState
 
 
 class MainWindow():
@@ -9,18 +9,18 @@ class MainWindow():
         self.frame = QMainWindow()
         self.frame.setGeometry(xpos, ypos, width, height)
         self.frame.setWindowTitle(title)
-        self._state = self.state(_state)
+        self._state = None
 
     @property
     def state(self):
         return self._state
 
     @state.setter
-    def state(self, _state) -> WinState:
+    def state(self, val):
 
-        self._state = _state
+        self._state = val
 
-        match _state:
+        match val:
             case WinState.MINIMISED:
                 self.frame.showMinimized()
             case WinState.NORMAL:
