@@ -1,6 +1,6 @@
 class VehicleCombination():
 
-    def __init__(self, id, name, net) -> None:
+    def __init__(self, id: int, name: str, net: float) -> None:
         self.id = id
         self.name = name
         self.net = net

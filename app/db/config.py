@@ -13,7 +13,7 @@ builds = {
 }
 
 
-def start(build_name, clean_start: bool = False):
+def start(build_name: str, clean_start: bool = False):
 
     if build_name not in builds.keys():
         print(f'build name: {build_name} not recognised.')

@@ -1,9 +1,13 @@
+from .Suburb import Suburb
+from .VehicleCombination import VehicleCombination
+
+
 class SuburbCombinationCharge():
 
-    def __init__(self, id, suburb_id, vehicle_combination_id, rate) -> None:
+    def __init__(self, id: int, suburb: Suburb, vehicle_combination: VehicleCombination, rate: float) -> None:
         self.id = id
-        self.suburb_id = suburb_id
-        self.vehicle_combination_id = vehicle_combination_id
+        self.suburb = suburb
+        self.vehicle_combination = vehicle_combination
         self.rate = rate
 
     def __repr__(self) -> str:

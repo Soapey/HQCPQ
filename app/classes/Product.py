@@ -4,7 +4,7 @@ from db.config import builds
 
 class Product():
 
-    def __init__(self, id, name) -> None:
+    def __init__(self, id: int, name: str) -> None:
         self.id = id
         self.name = name
 
