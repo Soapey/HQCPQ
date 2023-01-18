@@ -4,6 +4,9 @@ from .gui.classes.MainWindow import MainWindow
 import sys
 
 
+build_name = sys.argv[1]
+
+
 def main():
 
     app = QApplication(sys.argv)

@@ -1,13 +1,9 @@
-from .Product import Product
-from .RateType import RateType
-
-
 class ProductRate():
 
-    def __init__(self, id, product: Product, rate_type: RateType, rate) -> None:
+    def __init__(self, id: int, product_id: int, rate_type_id: int, rate: float) -> None:
         self.id = id
-        self.product = product
-        self.rate_type = rate_type
+        self.product_id = product_id
+        self.rate_type_id = rate_type_id
         self.rate = rate
 
     def __repr__(self) -> str:

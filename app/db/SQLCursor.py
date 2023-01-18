@@ -1,10 +1,12 @@
 import sqlite3
+from db.config import builds
+from app.core import build_name
 
 
 class SQLCursor():
 
-    def __init__(self, path) -> None:
-        self.path = path
+    def __init__(self) -> None:
+        self.path = builds[build_name]
         self.connection = None
         self.cursor = None
 
