@@ -13,16 +13,47 @@ class Product():
     def insert(self):
 
         with SQLCursor() as cur:
-            cur.execute('INSERT INTO product (name) VALUES (?);', (self.name,))
+            cur.execute('''
+                INSERT INTO product (name) 
+                VALUES (?);''', 
+                (self.name,))
             last_record = cur.execute('SELECT id FROM product WHERE ROWID = last_insert_rowid();').fetchall()
             self.id = last_record[0][0]
 
     def update(self):
 
         with SQLCursor() as cur:
-            cur.execute('UPDATE product SET name = ? WHERE id = ?', (self.name, self.id,))
+            cur.execute('''
+                UPDATE product 
+                SET name = ? 
+                WHERE id = ?;''', 
+                (self.name, self.id,))
 
     def delete(self):
 
         with SQLCursor() as cur:
-            cur.execute('DELETE FROM product WHERE id = ?', (self.id,))
+            cur.execute('''
+                DELETE FROM product 
+                WHERE id = ?;''', 
+                (self.id,))
+
+    @classmethod
+    def get(id: int = None) -> list:
+
+        records = list()
+
+        with SQLCursor() as cur:
+
+            if id:
+                records = cur.execute('''
+                    SELECT id, name 
+                    FROM product;''').fetchall()
+            else:
+                records = cur.execute('''
+                    SELECT id, name 
+                    FROM product 
+                    WHERE id = ?;''', 
+                    (id,)).fetchall()
+            
+        return [Product(*r) for r in records]
+    
