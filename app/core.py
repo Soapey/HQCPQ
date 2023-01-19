@@ -8,7 +8,7 @@ import sys
 
 def main():
 
-    SQLCursor.build_name = 'production'
+    SQLCursor.build_name = 'test'
 
     start(SQLCursor.build_name)
 
