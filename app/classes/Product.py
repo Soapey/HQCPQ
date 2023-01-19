@@ -38,13 +38,13 @@ class Product():
                 (self.id,))
 
     @classmethod
-    def get(id: int = None) -> list:
+    def get(cls, id: int = None) -> list:
 
         records = list()
 
         with SQLCursor() as cur:
 
-            if id:
+            if not id:
                 records = cur.execute('''
                     SELECT id, name 
                     FROM product;''').fetchall()

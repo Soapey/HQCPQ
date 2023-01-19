@@ -1,6 +1,6 @@
 from datetime import datetime
 from .QuoteItem import QuoteItem
-from db.SQLCursor import SQLCursor
+from app.db.SQLCursor import SQLCursor
 
 
 class Quote():
@@ -31,7 +31,7 @@ class Quote():
             cur.execute('''
                 INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number) 
                 VALUES (?, ?, ?, ?, ?, ?);''', 
-                (self.date_created, self.date_required, self.name, self.address, self.suburb, self.contact_number,))
+                (self.date_created.date(), self.date_required.date(), self.name, self.address, self.suburb, self.contact_number,))
             last_record = cur.execute('SELECT id FROM quote WHERE ROWID = last_insert_rowid();').fetchall()
             self.id = last_record[0][0]
 
@@ -42,7 +42,7 @@ class Quote():
                 UPDATE quote 
                 SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, contact_number = ? 
                 WHERE id = ?;''', 
-                (self.date_created, self.date_required, self.name, self.address, self.suburb, self.contact_number, self.id,))
+                (self.date_created.date(), self.date_required.date(), self.name, self.address, self.suburb, self.contact_number, self.id,))
 
     def delete(self):
 
@@ -50,13 +50,13 @@ class Quote():
             cur.execute('DELETE FROM quote WHERE id = ?;', (self.id,))
 
     @classmethod
-    def get(id: int = None) -> list:
+    def get(cls, id: int = None) -> list:
 
         records = list()
 
         with SQLCursor() as cur:
 
-            if id:
+            if not id:
                 records = cur.execute('''
                     SELECT id, date_created, date_required, name, address, suburb, contact_number 
                     FROM quote;''').fetchall()
@@ -66,4 +66,4 @@ class Quote():
                     FROM quote WHERE id = ?;''', 
                     (id,)).fetchall()
             
-        return [Quote(r[0], datetime.strptime(r[1]), datetime.strptime(r[2]), r[3], r[4], r[5], r[6]) for r in records]
+        return [Quote(r[0], datetime.strptime(r[1], '%Y-%m-%d'), datetime.strptime(r[2], '%Y-%m-%d'), r[3], r[4], r[5], r[6]) for r in records]

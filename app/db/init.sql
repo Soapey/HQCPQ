@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS suburb_combination_charge (
     suburb_id INTEGER NOT NULL,
     vehicle_combination_id INTEGER NOT NULL,
     FOREIGN KEY (suburb_id) REFERENCES suburb (id)
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE 
         ON DELETE CASCADE,
     FOREIGN KEY (vehicle_combination_id) REFERENCES vehicle_combination (id)
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE 
         ON DELETE CASCADE
 );
 
@@ -66,3 +66,5 @@ CREATE TABLE IF NOT EXISTS quote_item (
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
+
+PRAGMA foreign_keys=on;

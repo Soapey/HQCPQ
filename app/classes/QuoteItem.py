@@ -1,4 +1,4 @@
-from db.SQLCursor import SQLCursor
+from app.db.SQLCursor import SQLCursor
 
 
 class QuoteItem():
@@ -44,34 +44,34 @@ class QuoteItem():
                 (self.id,))
 
     @classmethod
-    def get(id: int = None) -> list:
+    def get(cls, id: int = None) -> list:
 
         records = list()
 
         with SQLCursor() as cur:
 
-            if id:
+            if not id:
                 records = cur.execute('''
                     SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
-                    FROM quoteitem;''').fetchall()
+                    FROM quote_item;''').fetchall()
             else:
                 records = cur.execute('''
                     SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
-                    FROM quoteitem 
+                    FROM quote_item 
                     WHERE id = ?;''', 
                     (id,)).fetchall()
             
         return [QuoteItem(*r) for r in records]
 
     @classmethod
-    def get_by_quote_id(id: int):
+    def get_by_quote_id(cls, id: int):
 
         records = list()
 
         with SQLCursor() as cur:
             records = cur.execute('''
                 SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
-                FROM quoteitem 
+                FROM quote_item  
                 WHERE quote_id = ?;''', 
                 (id,)).fetchall()
 
