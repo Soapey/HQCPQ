@@ -15,6 +15,10 @@ class QuoteItem():
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}({vars(self)})'
 
+    def total_inc_gst(self) -> float:
+
+        return 1.1 * ((self.transport_rate_ex_gst + self.product_rate_ex_gst) * self.vehicle_combination_net)
+
     def insert(self):
 
         with SQLCursor() as cur:

@@ -1,4 +1,4 @@
-from db.SQLCursor import SQLCursor
+from app.db.SQLCursor import SQLCursor
 
 
 class Product():

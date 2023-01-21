@@ -25,6 +25,13 @@ class Quote():
 
         return QuoteItem.get_by_quote_id(self.id)
 
+    def total_inc_gst(self, all_quote_items: list[QuoteItem] = None) -> float:
+
+        items = self.items(all_quote_items)
+
+        return 1.1 * sum([((qi.transport_rate_ex_gst + qi.product_rate_ex_gst) * qi.vehicle_combination_net) for qi in items])
+
+
     def insert(self):
 
         with SQLCursor() as cur:
