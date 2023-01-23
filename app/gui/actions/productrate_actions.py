@@ -1,9 +1,10 @@
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QPushButton, QComboBox
+from PyQt5.QtGui import QDoubleValidator
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox
 from app.classes.ProductRate import ProductRate
 from app.classes.RateType import RateType
 from app.db.SQLCursor import SQLCursor
 from tkinter import messagebox
-from app.gui.helpers import selected_row_id, change_view
+from app.gui.helpers import selected_row_id, change_view, toggle_buttons, int_conv, float_conv
 
 
 entities: list[ProductRate] = list()
@@ -18,16 +19,9 @@ def on_row_select(main_window):
     selected_id = selected_row_id(tbl)
 
     if selected_id:
-        toggle_buttons(main_window, True, True, True)
+        toggle_buttons(main_window.btnNewProductRate, True, main_window.btnEditProductRate, True, main_window.btnDeleteProductRate, True)
     else:
-        toggle_buttons(main_window, True, False, False)
-
-
-def toggle_buttons(main_window, show_new: bool, show_edit: bool, show_delete: bool):
-
-    main_window.btnNewProductRate.setVisible(show_new)
-    main_window.btnEditProductRate.setVisible(show_edit)
-    main_window.btnDeleteProductRate.setVisible(show_delete)
+        toggle_buttons(main_window.btnNewProductRate, True, main_window.btnEditProductRate, False, main_window.btnDeleteProductRate, False)
 
 
 def refresh_table(main_window, selected_id: int = None):
@@ -62,44 +56,47 @@ def refresh_table(main_window, selected_id: int = None):
         product_rates_tbl.setItem(index, 1, QTableWidgetItem(record[1]))
         product_rates_tbl.setItem(index, 2, QTableWidgetItem(str(record[2])))
 
-    on_row_select(main_window)
+    toggle_buttons(main_window.btnNewProductRate, True, main_window.btnEditProductRate, False, main_window.btnDeleteProductRate, False)
 
 
-def clear_entry_fields(main_window, is_new: bool):
+def load_entry_page(main_window, is_new: bool):
 
+    # Fetch all RateTypes from SQLite database.
     global rate_types
     rate_types = RateType.get()
 
-    selectable_rate_type_names: list
-
+    # Create list of RateType name options for the gui combobox.
+    selectable_rate_type_names: list[str] = list()
     if is_new:
-        selectable_rate_type_names = [rt.name for rt in rate_types if rt.name not in [r[1] for r in records]]
+        existing_ratetype_names = [r[1] for r in records]
+        selectable_rate_type_names = [rt.name for rt in rate_types if rt.name not in existing_ratetype_names]
     else:
         selectable_rate_type_names = [rt.name for rt in rate_types]
 
+    # Clear the gui combobox and fill with RateType name options.
     productrate_ratetype_combobox: QComboBox = main_window.cmbProductRate_RateType
     productrate_ratetype_combobox.clear()
-
     for rate_type_name in selectable_rate_type_names:
         productrate_ratetype_combobox.addItem(rate_type_name)
 
+    # Clear the Rate field textbox and add a numeric only validator.
     main_window.txtProductRate_Rate.clear()
 
 
 def new(main_window):
 
-    clear_entry_fields(main_window, is_new = True)
+    load_entry_page(main_window, is_new = True)
 
     change_view(main_window.swPages, 3)
 
 
 def edit(main_window):
 
+    # Find the entity to be edited by id
     selected_id = selected_row_id(main_window.tblProductRates)
-
     entity = list(filter(lambda r: r[0] == selected_id, records))[0]
 
-    clear_entry_fields(main_window, is_new = False)
+    load_entry_page(main_window, is_new = False)
 
     main_window.lblProductRateId.setText(str(entity[0]))
 
@@ -124,17 +121,16 @@ def save(main_window):
 
     if form_is_valid(main_window):
 
-        id_label_text: str = main_window.lblProductRateId.text()
+        id = int_conv(main_window.lblProductRateId.text())
         product_id: int = int(main_window.lblProductId.text())
-        rate_type: RateType = list(filter(lambda rt: rt.name == main_window.cmbProductRate_RateType.currentText(), rate_types))[0]
+        rate_type_id: int = list(filter(lambda rt: rt.name == main_window.cmbProductRate_RateType.currentText(), rate_types))[0].id
         rate: float = float(main_window.txtProductRate_Rate.text())
 
-        pr: ProductRate = None
-        if len(id_label_text) > 0:
-            pr = ProductRate(int(id_label_text), product_id, rate_type.id, rate)
+        pr = ProductRate(id, product_id, rate_type_id, rate)
+
+        if id:
             pr.update()
         else:
-            pr = ProductRate(None, product_id, rate_type.id, rate)
             pr.insert()
 
         refresh_table(main_window, product_id)
@@ -147,40 +143,28 @@ def form_is_valid(main_window):
     result = True
     error_string = str()
 
-    entity_id: int = 0
-    id_label_text = main_window.lblProductRateId.text()
+    id: int = int_conv(main_window.lblProductRateId.text())
+    rate =  float_conv(main_window.txtProductRate_Rate.text())
 
-    product_id: int = int(main_window.lblProductId.text())
-
-    rate_type: RateType = list(filter(lambda rt: rt.name == main_window.cmbProductRate_RateType.currentText(), rate_types))[0]
-    rate_text: str = main_window.txtProductRate_Rate.text()
-
-    if len(id_label_text) > 0:
-        entity_id = int(id_label_text)
-
-    if len(rate_text) == 0:
+    if rate:
         result = False
         error_string += '\n- Rate field cannot be blank.'
-    else:
-        
-        if not rate_text.isnumeric():
-            result = False
-            error_string += '\n- Rate must be numeric.'
-        elif float(rate_text) < 0:
-            result = False
-            error_string += '\n- Rate must be greater-than or equal-to zero.'
-        else:
-            existing_product_rates = list(
-                filter(
-                    lambda \
-                        pr: pr.product_id == product_id and \
-                        pr.rate_type_id == rate_type.id and \
-                        pr.id != entity_id, 
-                    entities))
 
-            if len(existing_product_rates) > 0:
-                result = False
-                error_string += '\n- Product Rate with current Product and Rate Type already exists.'
+    else:
+        product_id: int = int(main_window.lblProductId.text())
+        rate_type_id: RateType = list(filter(lambda rt: rt.name == main_window.cmbProductRate_RateType.currentText(), rate_types))[0].id
+       
+        existing_product_rates = list(
+            filter(
+                lambda \
+                    pr: pr.product_id == product_id and \
+                    pr.rate_type_id == rate_type_id and \
+                    pr.id != id, 
+                entities))
+
+        if len(existing_product_rates) > 0:
+            result = False
+            error_string += '\n- Product Rate with current Product and Rate Type already exists.'
 
     if result == False:
         messagebox.showerror('Save Error', error_string)
@@ -190,8 +174,14 @@ def form_is_valid(main_window):
 
 def connect(main_window):
 
+    # Connect all actions to lambda functions.
     main_window.tblProductRates.selectionModel().selectionChanged.connect(lambda: on_row_select(main_window))
     main_window.btnNewProductRate.clicked.connect(lambda: new(main_window))
     main_window.btnEditProductRate.clicked.connect(lambda: edit(main_window))
     main_window.btnDeleteProductRate.clicked.connect(lambda: delete(main_window))
     main_window.btnSaveProductRate.clicked.connect(lambda: save(main_window))
+
+    # Set numeric only validator on Rate textbox.
+    onlyNumeric = QDoubleValidator()
+    onlyNumeric.setBottom(0.00)
+    main_window.txtProductRate_Rate.setValidator(onlyNumeric)

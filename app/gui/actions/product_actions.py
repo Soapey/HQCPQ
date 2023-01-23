@@ -1,8 +1,8 @@
 from tkinter import messagebox
 from app.classes.Product import Product
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QPushButton
-from app.gui.helpers import change_view, selected_row_id
-from app.gui.actions.productrate_actions import refresh_table as refresh_product_rates_table, on_row_select as on_product_rate_row_select,  toggle_buttons
+from app.gui.helpers import change_view, selected_row_id, toggle_buttons
+from app.gui.actions.productrate_actions import refresh_table as refresh_product_rates_table, on_row_select as on_product_rate_row_select
 
 
 entities: list[Product] = list()
@@ -73,7 +73,7 @@ def new(main_window):
 
     clear_entry_fields(main_window)
 
-    toggle_buttons(main_window, False, False, False)
+    toggle_buttons(main_window.btnNewProduct, False, main_window.btnEditProduct, False, main_window.btnDeleteProduct, False)
 
     change_view(main_window.swPages, 2)
 
@@ -89,7 +89,7 @@ def edit(main_window):
 
     refresh_product_rates_table(main_window)
 
-    toggle_buttons(main_window, True, False, False)
+    toggle_buttons(main_window.btnNewProduct, True, main_window.btnEditProduct, False, main_window.btnDeleteProduct, False)
 
     change_view(main_window.swPages, 2)
 
