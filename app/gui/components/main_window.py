@@ -120,9 +120,14 @@ class Ui_MainWindow(object):
         self.lblProductId.setObjectName("lblProductId")
         self.gridLayout_2.addWidget(self.lblProductId, 0, 1, 1, 2)
         self.tblProductRates = QtWidgets.QTableWidget(self.pageProductEntry)
+        self.tblProductRates.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tblProductRates.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblProductRates.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tblProductRates.setObjectName("tblProductRates")
         self.tblProductRates.setColumnCount(0)
         self.tblProductRates.setRowCount(0)
+        self.tblProductRates.horizontalHeader().setStretchLastSection(True)
+        self.tblProductRates.verticalHeader().setVisible(False)
         self.gridLayout_2.addWidget(self.tblProductRates, 9, 0, 1, 3)
         self.lblTableHeader = QtWidgets.QLabel(self.pageProductEntry)
         self.lblTableHeader.setStyleSheet("font: 75 12pt \"Helvetica\";\n"
@@ -274,7 +279,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(5)
+        self.swPages.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

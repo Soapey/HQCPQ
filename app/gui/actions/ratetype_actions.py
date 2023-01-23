@@ -113,8 +113,8 @@ def form_is_valid(main_window):
     error_string = str()
 
     entity_id: int = 0
-    entity_name = main_window.txtProductName.text()
-    id_label_text = main_window.lblProductId.text()
+    entity_name = main_window.txtRateType_Name.text()
+    id_label_text = main_window.lblRateTypeId.text()
 
     if len(id_label_text) > 0:
         entity_id = int(id_label_text)

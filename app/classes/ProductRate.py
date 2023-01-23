@@ -18,7 +18,7 @@ class ProductRate():
 
             if not cur:
                 return
-
+                
             cur.execute('''
                 INSERT INTO product_rate (product_id, rate_type_id, rate) 
                 VALUES (?, ?, ?);''', 

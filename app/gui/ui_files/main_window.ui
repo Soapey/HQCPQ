@@ -33,7 +33,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="pageQuotes">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -188,7 +188,23 @@
          </widget>
         </item>
         <item row="9" column="0" colspan="3">
-         <widget class="QTableWidget" name="tblProductRates"/>
+         <widget class="QTableWidget" name="tblProductRates">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+         </widget>
         </item>
         <item row="6" column="0" colspan="3">
          <widget class="QLabel" name="lblTableHeader">

@@ -2,6 +2,7 @@ from tkinter import messagebox
 from app.classes.Product import Product
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QPushButton
 from app.gui.helpers import change_view, selected_row_id
+from app.gui.actions.productrate_actions import refresh_table as refresh_product_rates_table, on_row_select as on_product_rate_row_select,  toggle_buttons
 
 
 entities: list[Product] = list()
@@ -43,10 +44,13 @@ def on_row_select(main_window):
 
 
 def refresh_table(main_window, fetched_entities: list[Product] = None):
+    
+    fetched_entities = fetched_entities or entities
 
     tbl: QTableWidget = main_window.tblProducts
 
     headers = ['ID', 'Name']
+
     tbl.setRowCount(len(fetched_entities))
     tbl.setColumnCount(len(headers))
     tbl.setHorizontalHeaderLabels(headers)
@@ -62,11 +66,14 @@ def clear_entry_fields(main_window):
 
     main_window.lblProductId.clear()
     main_window.txtProductName.clear()
+    main_window.tblProductRates.setRowCount(0)
 
 
 def new(main_window):
 
     clear_entry_fields(main_window)
+
+    toggle_buttons(main_window, False, False, False)
 
     change_view(main_window.swPages, 2)
 
@@ -80,6 +87,10 @@ def edit(main_window):
     main_window.lblProductId.setText(str(entity.id))
     main_window.txtProductName.setText(entity.name)
 
+    refresh_product_rates_table(main_window)
+
+    toggle_buttons(main_window, True, False, False)
+
     change_view(main_window.swPages, 2)
 
 
@@ -89,6 +100,7 @@ def delete(main_window):
 
     entity = list(filter(lambda e: e.id == selected_id, entities))[0]
     entity.delete()
+    entities.remove(entity)
 
     refresh_table(main_window)
 
@@ -99,12 +111,17 @@ def save(main_window):
 
         id_label_text = main_window.lblProductId.text()
 
+        p: Product = None
         if len(id_label_text) > 0:
-            Product(int(id_label_text), main_window.txtProductName.text()).update()
+            p = Product(int(id_label_text), main_window.txtProductName.text())
+            p.update()
         else:
-            Product(None, main_window.txtProductName.text()).insert()
+            p = Product(None, main_window.txtProductName.text())
+            p.insert()
 
-        change_to_product_view(main_window)
+        main_window.lblProductId.setText(str(p.id))
+
+        on_product_rate_row_select(main_window)
 
 
 def form_is_valid(main_window):
