@@ -13,6 +13,10 @@ class Suburb():
     def insert(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 INSERT INTO suburb (name) 
                 VALUES (?);''', 
@@ -23,6 +27,10 @@ class Suburb():
     def update(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 UPDATE suburb 
                 SET name = ? 
@@ -32,6 +40,10 @@ class Suburb():
     def delete(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 DELETE FROM suburb 
                 WHERE id = ?;''', 
@@ -43,6 +55,9 @@ class Suburb():
         records = list()
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return list()
 
             if not id:
                 records = cur.execute('''

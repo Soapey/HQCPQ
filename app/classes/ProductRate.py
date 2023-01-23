@@ -1,4 +1,4 @@
-from db.SQLCursor import SQLCursor
+from app.db.SQLCursor import SQLCursor
 
 
 class ProductRate():
@@ -15,6 +15,10 @@ class ProductRate():
     def insert(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 INSERT INTO product_rate (product_id, rate_type_id, rate) 
                 VALUES (?, ?, ?);''', 
@@ -25,6 +29,10 @@ class ProductRate():
     def update(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 UPDATE product_rate 
                 SET product_id = ?, rate_type_id = ?, rate = ? 
@@ -34,6 +42,10 @@ class ProductRate():
     def delete(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 DELETE FROM product_rate 
                 WHERE id = ?;''', 
@@ -45,6 +57,9 @@ class ProductRate():
         records = list()
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return list()
 
             if not id:
                 records = cur.execute('''

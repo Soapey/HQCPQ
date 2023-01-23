@@ -15,6 +15,10 @@ class VehicleCombination():
     def insert(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 INSERT INTO vehicle_combination (name, net) 
                 VALUES (?, ?);''', 
@@ -25,6 +29,10 @@ class VehicleCombination():
     def update(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 UPDATE vehicle_combination 
                 SET name = ?, net = ?  
@@ -34,6 +42,10 @@ class VehicleCombination():
     def delete(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 DELETE FROM vehicle_combination 
                 WHERE id = ?;''', 
@@ -45,6 +57,9 @@ class VehicleCombination():
         records = list()
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return list()
 
             if not id:
                 records = cur.execute('''

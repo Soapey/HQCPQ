@@ -31,10 +31,13 @@ class Quote():
 
         return 1.1 * sum([((qi.transport_rate_ex_gst + qi.product_rate_ex_gst) * qi.vehicle_combination_net) for qi in items])
 
-
     def insert(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number) 
                 VALUES (?, ?, ?, ?, ?, ?);''', 
@@ -45,6 +48,10 @@ class Quote():
     def update(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 UPDATE quote 
                 SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, contact_number = ? 
@@ -54,6 +61,10 @@ class Quote():
     def delete(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('DELETE FROM quote WHERE id = ?;', (self.id,))
 
     @classmethod
@@ -62,6 +73,9 @@ class Quote():
         records = list()
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return list()
 
             if not id:
                 records = cur.execute('''

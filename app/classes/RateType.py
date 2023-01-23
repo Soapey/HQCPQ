@@ -1,4 +1,4 @@
-from db.SQLCursor import SQLCursor
+from app.db.SQLCursor import SQLCursor
 
 
 class RateType():
@@ -13,6 +13,10 @@ class RateType():
     def insert(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 INSERT INTO rate_type (name) 
                 VALUES (?);''', 
@@ -23,6 +27,10 @@ class RateType():
     def update(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 UPDATE rate_type 
                 SET name = ? 
@@ -32,6 +40,10 @@ class RateType():
     def delete(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 DELETE FROM rate_type 
                 WHERE id = ?;''', 
@@ -43,6 +55,9 @@ class RateType():
         records = list()
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return list()
 
             if not id:
                 records = cur.execute('''

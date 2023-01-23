@@ -15,6 +15,10 @@ class SuburbCombinationCharge():
     def insert(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 INSERT INTO suburb_combination_charge (suburb_id, vehicle_combination_id, rate) 
                 VALUES (?, ?, ?);''', 
@@ -25,6 +29,10 @@ class SuburbCombinationCharge():
     def update(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 UPDATE suburb_combination_charge 
                 SET suburb_id = ?, vehicle_combination_id = ?, rate = ?, 
@@ -34,6 +42,10 @@ class SuburbCombinationCharge():
     def delete(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 DELETE FROM suburb_combination_charge 
                 WHERE id = ?;''', 
@@ -45,6 +57,9 @@ class SuburbCombinationCharge():
         records = list()
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return list()
 
             if not id:
                 records = cur.execute('''

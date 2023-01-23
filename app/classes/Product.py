@@ -13,6 +13,10 @@ class Product():
     def insert(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 INSERT INTO product (name) 
                 VALUES (?);''', 
@@ -23,6 +27,10 @@ class Product():
     def update(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 UPDATE product 
                 SET name = ? 
@@ -32,6 +40,10 @@ class Product():
     def delete(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 DELETE FROM product 
                 WHERE id = ?;''', 
@@ -43,6 +55,9 @@ class Product():
         records = list()
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return list()
 
             if not id:
                 records = cur.execute('''

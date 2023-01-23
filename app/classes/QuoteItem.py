@@ -22,6 +22,10 @@ class QuoteItem():
     def insert(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 INSERT INTO quote_item (quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst) 
                 VALUES (?, ?, ?, ?, ?, ?);''', 
@@ -33,6 +37,10 @@ class QuoteItem():
     def update(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 UPDATE quote_item 
                 SET quote_id = ?, vehicle_combination_name = ?, vehicle_combination_net = ?, transport_rate_ex_gst = ?, product_name = ?, product_rate_ex_gst = ?
@@ -42,6 +50,10 @@ class QuoteItem():
     def delete(self):
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return
+
             cur.execute('''
                 DELETE FROM quote_item 
                 WHERE id = ?;''', 
@@ -53,6 +65,9 @@ class QuoteItem():
         records = list()
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return list()
 
             if not id:
                 records = cur.execute('''
@@ -73,6 +88,10 @@ class QuoteItem():
         records = list()
 
         with SQLCursor() as cur:
+
+            if not cur:
+                return list()
+
             records = cur.execute('''
                 SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
                 FROM quote_item  
