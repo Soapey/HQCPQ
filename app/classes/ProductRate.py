@@ -1,16 +1,17 @@
 from app.db.SQLCursor import SQLCursor
 
 
-class ProductRate():
-
-    def __init__(self, id: int, product_id: int, rate_type_id: int, rate: float) -> None:
+class ProductRate:
+    def __init__(
+        self, id: int, product_id: int, rate_type_id: int, rate: float
+    ) -> None:
         self.id = id
         self.product_id = product_id
         self.rate_type_id = rate_type_id
         self.rate = rate
 
     def __repr__(self) -> str:
-        return f'{self.__class__.__name__}({vars(self)})'
+        return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
 
@@ -18,12 +19,20 @@ class ProductRate():
 
             if not cur:
                 return
-                
-            cur.execute('''
+
+            cur.execute(
+                """
                 INSERT INTO product_rate (product_id, rate_type_id, rate) 
-                VALUES (?, ?, ?);''', 
-                (self.product_id, self.rate_type_id, self.rate,))
-            last_record = cur.execute('SELECT id FROM product_rate WHERE ROWID = last_insert_rowid();').fetchall()
+                VALUES (?, ?, ?);""",
+                (
+                    self.product_id,
+                    self.rate_type_id,
+                    self.rate,
+                ),
+            )
+            last_record = cur.execute(
+                "SELECT id FROM product_rate WHERE ROWID = last_insert_rowid();"
+            ).fetchall()
             self.id = last_record[0][0]
 
     def update(self):
@@ -33,11 +42,18 @@ class ProductRate():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 UPDATE product_rate 
                 SET product_id = ?, rate_type_id = ?, rate = ? 
-                WHERE id = ?;''', 
-                (self.product_id, self.rate_type_id, self.rate, self.id,))
+                WHERE id = ?;""",
+                (
+                    self.product_id,
+                    self.rate_type_id,
+                    self.rate,
+                    self.id,
+                ),
+            )
 
     def delete(self):
 
@@ -46,10 +62,12 @@ class ProductRate():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 DELETE FROM product_rate 
-                WHERE id = ?;''', 
-                (self.id,))
+                WHERE id = ?;""",
+                (self.id,),
+            )
 
     @classmethod
     def get(cls, id: int = None) -> list:
@@ -62,14 +80,18 @@ class ProductRate():
                 return list()
 
             if not id:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, product_id, rate_type_id, rate 
-                    FROM product_rate;''').fetchall()
+                    FROM product_rate;"""
+                ).fetchall()
             else:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, product_id, rate_type_id, rate 
                     FROM product_rate 
-                    WHERE id = ?;''', 
-                    (id,)).fetchall()
-            
+                    WHERE id = ?;""",
+                    (id,),
+                ).fetchall()
+
         return [ProductRate(*r) for r in records]

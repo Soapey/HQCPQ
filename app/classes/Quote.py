@@ -3,9 +3,17 @@ from .QuoteItem import QuoteItem
 from app.db.SQLCursor import SQLCursor
 
 
-class Quote():
-
-    def __init__(self, id: int, date_created: datetime, date_required: datetime, name: str, address: str, suburb: str, contact_number: str) -> None:
+class Quote:
+    def __init__(
+        self,
+        id: int,
+        date_created: datetime,
+        date_required: datetime,
+        name: str,
+        address: str,
+        suburb: str,
+        contact_number: str,
+    ) -> None:
         self.id = id
         self.date_created = date_created
         self.date_required = date_required
@@ -15,11 +23,11 @@ class Quote():
         self.contact_number = contact_number
 
     def __repr__(self) -> str:
-        return f'{self.__class__.__name__}({vars(self)})'
-        
+        return f"{self.__class__.__name__}({vars(self)})"
+
     def items(self, all_quote_items: list[QuoteItem] = None) -> list[QuoteItem]:
-        '''Returns all QuoteItem objects that belong to this Quote's id.'''
-        
+        """Returns all QuoteItem objects that belong to this Quote's id."""
+
         if all_quote_items:
             return list(filter(lambda qi: qi.quote_id == self.id, all_quote_items))
 
@@ -29,7 +37,15 @@ class Quote():
 
         items = self.items(all_quote_items)
 
-        return 1.1 * sum([((qi.transport_rate_ex_gst + qi.product_rate_ex_gst) * qi.vehicle_combination_net) for qi in items])
+        return 1.1 * sum(
+            [
+                (
+                    (qi.transport_rate_ex_gst + qi.product_rate_ex_gst)
+                    * qi.vehicle_combination_net
+                )
+                for qi in items
+            ]
+        )
 
     def insert(self):
 
@@ -38,11 +54,22 @@ class Quote():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number) 
-                VALUES (?, ?, ?, ?, ?, ?);''', 
-                (self.date_created.date(), self.date_required.date(), self.name, self.address, self.suburb, self.contact_number,))
-            last_record = cur.execute('SELECT id FROM quote WHERE ROWID = last_insert_rowid();').fetchall()
+                VALUES (?, ?, ?, ?, ?, ?);""",
+                (
+                    self.date_created.date(),
+                    self.date_required.date(),
+                    self.name,
+                    self.address,
+                    self.suburb,
+                    self.contact_number,
+                ),
+            )
+            last_record = cur.execute(
+                "SELECT id FROM quote WHERE ROWID = last_insert_rowid();"
+            ).fetchall()
             self.id = last_record[0][0]
 
     def update(self):
@@ -52,11 +79,21 @@ class Quote():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 UPDATE quote 
                 SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, contact_number = ? 
-                WHERE id = ?;''', 
-                (self.date_created.date(), self.date_required.date(), self.name, self.address, self.suburb, self.contact_number, self.id,))
+                WHERE id = ?;""",
+                (
+                    self.date_created.date(),
+                    self.date_required.date(),
+                    self.name,
+                    self.address,
+                    self.suburb,
+                    self.contact_number,
+                    self.id,
+                ),
+            )
 
     def delete(self):
 
@@ -65,7 +102,7 @@ class Quote():
             if not cur:
                 return
 
-            cur.execute('DELETE FROM quote WHERE id = ?;', (self.id,))
+            cur.execute("DELETE FROM quote WHERE id = ?;", (self.id,))
 
     @classmethod
     def get(cls, id: int = None) -> list:
@@ -78,13 +115,28 @@ class Quote():
                 return list()
 
             if not id:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, date_created, date_required, name, address, suburb, contact_number 
-                    FROM quote;''').fetchall()
+                    FROM quote;"""
+                ).fetchall()
             else:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, date_created, date_required, name, address, suburb, contact_number 
-                    FROM quote WHERE id = ?;''', 
-                    (id,)).fetchall()
-            
-        return [Quote(r[0], datetime.strptime(r[1], '%Y-%m-%d'), datetime.strptime(r[2], '%Y-%m-%d'), r[3], r[4], r[5], r[6]) for r in records]
+                    FROM quote WHERE id = ?;""",
+                    (id,),
+                ).fetchall()
+
+        return [
+            Quote(
+                r[0],
+                datetime.strptime(r[1], "%Y-%m-%d"),
+                datetime.strptime(r[2], "%Y-%m-%d"),
+                r[3],
+                r[4],
+                r[5],
+                r[6],
+            )
+            for r in records
+        ]

@@ -1,5 +1,6 @@
 from tkinter import messagebox
 from app.classes.RateType import RateType
+from app.gui.view_enum import ViewPage
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QPushButton
 from app.gui.helpers import change_view, selected_row_id
 
@@ -18,7 +19,7 @@ def change_to_rate_type_view(main_window):
 
 
 def search(main_window, search_text):
-    
+
     global entities
     matching_products = list(filter(lambda e: search_text in e.name.lower(), entities))
 
@@ -46,7 +47,7 @@ def refresh_table(main_window, fetched_entities: list[RateType] = None):
 
     tbl: QTableWidget = main_window.tblRateTypes
 
-    headers = ['ID', 'Name']
+    headers = ["ID", "Name"]
     tbl.setRowCount(len(fetched_entities))
     tbl.setColumnCount(len(headers))
     tbl.setHorizontalHeaderLabels(headers)
@@ -68,7 +69,7 @@ def new(main_window):
 
     clear_entry_fields(main_window)
 
-    change_view(main_window.swPages, 5)
+    change_view(main_window.swPages, ViewPage.RATE_TYPE_ENTRY)
 
 
 def edit(main_window):
@@ -80,7 +81,7 @@ def edit(main_window):
     main_window.lblRateTypeId.setText(str(entity.id))
     main_window.txtRateType_Name.setText(entity.name)
 
-    change_view(main_window.swPages, 5)
+    change_view(main_window.swPages, ViewPage.RATE_TYPE_ENTRY)
 
 
 def delete(main_window):
@@ -121,26 +122,34 @@ def form_is_valid(main_window):
 
     if len(entity_name) == 0:
         result = False
-        error_string += '\n- Name field cannot be blank.'
+        error_string += "\n- Name field cannot be blank."
     else:
-        ratetypes_with_same_name = list(filter(lambda e: e.name == entity_name and e.id != entity_id, entities))
+        ratetypes_with_same_name = list(
+            filter(lambda e: e.name == entity_name and e.id != entity_id, entities)
+        )
 
         if len(ratetypes_with_same_name) > 0:
             result = False
-            error_string += f'\n- {entity_name} already exists.'  
+            error_string += f"\n- {entity_name} already exists."
 
     if result == False:
-        messagebox.showerror('Save Error', error_string)
+        messagebox.showerror("Save Error", error_string)
 
     return result
 
 
 def connect(main_window):
 
-    main_window.actionRate_Types.triggered.connect(lambda: change_to_rate_type_view(main_window))
-    main_window.tblRateTypes.selectionModel().selectionChanged.connect(lambda: on_row_select(main_window))
+    main_window.actionRate_Types.triggered.connect(
+        lambda: change_to_rate_type_view(main_window)
+    )
+    main_window.tblRateTypes.selectionModel().selectionChanged.connect(
+        lambda: on_row_select(main_window)
+    )
     main_window.btnNewRateType.clicked.connect(lambda: new(main_window))
     main_window.btnEditRateType.clicked.connect(lambda: edit(main_window))
     main_window.btnDeleteRateType.clicked.connect(lambda: delete(main_window))
     main_window.btnSaveRateType.clicked.connect(lambda: save(main_window))
-    main_window.txtRateTypeSearch.textChanged.connect(lambda: search(main_window, main_window.txtRateTypeSearch.text().lower()))
+    main_window.txtRateTypeSearch.textChanged.connect(
+        lambda: search(main_window, main_window.txtRateTypeSearch.text().lower())
+    )

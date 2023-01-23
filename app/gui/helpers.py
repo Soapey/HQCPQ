@@ -1,4 +1,9 @@
 from PyQt5.QtWidgets import QTableWidget, QPushButton
+from app.gui.view_enum import ViewPage
+
+
+def change_view(stacked_widget, page: ViewPage):
+    stacked_widget.setCurrentIndex(page.value)
 
 
 def selected_row_id(tbl: QTableWidget):
@@ -15,29 +20,22 @@ def selected_row_id(tbl: QTableWidget):
     return id
 
 
-def change_view(stacked_widget, page_index: int):
-
-    stacked_widget.setCurrentIndex(page_index)
-
-
-def toggle_buttons(new_btn: QPushButton, show_new: bool, edit_btn: QPushButton, show_edit: bool, delete_btn: QPushButton, show_delete: bool):
-
+def toggle_buttons(
+    new_btn: QPushButton,
+    show_new: bool,
+    edit_btn: QPushButton,
+    show_edit: bool,
+    delete_btn: QPushButton,
+    show_delete: bool,
+):
     new_btn.setVisible(show_new)
     edit_btn.setVisible(show_edit)
     delete_btn.setVisible(show_delete)
 
 
 def int_conv(value: str):
-
-    if value.isnumeric():
-        return int(value)
-
-    return None
+    return int(value) if value.isnumeric() else None
 
 
 def float_conv(value: str):
-
-    if value.isnumeric():
-        return float(value)
-
-    return None
+    return float(value) if value.isnumeric() else None

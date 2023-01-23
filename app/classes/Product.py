@@ -1,14 +1,13 @@
 from app.db.SQLCursor import SQLCursor
 
 
-class Product():
-
+class Product:
     def __init__(self, id: int, name: str) -> None:
         self.id = id
         self.name = name
 
     def __repr__(self) -> str:
-        return f'{self.__class__.__name__}({vars(self)})'
+        return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
 
@@ -17,11 +16,15 @@ class Product():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 INSERT INTO product (name) 
-                VALUES (?);''', 
-                (self.name,))
-            last_record = cur.execute('SELECT id FROM product WHERE ROWID = last_insert_rowid();').fetchall()
+                VALUES (?);""",
+                (self.name,),
+            )
+            last_record = cur.execute(
+                "SELECT id FROM product WHERE ROWID = last_insert_rowid();"
+            ).fetchall()
             self.id = last_record[0][0]
 
     def update(self):
@@ -31,11 +34,16 @@ class Product():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 UPDATE product 
                 SET name = ? 
-                WHERE id = ?;''', 
-                (self.name, self.id,))
+                WHERE id = ?;""",
+                (
+                    self.name,
+                    self.id,
+                ),
+            )
 
     def delete(self):
 
@@ -44,10 +52,12 @@ class Product():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 DELETE FROM product 
-                WHERE id = ?;''', 
-                (self.id,))
+                WHERE id = ?;""",
+                (self.id,),
+            )
 
     @classmethod
     def get(cls, id: int = None) -> list:
@@ -60,15 +70,18 @@ class Product():
                 return list()
 
             if not id:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, name 
-                    FROM product;''').fetchall()
+                    FROM product;"""
+                ).fetchall()
             else:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, name 
                     FROM product 
-                    WHERE id = ?;''', 
-                    (id,)).fetchall()
-            
+                    WHERE id = ?;""",
+                    (id,),
+                ).fetchall()
+
         return [Product(*r) for r in records]
-    

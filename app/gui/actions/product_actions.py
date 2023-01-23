@@ -1,8 +1,13 @@
 from tkinter import messagebox
 from app.classes.Product import Product
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QPushButton
+from app.gui.view_enum import ViewPage
 from app.gui.helpers import change_view, selected_row_id, toggle_buttons
-from app.gui.actions.productrate_actions import refresh_table as refresh_product_rates_table, on_row_select as on_product_rate_row_select
+from app.gui.actions.productrate_actions import (
+    refresh_table as refresh_product_rates_table,
+    on_row_select as on_product_rate_row_select,
+    fetch_global_entities as fetch_productrate_global_entities,
+)
 
 
 entities: list[Product] = list()
@@ -18,8 +23,15 @@ def change_to_product_view(main_window):
     main_window.swPages.setCurrentIndex(1)
 
 
+def change_to_product_entry_view(main_window):
+
+    fetch_productrate_global_entities()
+
+    change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
+
+
 def search(main_window, search_text):
-    
+
     global entities
     matching_products = list(filter(lambda e: search_text in e.name.lower(), entities))
 
@@ -44,12 +56,12 @@ def on_row_select(main_window):
 
 
 def refresh_table(main_window, fetched_entities: list[Product] = None):
-    
+
     fetched_entities = fetched_entities or entities
 
     tbl: QTableWidget = main_window.tblProducts
 
-    headers = ['ID', 'Name']
+    headers = ["ID", "Name"]
 
     tbl.setRowCount(len(fetched_entities))
     tbl.setColumnCount(len(headers))
@@ -73,9 +85,16 @@ def new(main_window):
 
     clear_entry_fields(main_window)
 
-    toggle_buttons(main_window.btnNewProduct, False, main_window.btnEditProduct, False, main_window.btnDeleteProduct, False)
+    toggle_buttons(
+        main_window.btnNewProductRate,
+        False,
+        main_window.btnEditProductRate,
+        False,
+        main_window.btnDeleteProductRate,
+        False,
+    )
 
-    change_view(main_window.swPages, 2)
+    change_to_product_entry_view(main_window)
 
 
 def edit(main_window):
@@ -89,9 +108,16 @@ def edit(main_window):
 
     refresh_product_rates_table(main_window)
 
-    toggle_buttons(main_window.btnNewProduct, True, main_window.btnEditProduct, False, main_window.btnDeleteProduct, False)
+    toggle_buttons(
+        main_window.btnNewProductRate,
+        True,
+        main_window.btnEditProductRate,
+        False,
+        main_window.btnDeleteProductRate,
+        False,
+    )
 
-    change_view(main_window.swPages, 2)
+    change_to_product_entry_view()
 
 
 def delete(main_window):
@@ -138,26 +164,34 @@ def form_is_valid(main_window):
 
     if len(entity_name) == 0:
         result = False
-        error_string += '\n- Name field cannot be blank.'
+        error_string += "\n- Name field cannot be blank."
     else:
-        products_with_same_name = list(filter(lambda e: e.name == entity_name and e.id != entity_id, entities))
+        products_with_same_name = list(
+            filter(lambda e: e.name == entity_name and e.id != entity_id, entities)
+        )
 
         if len(products_with_same_name) > 0:
             result = False
-            error_string += f'\n- {entity_name} already exists.'  
+            error_string += f"\n- {entity_name} already exists."
 
     if result == False:
-        messagebox.showerror('Save Error', error_string)
+        messagebox.showerror("Save Error", error_string)
 
     return result
 
 
 def connect(main_window):
 
-    main_window.actionProducts.triggered.connect(lambda: change_to_product_view(main_window))
-    main_window.tblProducts.selectionModel().selectionChanged.connect(lambda: on_row_select(main_window))
+    main_window.actionProducts.triggered.connect(
+        lambda: change_to_product_view(main_window)
+    )
+    main_window.tblProducts.selectionModel().selectionChanged.connect(
+        lambda: on_row_select(main_window)
+    )
     main_window.btnNewProduct.clicked.connect(lambda: new(main_window))
     main_window.btnEditProduct.clicked.connect(lambda: edit(main_window))
     main_window.btnDeleteProduct.clicked.connect(lambda: delete(main_window))
     main_window.btnSaveProduct.clicked.connect(lambda: save(main_window))
-    main_window.txtProductSearch.textChanged.connect(lambda: search(main_window, main_window.txtProductSearch.text().lower()))
+    main_window.txtProductSearch.textChanged.connect(
+        lambda: search(main_window, main_window.txtProductSearch.text().lower())
+    )

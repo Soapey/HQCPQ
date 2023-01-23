@@ -1,9 +1,17 @@
 from app.db.SQLCursor import SQLCursor
 
 
-class QuoteItem():
-
-    def __init__(self, id: int, quote_id: int, vehicle_combination_name: str, vehicle_combination_net: int, transport_rate_ex_gst: float, product_name: str, product_rate_ex_gst: float) -> None:
+class QuoteItem:
+    def __init__(
+        self,
+        id: int,
+        quote_id: int,
+        vehicle_combination_name: str,
+        vehicle_combination_net: int,
+        transport_rate_ex_gst: float,
+        product_name: str,
+        product_rate_ex_gst: float,
+    ) -> None:
         self.id = id
         self.quote_id = quote_id
         self.vehicle_combination_name = vehicle_combination_name
@@ -13,11 +21,14 @@ class QuoteItem():
         self.product_rate_ex_gst = product_rate_ex_gst
 
     def __repr__(self) -> str:
-        return f'{self.__class__.__name__}({vars(self)})'
+        return f"{self.__class__.__name__}({vars(self)})"
 
     def total_inc_gst(self) -> float:
 
-        return 1.1 * ((self.transport_rate_ex_gst + self.product_rate_ex_gst) * self.vehicle_combination_net)
+        return 1.1 * (
+            (self.transport_rate_ex_gst + self.product_rate_ex_gst)
+            * self.vehicle_combination_net
+        )
 
     def insert(self):
 
@@ -26,12 +37,23 @@ class QuoteItem():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 INSERT INTO quote_item (quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst) 
-                VALUES (?, ?, ?, ?, ?, ?);''', 
-                (self.quote_id, self.vehicle_combination_name, self.vehicle_combination_net, self.transport_rate_ex_gst, self.product_name, self.product_rate_ex_gst,))
+                VALUES (?, ?, ?, ?, ?, ?);""",
+                (
+                    self.quote_id,
+                    self.vehicle_combination_name,
+                    self.vehicle_combination_net,
+                    self.transport_rate_ex_gst,
+                    self.product_name,
+                    self.product_rate_ex_gst,
+                ),
+            )
 
-            last_record = cur.execute('SELECT id FROM quote_item WHERE ROWID = last_insert_rowid();').fetchall()
+            last_record = cur.execute(
+                "SELECT id FROM quote_item WHERE ROWID = last_insert_rowid();"
+            ).fetchall()
             self.id = last_record[0][0]
 
     def update(self):
@@ -41,11 +63,21 @@ class QuoteItem():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 UPDATE quote_item 
                 SET quote_id = ?, vehicle_combination_name = ?, vehicle_combination_net = ?, transport_rate_ex_gst = ?, product_name = ?, product_rate_ex_gst = ?
-                WHERE id = ?;''',
-                (self.quote_id, self.vehicle_combination_name, self.vehicle_combination_net, self.transport_rate_ex_gst, self.product_name, self.product_rate_ex_gst, self.id,))
+                WHERE id = ?;""",
+                (
+                    self.quote_id,
+                    self.vehicle_combination_name,
+                    self.vehicle_combination_net,
+                    self.transport_rate_ex_gst,
+                    self.product_name,
+                    self.product_rate_ex_gst,
+                    self.id,
+                ),
+            )
 
     def delete(self):
 
@@ -54,10 +86,12 @@ class QuoteItem():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 DELETE FROM quote_item 
-                WHERE id = ?;''', 
-                (self.id,))
+                WHERE id = ?;""",
+                (self.id,),
+            )
 
     @classmethod
     def get(cls, id: int = None) -> list:
@@ -70,16 +104,20 @@ class QuoteItem():
                 return list()
 
             if not id:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
-                    FROM quote_item;''').fetchall()
+                    FROM quote_item;"""
+                ).fetchall()
             else:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
                     FROM quote_item 
-                    WHERE id = ?;''', 
-                    (id,)).fetchall()
-            
+                    WHERE id = ?;""",
+                    (id,),
+                ).fetchall()
+
         return [QuoteItem(*r) for r in records]
 
     @classmethod
@@ -92,10 +130,12 @@ class QuoteItem():
             if not cur:
                 return list()
 
-            records = cur.execute('''
+            records = cur.execute(
+                """
                 SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
                 FROM quote_item  
-                WHERE quote_id = ?;''', 
-                (id,)).fetchall()
+                WHERE quote_id = ?;""",
+                (id,),
+            ).fetchall()
 
         return [QuoteItem(*r) for r in records]

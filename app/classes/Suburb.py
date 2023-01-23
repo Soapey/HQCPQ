@@ -1,14 +1,13 @@
 from db.SQLCursor import SQLCursor
 
 
-class Suburb():
-
+class Suburb:
     def __init__(self, id: int, name: str) -> None:
         self.id = id
         self.name = name
 
     def __repr__(self) -> str:
-        return f'{self.__class__.__name__}({vars(self)})'
+        return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
 
@@ -17,11 +16,15 @@ class Suburb():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 INSERT INTO suburb (name) 
-                VALUES (?);''', 
-                (self.name,))
-            last_record = cur.execute('SELECT id FROM suburb WHERE ROWID = last_insert_rowid();').fetchall()
+                VALUES (?);""",
+                (self.name,),
+            )
+            last_record = cur.execute(
+                "SELECT id FROM suburb WHERE ROWID = last_insert_rowid();"
+            ).fetchall()
             self.id = last_record[0][0]
 
     def update(self):
@@ -31,11 +34,16 @@ class Suburb():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 UPDATE suburb 
                 SET name = ? 
-                WHERE id = ?;''', 
-                (self.name, self.id,))
+                WHERE id = ?;""",
+                (
+                    self.name,
+                    self.id,
+                ),
+            )
 
     def delete(self):
 
@@ -44,10 +52,12 @@ class Suburb():
             if not cur:
                 return
 
-            cur.execute('''
+            cur.execute(
+                """
                 DELETE FROM suburb 
-                WHERE id = ?;''', 
-                (self.id,))
+                WHERE id = ?;""",
+                (self.id,),
+            )
 
     @classmethod
     def get(cls, id: int = None) -> list:
@@ -60,14 +70,18 @@ class Suburb():
                 return list()
 
             if not id:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, name 
-                    FROM suburb;''').fetchall()
+                    FROM suburb;"""
+                ).fetchall()
             else:
-                records = cur.execute('''
+                records = cur.execute(
+                    """
                     SELECT id, name 
                     FROM suburb 
-                    WHERE id = ?;''', 
-                    (id,)).fetchall()
-            
+                    WHERE id = ?;""",
+                    (id,),
+                ).fetchall()
+
         return [Suburb(*r) for r in records]
