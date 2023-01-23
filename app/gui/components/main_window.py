@@ -24,9 +24,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.swPages = QtWidgets.QStackedWidget(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.swPages.sizePolicy().hasHeightForWidth())
@@ -55,9 +53,7 @@ class Ui_MainWindow(object):
         self.btnEditProduct.setObjectName("btnEditProduct")
         self.gridLayout.addWidget(self.btnEditProduct, 1, 1, 1, 1)
         self.tblProducts = QtWidgets.QTableWidget(self.pageProducts)
-        self.tblProducts.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents
-        )
+        self.tblProducts.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tblProducts.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tblProducts.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tblProducts.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -72,11 +68,9 @@ class Ui_MainWindow(object):
         self.btnNewProduct.setObjectName("btnNewProduct")
         self.gridLayout.addWidget(self.btnNewProduct, 1, 0, 1, 1)
         self.lblProducts_Header = QtWidgets.QLabel(self.pageProducts)
-        self.lblProducts_Header.setStyleSheet(
-            "background-color: rgb(0, 85, 127);\n"
-            "color: rgb(255, 255, 255);\n"
-            'font: 75 14pt "Helvetica";'
-        )
+        self.lblProducts_Header.setStyleSheet("background-color: rgb(0, 85, 127);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"Helvetica\";")
         self.lblProducts_Header.setAlignment(QtCore.Qt.AlignCenter)
         self.lblProducts_Header.setObjectName("lblProducts_Header")
         self.gridLayout.addWidget(self.lblProducts_Header, 0, 0, 1, 3)
@@ -101,44 +95,30 @@ class Ui_MainWindow(object):
         self.btnEditProductRate.setObjectName("btnEditProductRate")
         self.gridLayout_2.addWidget(self.btnEditProductRate, 9, 1, 1, 1)
         self.lblProductName = QtWidgets.QLabel(self.pageProductEntry)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.lblProductName.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.lblProductName.sizePolicy().hasHeightForWidth())
         self.lblProductName.setSizePolicy(sizePolicy)
         self.lblProductName.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.lblProductName.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
+        self.lblProductName.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblProductName.setObjectName("lblProductName")
         self.gridLayout_2.addWidget(self.lblProductName, 3, 0, 1, 1)
         self.lblProductId_Label = QtWidgets.QLabel(self.pageProductEntry)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.lblProductId_Label.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.lblProductId_Label.sizePolicy().hasHeightForWidth())
         self.lblProductId_Label.setSizePolicy(sizePolicy)
         self.lblProductId_Label.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.lblProductId_Label.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
+        self.lblProductId_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblProductId_Label.setObjectName("lblProductId_Label")
         self.gridLayout_2.addWidget(self.lblProductId_Label, 1, 0, 1, 1)
         self.txtProductName = QtWidgets.QLineEdit(self.pageProductEntry)
         self.txtProductName.setObjectName("txtProductName")
         self.gridLayout_2.addWidget(self.txtProductName, 3, 1, 1, 2)
         self.lblProductId = QtWidgets.QLabel(self.pageProductEntry)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.lblProductId.sizePolicy().hasHeightForWidth())
@@ -149,12 +129,8 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.lblProductId, 1, 1, 1, 2)
         self.tblProductRates = QtWidgets.QTableWidget(self.pageProductEntry)
         self.tblProductRates.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tblProductRates.setSelectionMode(
-            QtWidgets.QAbstractItemView.SingleSelection
-        )
-        self.tblProductRates.setSelectionBehavior(
-            QtWidgets.QAbstractItemView.SelectRows
-        )
+        self.tblProductRates.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblProductRates.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tblProductRates.setObjectName("tblProductRates")
         self.tblProductRates.setColumnCount(0)
         self.tblProductRates.setRowCount(0)
@@ -165,20 +141,16 @@ class Ui_MainWindow(object):
         self.btnSaveProduct.setObjectName("btnSaveProduct")
         self.gridLayout_2.addWidget(self.btnSaveProduct, 4, 1, 1, 2)
         self.lblTableHeader = QtWidgets.QLabel(self.pageProductEntry)
-        self.lblTableHeader.setStyleSheet(
-            'font: 75 12pt "Helvetica";\n'
-            "color: rgb(255, 255, 255);\n"
-            "background-color: rgb(132, 0, 0);"
-        )
+        self.lblTableHeader.setStyleSheet("font: 75 12pt \"Helvetica\";\n"
+"color: rgb(255, 255, 255);\n"
+"background-color: rgb(132, 0, 0);")
         self.lblTableHeader.setAlignment(QtCore.Qt.AlignCenter)
         self.lblTableHeader.setObjectName("lblTableHeader")
         self.gridLayout_2.addWidget(self.lblTableHeader, 7, 0, 1, 3)
         self.lblProductEntry_Header = QtWidgets.QLabel(self.pageProductEntry)
-        self.lblProductEntry_Header.setStyleSheet(
-            "background-color: rgb(0, 85, 127);\n"
-            "color: rgb(255, 255, 255);\n"
-            'font: 75 14pt "Helvetica";'
-        )
+        self.lblProductEntry_Header.setStyleSheet("background-color: rgb(0, 85, 127);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"Helvetica\";")
         self.lblProductEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
         self.lblProductEntry_Header.setObjectName("lblProductEntry_Header")
         self.gridLayout_2.addWidget(self.lblProductEntry_Header, 0, 0, 1, 3)
@@ -191,49 +163,33 @@ class Ui_MainWindow(object):
         self.cmbProductRate_RateType.setObjectName("cmbProductRate_RateType")
         self.gridLayout_4.addWidget(self.cmbProductRate_RateType, 2, 1, 1, 1)
         self.lblProductRateId = QtWidgets.QLabel(self.pageProductRateEntry)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.lblProductRateId.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.lblProductRateId.sizePolicy().hasHeightForWidth())
         self.lblProductRateId.setSizePolicy(sizePolicy)
         self.lblProductRateId.setStyleSheet("background-color: rgb(215, 215, 215);")
         self.lblProductRateId.setText("")
         self.lblProductRateId.setObjectName("lblProductRateId")
         self.gridLayout_4.addWidget(self.lblProductRateId, 1, 1, 1, 1)
         self.lblProductRate_RateType = QtWidgets.QLabel(self.pageProductRateEntry)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.lblProductRate_RateType.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.lblProductRate_RateType.sizePolicy().hasHeightForWidth())
         self.lblProductRate_RateType.setSizePolicy(sizePolicy)
         self.lblProductRate_RateType.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.lblProductRate_RateType.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
+        self.lblProductRate_RateType.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblProductRate_RateType.setObjectName("lblProductRate_RateType")
         self.gridLayout_4.addWidget(self.lblProductRate_RateType, 2, 0, 1, 1)
         self.lblProductRateId_Label = QtWidgets.QLabel(self.pageProductRateEntry)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.lblProductRateId_Label.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.lblProductRateId_Label.sizePolicy().hasHeightForWidth())
         self.lblProductRateId_Label.setSizePolicy(sizePolicy)
         self.lblProductRateId_Label.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.lblProductRateId_Label.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
+        self.lblProductRateId_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblProductRateId_Label.setObjectName("lblProductRateId_Label")
         self.gridLayout_4.addWidget(self.lblProductRateId_Label, 1, 0, 1, 1)
         self.txtProductRate_Rate = QtWidgets.QLineEdit(self.pageProductRateEntry)
@@ -242,22 +198,16 @@ class Ui_MainWindow(object):
         self.btnSaveProductRate = QtWidgets.QPushButton(self.pageProductRateEntry)
         self.btnSaveProductRate.setObjectName("btnSaveProductRate")
         self.gridLayout_4.addWidget(self.btnSaveProductRate, 4, 1, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(
-            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
-        )
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout_4.addItem(spacerItem, 5, 0, 1, 2)
         self.lblProductRate_Rate = QtWidgets.QLabel(self.pageProductRateEntry)
-        self.lblProductRate_Rate.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
+        self.lblProductRate_Rate.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblProductRate_Rate.setObjectName("lblProductRate_Rate")
         self.gridLayout_4.addWidget(self.lblProductRate_Rate, 3, 0, 1, 1)
         self.lblProductRateEntry_Header = QtWidgets.QLabel(self.pageProductRateEntry)
-        self.lblProductRateEntry_Header.setStyleSheet(
-            "background-color: rgb(0, 85, 127);\n"
-            "color: rgb(255, 255, 255);\n"
-            'font: 75 14pt "Helvetica";'
-        )
+        self.lblProductRateEntry_Header.setStyleSheet("background-color: rgb(0, 85, 127);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"Helvetica\";")
         self.lblProductRateEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
         self.lblProductRateEntry_Header.setObjectName("lblProductRateEntry_Header")
         self.gridLayout_4.addWidget(self.lblProductRateEntry_Header, 0, 0, 1, 2)
@@ -279,9 +229,7 @@ class Ui_MainWindow(object):
         self.btnEditRateType.setObjectName("btnEditRateType")
         self.gridLayout_6.addWidget(self.btnEditRateType, 1, 1, 1, 1)
         self.tblRateTypes = QtWidgets.QTableWidget(self.pageRateTypes)
-        self.tblRateTypes.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents
-        )
+        self.tblRateTypes.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tblRateTypes.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tblRateTypes.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tblRateTypes.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -293,11 +241,9 @@ class Ui_MainWindow(object):
         self.tblRateTypes.verticalHeader().setStretchLastSection(False)
         self.gridLayout_6.addWidget(self.tblRateTypes, 3, 0, 1, 3)
         self.lblRateTypes_Header = QtWidgets.QLabel(self.pageRateTypes)
-        self.lblRateTypes_Header.setStyleSheet(
-            "background-color: rgb(0, 85, 127);\n"
-            "color: rgb(255, 255, 255);\n"
-            'font: 75 14pt "Helvetica";'
-        )
+        self.lblRateTypes_Header.setStyleSheet("background-color: rgb(0, 85, 127);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"Helvetica\";")
         self.lblRateTypes_Header.setAlignment(QtCore.Qt.AlignCenter)
         self.lblRateTypes_Header.setObjectName("lblRateTypes_Header")
         self.gridLayout_6.addWidget(self.lblRateTypes_Header, 0, 0, 1, 3)
@@ -307,20 +253,14 @@ class Ui_MainWindow(object):
         self.gridLayout_5 = QtWidgets.QGridLayout(self.pageRateTypeEntry)
         self.gridLayout_5.setObjectName("gridLayout_5")
         self.lblRateType_Name = QtWidgets.QLabel(self.pageRateTypeEntry)
-        self.lblRateType_Name.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
+        self.lblRateType_Name.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblRateType_Name.setObjectName("lblRateType_Name")
         self.gridLayout_5.addWidget(self.lblRateType_Name, 2, 0, 1, 1)
         self.lblRateTypeId = QtWidgets.QLabel(self.pageRateTypeEntry)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.lblRateTypeId.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.lblRateTypeId.sizePolicy().hasHeightForWidth())
         self.lblRateTypeId.setSizePolicy(sizePolicy)
         self.lblRateTypeId.setStyleSheet("background-color: rgb(215, 215, 215);")
         self.lblRateTypeId.setText("")
@@ -330,38 +270,128 @@ class Ui_MainWindow(object):
         self.btnSaveRateType.setObjectName("btnSaveRateType")
         self.gridLayout_5.addWidget(self.btnSaveRateType, 3, 1, 1, 1)
         self.lblRateTypeId_Label = QtWidgets.QLabel(self.pageRateTypeEntry)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.lblRateTypeId_Label.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.lblRateTypeId_Label.sizePolicy().hasHeightForWidth())
         self.lblRateTypeId_Label.setSizePolicy(sizePolicy)
         self.lblRateTypeId_Label.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.lblRateTypeId_Label.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
+        self.lblRateTypeId_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblRateTypeId_Label.setObjectName("lblRateTypeId_Label")
         self.gridLayout_5.addWidget(self.lblRateTypeId_Label, 1, 0, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(
-            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
-        )
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout_5.addItem(spacerItem1, 4, 0, 1, 2)
         self.txtRateType_Name = QtWidgets.QLineEdit(self.pageRateTypeEntry)
         self.txtRateType_Name.setObjectName("txtRateType_Name")
         self.gridLayout_5.addWidget(self.txtRateType_Name, 2, 1, 1, 1)
         self.lblRateTypeEntry_Header = QtWidgets.QLabel(self.pageRateTypeEntry)
-        self.lblRateTypeEntry_Header.setStyleSheet(
-            "background-color: rgb(0, 85, 127);\n"
-            "color: rgb(255, 255, 255);\n"
-            'font: 75 14pt "Helvetica";'
-        )
+        self.lblRateTypeEntry_Header.setStyleSheet("background-color: rgb(0, 85, 127);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"Helvetica\";")
         self.lblRateTypeEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
         self.lblRateTypeEntry_Header.setObjectName("lblRateTypeEntry_Header")
         self.gridLayout_5.addWidget(self.lblRateTypeEntry_Header, 0, 0, 1, 2)
         self.swPages.addWidget(self.pageRateTypeEntry)
+        self.pageVehicleCombinations = QtWidgets.QWidget()
+        self.pageVehicleCombinations.setObjectName("pageVehicleCombinations")
+        self.gridLayout_14 = QtWidgets.QGridLayout(self.pageVehicleCombinations)
+        self.gridLayout_14.setObjectName("gridLayout_14")
+        self.lblVehicleCombinations_Header = QtWidgets.QLabel(self.pageVehicleCombinations)
+        self.lblVehicleCombinations_Header.setStyleSheet("background-color: rgb(0, 85, 127);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"Helvetica\";")
+        self.lblVehicleCombinations_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblVehicleCombinations_Header.setObjectName("lblVehicleCombinations_Header")
+        self.gridLayout_14.addWidget(self.lblVehicleCombinations_Header, 0, 0, 1, 3)
+        self.btnNewVehicleCombination = QtWidgets.QPushButton(self.pageVehicleCombinations)
+        self.btnNewVehicleCombination.setObjectName("btnNewVehicleCombination")
+        self.gridLayout_14.addWidget(self.btnNewVehicleCombination, 1, 0, 1, 1)
+        self.btnEditVehicleCombination = QtWidgets.QPushButton(self.pageVehicleCombinations)
+        self.btnEditVehicleCombination.setObjectName("btnEditVehicleCombination")
+        self.gridLayout_14.addWidget(self.btnEditVehicleCombination, 1, 1, 1, 1)
+        self.btnDeleteVehicleCombination = QtWidgets.QPushButton(self.pageVehicleCombinations)
+        self.btnDeleteVehicleCombination.setObjectName("btnDeleteVehicleCombination")
+        self.gridLayout_14.addWidget(self.btnDeleteVehicleCombination, 1, 2, 1, 1)
+        self.txtVehicleCombinationSearch = QtWidgets.QLineEdit(self.pageVehicleCombinations)
+        self.txtVehicleCombinationSearch.setObjectName("txtVehicleCombinationSearch")
+        self.gridLayout_14.addWidget(self.txtVehicleCombinationSearch, 2, 0, 1, 3)
+        self.tblVehicleCombinations = QtWidgets.QTableWidget(self.pageVehicleCombinations)
+        self.tblVehicleCombinations.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tblVehicleCombinations.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tblVehicleCombinations.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblVehicleCombinations.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tblVehicleCombinations.setColumnCount(0)
+        self.tblVehicleCombinations.setObjectName("tblVehicleCombinations")
+        self.tblVehicleCombinations.setRowCount(0)
+        self.tblVehicleCombinations.horizontalHeader().setStretchLastSection(True)
+        self.tblVehicleCombinations.verticalHeader().setVisible(False)
+        self.tblVehicleCombinations.verticalHeader().setStretchLastSection(False)
+        self.gridLayout_14.addWidget(self.tblVehicleCombinations, 3, 0, 1, 3)
+        self.swPages.addWidget(self.pageVehicleCombinations)
+        self.pageVehicleCombinationEntry = QtWidgets.QWidget()
+        self.pageVehicleCombinationEntry.setObjectName("pageVehicleCombinationEntry")
+        self.gridLayout_15 = QtWidgets.QGridLayout(self.pageVehicleCombinationEntry)
+        self.gridLayout_15.setObjectName("gridLayout_15")
+        self.txtVehicleCombination_Name = QtWidgets.QLineEdit(self.pageVehicleCombinationEntry)
+        self.txtVehicleCombination_Name.setObjectName("txtVehicleCombination_Name")
+        self.gridLayout_15.addWidget(self.txtVehicleCombination_Name, 2, 2, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(824, 430, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_15.addItem(spacerItem2, 6, 0, 1, 3)
+        self.lblVehicleCombinationEntry_Header = QtWidgets.QLabel(self.pageVehicleCombinationEntry)
+        self.lblVehicleCombinationEntry_Header.setStyleSheet("background-color: rgb(0, 85, 127);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"Helvetica\";")
+        self.lblVehicleCombinationEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblVehicleCombinationEntry_Header.setObjectName("lblVehicleCombinationEntry_Header")
+        self.gridLayout_15.addWidget(self.lblVehicleCombinationEntry_Header, 0, 0, 1, 3)
+        self.lblVehicleCombinationId_Label = QtWidgets.QLabel(self.pageVehicleCombinationEntry)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblVehicleCombinationId_Label.sizePolicy().hasHeightForWidth())
+        self.lblVehicleCombinationId_Label.setSizePolicy(sizePolicy)
+        self.lblVehicleCombinationId_Label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.lblVehicleCombinationId_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblVehicleCombinationId_Label.setObjectName("lblVehicleCombinationId_Label")
+        self.gridLayout_15.addWidget(self.lblVehicleCombinationId_Label, 1, 0, 1, 1)
+        self.lblVehicleCombinationId = QtWidgets.QLabel(self.pageVehicleCombinationEntry)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblVehicleCombinationId.sizePolicy().hasHeightForWidth())
+        self.lblVehicleCombinationId.setSizePolicy(sizePolicy)
+        self.lblVehicleCombinationId.setStyleSheet("background-color: rgb(215, 215, 215);")
+        self.lblVehicleCombinationId.setText("")
+        self.lblVehicleCombinationId.setObjectName("lblVehicleCombinationId")
+        self.gridLayout_15.addWidget(self.lblVehicleCombinationId, 1, 2, 1, 1)
+        self.lblVehicleCombination_Name = QtWidgets.QLabel(self.pageVehicleCombinationEntry)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblVehicleCombination_Name.sizePolicy().hasHeightForWidth())
+        self.lblVehicleCombination_Name.setSizePolicy(sizePolicy)
+        self.lblVehicleCombination_Name.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.lblVehicleCombination_Name.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblVehicleCombination_Name.setObjectName("lblVehicleCombination_Name")
+        self.gridLayout_15.addWidget(self.lblVehicleCombination_Name, 2, 0, 1, 1)
+        self.txtVehicleCombination_Net = QtWidgets.QLineEdit(self.pageVehicleCombinationEntry)
+        self.txtVehicleCombination_Net.setObjectName("txtVehicleCombination_Net")
+        self.gridLayout_15.addWidget(self.txtVehicleCombination_Net, 3, 2, 1, 1)
+        self.lblVehicleCombination_Net = QtWidgets.QLabel(self.pageVehicleCombinationEntry)
+        self.lblVehicleCombination_Net.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblVehicleCombination_Net.setObjectName("lblVehicleCombination_Net")
+        self.gridLayout_15.addWidget(self.lblVehicleCombination_Net, 3, 0, 1, 1)
+        self.btnSaveVehicleCombination = QtWidgets.QPushButton(self.pageVehicleCombinationEntry)
+        self.btnSaveVehicleCombination.setObjectName("btnSaveVehicleCombination")
+        self.gridLayout_15.addWidget(self.btnSaveVehicleCombination, 5, 2, 1, 1)
+        self.lblVehicleCombination_ChargeType = QtWidgets.QLabel(self.pageVehicleCombinationEntry)
+        self.lblVehicleCombination_ChargeType.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblVehicleCombination_ChargeType.setObjectName("lblVehicleCombination_ChargeType")
+        self.gridLayout_15.addWidget(self.lblVehicleCombination_ChargeType, 4, 0, 1, 1)
+        self.cmbVehicleCombination_ChargeType = QtWidgets.QComboBox(self.pageVehicleCombinationEntry)
+        self.cmbVehicleCombination_ChargeType.setObjectName("cmbVehicleCombination_ChargeType")
+        self.gridLayout_15.addWidget(self.cmbVehicleCombination_ChargeType, 4, 2, 1, 1)
+        self.swPages.addWidget(self.pageVehicleCombinationEntry)
         self.horizontalLayout.addWidget(self.swPages)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -379,13 +409,16 @@ class Ui_MainWindow(object):
         self.actionQuotes.setObjectName("actionQuotes")
         self.actionRate_Types = QtWidgets.QAction(MainWindow)
         self.actionRate_Types.setObjectName("actionRate_Types")
+        self.actionVehicle_Combinations = QtWidgets.QAction(MainWindow)
+        self.actionVehicle_Combinations.setObjectName("actionVehicle_Combinations")
         self.menuMenu.addAction(self.actionQuotes)
         self.menuMenu.addAction(self.actionProducts)
         self.menuMenu.addAction(self.actionRate_Types)
+        self.menuMenu.addAction(self.actionVehicle_Combinations)
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(5)
+        self.swPages.setCurrentIndex(7)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -403,16 +436,12 @@ class Ui_MainWindow(object):
         self.lblProductId_Label.setText(_translate("MainWindow", "Id"))
         self.btnSaveProduct.setText(_translate("MainWindow", "Save"))
         self.lblTableHeader.setText(_translate("MainWindow", "Rates"))
-        self.lblProductEntry_Header.setText(
-            _translate("MainWindow", "Product Entry/Edit")
-        )
+        self.lblProductEntry_Header.setText(_translate("MainWindow", "Product Entry/Edit"))
         self.lblProductRate_RateType.setText(_translate("MainWindow", "Rate Type"))
         self.lblProductRateId_Label.setText(_translate("MainWindow", "Id"))
         self.btnSaveProductRate.setText(_translate("MainWindow", "Save"))
         self.lblProductRate_Rate.setText(_translate("MainWindow", "Rate"))
-        self.lblProductRateEntry_Header.setText(
-            _translate("MainWindow", "Produce Rate Entry/Edit")
-        )
+        self.lblProductRateEntry_Header.setText(_translate("MainWindow", "Produce Rate Entry/Edit"))
         self.btnDeleteRateType.setText(_translate("MainWindow", "Delete"))
         self.btnNewRateType.setText(_translate("MainWindow", "New"))
         self.btnEditRateType.setText(_translate("MainWindow", "Edit"))
@@ -420,18 +449,26 @@ class Ui_MainWindow(object):
         self.lblRateType_Name.setText(_translate("MainWindow", "Name"))
         self.btnSaveRateType.setText(_translate("MainWindow", "Save"))
         self.lblRateTypeId_Label.setText(_translate("MainWindow", "Id"))
-        self.lblRateTypeEntry_Header.setText(
-            _translate("MainWindow", "Rate Type Entry/Edit")
-        )
+        self.lblRateTypeEntry_Header.setText(_translate("MainWindow", "Rate Type Entry/Edit"))
+        self.lblVehicleCombinations_Header.setText(_translate("MainWindow", "Vehicle Combinations"))
+        self.btnNewVehicleCombination.setText(_translate("MainWindow", "New"))
+        self.btnEditVehicleCombination.setText(_translate("MainWindow", "Edit"))
+        self.btnDeleteVehicleCombination.setText(_translate("MainWindow", "Delete"))
+        self.lblVehicleCombinationEntry_Header.setText(_translate("MainWindow", "Vehicle Combination Entry/Edit"))
+        self.lblVehicleCombinationId_Label.setText(_translate("MainWindow", "Id"))
+        self.lblVehicleCombination_Name.setText(_translate("MainWindow", "Name"))
+        self.lblVehicleCombination_Net.setText(_translate("MainWindow", "Average Net"))
+        self.btnSaveVehicleCombination.setText(_translate("MainWindow", "Save"))
+        self.lblVehicleCombination_ChargeType.setText(_translate("MainWindow", "Charge Type"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionProducts.setText(_translate("MainWindow", "Products"))
         self.actionQuotes.setText(_translate("MainWindow", "Quotes"))
         self.actionRate_Types.setText(_translate("MainWindow", "Rate Types"))
+        self.actionVehicle_Combinations.setText(_translate("MainWindow", "Vehicle Combinations"))
 
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

@@ -33,9 +33,17 @@ def toggle_buttons(
     delete_btn.setVisible(show_delete)
 
 
+def isfloat(value: str):
+    try:
+        f = float(value)
+        return True
+    except:
+        return False
+
+
 def int_conv(value: str):
     return int(value) if value.isnumeric() else None
 
 
 def float_conv(value: str):
-    return float(value) if value.isnumeric() else None
+    return float(value) if isfloat(value) else None

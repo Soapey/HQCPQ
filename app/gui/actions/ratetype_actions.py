@@ -107,6 +107,8 @@ def save(main_window):
 
         change_to_rate_type_view(main_window)
 
+        clear_entry_fields(main_window)
+
 
 def form_is_valid(main_window):
 

@@ -1,11 +1,12 @@
-from db.SQLCursor import SQLCursor
+from app.db.SQLCursor import SQLCursor
 
 
 class VehicleCombination:
-    def __init__(self, id: int, name: str, net: float) -> None:
+    def __init__(self, id: int, name: str, net: float, charge_type: str) -> None:
         self.id = id
         self.name = name
         self.net = net
+        self.charge_type = charge_type
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
@@ -20,10 +21,11 @@ class VehicleCombination:
             cur.execute(
                 """
                 INSERT INTO vehicle_combination (name, net) 
-                VALUES (?, ?);""",
+                VALUES (?, ?, ?);""",
                 (
                     self.name,
                     self.net,
+                    self.charge_type,
                 ),
             )
             last_record = cur.execute(
@@ -77,13 +79,13 @@ class VehicleCombination:
             if not id:
                 records = cur.execute(
                     """
-                    SELECT id, name, net 
+                    SELECT id, name, net, charge_type 
                     FROM vehicle_combination;"""
                 ).fetchall()
             else:
                 records = cur.execute(
                     """
-                    SELECT id, name, net 
+                    SELECT id, name, net, charge_type 
                     FROM vehicle_combination 
                     WHERE id = ?;""",
                     (id,),

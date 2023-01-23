@@ -13,6 +13,7 @@ class Quote:
         address: str,
         suburb: str,
         contact_number: str,
+        kilometres: float,
     ) -> None:
         self.id = id
         self.date_created = date_created
@@ -21,6 +22,7 @@ class Quote:
         self.address = address
         self.suburb = suburb
         self.contact_number = contact_number
+        self.kilometres = kilometres
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"

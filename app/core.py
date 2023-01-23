@@ -6,6 +6,9 @@ from app.db.config import start_db
 from app.gui.actions.product_actions import connect as connect_products
 from app.gui.actions.productrate_actions import connect as connect_product_rates
 from app.gui.actions.ratetype_actions import connect as connect_rate_types
+from app.gui.actions.vehiclecombination_actions import (
+    connect as connect_vehicle_combinations,
+)
 import sys
 
 
@@ -24,6 +27,9 @@ def connect_main_window_actions(main_window: object):
 
     # Set up RateType gui actions
     connect_rate_types(main_window)
+
+    # Set up VehicleCombination gui actions
+    connect_vehicle_combinations(main_window)
 
 
 def main():

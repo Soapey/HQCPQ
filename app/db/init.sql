@@ -21,27 +21,11 @@ CREATE TABLE IF NOT EXISTS product_rate (
         ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS suburb (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT UNIQUE NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS vehicle_combination (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT UNIQUE NOT NULL,
-    net REAL NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS suburb_combination_charge (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    suburb_id INTEGER NOT NULL,
-    vehicle_combination_id INTEGER NOT NULL,
-    FOREIGN KEY (suburb_id) REFERENCES suburb (id)
-        ON UPDATE CASCADE 
-        ON DELETE CASCADE,
-    FOREIGN KEY (vehicle_combination_id) REFERENCES vehicle_combination (id)
-        ON UPDATE CASCADE 
-        ON DELETE CASCADE
+    net REAL NOT NULL,
+    charge_type TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS quote (
