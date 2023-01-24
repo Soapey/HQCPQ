@@ -1,7 +1,13 @@
 from tkinter import messagebox
 from app.classes.VehicleCombination import VehicleCombination
 from PyQt5.QtGui import QDoubleValidator
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QPushButton, QComboBox
+from PyQt5.QtWidgets import (
+    QTableWidget,
+    QTableWidgetItem,
+    QPushButton,
+    QComboBox,
+    QHeaderView,
+)
 from app.gui.view_enum import ViewPage
 from app.gui.helpers import change_view, selected_row_id, int_conv, float_conv
 
@@ -50,7 +56,8 @@ def refresh_table(main_window, fetched_entities: list[VehicleCombination] = None
 
     tbl: QTableWidget = main_window.tblVehicleCombinations
 
-    headers = ["ID", "Name", "Average Net"]
+    headers = ["ID", "Name", "Average Net", "Charge Type"]
+    header = tbl.horizontalHeader()
 
     tbl.setRowCount(len(fetched_entities))
     tbl.setColumnCount(len(headers))
@@ -60,6 +67,12 @@ def refresh_table(main_window, fetched_entities: list[VehicleCombination] = None
         tbl.setItem(index, 0, QTableWidgetItem(str(entity.id)))
         tbl.setItem(index, 1, QTableWidgetItem(entity.name))
         tbl.setItem(index, 2, QTableWidgetItem(str(entity.net)))
+        tbl.setItem(index, 3, QTableWidgetItem(entity.charge_type))
+
+    header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+    header.setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
+    header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
+    header.setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
 
     on_row_select(main_window)
 
@@ -95,7 +108,7 @@ def edit(main_window):
 
     main_window.lblVehicleCombinationId.setText(str(entity.id))
     main_window.txtVehicleCombination_Name.setText(entity.name)
-    main_window.txtVehicleCombination_Net.setText(entity.net)
+    main_window.txtVehicleCombination_Net.setText(str(entity.net))
 
     change_view(main_window.swPages, ViewPage.VEHICLE_COMBINATION_ENTRY)
 
@@ -118,7 +131,7 @@ def save(main_window):
         id: int = int_conv(main_window.lblVehicleCombinationId.text())
         name: str = main_window.txtVehicleCombination_Name.text()
         net: float = float_conv(main_window.txtVehicleCombination_Net.text())
-        charge_type: str = main_window.cmbVehicleCombination_ChargeType.text()
+        charge_type: str = main_window.cmbVehicleCombination_ChargeType.currentText()
 
         vc = VehicleCombination(id, name, net, charge_type)
 

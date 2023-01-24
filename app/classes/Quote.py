@@ -58,8 +58,8 @@ class Quote:
 
             cur.execute(
                 """
-                INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number) 
-                VALUES (?, ?, ?, ?, ?, ?);""",
+                INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number, kilometres) 
+                VALUES (?, ?, ?, ?, ?, ?, ?);""",
                 (
                     self.date_created.date(),
                     self.date_required.date(),
@@ -67,6 +67,7 @@ class Quote:
                     self.address,
                     self.suburb,
                     self.contact_number,
+                    self.kilometres,
                 ),
             )
             last_record = cur.execute(
@@ -84,7 +85,7 @@ class Quote:
             cur.execute(
                 """
                 UPDATE quote 
-                SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, contact_number = ? 
+                SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, contact_number = ?, kilometres = ? 
                 WHERE id = ?;""",
                 (
                     self.date_created.date(),
@@ -93,6 +94,7 @@ class Quote:
                     self.address,
                     self.suburb,
                     self.contact_number,
+                    self.kilometres,
                     self.id,
                 ),
             )
@@ -119,13 +121,13 @@ class Quote:
             if not id:
                 records = cur.execute(
                     """
-                    SELECT id, date_created, date_required, name, address, suburb, contact_number 
+                    SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres 
                     FROM quote;"""
                 ).fetchall()
             else:
                 records = cur.execute(
                     """
-                    SELECT id, date_created, date_required, name, address, suburb, contact_number 
+                    SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres
                     FROM quote WHERE id = ?;""",
                     (id,),
                 ).fetchall()
@@ -139,6 +141,7 @@ class Quote:
                 r[4],
                 r[5],
                 r[6],
+                r[7],
             )
             for r in records
         ]

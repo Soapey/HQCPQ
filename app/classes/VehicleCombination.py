@@ -20,7 +20,7 @@ class VehicleCombination:
 
             cur.execute(
                 """
-                INSERT INTO vehicle_combination (name, net) 
+                INSERT INTO vehicle_combination (name, net, charge_type) 
                 VALUES (?, ?, ?);""",
                 (
                     self.name,
@@ -43,11 +43,12 @@ class VehicleCombination:
             cur.execute(
                 """
                 UPDATE vehicle_combination 
-                SET name = ?, net = ?  
+                SET name = ?, net = ?, charge_type = ?
                 WHERE id = ?;""",
                 (
                     self.name,
                     self.net,
+                    self.charge_type,
                     self.id,
                 ),
             )

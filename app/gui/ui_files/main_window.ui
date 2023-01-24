@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>863</width>
-    <height>674</height>
+    <height>827</height>
    </rect>
   </property>
   <property name="font">
@@ -33,14 +33,371 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="pageQuotes">
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
-         <widget class="QLabel" name="testLabelQuotes">
+        <item row="1" column="0">
+         <widget class="QPushButton" name="btnNewQuote">
+          <property name="text">
+           <string>New</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QPushButton" name="btnDeleteQuote">
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="btnEditQuote">
+          <property name="text">
+           <string>Edit</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="btnExportQuote">
+          <property name="text">
+           <string>Export</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="4">
+         <widget class="QLabel" name="lblQuotes_Header">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(0, 85, 127);
+color: rgb(255, 255, 255);
+font: 75 14pt &quot;Helvetica&quot;;</string>
+          </property>
           <property name="text">
            <string>Quotes</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="4">
+         <widget class="QLineEdit" name="txtQuoteSearch"/>
+        </item>
+        <item row="3" column="0" colspan="4">
+         <widget class="QTableWidget" name="tblQuotes">
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="columnCount">
+           <number>0</number>
+          </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pageQuoteEntry">
+       <layout class="QGridLayout" name="gridLayout_16">
+        <item row="9" column="0">
+         <widget class="QPushButton" name="btnNewQuoteItem">
+          <property name="text">
+           <string>New</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_ContactNumber"/>
+        </item>
+        <item row="5" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_Suburb"/>
+        </item>
+        <item row="8" column="0" colspan="3">
+         <widget class="QLabel" name="lblQuoteItem_Header">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);
+font: 75 14pt &quot;Helvetica&quot;;
+background-color: rgb(170, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Items</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="2">
+         <widget class="QPushButton" name="btnDeleteQuoteItem">
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_DateRequired"/>
+        </item>
+        <item row="7" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_Kilometres"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lblQuoteId_Label">
+          <property name="text">
+           <string>Id</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QPushButton" name="btnEditQuoteItem">
+          <property name="text">
+           <string>Edit</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblQuote_DateCreated_Label">
+          <property name="text">
+           <string>Date Created</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_Name"/>
+        </item>
+        <item row="0" column="1" colspan="2">
+         <widget class="QLabel" name="lblQuoteId">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(215, 215, 215);</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_Address"/>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="lblQuote_Kilometres">
+          <property name="text">
+           <string>Kilometres</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QLabel" name="lblQuote_DateCreated">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(215, 215, 215);</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lblQuote_Address">
+          <property name="text">
+           <string>Address</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lblQuote_DateRequired">
+          <property name="text">
+           <string>Date Required</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="lblQuote_Name">
+          <property name="text">
+           <string>Customer Name</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="lblQuote_Suburb">
+          <property name="text">
+           <string>Suburb</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="lblQuote_ContactNumber">
+          <property name="text">
+           <string>Contact Number</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0" colspan="3">
+         <widget class="QTableWidget" name="tblQuoteItems">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="0">
+         <widget class="QLabel" name="lblQuote_ProductTotalExGst_Label">
+          <property name="styleSheet">
+           <string notr="true">font: 75 12pt &quot;Helvetica&quot;;
+background-color: rgb(0, 85, 127);
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Product Total ex. GST</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="0">
+         <widget class="QLabel" name="lblQuote_TransportTotalExGST_Label">
+          <property name="styleSheet">
+           <string notr="true">font: 75 12pt &quot;Helvetica&quot;;
+background-color: rgb(0, 85, 127);
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Transport Total ex. GST</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="0">
+         <widget class="QLabel" name="lblQuote_TotalIncGST_Label">
+          <property name="styleSheet">
+           <string notr="true">font: 75 14pt &quot;Helvetica&quot;;
+background-color: rgb(0, 170, 0);
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Total inc. GST</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="0">
+         <widget class="QLabel" name="lblQuote_TotalExGST_Label">
+          <property name="styleSheet">
+           <string notr="true">font: 75 12pt &quot;Helvetica&quot;;
+background-color: rgb(0, 85, 127);
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Total ex. GST</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="1" colspan="2">
+         <widget class="QLabel" name="lblQuote_TransportTotalExGST">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(215, 215, 215);
+font: 14pt &quot;Helvetica&quot;;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="1" colspan="2">
+         <widget class="QLabel" name="lblQuote_TotalExGST">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(215, 215, 215);
+font: 14pt &quot;Helvetica&quot;;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="1" colspan="2">
+         <widget class="QLabel" name="lblQuote_TotalIncGST">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 170, 0);
+background-color: rgb(226, 255, 232);
+font: 75 16pt &quot;Helvetica&quot;;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="1" colspan="2">
+         <widget class="QLabel" name="lblQuote_ProductTotalExGST">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(215, 215, 215);
+font: 14pt &quot;Helvetica&quot;;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="15" column="2">
+         <widget class="QPushButton" name="btnExportQuote_Entry">
+          <property name="text">
+           <string>Export</string>
+          </property>
+         </widget>
+        </item>
+        <item row="15" column="0">
+         <widget class="QPushButton" name="btnSaveQuote">
+          <property name="text">
+           <string>Save</string>
           </property>
          </widget>
         </item>
