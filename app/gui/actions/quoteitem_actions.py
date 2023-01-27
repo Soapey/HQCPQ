@@ -25,10 +25,7 @@ def fetch_global_entities():
 
     with SQLCursor() as cur:
 
-        global vehicle_combinations
-        global products
-        global product_rates
-        global quote_items
+        global vehicle_combinations, products, product_rates, quote_items
 
         vehicle_combinations = cur.execute(
             """
@@ -112,14 +109,6 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
     header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)
     header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)
     header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
-
-    toggle_buttons(
-        [
-            (main_window.btnNewQuoteItem, True),
-            (main_window.btnEditQuoteItem, False),
-            (main_window.btnDeleteQuoteItem, False),
-        ]
-    )
 
 
 def calculate_quote_item_totals(main_window: Ui_MainWindow, quote_id: int = None):
@@ -270,6 +259,10 @@ def form_is_valid(main_window: Ui_MainWindow):
     if len(main_window.txtQuoteItem_Tonnes.text()) == 0:
         result = False
         error_string += "\n- Tonnes field cannot be blank."
+
+    if len(main_window.txtQuoteItem_ProductRate.text()) == 0:
+        result = False
+        error_string += "\n- Product Rate field cannot be blank."
 
     if result is False:
         messagebox.showerror("Save Error", error_string)
