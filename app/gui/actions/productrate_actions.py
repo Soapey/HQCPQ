@@ -239,5 +239,5 @@ def connect(main_window):
     # Set numeric only validator on Rate textbox.
     onlyNumeric = QDoubleValidator()
     onlyNumeric.setNotation(QDoubleValidator.Notation.StandardNotation)
-    onlyNumeric.setRange(0.0, 9999.0, 2)
+    onlyNumeric.setRange(0.00, 9999.00, 2)
     main_window.txtProductRate_Rate.setValidator(onlyNumeric)

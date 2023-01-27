@@ -33,12 +33,15 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="pageQuotes">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="1" column="0">
          <widget class="QPushButton" name="btnNewQuote">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>New</string>
           </property>
@@ -46,6 +49,9 @@
         </item>
         <item row="1" column="2">
          <widget class="QPushButton" name="btnDeleteQuote">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>Delete</string>
           </property>
@@ -53,6 +59,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="btnEditQuote">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>Edit</string>
           </property>
@@ -60,6 +69,9 @@
         </item>
         <item row="1" column="3">
          <widget class="QPushButton" name="btnExportQuote">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>Export</string>
           </property>
@@ -81,10 +93,23 @@ font: 75 14pt &quot;Helvetica&quot;;</string>
          </widget>
         </item>
         <item row="2" column="0" colspan="4">
-         <widget class="QLineEdit" name="txtQuoteSearch"/>
+         <widget class="QLineEdit" name="txtQuoteSearch">
+          <property name="focusPolicy">
+           <enum>Qt::StrongFocus</enum>
+          </property>
+          <property name="placeholderText">
+           <string>Search</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="3" column="0" colspan="4">
          <widget class="QTableWidget" name="tblQuotes">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
@@ -117,6 +142,9 @@ font: 75 14pt &quot;Helvetica&quot;;</string>
        <layout class="QGridLayout" name="gridLayout_16">
         <item row="9" column="0">
          <widget class="QPushButton" name="btnNewQuoteItem">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>New</string>
           </property>
@@ -145,16 +173,30 @@ background-color: rgb(170, 0, 0);</string>
         </item>
         <item row="9" column="2">
          <widget class="QPushButton" name="btnDeleteQuoteItem">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>Delete</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1" colspan="2">
-         <widget class="QLineEdit" name="txtQuote_DateRequired"/>
+         <widget class="QLineEdit" name="txtQuote_DateRequired">
+          <property name="placeholderText">
+           <string>dd/mm/yyyy</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="7" column="1" colspan="2">
-         <widget class="QLineEdit" name="txtQuote_Kilometres"/>
+         <widget class="QLineEdit" name="txtQuote_Kilometres">
+          <property name="placeholderText">
+           <string>(0-9999)</string>
+          </property>
+         </widget>
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="lblQuoteId_Label">
@@ -168,6 +210,9 @@ background-color: rgb(170, 0, 0);</string>
         </item>
         <item row="9" column="1">
          <widget class="QPushButton" name="btnEditQuoteItem">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>Edit</string>
           </property>
@@ -271,6 +316,9 @@ background-color: rgb(170, 0, 0);</string>
         </item>
         <item row="10" column="0" colspan="3">
          <widget class="QTableWidget" name="tblQuoteItems">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -398,6 +446,9 @@ font: 14pt &quot;Helvetica&quot;;</string>
         </item>
         <item row="15" column="2">
          <widget class="QPushButton" name="btnExportQuote_Entry">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>Export</string>
           </property>
@@ -405,67 +456,53 @@ font: 14pt &quot;Helvetica&quot;;</string>
         </item>
         <item row="15" column="0">
          <widget class="QPushButton" name="btnSaveQuote">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>Save</string>
           </property>
          </widget>
         </item>
        </layout>
+       <zorder>tblQuoteItems</zorder>
+       <zorder>btnNewQuoteItem</zorder>
+       <zorder>txtQuote_ContactNumber</zorder>
+       <zorder>txtQuote_Suburb</zorder>
+       <zorder>lblQuoteItem_Header</zorder>
+       <zorder>btnDeleteQuoteItem</zorder>
+       <zorder>txtQuote_DateRequired</zorder>
+       <zorder>txtQuote_Kilometres</zorder>
+       <zorder>lblQuoteId_Label</zorder>
+       <zorder>btnEditQuoteItem</zorder>
+       <zorder>lblQuote_DateCreated_Label</zorder>
+       <zorder>txtQuote_Name</zorder>
+       <zorder>lblQuoteId</zorder>
+       <zorder>txtQuote_Address</zorder>
+       <zorder>lblQuote_Kilometres</zorder>
+       <zorder>lblQuote_DateCreated</zorder>
+       <zorder>lblQuote_Address</zorder>
+       <zorder>lblQuote_DateRequired</zorder>
+       <zorder>lblQuote_Name</zorder>
+       <zorder>lblQuote_Suburb</zorder>
+       <zorder>lblQuote_ContactNumber</zorder>
+       <zorder>lblQuote_ProductTotalExGst_Label</zorder>
+       <zorder>lblQuote_TransportTotalExGST_Label</zorder>
+       <zorder>lblQuote_TotalIncGST_Label</zorder>
+       <zorder>lblQuote_TotalExGST_Label</zorder>
+       <zorder>lblQuote_TransportTotalExGST</zorder>
+       <zorder>lblQuote_TotalExGST</zorder>
+       <zorder>lblQuote_TotalIncGST</zorder>
+       <zorder>lblQuote_ProductTotalExGST</zorder>
+       <zorder>btnExportQuote_Entry</zorder>
+       <zorder>btnSaveQuote</zorder>
       </widget>
       <widget class="QWidget" name="pageQuoteItemEntry">
        <layout class="QGridLayout" name="gridLayout_7">
-        <item row="3" column="1">
-         <widget class="QComboBox" name="cmbQuoteItem_VehicleCombination"/>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="lblQuoteItem_QuoteId">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(215, 215, 215);</string>
-          </property>
+        <item row="5" column="0">
+         <widget class="QLabel" name="lblQuoteItem_ProductRate">
           <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="lblQuoteItemId">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(215, 215, 215);</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="lblQuoteItem_QuoteId_Label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="text">
-           <string>Quote Id</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="lblQuoteItem_VehicleCombination">
-          <property name="text">
-           <string>Vehicle Combination</string>
+           <string>Rate Type</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -473,9 +510,19 @@ font: 14pt &quot;Helvetica&quot;;</string>
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QPushButton" name="btnSaveQuoteItem">
+         <widget class="QLineEdit" name="txtQuoteItem_Tonnes">
+          <property name="placeholderText">
+           <string>(0-9999)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lblQuoteItem_Product">
           <property name="text">
-           <string>Save</string>
+           <string>Product</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -513,33 +560,27 @@ font: 75 14pt &quot;Helvetica&quot;;</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="lblQuoteItem_Product">
+        <item row="6" column="0">
+         <widget class="QLabel" name="lblQuoteItem_Tonnes">
           <property name="text">
-           <string>Product</string>
+           <string>Tonnes</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QComboBox" name="cmbQuoteItem_Product"/>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="lblQuoteItem_ProductRate">
-          <property name="text">
-           <string>Rate Type</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <property name="wordWrap">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QComboBox" name="cmbQuoteItem_ProductRate"/>
+         <widget class="QComboBox" name="cmbQuoteItem_ProductRate">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+         </widget>
         </item>
-        <item row="7" column="0" colspan="2">
+        <item row="9" column="0" colspan="2">
          <spacer name="verticalSpacer_3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -547,10 +588,106 @@ font: 75 14pt &quot;Helvetica&quot;;</string>
           <property name="sizeHint" stdset="0">
            <size>
             <width>824</width>
-            <height>561</height>
+            <height>507</height>
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="4" column="1">
+         <widget class="QComboBox" name="cmbQuoteItem_Product">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="lblQuoteItemId">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(215, 215, 215);</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="cmbQuoteItem_VehicleCombination">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="lblQuoteItem_QuoteId">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(215, 215, 215);</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QPushButton" name="btnSaveQuoteItem">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="text">
+           <string>Save</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="lblQuoteItem_VehicleCombination">
+          <property name="text">
+           <string>Vehicle Combination</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lblQuoteItem_QuoteId_Label">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>Quote Id</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="lblQuoteItem_ProductRateOverride">
+          <property name="text">
+           <string>Product Rate</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLineEdit" name="txtQuoteItem_ProductRate">
+          <property name="placeholderText">
+           <string>(0-9999)</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -1275,6 +1412,47 @@ font: 75 14pt &quot;Helvetica&quot;;</string>
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>txtQuote_DateRequired</tabstop>
+  <tabstop>txtQuote_Name</tabstop>
+  <tabstop>txtQuote_Address</tabstop>
+  <tabstop>txtQuote_Suburb</tabstop>
+  <tabstop>txtQuote_ContactNumber</tabstop>
+  <tabstop>txtQuote_Kilometres</tabstop>
+  <tabstop>txtProductSearch</tabstop>
+  <tabstop>btnEditProduct</tabstop>
+  <tabstop>btnDeleteProduct</tabstop>
+  <tabstop>tblProducts</tabstop>
+  <tabstop>txtQuoteItem_Tonnes</tabstop>
+  <tabstop>txtQuoteItem_ProductRate</tabstop>
+  <tabstop>btnNewProduct</tabstop>
+  <tabstop>btnDeleteProductRate</tabstop>
+  <tabstop>btnNewProductRate</tabstop>
+  <tabstop>btnEditProductRate</tabstop>
+  <tabstop>txtProductName</tabstop>
+  <tabstop>tblProductRates</tabstop>
+  <tabstop>btnSaveProduct</tabstop>
+  <tabstop>cmbProductRate_RateType</tabstop>
+  <tabstop>txtProductRate_Rate</tabstop>
+  <tabstop>btnSaveProductRate</tabstop>
+  <tabstop>btnDeleteRateType</tabstop>
+  <tabstop>txtRateTypeSearch</tabstop>
+  <tabstop>btnNewRateType</tabstop>
+  <tabstop>btnEditRateType</tabstop>
+  <tabstop>tblRateTypes</tabstop>
+  <tabstop>btnSaveRateType</tabstop>
+  <tabstop>txtRateType_Name</tabstop>
+  <tabstop>btnNewVehicleCombination</tabstop>
+  <tabstop>btnEditVehicleCombination</tabstop>
+  <tabstop>btnDeleteVehicleCombination</tabstop>
+  <tabstop>txtVehicleCombinationSearch</tabstop>
+  <tabstop>tblVehicleCombinations</tabstop>
+  <tabstop>txtVehicleCombination_Name</tabstop>
+  <tabstop>txtVehicleCombination_Net</tabstop>
+  <tabstop>btnSaveVehicleCombination</tabstop>
+  <tabstop>cmbVehicleCombination_ChargeType</tabstop>
+  <tabstop>txtQuoteSearch</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -1,33 +1,34 @@
+from app.gui.view_enum import ViewPage
+from app.classes.Quote import Quote
+from app.classes.QuoteItem import QuoteItem
+from app.gui.components.main_window import Ui_MainWindow
+from app.db.SQLCursor import SQLCursor
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+from PyQt5.QtGui import QIntValidator
+from tkinter import messagebox
+from datetime import datetime
 from app.gui.helpers import (
     toggle_buttons,
     change_view,
     selected_row_id,
     isdate,
     int_conv,
+    get_transport_rate_ex_gst,
 )
-from app.gui.view_enum import ViewPage
-from app.classes.Quote import Quote
-from app.gui.components.main_window import Ui_MainWindow
 from app.gui.actions.quoteitem_actions import (
     refresh_table as refresh_quote_items_table,
     calculate_quote_item_totals,
-    fetch_global_entities,
+    fetch_global_entities as fetch_quote_item_globals,
 )
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
-from tkinter import messagebox
-from datetime import datetime
 
 
-quotes: list[Quote] = list()
+quotes: dict[int, Quote] = None
+matches: dict[int, Quote] = None
 
 
-def refresh_table(main_window: Ui_MainWindow, fetched_entities=None):
+def refresh_table(main_window: Ui_MainWindow):
 
-    records = fetched_entities
-    if fetched_entities is None:
-        records = quotes
-
-    headers: list[str] = [
+    tbl_headers: list[str] = [
         "ID",
         "Date Created",
         "Date Required",
@@ -35,37 +36,65 @@ def refresh_table(main_window: Ui_MainWindow, fetched_entities=None):
         "Address",
         "Suburb",
         "Contact Number",
+        "Kilometres",
     ]
+
+    records: dict[int, Quote] = matches
 
     tbl: QTableWidget = main_window.tblQuotes
     tbl.clear()
-    tbl.setColumnCount(len(headers))
+    tbl.setColumnCount(len(tbl_headers))
     tbl.setRowCount(len(records))
-    tbl.setHorizontalHeaderLabels(headers)
+    tbl.setHorizontalHeaderLabels(tbl_headers)
 
-    for index, quote in enumerate(records):
+    for index, quote in enumerate(records.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(quote.id)))
-        tbl.setItem(index, 1, QTableWidgetItem(str(quote.date_created)))
-        tbl.setItem(index, 2, QTableWidgetItem(str(quote.date_required)))
+        tbl.setItem(
+            index,
+            1,
+            QTableWidgetItem(datetime.strftime(quote.date_created, "%d/%m/%Y")),
+        )
+        tbl.setItem(
+            index,
+            2,
+            QTableWidgetItem(datetime.strftime(quote.date_required, "%d/%m/%Y")),
+        )
         tbl.setItem(index, 3, QTableWidgetItem(quote.name))
         tbl.setItem(index, 4, QTableWidgetItem(quote.address))
         tbl.setItem(index, 5, QTableWidgetItem(quote.suburb))
         tbl.setItem(index, 6, QTableWidgetItem(str(quote.contact_number)))
+        tbl.setItem(index, 7, QTableWidgetItem(str(quote.kilometres)))
 
-    header = tbl.horizontalHeader()
+    header: QHeaderView = tbl.horizontalHeader()
     header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
     header.setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
     header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
     header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
     header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)
     header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
+    header.setSectionResizeMode(6, QHeaderView.ResizeMode.ResizeToContents)
+    header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)
 
 
-def navigate_quotes(main_window: Ui_MainWindow):
+def on_row_select(main_window: Ui_MainWindow):
 
-    global quotes
-    quotes = Quote.get()
+    selected_id: int = selected_row_id(main_window.tblQuotes)
+
+    toggle_buttons(
+        [
+            (main_window.btnNewQuote, True),
+            (main_window.btnEditQuote, selected_id is not None),
+            (main_window.btnDeleteQuote, selected_id is not None),
+            (main_window.btnExportQuote, selected_id is not None),
+        ]
+    )
+
+
+def navigate_to_listing_view(main_window: Ui_MainWindow):
+
+    global quotes, matches
+    quotes = {q.id: q for q in Quote.get()}
+    matches = quotes
 
     refresh_table(main_window)
 
@@ -96,6 +125,82 @@ def clear_entry_fields(main_window: Ui_MainWindow):
     main_window.lblQuote_TransportTotalExGST.clear()
     main_window.lblQuote_TotalExGST.clear()
     main_window.lblQuote_TotalIncGST.clear()
+
+
+def new(main_window: Ui_MainWindow):
+
+    fetch_quote_item_globals()
+
+    clear_entry_fields(main_window)
+
+    toggle_buttons(
+        [
+            (main_window.btnNewQuoteItem, False),
+            (main_window.btnEditQuoteItem, False),
+            (main_window.btnDeleteQuoteItem, False),
+            (main_window.btnExportQuote_Entry, False),
+        ]
+    )
+
+    refresh_quote_items_table(main_window)
+
+    change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
+
+
+def edit(main_window: Ui_MainWindow):
+
+    # Fetch the Quote object to be edited.
+    quote_id: int = selected_row_id(main_window.tblQuotes)
+    quote: Quote = quotes[quote_id]
+
+    # Write object attributes to GUI.
+    main_window.lblQuoteId.setText(str(quote.id))
+    main_window.txtQuote_Name.setText(quote.name)
+    main_window.txtQuote_Address.setText(quote.address)
+    main_window.txtQuote_Suburb.setText(quote.suburb)
+    main_window.txtQuote_ContactNumber.setText(quote.contact_number)
+    main_window.txtQuote_Kilometres.setText(str(quote.kilometres))
+    main_window.lblQuote_DateCreated.setText(
+        datetime.strftime(quote.date_created, "%d/%m/%Y")
+    )
+    main_window.txtQuote_DateRequired.setText(
+        datetime.strftime(quote.date_required, "%d/%m/%Y")
+    )
+
+    # Write all children QuoteItem objects to GUI table.
+    fetch_quote_item_globals()
+    refresh_quote_items_table(main_window, quote_id)
+
+    # Calculate and display pricing of all children QuoteItem objects on the GUI.
+    calculate_quote_item_totals(main_window, quote.id)
+
+    # Show/hide action buttons.
+    toggle_buttons(
+        [
+            (main_window.btnNewQuoteItem, True),
+            (main_window.btnEditQuoteItem, False),
+            (main_window.btnDeleteQuoteItem, False),
+            (main_window.btnExportQuote_Entry, True),
+        ]
+    )
+
+    # Change the view to the Quote entry page.
+    change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
+
+
+def delete(main_window: Ui_MainWindow):
+
+    # Fetch the Quote object to be deleted.
+    quote_id: int = selected_row_id(main_window.tblQuotes)
+    quote: Quote = quotes[quote_id]
+
+    # Delete the Quote object from SQL database,
+    # + remove from global dictionary (avoids a second call to database).
+    quote.delete()
+    del quotes[quote_id]
+
+    # Refresh the table with the new dictionary.
+    refresh_table(main_window)
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -139,161 +244,133 @@ def form_is_valid(main_window: Ui_MainWindow):
     return result
 
 
-def new(main_window: Ui_MainWindow):
+def save(main_window: Ui_MainWindow):
 
-    fetch_global_entities()
+    # Check that all input fields are valid before continuing.
+    if form_is_valid(main_window) is False:
+        return
 
-    clear_entry_fields(main_window)
-
-    toggle_buttons(
-        [
-            (main_window.btnNewQuoteItem, False),
-            (main_window.btnEditQuoteItem, False),
-            (main_window.btnDeleteQuoteItem, False),
-            (main_window.btnExportQuote_Entry, False),
-        ]
+    # Read GUI fields to variables for readability.
+    quote_id = int_conv(main_window.lblQuoteId.text())
+    quote_name: str = main_window.txtQuote_Name.text().strip()
+    quote_address: str = main_window.txtQuote_Address.text().strip()
+    quote_suburb: str = main_window.txtQuote_Suburb.text().strip()
+    quote_contact_number: str = main_window.txtQuote_ContactNumber.text().strip()
+    quote_kilometres: int = int(main_window.txtQuote_Kilometres.text().strip())
+    quote_date_created: datetime = (
+        datetime.strptime(main_window.txtQuote_DateRequired.text().strip(), "%d/%m/%Y")
+        if quote_id
+        else datetime.today()
+    )
+    quote_date_required: datetime = datetime.strptime(
+        main_window.txtQuote_DateRequired.text().strip(), "%d/%m/%Y"
     )
 
-    refresh_quote_items_table(main_window)
-
-    change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
-
-
-def edit(main_window: Ui_MainWindow):
-
-    fetch_global_entities()
-
-    selected_id: int = selected_row_id(main_window.tblQuotes)
-    entity: Quote = list(filter(lambda e: e.id == selected_id, quotes))[0]
-
-    main_window.lblQuoteId.setText(str(entity.id))
-    main_window.lblQuote_DateCreated.setText(
-        datetime.strftime(entity.date_created, "%d/%m/%Y")
+    # Instantiate Quote object to be saved.
+    q = Quote(
+        quote_id,
+        quote_date_created,
+        quote_date_required,
+        quote_name,
+        quote_address,
+        quote_suburb,
+        quote_contact_number,
+        quote_kilometres,
     )
-    main_window.txtQuote_DateRequired.setText(
-        datetime.strftime(entity.date_required, "%d/%m/%Y")
-    )
-    main_window.txtQuote_Name.setText(entity.name)
-    main_window.txtQuote_Address.setText(entity.address)
-    main_window.txtQuote_Suburb.setText(entity.suburb)
-    main_window.txtQuote_ContactNumber.setText(entity.contact_number)
-    main_window.txtQuote_Kilometres.setText(str(entity.kilometres))
 
-    refresh_quote_items_table(main_window, selected_id)
+    # Save the Quote object.
+    q.update() if quote_id else q.insert()
 
-    calculate_quote_item_totals(main_window, entity.id)
+    # Set the GUI id field to display the saved Quote object id.
+    main_window.lblQuoteId.setText(str(q.id))
 
+    # Update all children QuoteItem objects to use the most updated kilometres for their transport_rate_ex_gst.
+
+    with SQLCursor() as cur:
+        quote_item_tuples = cur.execute(
+            """
+        SELECT qi.id, vc.charge_type
+        FROM quote_item qi
+        LEFT JOIN vehicle_combination vc ON qi.vehicle_combination_name = vc.name
+        WHERE qi.quote_id = ?
+        """,
+            (q.id,),
+        ).fetchall()
+
+        for t in quote_item_tuples:
+
+            transport_rate_ex_gst = get_transport_rate_ex_gst(q.kilometres, t[1])
+
+            cur.execute(
+                """
+            UPDATE quote_item 
+            SET transport_rate_ex_gst = ? 
+            WHERE id = ?;
+            """,
+                (
+                    transport_rate_ex_gst,
+                    t[0],
+                ),
+            )
+
+    refresh_quote_items_table(main_window, q.id)
+
+    # Show all QuoteItem action buttons.
     toggle_buttons(
         [
             (main_window.btnNewQuoteItem, True),
-            (main_window.btnEditQuoteItem, False),
-            (main_window.btnDeleteQuoteItem, False),
+            (main_window.btnEditQuoteItem, True),
+            (main_window.btnDeleteQuoteItem, True),
             (main_window.btnExportQuote_Entry, True),
         ]
     )
 
-    change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
-
-
-def delete(main_window: Ui_MainWindow):
-
-    selected_id: int = selected_row_id(main_window.tblQuotes)
-
-    entity: Quote = list(filter(lambda e: e.id == selected_id, quotes))[0]
-    entity.delete()
-
-    quotes.remove(entity)
-
-    refresh_table(main_window)
-
-
-def save(main_window: Ui_MainWindow):
-
-    if form_is_valid(main_window):
-
-        quote_id = int_conv(main_window.lblQuoteId.text())
-
-        date_created: datetime = (
-            datetime.strptime(
-                main_window.txtQuote_DateRequired.text().strip(), "%d/%m/%Y"
-            )
-            if quote_id
-            else datetime.today()
-        )
-        date_required: datetime = datetime.strptime(
-            main_window.txtQuote_DateRequired.text().strip(), "%d/%m/%Y"
-        )
-
-        customer_name: str = main_window.txtQuote_Name.text().strip()
-        address: str = main_window.txtQuote_Address.text().strip()
-        suburb: str = main_window.txtQuote_Suburb.text().strip()
-        contact_number: str = main_window.txtQuote_ContactNumber.text().strip()
-        kilometres: int = int(main_window.txtQuote_Kilometres.text().strip())
-
-        q = Quote(
-            quote_id,
-            date_created,
-            date_required,
-            customer_name,
-            address,
-            suburb,
-            contact_number,
-            kilometres,
-        )
-
-        q.update() if quote_id else q.insert()
-
-        main_window.lblQuoteId.setText(str(q.id))
-
-        toggle_buttons(
-            [
-                (main_window.btnNewQuoteItem, True),
-                (main_window.btnEditQuoteItem, True),
-                (main_window.btnDeleteQuoteItem, True),
-                (main_window.btnExportQuote_Entry, True),
-            ]
-        )
-
 
 def search(main_window: Ui_MainWindow):
 
+    # Read user search input from GUI.
+    # Input is lowercased as search will not be case sensitive.
     search_text = main_window.txtQuoteSearch.text().lower()
 
-    matches = list(
-        filter(
-            lambda q: search_text
-            in "".join([q.name.lower(), q.address.lower(), q.suburb.lower()]),
-            quotes,
-        )
-    )
+    if search_text:
 
-    refresh_table(main_window, matches)
+        # Find all quotes where either the lowercased name, address or suburb match the user input.
+        global matches
+        matches = {
+            q.id: q
+            for q in list(
+                filter(
+                    lambda q: search_text
+                    in "".join([q.name.lower(), q.address.lower(), q.suburb.lower()]),
+                    quotes.values(),
+                )
+            )
+        }
 
+    else:
+        matches = quotes
 
-def on_row_select(main_window: Ui_MainWindow):
-
-    selected_id: int = selected_row_id(main_window.tblQuotes)
-
-    toggle_buttons(
-        [
-            (main_window.btnNewQuote, True),
-            (main_window.btnEditQuote, selected_id is not None),
-            (main_window.btnDeleteQuote, selected_id is not None),
-            (main_window.btnExportQuote, selected_id is not None),
-        ]
-    )
+    # Refresh the table with matches.
+    refresh_table(main_window)
 
 
 def connect(main_window: Ui_MainWindow):
 
-    main_window.actionQuotes.triggered.connect(lambda: navigate_quotes(main_window))
+    # Export button
+    # Export button entry
     main_window.btnNewQuote.clicked.connect(lambda: new(main_window))
     main_window.btnEditQuote.clicked.connect(lambda: edit(main_window))
     main_window.btnDeleteQuote.clicked.connect(lambda: delete(main_window))
-    # Export button
     main_window.btnSaveQuote.clicked.connect(lambda: save(main_window))
-    # Export button entry
+    main_window.txtQuoteSearch.textChanged.connect(lambda: search(main_window))
+    main_window.actionQuotes.triggered.connect(
+        lambda: navigate_to_listing_view(main_window)
+    )
     main_window.tblQuotes.selectionModel().selectionChanged.connect(
         lambda: on_row_select(main_window)
     )
-    main_window.txtQuoteSearch.textChanged.connect(lambda: search(main_window))
+
+    # Set integer only validator on Kilometres textbox.
+    intOnly = QIntValidator()
+    intOnly.setRange(0, 9999)
+    main_window.txtQuote_Kilometres.setValidator(intOnly)

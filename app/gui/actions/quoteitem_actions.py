@@ -11,6 +11,7 @@ from app.gui.helpers import (
     get_transport_rate_ex_gst,
 )
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox, QHeaderView
+from PyQt5.QtGui import QDoubleValidator
 from tkinter import messagebox
 
 
@@ -79,6 +80,7 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
         "Product",
         "Transport Rate ex. GST",
         "Product Rate ex. GST",
+        "Total inc. GST",
     ]
 
     tbl: QTableWidget = main_window.tblQuoteItems
@@ -92,8 +94,15 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
         tbl.setItem(index, 1, QTableWidgetItem(record[2]))
         tbl.setItem(index, 2, QTableWidgetItem(str(record[3])))
         tbl.setItem(index, 3, QTableWidgetItem(record[4]))
-        tbl.setItem(index, 4, QTableWidgetItem(str(record[5])))
-        tbl.setItem(index, 5, QTableWidgetItem(str(record[6])))
+        tbl.setItem(index, 4, QTableWidgetItem("${:,.2f}".format(record[5])))
+        tbl.setItem(index, 5, QTableWidgetItem("${:,.2f}".format(record[6])))
+        tbl.setItem(
+            index,
+            6,
+            QTableWidgetItem(
+                "${:,.2f}".format(1.1 * ((record[5] + record[6]) * record[3]))
+            ),
+        )
 
     header = tbl.horizontalHeader()
     header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
@@ -101,7 +110,8 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
     header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
     header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
     header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(5, QHeaderView.ResizeMode.Stretch)
+    header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)
+    header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
 
     toggle_buttons(
         [
@@ -147,20 +157,22 @@ def calculate_quote_item_totals(main_window: Ui_MainWindow, quote_id: int = None
     )
 
 
-def clear_entry_fields(main_window: Ui_MainWindow):
+def update_product_rate(main_window: Ui_MainWindow):
 
-    main_window.lblQuoteItemId.clear()
-    main_window.lblQuoteItem_QuoteId.clear()
+    product_name = main_window.cmbQuoteItem_Product.currentText()
+    rate_type_name = main_window.cmbQuoteItem_ProductRate.currentText()
 
-    cmbVehicleCombinations: QComboBox = main_window.cmbQuoteItem_VehicleCombination
-    cmbVehicleCombinations.clear()
-    cmbVehicleCombinations.addItems([t[1] for t in vehicle_combinations])
+    product_rate_match_tuples = list(
+        filter(lambda t: t[2] == product_name and t[3] == rate_type_name, product_rates)
+    )
 
-    cmbProducts: QComboBox = main_window.cmbQuoteItem_Product
-    cmbProducts.clear()
-    cmbProducts.addItems([t[1] for t in products])
+    if not product_rate_match_tuples:
+        return
 
-    on_product_select(main_window)
+    product_rate = product_rate_match_tuples[0]
+    rate = product_rate[4]
+
+    main_window.txtQuoteItem_ProductRate.setText(str(rate))
 
 
 def on_product_select(main_window: Ui_MainWindow):
@@ -172,17 +184,66 @@ def on_product_select(main_window: Ui_MainWindow):
     cmbProductRates.clear()
 
     if show_hide:
-        selected_product_id = list(
+
+        tuple_match_list = list(
             filter(
                 lambda t: t[1] == main_window.cmbQuoteItem_Product.currentText(),
                 products,
             )
-        )[0][0]
-        records = list(filter(lambda t: t[1] == selected_product_id, product_rates))
+        )
+
+        if not tuple_match_list:
+            return
+
+        product: tuple = tuple_match_list[0]
+
+        records = list(filter(lambda t: t[1] == product[0], product_rates))
         cmbProductRates.addItems([t[3] for t in records])
 
     main_window.lblQuoteItem_ProductRate.setVisible(show_hide)
     cmbProductRates.setVisible(show_hide)
+
+    update_product_rate(main_window)
+
+
+def on_rate_type_select(main_window: Ui_MainWindow):
+
+    update_product_rate(main_window)
+
+
+def on_vehicle_combination_select(main_window: Ui_MainWindow):
+
+    tuple_match_list = list(
+        filter(
+            lambda t: t[1] == main_window.cmbQuoteItem_VehicleCombination.currentText(),
+            vehicle_combinations,
+        )
+    )
+
+    if not tuple_match_list:
+        return
+
+    vehicle_combination: tuple = tuple_match_list[0]
+
+    main_window.txtQuoteItem_Tonnes.setText(str(vehicle_combination[2]))
+
+
+def clear_entry_fields(main_window: Ui_MainWindow):
+
+    main_window.lblQuoteItemId.clear()
+    main_window.lblQuoteItem_QuoteId.clear()
+    main_window.txtQuoteItem_Tonnes.clear()
+    main_window.txtQuoteItem_ProductRate.clear()
+
+    cmbVehicleCombinations: QComboBox = main_window.cmbQuoteItem_VehicleCombination
+    cmbVehicleCombinations.clear()
+    cmbVehicleCombinations.addItems([t[1] for t in vehicle_combinations])
+
+    cmbProducts: QComboBox = main_window.cmbQuoteItem_Product
+    cmbProducts.clear()
+    cmbProducts.addItems([t[1] for t in products])
+
+    on_product_select(main_window)
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -205,6 +266,10 @@ def form_is_valid(main_window: Ui_MainWindow):
     if len(main_window.cmbQuoteItem_ProductRate.currentText()) == 0:
         result = False
         error_string += "\n- Rate Type field cannot be blank."
+
+    if len(main_window.txtQuoteItem_Tonnes.text()) == 0:
+        result = False
+        error_string += "\n- Tonnes field cannot be blank."
 
     if result is False:
         messagebox.showerror("Save Error", error_string)
@@ -237,6 +302,8 @@ def edit(main_window: Ui_MainWindow):
     main_window.cmbQuoteItem_VehicleCombination.setCurrentText(entity_tuple[2])
     main_window.cmbQuoteItem_Product.setCurrentText(entity_tuple[4])
     main_window.cmbQuoteItem_ProductRate.setCurrentText(entity_tuple[7])
+    main_window.txtQuoteItem_Tonnes.setText(str(entity_tuple[3]))
+    main_window.txtQuoteItem_ProductRate.setText(str(entity_tuple[6]))
 
     change_view(main_window.swPages, ViewPage.QUOTE_ITEM_ENTRY)
 
@@ -268,7 +335,7 @@ def save(main_window: Ui_MainWindow):
         )[0]
 
         vehicle_combination_name: str = vehicle_combination_tuple[1]
-        vehicle_combination_net: float = vehicle_combination_tuple[2]
+        vehicle_combination_net: float = float(main_window.txtQuoteItem_Tonnes.text())
         vehicle_combination_charge_type: str = vehicle_combination_tuple[3]
 
         product_name: str = main_window.cmbQuoteItem_Product.currentText()
@@ -276,12 +343,7 @@ def save(main_window: Ui_MainWindow):
         transport_rate_ex_gst: float = get_transport_rate_ex_gst(
             quote.kilometres, vehicle_combination_charge_type
         )
-        product_rate_ex_gst: float = list(
-            filter(
-                lambda t: t[2] == product_name and t[3] == charge_type_name,
-                product_rates,
-            )
-        )[0][4]
+        product_rate_ex_gst: float = float(main_window.txtQuoteItem_ProductRate.text())
 
         qi = QuoteItem(
             id,
@@ -327,6 +389,19 @@ def connect(main_window: Ui_MainWindow):
     main_window.tblQuoteItems.selectionModel().selectionChanged.connect(
         lambda: on_row_select(main_window)
     )
+    main_window.cmbQuoteItem_VehicleCombination.currentTextChanged.connect(
+        lambda: on_vehicle_combination_select(main_window)
+    )
     main_window.cmbQuoteItem_Product.currentTextChanged.connect(
         lambda: on_product_select(main_window)
     )
+    main_window.cmbQuoteItem_ProductRate.currentTextChanged.connect(
+        lambda: on_rate_type_select(main_window)
+    )
+
+    # Set numeric only validator on Tonnes and Rate textbox.
+    onlyNumeric = QDoubleValidator()
+    onlyNumeric.setNotation(QDoubleValidator.Notation.StandardNotation)
+    onlyNumeric.setRange(0.00, 9999.00, 2)
+    main_window.txtQuoteItem_Tonnes.setValidator(onlyNumeric)
+    main_window.txtQuoteItem_ProductRate.setValidator(onlyNumeric)

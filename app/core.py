@@ -2,7 +2,10 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
 from app.db.config import start_db
-from app.gui.actions.quote_actions import connect as connect_quotes, navigate_quotes
+from app.gui.actions.quote_actions import (
+    connect as connect_quotes,
+    navigate_to_listing_view,
+)
 from app.gui.actions.quoteitem_actions import connect as connect_quote_items
 from app.gui.actions.product_actions import connect as connect_products
 from app.gui.actions.productrate_actions import connect as connect_product_rates
@@ -43,8 +46,8 @@ def main():
     main_window = Ui_MainWindow()
     main_window.setupUi(main_window_root)
 
-    navigate_quotes(main_window)
-    main_window_root.show()
+    navigate_to_listing_view(main_window)
+    main_window_root.showMaximized()
 
     connect_main_window_actions(main_window)
 
