@@ -259,7 +259,13 @@ def search(main_window: Ui_MainWindow):
 
     search_text = main_window.txtQuoteSearch.text().lower()
 
-    matches = list(filter(lambda q: search_text in q.name.lower(), quotes))
+    matches = list(
+        filter(
+            lambda q: search_text
+            in "".join([q.name.lower(), q.address.lower(), q.suburb.lower()]),
+            quotes,
+        )
+    )
 
     refresh_table(main_window, matches)
 
