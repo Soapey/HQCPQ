@@ -11,6 +11,7 @@ class QuoteItem:
         transport_rate_ex_gst: float,
         product_name: str,
         product_rate_ex_gst: float,
+        charge_type_name: str,
     ) -> None:
         self.id = id
         self.quote_id = quote_id
@@ -19,6 +20,7 @@ class QuoteItem:
         self.transport_rate_ex_gst = transport_rate_ex_gst
         self.product_name = product_name
         self.product_rate_ex_gst = product_rate_ex_gst
+        self.charge_type_name = charge_type_name
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
@@ -39,8 +41,8 @@ class QuoteItem:
 
             cur.execute(
                 """
-                INSERT INTO quote_item (quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst) 
-                VALUES (?, ?, ?, ?, ?, ?);""",
+                INSERT INTO quote_item (quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name) 
+                VALUES (?, ?, ?, ?, ?, ?, ?);""",
                 (
                     self.quote_id,
                     self.vehicle_combination_name,
@@ -48,6 +50,7 @@ class QuoteItem:
                     self.transport_rate_ex_gst,
                     self.product_name,
                     self.product_rate_ex_gst,
+                    self.charge_type_name,
                 ),
             )
 
@@ -66,7 +69,7 @@ class QuoteItem:
             cur.execute(
                 """
                 UPDATE quote_item 
-                SET quote_id = ?, vehicle_combination_name = ?, vehicle_combination_net = ?, transport_rate_ex_gst = ?, product_name = ?, product_rate_ex_gst = ?
+                SET quote_id = ?, vehicle_combination_name = ?, vehicle_combination_net = ?, transport_rate_ex_gst = ?, product_name = ?, product_rate_ex_gst = ?, charge_type_name = ?
                 WHERE id = ?;""",
                 (
                     self.quote_id,
@@ -75,6 +78,7 @@ class QuoteItem:
                     self.transport_rate_ex_gst,
                     self.product_name,
                     self.product_rate_ex_gst,
+                    self.charge_type_name,
                     self.id,
                 ),
             )
@@ -106,13 +110,13 @@ class QuoteItem:
             if not id:
                 records = cur.execute(
                     """
-                    SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
+                    SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name 
                     FROM quote_item;"""
                 ).fetchall()
             else:
                 records = cur.execute(
                     """
-                    SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
+                    SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name 
                     FROM quote_item 
                     WHERE id = ?;""",
                     (id,),
@@ -132,7 +136,7 @@ class QuoteItem:
 
             records = cur.execute(
                 """
-                SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst 
+                SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name 
                 FROM quote_item  
                 WHERE quote_id = ?;""",
                 (id,),

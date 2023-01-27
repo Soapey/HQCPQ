@@ -13,7 +13,7 @@ class Quote:
         address: str,
         suburb: str,
         contact_number: str,
-        kilometres: float,
+        kilometres: int,
     ) -> None:
         self.id = id
         self.date_created = date_created

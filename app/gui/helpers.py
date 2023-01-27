@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QTableWidget, QPushButton
 from app.gui.view_enum import ViewPage
+from datetime import datetime
 
 
 def change_view(stacked_widget, page: ViewPage):
@@ -20,17 +21,12 @@ def selected_row_id(tbl: QTableWidget):
     return id
 
 
-def toggle_buttons(
-    new_btn: QPushButton,
-    show_new: bool,
-    edit_btn: QPushButton,
-    show_edit: bool,
-    delete_btn: QPushButton,
-    show_delete: bool,
-):
-    new_btn.setVisible(show_new)
-    edit_btn.setVisible(show_edit)
-    delete_btn.setVisible(show_delete)
+def toggle_buttons(button_show_tuple_list: list[tuple]):
+
+    for t in button_show_tuple_list:
+        button: QPushButton = t[0]
+        show_hide: bool = t[1]
+        button.setVisible(show_hide)
 
 
 def isfloat(value: str):
@@ -38,6 +34,15 @@ def isfloat(value: str):
         f = float(value)
         return True
     except:
+        return False
+
+
+def isdate(value: str):
+
+    try:
+        datetime.strptime(value, "%d/%m/%Y")
+        return True
+    except ValueError:
         return False
 
 
@@ -49,11 +54,11 @@ def float_conv(value: str):
     return float(value) if isfloat(value) else None
 
 
-def get_transport_rate_ex_gst(kilometres: float, charge_type: str):
+def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
 
-    start: float
-    rate_per_km: float
-    jump_per_50: float
+    start: float = 0
+    rate_per_km: float = 0
+    jump_per_50: float = 0
 
     match charge_type:
         case "Truck & Trailer":

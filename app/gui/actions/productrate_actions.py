@@ -39,21 +39,19 @@ def on_row_select(main_window: Ui_MainWindow):
 
     if selected_id:
         toggle_buttons(
-            main_window.btnNewProductRate,
-            True,
-            main_window.btnEditProductRate,
-            True,
-            main_window.btnDeleteProductRate,
-            True,
+            [
+                (main_window.btnNewProductRate, True),
+                (main_window.btnEditProductRate, True),
+                (main_window.btnDeleteProductRate, True),
+            ]
         )
     else:
         toggle_buttons(
-            main_window.btnNewProductRate,
-            True,
-            main_window.btnEditProductRate,
-            False,
-            main_window.btnDeleteProductRate,
-            False,
+            [
+                (main_window.btnNewProductRate, True),
+                (main_window.btnEditProductRate, False),
+                (main_window.btnDeleteProductRate, False),
+            ]
         )
 
 
@@ -90,12 +88,11 @@ def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
         product_rates_tbl.setItem(index, 2, QTableWidgetItem(str(record[2])))
 
     toggle_buttons(
-        main_window.btnNewProductRate,
-        True,
-        main_window.btnEditProductRate,
-        False,
-        main_window.btnDeleteProductRate,
-        False,
+        [
+            (main_window.btnNewProductRate, True),
+            (main_window.btnEditProductRate, False),
+            (main_window.btnDeleteProductRate, False),
+        ]
     )
 
 

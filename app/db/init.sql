@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS quote (
     name TEXT NOT NULL,
     address TEXT NOT NULL,
     suburb TEXT NOT NULL,
-    contact_number TEXT NOT NULL
+    contact_number TEXT NOT NULL,
+    kilometres INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS quote_item (
@@ -46,6 +47,7 @@ CREATE TABLE IF NOT EXISTS quote_item (
     transport_rate_ex_gst REAL NOT NULL,
     product_name TEXT NOT NULL,
     product_rate_ex_gst REAL NOT NULL,
+    charge_type_name TEXT NOT NULL,
     FOREIGN KEY (quote_id) REFERENCES quote (id)
         ON UPDATE CASCADE
         ON DELETE CASCADE

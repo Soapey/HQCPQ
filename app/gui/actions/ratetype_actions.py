@@ -15,7 +15,7 @@ def change_to_rate_type_view(main_window):
 
     refresh_table(main_window, entities)
 
-    main_window.swPages.setCurrentIndex(4)
+    change_view(main_window.swPages, ViewPage.RATE_TYPES)
 
 
 def search(main_window, search_text):

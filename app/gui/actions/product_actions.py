@@ -20,7 +20,7 @@ def change_to_product_view(main_window):
 
     refresh_table(main_window, entities)
 
-    main_window.swPages.setCurrentIndex(1)
+    change_view(main_window.swPages, ViewPage.PRODUCTS)
 
 
 def change_to_product_entry_view(main_window):
@@ -86,12 +86,11 @@ def new(main_window):
     clear_entry_fields(main_window)
 
     toggle_buttons(
-        main_window.btnNewProductRate,
-        False,
-        main_window.btnEditProductRate,
-        False,
-        main_window.btnDeleteProductRate,
-        False,
+        [
+            (main_window.btnNewProductRate, False),
+            (main_window.btnEditProductRate, False),
+            (main_window.btnDeleteProductRate, False),
+        ]
     )
 
     change_to_product_entry_view(main_window)
@@ -109,15 +108,14 @@ def edit(main_window):
     refresh_product_rates_table(main_window)
 
     toggle_buttons(
-        main_window.btnNewProductRate,
-        True,
-        main_window.btnEditProductRate,
-        False,
-        main_window.btnDeleteProductRate,
-        False,
+        [
+            (main_window.btnNewProductRate, True),
+            (main_window.btnEditProductRate, False),
+            (main_window.btnDeleteProductRate, False),
+        ]
     )
 
-    change_to_product_entry_view()
+    change_to_product_entry_view(main_window)
 
 
 def delete(main_window):
