@@ -8,81 +8,98 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QHeaderView,
 )
+from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
-from app.gui.helpers import change_view, selected_row_id, int_conv, float_conv
+from app.gui.helpers import (
+    change_view,
+    selected_row_id,
+    int_conv,
+    float_conv,
+    toggle_buttons,
+)
 
 
-entities: list[VehicleCombination] = list()
+vehicle_combinations: dict[int, VehicleCombination] = None
+matches: dict[int, VehicleCombination] = None
 
 
-def change_to_vehiclecombinations_view(main_window):
+def change_to_vehiclecombinations_view(main_window: Ui_MainWindow):
 
-    global entities
-    entities = VehicleCombination.get()
+    global vehicle_combinations
+    vehicle_combinations = VehicleCombination.get()
 
-    refresh_table(main_window, entities)
+    refresh_table(main_window)
 
     change_view(main_window.swPages, ViewPage.VEHICLE_COMBINATIONS)
 
 
-def search(main_window, search_text):
+def search(main_window: Ui_MainWindow, search_text: str):
 
-    global entities
-    matching_products = list(filter(lambda e: search_text in e.name.lower(), entities))
+    global vehicle_combinations
+    matches = (
+        vehicle_combinations
+        if not search_text
+        else {
+            vc.id: vc
+            for vc in vehicle_combinations.values()
+            if vc.name.lower() == search_text
+        }
+    )
 
-    refresh_table(main_window, matching_products)
+    refresh_table(main_window)
 
 
-def on_row_select(main_window):
+def on_row_select(main_window: Ui_MainWindow):
+
+    selected_id: int = selected_row_id(main_window.tblVehicleCombinations)
+
+    toggle_buttons(
+        [
+            (main_window.btnNewVehicleCombination, True),
+            (main_window.btnEditVehicleCombination, selected_id is not None),
+            (main_window.btnDeleteVehicleCombination, selected_id is not None),
+        ]
+    )
+
+
+def refresh_table(main_window: Ui_MainWindow):
+
+    tbl_headers = ["ID", "Name", "Average Net", "Charge Type"]
 
     tbl: QTableWidget = main_window.tblVehicleCombinations
+    tbl.setRowCount(len(matches.values()))
+    tbl.setColumnCount(len(tbl_headers))
+    tbl.setHorizontalHeaderLabels(tbl_headers)
 
-    selected_id = selected_row_id(tbl)
+    for index, vehicle_combination in enumerate(matches.values()):
+        tbl.setItem(index, 0, QTableWidgetItem(str(vehicle_combination.id)))
+        tbl.setItem(index, 1, QTableWidgetItem(vehicle_combination.name))
+        tbl.setItem(index, 2, QTableWidgetItem(str(vehicle_combination.net)))
+        tbl.setItem(index, 3, QTableWidgetItem(vehicle_combination.charge_type))
 
-    edit_button: QPushButton = main_window.btnEditVehicleCombination
-    delete_button: QPushButton = main_window.btnDeleteVehicleCombination
+    header: QHeaderView = tbl.horizontalHeader()
+    for i in range(len(tbl_headers)):
+        header.setSectionResizeMode(
+            i,
+            QHeaderView.ResizeMode.ResizeToContents
+            if i < len(tbl_headers) - 1
+            else QHeaderView.ResizeMode.Stretch,
+        )
 
-    if selected_id:
-        edit_button.setVisible(True)
-        delete_button.setVisible(True)
-    else:
-        edit_button.setVisible(False)
-        delete_button.setVisible(False)
-
-
-def refresh_table(main_window, fetched_entities: list[VehicleCombination] = None):
-
-    fetched_entities = fetched_entities or entities
-
-    tbl: QTableWidget = main_window.tblVehicleCombinations
-
-    headers = ["ID", "Name", "Average Net", "Charge Type"]
-    header = tbl.horizontalHeader()
-
-    tbl.setRowCount(len(fetched_entities))
-    tbl.setColumnCount(len(headers))
-    tbl.setHorizontalHeaderLabels(headers)
-
-    for index, entity in enumerate(fetched_entities):
-        tbl.setItem(index, 0, QTableWidgetItem(str(entity.id)))
-        tbl.setItem(index, 1, QTableWidgetItem(entity.name))
-        tbl.setItem(index, 2, QTableWidgetItem(str(entity.net)))
-        tbl.setItem(index, 3, QTableWidgetItem(entity.charge_type))
-
-    header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
-
-    on_row_select(main_window)
+    toggle_buttons(
+        [
+            (main_window.btnNewVehicleCombination, True),
+            (main_window.btnEditVehicleCombination, False),
+            (main_window.btnDeleteVehicleCombination, False),
+        ]
+    )
 
 
-def clear_entry_fields(main_window):
+def clear_entry_fields(main_window: Ui_MainWindow):
 
     main_window.lblVehicleCombinationId.clear()
     main_window.txtVehicleCombination_Name.clear()
     main_window.txtVehicleCombination_Net.clear()
-    main_window.tblProductRates.setRowCount(0)
 
     cmb: QComboBox = main_window.cmbVehicleCombination_ChargeType
     cmb.clear()
@@ -91,77 +108,92 @@ def clear_entry_fields(main_window):
     cmb.setCurrentIndex(0)
 
 
-def new(main_window):
+def new(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
     change_view(main_window.swPages, ViewPage.VEHICLE_COMBINATION_ENTRY)
 
 
-def edit(main_window):
+def edit(main_window: Ui_MainWindow):
 
     selected_id = selected_row_id(main_window.tblVehicleCombinations)
 
-    entity = list(filter(lambda e: e.id == selected_id, entities))[0]
+    vehicle_combination: VehicleCombination = vehicle_combinations[selected_id]
 
     clear_entry_fields(main_window)
 
-    main_window.lblVehicleCombinationId.setText(str(entity.id))
-    main_window.txtVehicleCombination_Name.setText(entity.name)
-    main_window.txtVehicleCombination_Net.setText(str(entity.net))
+    main_window.lblVehicleCombinationId.setText(str(vehicle_combination.id))
+    main_window.txtVehicleCombination_Name.setText(vehicle_combination.name)
+    main_window.txtVehicleCombination_Net.setText(str(vehicle_combination.net))
 
     change_view(main_window.swPages, ViewPage.VEHICLE_COMBINATION_ENTRY)
 
 
-def delete(main_window):
+def delete(main_window: Ui_MainWindow):
 
     selected_id = selected_row_id(main_window.tblVehicleCombinations)
 
-    entity = list(filter(lambda e: e.id == selected_id, entities))[0]
-    entity.delete()
-    entities.remove(entity)
+    vehicle_combination: VehicleCombination = vehicle_combinations[selected_id]
+
+    vehicle_combination.delete()
+
+    del vehicle_combinations[vehicle_combination.id]
 
     refresh_table(main_window)
 
 
-def save(main_window):
+def save(main_window: Ui_MainWindow):
 
     if form_is_valid(main_window):
 
-        id: int = int_conv(main_window.lblVehicleCombinationId.text())
-        name: str = main_window.txtVehicleCombination_Name.text()
-        net: float = float_conv(main_window.txtVehicleCombination_Net.text())
-        charge_type: str = main_window.cmbVehicleCombination_ChargeType.currentText()
+        vehicle_combination_name: str = main_window.txtVehicleCombination_Name.text()
+        vehicle_combination_id: int = int_conv(
+            main_window.lblVehicleCombinationId.text()
+        )
+        vehicle_combination_net: float = float_conv(
+            main_window.txtVehicleCombination_Net.text()
+        )
+        vehicle_combination_charge_type: str = (
+            main_window.cmbVehicleCombination_ChargeType.currentText()
+        )
 
-        vc = VehicleCombination(id, name, net, charge_type)
+        vehicle_combination = VehicleCombination(
+            vehicle_combination_id,
+            vehicle_combination_name,
+            vehicle_combination_net,
+            vehicle_combination_charge_type,
+        )
 
-        vc.update() if id else vc.insert()
+        vehicle_combination.update() if vehicle_combination_id else vehicle_combination.insert()
 
         change_to_vehiclecombinations_view(main_window)
 
         clear_entry_fields(main_window)
 
 
-def form_is_valid(main_window):
+def form_is_valid(main_window: Ui_MainWindow):
 
     result = True
     error_string = str()
 
-    id: int = int_conv(main_window.lblVehicleCombinationId.text())
-    name: str = main_window.txtVehicleCombination_Name.text()
+    vehicle_combination_id: int = int_conv(main_window.lblVehicleCombinationId.text())
+    vehicle_combination_name: str = main_window.txtVehicleCombination_Name.text()
 
-    if not name:
+    if not vehicle_combination_name:
         result = False
         error_string += "\n- Name field cannot be blank."
 
     else:
-        entities_with_same_name = list(
-            filter(lambda e: e.name == name and e.id != id, entities)
-        )
+        entities_with_same_name = [
+            vc
+            for vc in vehicle_combinations.values()
+            if vc.name == vehicle_combination_name and vc.id != vehicle_combination_id
+        ]
 
         if len(entities_with_same_name) > 0:
             result = False
-            error_string += f"\n- {name} already exists."
+            error_string += f"\n- {vehicle_combination_name} already exists."
 
     if result == False:
         messagebox.showerror("Save Error", error_string)
@@ -169,7 +201,7 @@ def form_is_valid(main_window):
     return result
 
 
-def connect(main_window):
+def connect(main_window: Ui_MainWindow):
 
     main_window.actionVehicle_Combinations.triggered.connect(
         lambda: change_to_vehiclecombinations_view(main_window)

@@ -39,15 +39,13 @@ def refresh_table(main_window: Ui_MainWindow):
         "Kilometres",
     ]
 
-    records: dict[int, Quote] = matches
-
     tbl: QTableWidget = main_window.tblQuotes
     tbl.clear()
     tbl.setColumnCount(len(tbl_headers))
-    tbl.setRowCount(len(records))
+    tbl.setRowCount(len(matches.values()))
     tbl.setHorizontalHeaderLabels(tbl_headers)
 
-    for index, quote in enumerate(records.values()):
+    for index, quote in enumerate(matches.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(quote.id)))
         tbl.setItem(
             index,
@@ -66,14 +64,13 @@ def refresh_table(main_window: Ui_MainWindow):
         tbl.setItem(index, 7, QTableWidgetItem(str(quote.kilometres)))
 
     header: QHeaderView = tbl.horizontalHeader()
-    header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(6, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)
+    for i in range(len(tbl_headers)):
+        header.setSectionResizeMode(
+            i,
+            QHeaderView.ResizeMode.ResizeToContents
+            if i < len(tbl_headers) - 1
+            else QHeaderView.ResizeMode.Stretch,
+        )
 
 
 def on_row_select(main_window: Ui_MainWindow):
@@ -93,7 +90,7 @@ def on_row_select(main_window: Ui_MainWindow):
 def navigate_to_listing_view(main_window: Ui_MainWindow):
 
     global quotes, matches
-    quotes = {q.id: q for q in Quote.get()}
+    quotes = Quote.get()
     matches = quotes
 
     refresh_table(main_window)
@@ -192,11 +189,11 @@ def delete(main_window: Ui_MainWindow):
 
     # Fetch the Quote object to be deleted.
     quote_id: int = selected_row_id(main_window.tblQuotes)
-    quote: Quote = quotes[quote_id]
 
-    # Delete the Quote object from SQL database,
-    # + remove from global dictionary (avoids a second call to database).
-    quote.delete()
+    # Delete the Quote object from SQL database
+    quotes[quote_id].delete()
+
+    # Remove from global dictionary (avoids a second call to database).
     del quotes[quote_id]
 
     # Refresh the table with the new dictionary.
@@ -251,7 +248,7 @@ def save(main_window: Ui_MainWindow):
         return
 
     # Read GUI fields to variables for readability.
-    quote_id = int_conv(main_window.lblQuoteId.text())
+    quote_id: int = int_conv(main_window.lblQuoteId.text())
     quote_name: str = main_window.txtQuote_Name.text().strip()
     quote_address: str = main_window.txtQuote_Address.text().strip()
     quote_suburb: str = main_window.txtQuote_Suburb.text().strip()
@@ -267,7 +264,7 @@ def save(main_window: Ui_MainWindow):
     )
 
     # Instantiate Quote object to be saved.
-    q = Quote(
+    quote = Quote(
         quote_id,
         quote_date_created,
         quote_date_required,
@@ -279,13 +276,12 @@ def save(main_window: Ui_MainWindow):
     )
 
     # Save the Quote object.
-    q.update() if quote_id else q.insert()
+    quote.update() if quote_id else quote.insert()
 
     # Set the GUI id field to display the saved Quote object id.
-    main_window.lblQuoteId.setText(str(q.id))
+    main_window.lblQuoteId.setText(str(quote.id))
 
     # Update all children QuoteItem objects to use the most updated kilometres for their transport_rate_ex_gst.
-
     with SQLCursor() as cur:
         quote_item_tuples = cur.execute(
             """
@@ -294,12 +290,12 @@ def save(main_window: Ui_MainWindow):
         LEFT JOIN vehicle_combination vc ON qi.vehicle_combination_name = vc.name
         WHERE qi.quote_id = ?
         """,
-            (q.id,),
+            (quote.id,),
         ).fetchall()
 
         for t in quote_item_tuples:
 
-            transport_rate_ex_gst = get_transport_rate_ex_gst(q.kilometres, t[1])
+            transport_rate_ex_gst = get_transport_rate_ex_gst(quote.kilometres, t[1])
 
             cur.execute(
                 """
@@ -313,44 +309,33 @@ def save(main_window: Ui_MainWindow):
                 ),
             )
 
-    refresh_quote_items_table(main_window, q.id)
+    refresh_quote_items_table(main_window, quote.id)
 
     # Show all QuoteItem action buttons.
     toggle_buttons(
         [
             (main_window.btnNewQuoteItem, True),
-            (main_window.btnEditQuoteItem, True),
-            (main_window.btnDeleteQuoteItem, True),
+            (main_window.btnEditQuoteItem, False),
+            (main_window.btnDeleteQuoteItem, False),
             (main_window.btnExportQuote_Entry, True),
         ]
     )
 
 
-def search(main_window: Ui_MainWindow):
+def search(main_window: Ui_MainWindow, search_text: str):
 
-    # Read user search input from GUI.
-    # Input is lowercased as search will not be case sensitive.
-    search_text = main_window.txtQuoteSearch.text().lower()
-
-    if search_text:
-
-        # Find all quotes where either the lowercased name, address or suburb match the user input.
-        global matches
-        matches = {
+    global matches
+    matches = (
+        quotes
+        if not search_text
+        else {
             q.id: q
-            for q in list(
-                filter(
-                    lambda q: search_text
-                    in "".join([q.name.lower(), q.address.lower(), q.suburb.lower()]),
-                    quotes.values(),
-                )
-            )
+            for q in quotes.values()
+            if search_text
+            in "".join([q.name.lower(), q.address.lower(), q.suburb.lower()])
         }
+    )
 
-    else:
-        matches = quotes
-
-    # Refresh the table with matches.
     refresh_table(main_window)
 
 
@@ -362,7 +347,9 @@ def connect(main_window: Ui_MainWindow):
     main_window.btnEditQuote.clicked.connect(lambda: edit(main_window))
     main_window.btnDeleteQuote.clicked.connect(lambda: delete(main_window))
     main_window.btnSaveQuote.clicked.connect(lambda: save(main_window))
-    main_window.txtQuoteSearch.textChanged.connect(lambda: search(main_window))
+    main_window.txtQuoteSearch.textChanged.connect(
+        lambda: search(main_window, main_window.txtQuoteSearch.text().lower())
+    )
     main_window.actionQuotes.triggered.connect(
         lambda: navigate_to_listing_view(main_window)
     )

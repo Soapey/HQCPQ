@@ -1,87 +1,96 @@
 from tkinter import messagebox
 from app.classes.Product import Product
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QPushButton
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
-from app.gui.helpers import change_view, selected_row_id, toggle_buttons
+from app.gui.helpers import change_view, selected_row_id, toggle_buttons, int_conv
 from app.gui.actions.productrate_actions import (
     refresh_table as refresh_product_rates_table,
-    on_row_select as on_product_rate_row_select,
     fetch_global_entities as fetch_productrate_global_entities,
 )
 
 
-entities: list[Product] = list()
+products: dict[int, Product] = None
+matches: dict[int, Product] = None
 
 
-def change_to_product_view(main_window):
+def navigate_to_listing_view(main_window: Ui_MainWindow):
 
-    global entities
-    entities = Product.get()
+    global products, matches
+    products = Product.get()
+    matches = products
 
-    refresh_table(main_window, entities)
+    refresh_table(main_window)
 
     change_view(main_window.swPages, ViewPage.PRODUCTS)
 
 
-def change_to_product_entry_view(main_window):
+def search(main_window: Ui_MainWindow, search_text: str):
 
-    fetch_productrate_global_entities()
+    global matches
+    matches = (
+        products
+        if not search_text
+        else {p.id: p for p in products.values() if p.name.lower() == search_text}
+    )
 
-    change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
-
-
-def search(main_window, search_text):
-
-    global entities
-    matching_products = list(filter(lambda e: search_text in e.name.lower(), entities))
-
-    refresh_table(main_window, matching_products)
+    refresh_table(main_window, matches)
 
 
-def on_row_select(main_window):
+def on_row_select(main_window: Ui_MainWindow):
 
-    tbl: QTableWidget = main_window.tblProducts
+    selected_id = selected_row_id(main_window.tblProducts)
 
-    selected_id = selected_row_id(tbl)
-
-    edit_button: QPushButton = main_window.btnEditProduct
-    delete_button: QPushButton = main_window.btnDeleteProduct
-
-    if selected_id:
-        edit_button.setVisible(True)
-        delete_button.setVisible(True)
-    else:
-        edit_button.setVisible(False)
-        delete_button.setVisible(False)
+    toggle_buttons(
+        [
+            (main_window.btnNewProduct, True),
+            (main_window.btnEditProduct, selected_id is not None),
+            (main_window.btnDeleteProduct, selected_id is not None),
+        ]
+    )
 
 
-def refresh_table(main_window, fetched_entities: list[Product] = None):
+def refresh_table(main_window: Ui_MainWindow):
 
-    fetched_entities = fetched_entities or entities
+    tbl_headers = ["ID", "Name"]
 
     tbl: QTableWidget = main_window.tblProducts
+    tbl.setRowCount(len(matches.values()))
+    tbl.setColumnCount(len(tbl_headers))
+    tbl.setHorizontalHeaderLabels(tbl_headers)
 
-    headers = ["ID", "Name"]
+    for index, product in enumerate(matches.values()):
+        tbl.setItem(index, 0, QTableWidgetItem(str(product.id)))
+        tbl.setItem(index, 1, QTableWidgetItem(product.name))
 
-    tbl.setRowCount(len(fetched_entities))
-    tbl.setColumnCount(len(headers))
-    tbl.setHorizontalHeaderLabels(headers)
+    header: QHeaderView = tbl.horizontalHeader()
+    for i in range(len(tbl_headers)):
+        header.setSectionResizeMode(
+            i,
+            QHeaderView.ResizeMode.ResizeToContents
+            if i < len(tbl_headers) - 1
+            else QHeaderView.ResizeMode.Stretch,
+        )
 
-    for index, entity in enumerate(fetched_entities):
-        tbl.setItem(index, 0, QTableWidgetItem(str(entity.id)))
-        tbl.setItem(index, 1, QTableWidgetItem(entity.name))
+    toggle_buttons(
+        [
+            (main_window.btnNewProduct, True),
+            (main_window.btnEditProduct, False),
+            (main_window.btnDeleteProduct, False),
+        ]
+    )
 
-    on_row_select(main_window)
 
-
-def clear_entry_fields(main_window):
+def clear_entry_fields(main_window: Ui_MainWindow):
 
     main_window.lblProductId.clear()
     main_window.txtProductName.clear()
     main_window.tblProductRates.setRowCount(0)
 
 
-def new(main_window):
+def new(main_window: Ui_MainWindow):
+
+    fetch_productrate_global_entities()
 
     clear_entry_fields(main_window)
 
@@ -93,17 +102,17 @@ def new(main_window):
         ]
     )
 
-    change_to_product_entry_view(main_window)
+    change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
 
 
-def edit(main_window):
+def edit(main_window: Ui_MainWindow):
 
-    selected_id = selected_row_id(main_window.tblProducts)
+    fetch_productrate_global_entities()
 
-    entity = list(filter(lambda e: e.id == selected_id, entities))[0]
+    product: Product = products[selected_row_id(main_window.tblProducts)]
 
-    main_window.lblProductId.setText(str(entity.id))
-    main_window.txtProductName.setText(entity.name)
+    main_window.lblProductId.setText(str(product.id))
+    main_window.txtProductName.setText(product.name)
 
     refresh_product_rates_table(main_window)
 
@@ -115,58 +124,57 @@ def edit(main_window):
         ]
     )
 
-    change_to_product_entry_view(main_window)
+    change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
 
 
-def delete(main_window):
+def delete(main_window: Ui_MainWindow):
 
-    selected_id = selected_row_id(main_window.tblProducts)
+    product: Product = products[selected_row_id(main_window.tblProducts)]
 
-    entity = list(filter(lambda e: e.id == selected_id, entities))[0]
-    entity.delete()
-    entities.remove(entity)
+    product.delete()
+
+    del products[product.id]
 
     refresh_table(main_window)
 
 
-def save(main_window):
+def save(main_window: Ui_MainWindow):
 
     if form_is_valid(main_window):
 
-        id_label_text = main_window.lblProductId.text()
+        product_id: int = int_conv(main_window.lblProductId.text())
+        product_name: str = main_window.txtProductName.text()
 
-        p: Product = None
-        if len(id_label_text) > 0:
-            p = Product(int(id_label_text), main_window.txtProductName.text())
-            p.update()
-        else:
-            p = Product(None, main_window.txtProductName.text())
-            p.insert()
+        product: Product = Product(product_id, product_name)
 
-        main_window.lblProductId.setText(str(p.id))
+        product.update() if product_id else product.insert()
 
-        on_product_rate_row_select(main_window)
+        main_window.lblProductId.setText(str(product.id))
+
+        toggle_buttons(
+            [
+                (main_window.btnNewProductRate, True),
+                (main_window.btnEditProductRate, False),
+                (main_window.btnDeleteProductRate, False),
+            ]
+        )
 
 
-def form_is_valid(main_window):
+def form_is_valid(main_window: Ui_MainWindow):
 
     result = True
     error_string = str()
 
-    entity_id: int = 0
+    entity_id: int = int_conv(main_window.lblProductId.text())
     entity_name = main_window.txtProductName.text()
-    id_label_text = main_window.lblProductId.text()
-
-    if len(id_label_text) > 0:
-        entity_id = int(id_label_text)
 
     if len(entity_name) == 0:
         result = False
         error_string += "\n- Name field cannot be blank."
     else:
-        products_with_same_name = list(
-            filter(lambda e: e.name == entity_name and e.id != entity_id, entities)
-        )
+        products_with_same_name = [
+            p for p in products.values() if p.name == entity_name and p.id != entity_id
+        ]
 
         if len(products_with_same_name) > 0:
             result = False
@@ -178,10 +186,10 @@ def form_is_valid(main_window):
     return result
 
 
-def connect(main_window):
+def connect(main_window: Ui_MainWindow):
 
     main_window.actionProducts.triggered.connect(
-        lambda: change_to_product_view(main_window)
+        lambda: navigate_to_listing_view(main_window)
     )
     main_window.tblProducts.selectionModel().selectionChanged.connect(
         lambda: on_row_select(main_window)

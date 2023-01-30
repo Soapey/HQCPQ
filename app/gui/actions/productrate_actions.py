@@ -1,5 +1,6 @@
 from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
+from app.classes.Product import Product
 from app.classes.ProductRate import ProductRate
 from app.classes.RateType import RateType
 from app.db.SQLCursor import SQLCursor
@@ -16,76 +17,61 @@ from app.gui.helpers import (
 
 
 # Global entities
-entities: list[ProductRate] = list()
-rate_types: list[RateType] = list()
-records: list[tuple] = list()
+products: dict[int, Product] = None
+product_rates: dict[int, ProductRate] = None
+rate_types: dict[int, RateType] = None
+records: list[tuple] = None
 
 
 def fetch_global_entities():
 
-    entities = ProductRate.get()
+    global products, product_rates, rate_types
+    products = Product.get()
+    product_rates = ProductRate.get()
     rate_types = sorted(RateType.get(), key=lambda rt: rt.name)
 
 
 def on_row_select(main_window: Ui_MainWindow):
-    """
-    Determines what action buttons (New, Edit, Delete) are shown depending if there is a selected row or not.
-    Called each time a row is selected.
-    """
 
-    tbl: QTableWidget = main_window.tblProductRates
+    selected_id: int = selected_row_id(main_window.tblProductRates)
 
-    selected_id: int = selected_row_id(tbl)
-
-    if selected_id:
-        toggle_buttons(
-            [
-                (main_window.btnNewProductRate, True),
-                (main_window.btnEditProductRate, True),
-                (main_window.btnDeleteProductRate, True),
-            ]
-        )
-    else:
-        toggle_buttons(
-            [
-                (main_window.btnNewProductRate, True),
-                (main_window.btnEditProductRate, False),
-                (main_window.btnDeleteProductRate, False),
-            ]
-        )
+    toggle_buttons(
+        [
+            (main_window.btnNewProductRate, True),
+            (main_window.btnEditProductRate, selected_id is not None),
+            (main_window.btnDeleteProductRate, selected_id is not None),
+        ]
+    )
 
 
 def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
-    """
-    Refreshes the table of saved entities.
-    Makes SQL request for entities, clears the table, loops through the returned entities and inserts each table cell data into correct position.
-    """
 
-    product_rates_tbl: QTableWidget = main_window.tblProductRates
+    tbl: QTableWidget = main_window.tblProductRates
 
     selected_product_id: int = selected_id or selected_row_id(main_window.tblProducts)
 
+    global records
     with SQLCursor() as cur:
 
-        global records
         records = cur.execute(
             """
             SELECT pr.id, rt.name, pr.rate
             FROM product_rate pr
             LEFT JOIN rate_type rt ON pr.rate_type_id = rt.id
-            WHERE pr.product_id = ?""",
+            WHERE pr.product_id = ?;
+            """,
             (selected_product_id,),
         ).fetchall()
 
-    headers: list[str] = ["ID", "Type", "Rate"]
-    product_rates_tbl.setRowCount(len(records))
-    product_rates_tbl.setColumnCount(len(headers))
-    product_rates_tbl.setHorizontalHeaderLabels(headers)
+    tbl_headers: list[str] = ["ID", "Type", "Rate"]
+    tbl.setRowCount(len(records))
+    tbl.setColumnCount(len(tbl_headers))
+    tbl.setHorizontalHeaderLabels(tbl_headers)
 
     for index, record in enumerate(records):
-        product_rates_tbl.setItem(index, 0, QTableWidgetItem(str(record[0])))
-        product_rates_tbl.setItem(index, 1, QTableWidgetItem(record[1]))
-        product_rates_tbl.setItem(index, 2, QTableWidgetItem(str(record[2])))
+        tbl.setItem(index, 0, QTableWidgetItem(str(record[0])))
+        tbl.setItem(index, 1, QTableWidgetItem(record[1]))
+        tbl.setItem(index, 2, QTableWidgetItem(str(record[2])))
 
     toggle_buttons(
         [
@@ -96,128 +82,120 @@ def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
     )
 
 
-def reset_entry_page(main_window: Ui_MainWindow, is_new: bool):
-    """ """
+def clear_entry_fields(main_window: Ui_MainWindow):
 
     # Fetch all RateTypes from SQLite database.
     global rate_types
     rate_types = RateType.get()
 
     # Create list of RateType name options for the gui combobox.
-    selectable_rate_type_names: list[str] = list()
-    if is_new:
-        existing_ratetype_names = [r[1] for r in records]
-        selectable_rate_type_names = [
-            rt.name for rt in rate_types if rt.name not in existing_ratetype_names
-        ]
-    else:
-        selectable_rate_type_names = [rt.name for rt in rate_types]
+    existing_ratetype_names: list[str] = [r[1] for r in records]
+    selectable_rate_type_names = [
+        rt.name for rt in rate_types if rt.name not in existing_ratetype_names
+    ]
 
     # Clear the gui combobox and fill with RateType name options.
     productrate_ratetype_combobox: QComboBox = main_window.cmbProductRate_RateType
     productrate_ratetype_combobox.clear()
-    for rate_type_name in selectable_rate_type_names:
-        productrate_ratetype_combobox.addItem(rate_type_name)
+    productrate_ratetype_combobox.addItems(selectable_rate_type_names)
 
     # Clear the Rate field textbox.
     main_window.txtProductRate_Rate.clear()
 
 
-def new(main_window):
+def new(main_window: Ui_MainWindow):
 
-    reset_entry_page(main_window, is_new=True)
+    clear_entry_fields(main_window)
 
     change_view(main_window.swPages, ViewPage.PRODUCT_RATE_ENTRY)
 
 
 def edit(main_window: Ui_MainWindow):
 
-    # Find the entity to be edited by id
     selected_id: int = selected_row_id(main_window.tblProductRates)
 
-    entity = list(filter(lambda r: r[0] == selected_id, records))[0]
+    record = next([r for r in records if r[0] == selected_id])
 
-    reset_entry_page(main_window, is_new=False)
+    clear_entry_fields(main_window)
 
-    main_window.lblProductRateId.setText(str(entity[0]))
-
-    main_window.cmbProductRate_RateType.setCurrentText(entity[1])
-
-    main_window.txtProductRate_Rate.setText(str(entity[2]))
+    main_window.lblProductRateId.setText(str(record[0]))
+    main_window.cmbProductRate_RateType.addItem(record[1])
+    main_window.cmbProductRate_RateType.setCurrentText(record[1])
+    main_window.txtProductRate_Rate.setText(str(record[2]))
 
     change_view(main_window.swPages, ViewPage.PRODUCT_RATE_ENTRY)
 
 
 def delete(main_window: Ui_MainWindow):
 
-    selected_id: int = selected_row_id(main_window.tblProductRates)
+    product_rate: ProductRate = product_rates[
+        selected_row_id(main_window.tblProductRates)
+    ]
 
-    entity = list(filter(lambda e: e.id == selected_id, entities))[0]
+    product_rate.delete()
 
-    entity.delete()
+    del product_rates[product_rate.id]
 
-    refresh_table(main_window)
+    refresh_table(main_window, product_rate.product_id)
 
 
 def save(main_window: Ui_MainWindow):
 
     if form_is_valid(main_window):
 
-        id: int = int_conv(main_window.lblProductRateId.text())
-        product_id: int = int(main_window.lblProductId.text())
-        rate_type: RateType = list(
-            filter(
-                lambda rt: rt.name == main_window.cmbProductRate_RateType.currentText(),
-                rate_types,
-            )
-        )[0]
-        rate_type_id: int = rate_type.id
-        rate: float = float(main_window.txtProductRate_Rate.text())
+        selected_rate_type_name: str = main_window.cmbProductRate_RateType.currentText()
 
-        pr = ProductRate(id, product_id, rate_type_id, rate)
+        product_rate_id: int = int_conv(main_window.lblProductRateId.text())
+        product_id: int = int_conv(main_window.lblProductId.text())
+        rate_type: RateType = next(
+            [rt for rt in rate_types if rt.name == selected_rate_type_name]
+        )
+        rate: float = float_conv(main_window.txtProductRate_Rate.text())
 
-        pr.update() if id else pr.insert()
+        product_rate = ProductRate(product_rate_id, product_id, rate_type.id, rate)
+
+        product_rate.update() if product_rate_id else product_rate.insert()
 
         refresh_table(main_window, product_id)
 
         change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
 
+        clear_entry_fields(main_window)
 
-def form_is_valid(main_window):
+
+def form_is_valid(main_window: Ui_MainWindow):
 
     result: bool = True
     error_string: str = str()
 
-    id: int = int_conv(main_window.lblProductRateId.text())
-    rate: float = float_conv(main_window.txtProductRate_Rate.text())
+    product_rate_id: int = int_conv(main_window.lblProductRateId.text())
+    product_rate_rate: float = float_conv(main_window.txtProductRate_Rate.text())
 
-    if not rate:
+    if not product_rate_rate:
         result = False
         error_string += "\n- Rate field cannot be blank."
 
     else:
 
+        selected_rate_type_name: str = main_window.cmbProductRate_RateType.currentText()
+
         product_id: int = int(main_window.lblProductId.text())
-        rate_type: RateType = list(
-            filter(
-                lambda rt: rt.name == main_window.cmbProductRate_RateType.currentText(),
-                rate_types,
-            )
-        )[0]
-        existing_product_rates = list(
-            filter(
-                lambda pr: pr.product_id == product_id
-                and pr.rate_type_id == rate_type.id
-                and pr.id != id,
-                entities,
-            )
+
+        rate_type: RateType = next(
+            [rt for rt in rate_types if rt.name == selected_rate_type_name]
         )
+
+        existing_product_rates = [
+            pr
+            for pr in product_rates
+            if pr.product_id == product_id
+            and pr.rate_type_id == rate_type.id
+            and pr.id != product_rate_id
+        ]
 
         if len(existing_product_rates) > 0:
             result = False
-            error_string += (
-                "\n- Product Rate with current Product and Rate Type already exists."
-            )
+            error_string += f"\n- {products[product_id].name} with a {rate_types[rate_type.id].name} rate already exists."
 
     if result is False:
         messagebox.showerror("Save Error", error_string)
@@ -225,7 +203,7 @@ def form_is_valid(main_window):
     return result
 
 
-def connect(main_window):
+def connect(main_window: Ui_MainWindow):
 
     # Connect all actions to lambda functions.
     main_window.tblProductRates.selectionModel().selectionChanged.connect(

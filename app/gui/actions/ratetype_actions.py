@@ -1,134 +1,139 @@
 from tkinter import messagebox
 from app.classes.RateType import RateType
 from app.gui.view_enum import ViewPage
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QPushButton
-from app.gui.helpers import change_view, selected_row_id
+from app.gui.components.main_window import Ui_MainWindow
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
+from app.gui.helpers import change_view, selected_row_id, toggle_buttons, int_conv
 
 
-entities: list[RateType] = list()
+rate_types: dict[int, RateType] = None
+matches: dict[int, RateType] = None
 
 
-def change_to_rate_type_view(main_window):
+def change_to_rate_type_view(main_window: Ui_MainWindow):
 
-    global entities
-    entities = RateType.get()
+    global rate_types, matches
+    rate_types = RateType.get()
+    matches = rate_types
 
-    refresh_table(main_window, entities)
+    refresh_table(main_window, rate_types)
 
     change_view(main_window.swPages, ViewPage.RATE_TYPES)
 
 
-def search(main_window, search_text):
+def search(main_window: Ui_MainWindow, search_text: str):
 
-    global entities
-    matching_products = list(filter(lambda e: search_text in e.name.lower(), entities))
+    global matches
+    matches = (
+        rate_types
+        if not search_text
+        else {rt.id: rt for rt in rate_types.values() if rt.name.lower() == search_text}
+    )
 
-    refresh_table(main_window, matching_products)
-
-
-def on_row_select(main_window):
-
-    tbl: QTableWidget = main_window.tblRateTypes
-
-    selected_id = selected_row_id(tbl)
-
-    edit_button: QPushButton = main_window.btnEditRateType
-    delete_button: QPushButton = main_window.btnDeleteRateType
-
-    if selected_id:
-        edit_button.setVisible(True)
-        delete_button.setVisible(True)
-    else:
-        edit_button.setVisible(False)
-        delete_button.setVisible(False)
+    refresh_table(main_window, matches)
 
 
-def refresh_table(main_window, fetched_entities: list[RateType] = None):
+def on_row_select(main_window: Ui_MainWindow):
 
-    tbl: QTableWidget = main_window.tblRateTypes
+    selected_id = selected_row_id(main_window.tblRateTypes)
+
+    toggle_buttons(
+        [
+            (main_window.btnNewRateType, True),
+            (main_window.btnNewRateType, selected_id is not None),
+            (main_window.btnNewRateType, selected_id is not None),
+        ]
+    )
+
+
+def refresh_table(main_window: Ui_MainWindow):
 
     headers = ["ID", "Name"]
-    tbl.setRowCount(len(fetched_entities))
+    tbl: QTableWidget = main_window.tblRateTypes
+    tbl.setRowCount(len(matches.values()))
     tbl.setColumnCount(len(headers))
     tbl.setHorizontalHeaderLabels(headers)
 
-    for index, entity in enumerate(fetched_entities):
-        tbl.setItem(index, 0, QTableWidgetItem(str(entity.id)))
-        tbl.setItem(index, 1, QTableWidgetItem(entity.name))
+    for index, rate_type in enumerate(matches.values()):
+        tbl.setItem(index, 0, QTableWidgetItem(str(rate_type.id)))
+        tbl.setItem(index, 1, QTableWidgetItem(rate_type.name))
 
-    on_row_select(main_window)
+    toggle_buttons(
+        [
+            (main_window.btnNewRateType, True),
+            (main_window.btnNewRateType, False),
+            (main_window.btnNewRateType, False),
+        ]
+    )
 
 
-def clear_entry_fields(main_window):
+def clear_entry_fields(main_window: Ui_MainWindow):
 
     main_window.lblRateTypeId.clear()
     main_window.txtRateType_Name.clear()
 
 
-def new(main_window):
+def new(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
     change_view(main_window.swPages, ViewPage.RATE_TYPE_ENTRY)
 
 
-def edit(main_window):
+def edit(main_window: Ui_MainWindow):
 
-    selected_id = selected_row_id(main_window.tblRateTypes)
+    rate_type: RateType = rate_types[selected_row_id(main_window.tblRateTypes)]
 
-    entity = list(filter(lambda e: e.id == selected_id, entities))[0]
-
-    main_window.lblRateTypeId.setText(str(entity.id))
-    main_window.txtRateType_Name.setText(entity.name)
+    main_window.lblRateTypeId.setText(str(rate_type.id))
+    main_window.txtRateType_Name.setText(rate_type.name)
 
     change_view(main_window.swPages, ViewPage.RATE_TYPE_ENTRY)
 
 
-def delete(main_window):
+def delete(main_window: Ui_MainWindow):
 
-    selected_id = selected_row_id(main_window.tblRateTypes)
+    rate_type: RateType = rate_types[selected_row_id(main_window.tblRateTypes)]
 
-    entity = list(filter(lambda e: e.id == selected_id, entities))[0]
-    entity.delete()
+    rate_type.delete()
+
+    del rate_types[rate_type.id]
 
     refresh_table(main_window)
 
 
-def save(main_window):
+def save(main_window: Ui_MainWindow):
 
     if form_is_valid(main_window):
 
-        id_label_text = main_window.lblRateTypeId.text()
+        rate_type_id: int = int_conv(main_window.lblRateTypeId.text())
+        rate_type_name: str = main_window.txtRateType_Name.text()
 
-        if len(id_label_text) > 0:
-            RateType(int(id_label_text), main_window.txtRateType_Name.text()).update()
-        else:
-            RateType(None, main_window.txtRateType_Name.text()).insert()
+        rate_type: RateType = RateType(rate_type_id, rate_type_name)
+
+        rate_type.update() if rate_type_id else rate_type.insert()
 
         change_to_rate_type_view(main_window)
 
         clear_entry_fields(main_window)
 
 
-def form_is_valid(main_window):
+def form_is_valid(main_window: Ui_MainWindow):
 
     result = True
     error_string = str()
 
-    entity_id: int = 0
-    entity_name = main_window.txtRateType_Name.text()
-    id_label_text = main_window.lblRateTypeId.text()
-
-    if len(id_label_text) > 0:
-        entity_id = int(id_label_text)
+    entity_id: int = int_conv(main_window.lblRateTypeId.text())
+    entity_name: str = main_window.txtRateType_Name.text()
 
     if len(entity_name) == 0:
         result = False
         error_string += "\n- Name field cannot be blank."
     else:
-        ratetypes_with_same_name = list(
-            filter(lambda e: e.name == entity_name and e.id != entity_id, entities)
-        )
+        ratetypes_with_same_name = [
+            rt
+            for rt in rate_types.values()
+            if rt.name == entity_name and rt.id != entity_id
+        ]
 
         if len(ratetypes_with_same_name) > 0:
             result = False
@@ -140,7 +145,7 @@ def form_is_valid(main_window):
     return result
 
 
-def connect(main_window):
+def connect(main_window: Ui_MainWindow):
 
     main_window.actionRate_Types.triggered.connect(
         lambda: change_to_rate_type_view(main_window)

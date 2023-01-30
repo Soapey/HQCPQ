@@ -68,14 +68,14 @@ class VehicleCombination:
             )
 
     @classmethod
-    def get(cls, id: int = None) -> list:
+    def get(cls, id: int = None) -> dict:
 
-        records = list()
+        records: list[tuple] = None
 
         with SQLCursor() as cur:
 
             if not cur:
-                return list()
+                return None
 
             if not id:
                 records = cur.execute(
@@ -83,6 +83,7 @@ class VehicleCombination:
                     SELECT id, name, net, charge_type 
                     FROM vehicle_combination;"""
                 ).fetchall()
+
             else:
                 records = cur.execute(
                     """
@@ -92,4 +93,4 @@ class VehicleCombination:
                     (id,),
                 ).fetchall()
 
-        return [VehicleCombination(*r) for r in records]
+        return {vc.id: vc for vc in [VehicleCombination(*r) for r in records]}

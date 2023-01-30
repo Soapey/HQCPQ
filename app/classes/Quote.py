@@ -27,17 +27,24 @@ class Quote:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
 
-    def items(self, all_quote_items: list[QuoteItem] = None) -> list[QuoteItem]:
-        """Returns all QuoteItem objects that belong to this Quote's id."""
+    def items(
+        self, all_quote_items: dict[int, QuoteItem] = None
+    ) -> dict[int, QuoteItem]:
 
         if all_quote_items:
-            return list(filter(lambda qi: qi.quote_id == self.id, all_quote_items))
+            return {
+                qi.id: qi for qi in all_quote_items.values() if qi.quote_id == self.id
+            }
 
         return QuoteItem.get_by_quote_id(self.id)
 
-    def total_inc_gst(self, all_quote_items: list[QuoteItem] = None) -> float:
+    def total_inc_gst(self, all_quote_items: dict[int, QuoteItem] = None) -> float:
 
-        items = self.items(all_quote_items)
+        quote_items: dict[int, QuoteItem] = None
+        if all_quote_items:
+            quote_items = self.items(all_quote_items)
+        else:
+            quote_items = self.items()
 
         return 1.1 * sum(
             [
@@ -45,7 +52,7 @@ class Quote:
                     (qi.transport_rate_ex_gst + qi.product_rate_ex_gst)
                     * qi.vehicle_combination_net
                 )
-                for qi in items
+                for qi in quote_items.values()
             ]
         )
 
@@ -109,14 +116,14 @@ class Quote:
             cur.execute("DELETE FROM quote WHERE id = ?;", (self.id,))
 
     @classmethod
-    def get(cls, id: int = None) -> list:
+    def get(cls, id: int = None) -> dict:
 
-        records = list()
+        records: list[tuple] = None
 
         with SQLCursor() as cur:
 
             if not cur:
-                return list()
+                return None
 
             if not id:
                 records = cur.execute(
@@ -124,6 +131,7 @@ class Quote:
                     SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres 
                     FROM quote;"""
                 ).fetchall()
+
             else:
                 records = cur.execute(
                     """
@@ -132,16 +140,19 @@ class Quote:
                     (id,),
                 ).fetchall()
 
-        return [
-            Quote(
-                r[0],
-                datetime.strptime(r[1], "%Y-%m-%d"),
-                datetime.strptime(r[2], "%Y-%m-%d"),
-                r[3],
-                r[4],
-                r[5],
-                r[6],
-                r[7],
-            )
-            for r in records
-        ]
+        return {
+            q.id: q
+            for q in [
+                Quote(
+                    r[0],
+                    datetime.strptime(r[1], "%Y-%m-%d"),
+                    datetime.strptime(r[2], "%Y-%m-%d"),
+                    r[3],
+                    r[4],
+                    r[5],
+                    r[6],
+                    r[7],
+                )
+                for r in records
+            ]
+        }
