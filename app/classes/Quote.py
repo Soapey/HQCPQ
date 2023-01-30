@@ -36,7 +36,7 @@ class Quote:
                 qi.id: qi for qi in all_quote_items.values() if qi.quote_id == self.id
             }
 
-        return QuoteItem.get_by_quote_id(self.id)
+        return QuoteItem.get(quote_id=self.id)
 
     def total_inc_gst(self, all_quote_items: dict[int, QuoteItem] = None) -> float:
 

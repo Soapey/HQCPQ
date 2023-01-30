@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt5.QtGui import QIntValidator
 from tkinter import messagebox
 from datetime import datetime
+from openpyxl import load_workbook, Workbook
 from app.gui.helpers import (
     toggle_buttons,
     change_view,
@@ -20,7 +21,7 @@ from app.gui.actions.quoteitem_actions import (
     calculate_quote_item_totals,
     fetch_global_entities as fetch_quote_item_globals,
 )
-
+from win32com import client
 
 quotes: dict[int, Quote] = dict()
 matches: dict[int, Quote] = dict()
@@ -339,9 +340,37 @@ def search(main_window: Ui_MainWindow, search_text: str):
     refresh_table(main_window)
 
 
+def export(main_window: Ui_MainWindow):
+
+    quote_id: int = selected_row_id(main_window.tblQuotes)
+    quote: Quote = quotes[quote_id]
+    quote_items = quote.items()
+
+    wkb = load_workbook(filename="app/quote_template.xlsx")
+    sheet = wkb["Sheet1"]
+    sheet["A9"] = quote.name
+    sheet["A10"] = quote.address
+    sheet["A11"] = quote.suburb
+    sheet["A12"] = quote.contact_number
+    sheet["D8"] = quote.id
+    sheet["D9"] = quote.date_created
+
+    for index, quote_item in enumerate(quote_items.values()):
+        sheet[f"A{20 + index}"] = quote_item.vehicle_combination_net
+        sheet[f"B{20 + index}"] = quote_item.product_name
+        sheet[f"C{20 + index}"] = quote_item.vehicle_combination_name
+        sheet[f"D{20 + index}"] = quote_item.total_inc_gst()
+
+    wkb.save("test.xlsx")
+
+    excel = client.Dispatch("Excel.Application")
+    sheets = excel.Workbooks.Open('test.xlsx')
+    work_sheets = sheets.Worksheets[0]
+    work_sheets.ExportAsFixedFormat(0, 'test.pdf')
+
 def connect(main_window: Ui_MainWindow):
 
-    # Export button
+    main_window.btnExportQuote.clicked.connect(lambda: export(main_window))
     # Export button entry
     main_window.btnNewQuote.clicked.connect(lambda: new(main_window))
     main_window.btnEditQuote.clicked.connect(lambda: edit(main_window))

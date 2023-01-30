@@ -45,9 +45,14 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
     fetch_global_entities()
 
     selected_quote_id: int = quote_id or selected_row_id(main_window.tblQuotes)
-    quotes_list = Quote.get(selected_quote_id).values()
+    quotes_list = list(Quote.get(selected_quote_id).values())
+
+    if not quotes_list:
+        return
+
     quote: Quote = quotes_list[0] if quotes_list else None
-    quote_items: dict[int, QuoteItem] = quote.items(quote_items)
+    global quote_items
+    items: dict[int, QuoteItem] = quote.items(quote_items)
 
     tbl_headers: list[str] = [
         "ID",
@@ -61,11 +66,11 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
 
     tbl: QTableWidget = main_window.tblQuoteItems
     tbl.clear()
-    tbl.setRowCount(len(quote_items.values()))
+    tbl.setRowCount(len(items.values()))
     tbl.setColumnCount(len(tbl_headers))
     tbl.setHorizontalHeaderLabels(tbl_headers)
 
-    for index, quote_item in enumerate(quote_items.values()):
+    for index, quote_item in enumerate(items.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(quote_item.id)))
         tbl.setItem(index, 1, QTableWidgetItem(quote_item.vehicle_combination_name))
         tbl.setItem(index, 2, QTableWidgetItem(str(quote_item.vehicle_combination_net)))
@@ -83,7 +88,7 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
         tbl.setItem(
             index,
             6,
-            QTableWidgetItem(quote_item.total_inc_gst()),
+            QTableWidgetItem("${:,.2f}".format(quote_item.total_inc_gst())),
         )
 
     header = tbl.horizontalHeader()
@@ -107,14 +112,15 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
 def calculate_quote_item_totals(main_window: Ui_MainWindow, quote_id: int = None):
 
     selected_id: int = quote_id or selected_row_id(main_window.tblQuotes)
-    quotes_list = Quote.get(selected_id).values()
+    quotes_list = list(Quote.get(selected_id).values())
     quote: Quote = quotes_list[0] if quotes_list else None
-    quote_items = quote.items(quote_items)
+    global quote_items
+    items = quote.items(quote_items)
 
     transport_total_ex_gst: float = 0
     product_total_ex_gst: float = 0
 
-    for quote_item in quote_items.values():
+    for quote_item in items.values():
         transport_total_ex_gst += (
             quote_item.transport_rate_ex_gst * quote_item.vehicle_combination_net
         )
@@ -140,6 +146,7 @@ def update_product_rate(main_window: Ui_MainWindow):
 
     product_name = main_window.cmbQuoteItem_Product.currentText()
     rate_type_name = main_window.cmbQuoteItem_ProductRate.currentText()
+
     product_rates_list = [
         pr
         for pr in product_rates.values()
@@ -148,7 +155,8 @@ def update_product_rate(main_window: Ui_MainWindow):
     ]
     product_rate: ProductRate = product_rates_list[0] if product_rates_list else None
 
-    main_window.txtQuoteItem_ProductRate.setText(str(product_rate.rate))
+    if product_rate:
+        main_window.txtQuoteItem_ProductRate.setText(str(product_rate.rate))
 
 
 def on_product_select(main_window: Ui_MainWindow):
@@ -194,7 +202,8 @@ def on_vehicle_combination_select(main_window: Ui_MainWindow):
         vehicle_combinations_list[0] if vehicle_combinations_list else None
     )
 
-    main_window.txtQuoteItem_Tonnes.setText(str(vehicle_combination.net))
+    if vehicle_combination:
+        main_window.txtQuoteItem_Tonnes.setText(str(vehicle_combination.net))
 
 
 def clear_entry_fields(main_window: Ui_MainWindow):
@@ -293,10 +302,10 @@ def save(main_window: Ui_MainWindow):
 
     if form_is_valid(main_window):
 
-        quotes_list = Quote.get(quote_id).values()
+        quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
+        quotes_list = list(Quote.get(quote_id).values())
         quote: Quote = quotes_list[0] if quotes_list else None
         quote_item_id: int = int_conv(main_window.lblQuoteItemId.text())
-        quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
         tonnes: float = float(main_window.txtQuoteItem_Tonnes.text())
         product_name: str = main_window.cmbQuoteItem_Product.currentText()
         charge_type_name: str = main_window.cmbQuoteItem_ProductRate.currentText()
