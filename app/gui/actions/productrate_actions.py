@@ -17,10 +17,10 @@ from app.gui.helpers import (
 
 
 # Global entities
-products: dict[int, Product] = None
-product_rates: dict[int, ProductRate] = None
-rate_types: dict[int, RateType] = None
-records: list[tuple] = None
+products: dict[int, Product] = dict()
+product_rates: dict[int, ProductRate] = dict()
+rate_types: dict[int, RateType] = dict()
+records: list[tuple] = dict()
 
 
 def fetch_global_entities():
@@ -28,7 +28,7 @@ def fetch_global_entities():
     global products, product_rates, rate_types
     products = Product.get()
     product_rates = ProductRate.get()
-    rate_types = sorted(RateType.get(), key=lambda rt: rt.name)
+    rate_types = RateType.get()
 
 
 def on_row_select(main_window: Ui_MainWindow):
@@ -64,6 +64,7 @@ def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
         ).fetchall()
 
     tbl_headers: list[str] = ["ID", "Type", "Rate"]
+    tbl.clear()
     tbl.setRowCount(len(records))
     tbl.setColumnCount(len(tbl_headers))
     tbl.setHorizontalHeaderLabels(tbl_headers)
@@ -88,10 +89,12 @@ def clear_entry_fields(main_window: Ui_MainWindow):
     global rate_types
     rate_types = RateType.get()
 
+    main_window.lblProductRateId.clear()
+
     # Create list of RateType name options for the gui combobox.
     existing_ratetype_names: list[str] = [r[1] for r in records]
     selectable_rate_type_names = [
-        rt.name for rt in rate_types if rt.name not in existing_ratetype_names
+        rt.name for rt in rate_types.values() if rt.name not in existing_ratetype_names
     ]
 
     # Clear the gui combobox and fill with RateType name options.
@@ -114,7 +117,8 @@ def edit(main_window: Ui_MainWindow):
 
     selected_id: int = selected_row_id(main_window.tblProductRates)
 
-    record = next([r for r in records if r[0] == selected_id])
+    record_list: list[tuple] = [r for r in records if r[0] == selected_id]
+    record = record_list[0] if record_list else None
 
     clear_entry_fields(main_window)
 
@@ -128,6 +132,8 @@ def edit(main_window: Ui_MainWindow):
 
 def delete(main_window: Ui_MainWindow):
 
+    global product_rates
+    
     product_rate: ProductRate = product_rates[
         selected_row_id(main_window.tblProductRates)
     ]
@@ -147,9 +153,10 @@ def save(main_window: Ui_MainWindow):
 
         product_rate_id: int = int_conv(main_window.lblProductRateId.text())
         product_id: int = int_conv(main_window.lblProductId.text())
-        rate_type: RateType = next(
-            [rt for rt in rate_types if rt.name == selected_rate_type_name]
-        )
+        rate_type_list: list[RateType] = [
+            rt for rt in rate_types.values() if rt.name == selected_rate_type_name
+        ]
+        rate_type: RateType = rate_type_list[0] if rate_type_list else None
         rate: float = float_conv(main_window.txtProductRate_Rate.text())
 
         product_rate = ProductRate(product_rate_id, product_id, rate_type.id, rate)
@@ -181,13 +188,14 @@ def form_is_valid(main_window: Ui_MainWindow):
 
         product_id: int = int(main_window.lblProductId.text())
 
-        rate_type: RateType = next(
-            [rt for rt in rate_types if rt.name == selected_rate_type_name]
-        )
+        rate_type_list: list[RateType] = [
+            rt for rt in rate_types.values() if rt.name == selected_rate_type_name
+        ]
+        rate_type: RateType = rate_type_list[0] if rate_type_list else None
 
         existing_product_rates = [
             pr
-            for pr in product_rates
+            for pr in product_rates.values()
             if pr.product_id == product_id
             and pr.rate_type_id == rate_type.id
             and pr.id != product_rate_id

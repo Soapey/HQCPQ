@@ -18,11 +18,11 @@ from app.gui.helpers import (
 )
 
 
-vehicle_combinations: dict[int, VehicleCombination] = None
-products: dict[int, Product] = None
-product_rates: dict[int, ProductRate] = None
-rate_types: dict[int, RateType] = None
-quote_items: dict[int, QuoteItem] = None
+vehicle_combinations: dict[int, VehicleCombination] = dict()
+products: dict[int, Product] = dict()
+product_rates: dict[int, ProductRate] = dict()
+rate_types: dict[int, RateType] = dict()
+quote_items: dict[int, QuoteItem] = dict()
 
 
 def fetch_global_entities():
@@ -45,7 +45,8 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
     fetch_global_entities()
 
     selected_quote_id: int = quote_id or selected_row_id(main_window.tblQuotes)
-    quote: Quote = next(Quote.get(selected_quote_id).values())
+    quotes_list = Quote.get(selected_quote_id).values()
+    quote: Quote = quotes_list[0] if quotes_list else None
     quote_items: dict[int, QuoteItem] = quote.items(quote_items)
 
     tbl_headers: list[str] = [
@@ -106,7 +107,8 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
 def calculate_quote_item_totals(main_window: Ui_MainWindow, quote_id: int = None):
 
     selected_id: int = quote_id or selected_row_id(main_window.tblQuotes)
-    quote: Quote = next(Quote.get(selected_id).values())
+    quotes_list = Quote.get(selected_id).values()
+    quote: Quote = quotes_list[0] if quotes_list else None
     quote_items = quote.items(quote_items)
 
     transport_total_ex_gst: float = 0
@@ -138,15 +140,13 @@ def update_product_rate(main_window: Ui_MainWindow):
 
     product_name = main_window.cmbQuoteItem_Product.currentText()
     rate_type_name = main_window.cmbQuoteItem_ProductRate.currentText()
-
-    product_rate: ProductRate = next(
-        [
-            pr
-            for pr in product_rates.values()
-            if products[pr.product_id].name == product_name
-            and rate_types[pr.rate_type_id].name == rate_type_name
-        ]
-    )
+    product_rates_list = [
+        pr
+        for pr in product_rates.values()
+        if products[pr.product_id].name == product_name
+        and rate_types[pr.rate_type_id].name == rate_type_name
+    ]
+    product_rate: ProductRate = product_rates_list[0] if product_rates_list else None
 
     main_window.txtQuoteItem_ProductRate.setText(str(product_rate.rate))
 
@@ -164,9 +164,8 @@ def on_product_select(main_window: Ui_MainWindow):
 
     selected_product_name: str = main_window.cmbQuoteItem_Product.currentText()
 
-    product: Product = next(
-        [p for p in products.values() if p.name == selected_product_name]
-    )
+    products_list = [p for p in products.values() if p.name == selected_product_name]
+    product: Product = products_list[0] if products_list else None
 
     match_product_rate_names = [
         rate_types[pr.rate_type_id].name
@@ -186,12 +185,13 @@ def on_vehicle_combination_select(main_window: Ui_MainWindow):
         main_window.cmbQuoteItem_VehicleCombination.currentText()
     )
 
-    vehicle_combination: VehicleCombination = next(
-        [
-            vc
-            for vc in vehicle_combinations.values()
-            if vc.name == selected_vehicle_combination_name
-        ]
+    vehicle_combinations_list = [
+        vc
+        for vc in vehicle_combinations.values()
+        if vc.name == selected_vehicle_combination_name
+    ]
+    vehicle_combination: VehicleCombination = (
+        vehicle_combinations_list[0] if vehicle_combinations_list else None
     )
 
     main_window.txtQuoteItem_Tonnes.setText(str(vehicle_combination.net))
@@ -293,7 +293,8 @@ def save(main_window: Ui_MainWindow):
 
     if form_is_valid(main_window):
 
-        quote: Quote = next(Quote.get(quote_id).values())
+        quotes_list = Quote.get(quote_id).values()
+        quote: Quote = quotes_list[0] if quotes_list else None
         quote_item_id: int = int_conv(main_window.lblQuoteItemId.text())
         quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
         tonnes: float = float(main_window.txtQuoteItem_Tonnes.text())
@@ -304,12 +305,13 @@ def save(main_window: Ui_MainWindow):
             main_window.cmbQuoteItem_VehicleCombination.currentText()
         )
 
-        vehicle_combination: VehicleCombination = next(
-            [
-                vc
-                for vc in vehicle_combinations.values()
-                if vc.name == selected_vehicle_combination_name
-            ]
+        vehicle_combinations_list = [
+            vc
+            for vc in vehicle_combinations.values()
+            if vc.name == selected_vehicle_combination_name
+        ]
+        vehicle_combination: VehicleCombination = (
+            vehicle_combinations_list[0] if vehicle_combinations_list else None
         )
 
         transport_rate_ex_gst: float = get_transport_rate_ex_gst(

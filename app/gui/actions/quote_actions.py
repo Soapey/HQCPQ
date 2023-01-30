@@ -22,8 +22,8 @@ from app.gui.actions.quoteitem_actions import (
 )
 
 
-quotes: dict[int, Quote] = None
-matches: dict[int, Quote] = None
+quotes: dict[int, Quote] = dict()
+matches: dict[int, Quote] = dict()
 
 
 def refresh_table(main_window: Ui_MainWindow):

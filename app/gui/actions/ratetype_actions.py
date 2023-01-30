@@ -6,8 +6,8 @@ from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from app.gui.helpers import change_view, selected_row_id, toggle_buttons, int_conv
 
 
-rate_types: dict[int, RateType] = None
-matches: dict[int, RateType] = None
+rate_types: dict[int, RateType] = dict()
+matches: dict[int, RateType] = dict()
 
 
 def change_to_rate_type_view(main_window: Ui_MainWindow):
@@ -16,7 +16,7 @@ def change_to_rate_type_view(main_window: Ui_MainWindow):
     rate_types = RateType.get()
     matches = rate_types
 
-    refresh_table(main_window, rate_types)
+    refresh_table(main_window)
 
     change_view(main_window.swPages, ViewPage.RATE_TYPES)
 
@@ -27,10 +27,10 @@ def search(main_window: Ui_MainWindow, search_text: str):
     matches = (
         rate_types
         if not search_text
-        else {rt.id: rt for rt in rate_types.values() if rt.name.lower() == search_text}
+        else {rt.id: rt for rt in rate_types.values() if search_text in rt.name.lower()}
     )
 
-    refresh_table(main_window, matches)
+    refresh_table(main_window)
 
 
 def on_row_select(main_window: Ui_MainWindow):
@@ -40,8 +40,8 @@ def on_row_select(main_window: Ui_MainWindow):
     toggle_buttons(
         [
             (main_window.btnNewRateType, True),
-            (main_window.btnNewRateType, selected_id is not None),
-            (main_window.btnNewRateType, selected_id is not None),
+            (main_window.btnEditRateType, selected_id is not None),
+            (main_window.btnDeleteRateType, selected_id is not None),
         ]
     )
 
@@ -50,6 +50,7 @@ def refresh_table(main_window: Ui_MainWindow):
 
     headers = ["ID", "Name"]
     tbl: QTableWidget = main_window.tblRateTypes
+    tbl.clear()
     tbl.setRowCount(len(matches.values()))
     tbl.setColumnCount(len(headers))
     tbl.setHorizontalHeaderLabels(headers)
@@ -61,8 +62,8 @@ def refresh_table(main_window: Ui_MainWindow):
     toggle_buttons(
         [
             (main_window.btnNewRateType, True),
-            (main_window.btnNewRateType, False),
-            (main_window.btnNewRateType, False),
+            (main_window.btnEditRateType, False),
+            (main_window.btnDeleteRateType, False),
         ]
     )
 

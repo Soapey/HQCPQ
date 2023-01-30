@@ -33,7 +33,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="pageQuotes">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -694,7 +694,11 @@ font: 75 14pt &quot;Helvetica&quot;;</string>
       <widget class="QWidget" name="pageProducts">
        <layout class="QGridLayout" name="gridLayout">
         <item row="2" column="0" colspan="3">
-         <widget class="QLineEdit" name="txtProductSearch"/>
+         <widget class="QLineEdit" name="txtProductSearch">
+          <property name="placeholderText">
+           <string>Search</string>
+          </property>
+         </widget>
         </item>
         <item row="1" column="2">
          <widget class="QPushButton" name="btnDeleteProduct">
@@ -966,7 +970,11 @@ font: 75 14pt &quot;Helvetica&quot;;</string>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QLineEdit" name="txtProductRate_Rate"/>
+         <widget class="QLineEdit" name="txtProductRate_Rate">
+          <property name="placeholderText">
+           <string>(0-9999)</string>
+          </property>
+         </widget>
         </item>
         <item row="4" column="1">
          <widget class="QPushButton" name="btnSaveProductRate">
@@ -1025,7 +1033,11 @@ font: 75 14pt &quot;Helvetica&quot;;</string>
          </widget>
         </item>
         <item row="2" column="0" colspan="3">
-         <widget class="QLineEdit" name="txtRateTypeSearch"/>
+         <widget class="QLineEdit" name="txtRateTypeSearch">
+          <property name="placeholderText">
+           <string>Search</string>
+          </property>
+         </widget>
         </item>
         <item row="1" column="0">
          <widget class="QPushButton" name="btnNewRateType">
@@ -1212,7 +1224,11 @@ font: 75 14pt &quot;Helvetica&quot;;</string>
          </widget>
         </item>
         <item row="2" column="0" colspan="3">
-         <widget class="QLineEdit" name="txtVehicleCombinationSearch"/>
+         <widget class="QLineEdit" name="txtVehicleCombinationSearch">
+          <property name="placeholderText">
+           <string>Search</string>
+          </property>
+         </widget>
         </item>
         <item row="3" column="0" colspan="3">
          <widget class="QTableWidget" name="tblVehicleCombinations">

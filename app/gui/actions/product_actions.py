@@ -10,8 +10,8 @@ from app.gui.actions.productrate_actions import (
 )
 
 
-products: dict[int, Product] = None
-matches: dict[int, Product] = None
+products: dict[int, Product] = dict()
+matches: dict[int, Product] = dict()
 
 
 def navigate_to_listing_view(main_window: Ui_MainWindow):
@@ -31,10 +31,10 @@ def search(main_window: Ui_MainWindow, search_text: str):
     matches = (
         products
         if not search_text
-        else {p.id: p for p in products.values() if p.name.lower() == search_text}
+        else {p.id: p for p in products.values() if search_text in p.name.lower()}
     )
 
-    refresh_table(main_window, matches)
+    refresh_table(main_window)
 
 
 def on_row_select(main_window: Ui_MainWindow):
@@ -55,6 +55,7 @@ def refresh_table(main_window: Ui_MainWindow):
     tbl_headers = ["ID", "Name"]
 
     tbl: QTableWidget = main_window.tblProducts
+    tbl.clear()
     tbl.setRowCount(len(matches.values()))
     tbl.setColumnCount(len(tbl_headers))
     tbl.setHorizontalHeaderLabels(tbl_headers)

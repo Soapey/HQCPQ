@@ -19,14 +19,15 @@ from app.gui.helpers import (
 )
 
 
-vehicle_combinations: dict[int, VehicleCombination] = None
-matches: dict[int, VehicleCombination] = None
+vehicle_combinations: dict[int, VehicleCombination] = dict()
+matches: dict[int, VehicleCombination] = dict()
 
 
 def change_to_vehiclecombinations_view(main_window: Ui_MainWindow):
 
-    global vehicle_combinations
+    global vehicle_combinations, matches
     vehicle_combinations = VehicleCombination.get()
+    matches = vehicle_combinations
 
     refresh_table(main_window)
 
@@ -35,14 +36,14 @@ def change_to_vehiclecombinations_view(main_window: Ui_MainWindow):
 
 def search(main_window: Ui_MainWindow, search_text: str):
 
-    global vehicle_combinations
+    global vehicle_combinations, matches
     matches = (
         vehicle_combinations
         if not search_text
         else {
             vc.id: vc
             for vc in vehicle_combinations.values()
-            if vc.name.lower() == search_text
+            if search_text in vc.name.lower()
         }
     )
 
@@ -67,6 +68,7 @@ def refresh_table(main_window: Ui_MainWindow):
     tbl_headers = ["ID", "Name", "Average Net", "Charge Type"]
 
     tbl: QTableWidget = main_window.tblVehicleCombinations
+    tbl.clear()
     tbl.setRowCount(len(matches.values()))
     tbl.setColumnCount(len(tbl_headers))
     tbl.setHorizontalHeaderLabels(tbl_headers)
@@ -206,7 +208,7 @@ def connect(main_window: Ui_MainWindow):
     main_window.actionVehicle_Combinations.triggered.connect(
         lambda: change_to_vehiclecombinations_view(main_window)
     )
-    main_window.tblProducts.selectionModel().selectionChanged.connect(
+    main_window.tblVehicleCombinations.selectionModel().selectionChanged.connect(
         lambda: on_row_select(main_window)
     )
     main_window.btnNewVehicleCombination.clicked.connect(lambda: new(main_window))
