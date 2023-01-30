@@ -292,7 +292,7 @@ def save(main_window: Ui_MainWindow):
                 SELECT qi.id, vc.charge_type
                 FROM quote_item qi
                 LEFT JOIN vehicle_combination vc ON qi.vehicle_combination_name = vc.name
-                WHERE qi.quote_id = ?l
+                WHERE qi.quote_id = ?;
                 """,
                 (quote.id,),
             ).fetchall()

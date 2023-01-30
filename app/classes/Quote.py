@@ -175,10 +175,21 @@ class Quote:
                     ws.Cells(20 + index, 1), ws.Cells(20 + index, 4)
                 ).HorizontalAlignment = 3
 
+            # Clean file name of illegal characters before exporting with it.
+            illegal_characters: str = r'*."/\\[]:;|,'
+            file_name: str = f"Hunter Quarries Quote #{self.id} - {self.name} ({datetime.strftime(self.date_created, '%d-%m-%Y')})"
+            for illegal_character in illegal_characters:
+                file_name = file_name.replace(illegal_character, "")
+
+            full_path: str = rf"{directory_path}\{file_name}.pdf"
+
             # Export the worksheet as a PDF to the selected desination folder.
-            file_name: str = f"Hunter Quarries Quote #{self.id} ({datetime.strftime(self.date_created, '%d-%m-%Y')})"
-            ws.ExportAsFixedFormat(
-                0, os.path.abspath(rf"{directory_path}\{file_name}.pdf")
+            ws.ExportAsFixedFormat(0, os.path.abspath(full_path))
+
+            # Confirmation messagebox to confirm that the Quote was exported to a pdf successfully.
+            messagebox.showinfo(
+                title="Export Success",
+                message=f"Quote was successfully exported to path:\n\n{full_path}",
             )
         except Exception as e:
             messagebox.showerror(message=e)

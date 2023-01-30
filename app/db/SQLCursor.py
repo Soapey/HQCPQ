@@ -1,5 +1,5 @@
-from sqlite3 import connect, Error, Cursor
 from tkinter import messagebox
+from sqlite3 import connect, Error, Cursor
 
 
 PRODUCTION_SQLITE_PATH = r"app\db\hqcpq.sqlite3"

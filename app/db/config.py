@@ -1,5 +1,5 @@
-from app.db.SQLCursor import SQLCursor, PRODUCTION_SQLITE_PATH
 import os
+from app.db.SQLCursor import SQLCursor, PRODUCTION_SQLITE_PATH
 
 
 def start_db(clean_start: bool = False):
