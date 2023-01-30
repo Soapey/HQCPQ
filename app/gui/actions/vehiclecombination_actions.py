@@ -4,7 +4,6 @@ from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import (
     QTableWidget,
     QTableWidgetItem,
-    QPushButton,
     QComboBox,
     QHeaderView,
 )
@@ -65,6 +64,8 @@ def on_row_select(main_window: Ui_MainWindow):
 
 def refresh_table(main_window: Ui_MainWindow):
 
+    global matches
+
     tbl_headers = ["ID", "Name", "Average Net", "Charge Type"]
 
     tbl: QTableWidget = main_window.tblVehicleCombinations
@@ -121,6 +122,7 @@ def edit(main_window: Ui_MainWindow):
 
     selected_id = selected_row_id(main_window.tblVehicleCombinations)
 
+    global vehicle_combinations
     vehicle_combination: VehicleCombination = vehicle_combinations[selected_id]
 
     clear_entry_fields(main_window)
@@ -136,6 +138,7 @@ def delete(main_window: Ui_MainWindow):
 
     selected_id = selected_row_id(main_window.tblVehicleCombinations)
 
+    global vehicle_combinations
     vehicle_combination: VehicleCombination = vehicle_combinations[selected_id]
 
     vehicle_combination.delete()
@@ -187,6 +190,8 @@ def form_is_valid(main_window: Ui_MainWindow):
         error_string += "\n- Name field cannot be blank."
 
     else:
+
+        global vehicle_combinations
         entities_with_same_name = [
             vc
             for vc in vehicle_combinations.values()

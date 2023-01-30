@@ -23,17 +23,25 @@ class ProductRate:
             cur.execute(
                 """
                 INSERT INTO product_rate (product_id, rate_type_id, rate) 
-                VALUES (?, ?, ?);""",
+                VALUES (?, ?, ?);
+                """,
                 (
                     self.product_id,
                     self.rate_type_id,
                     self.rate,
                 ),
             )
-            last_record = cur.execute(
-                "SELECT id FROM product_rate WHERE ROWID = last_insert_rowid();"
+
+            res = cur.execute(
+                """
+                SELECT id FROM product_rate 
+                WHERE ROWID = last_insert_rowid();
+                """
             ).fetchall()
-            self.id = last_record[0][0]
+
+            if res:
+                last_record = res[0]
+                self.id = last_record[0]
 
     def update(self):
 
@@ -46,7 +54,8 @@ class ProductRate:
                 """
                 UPDATE product_rate 
                 SET product_id = ?, rate_type_id = ?, rate = ? 
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (
                     self.product_id,
                     self.rate_type_id,
@@ -65,7 +74,8 @@ class ProductRate:
             cur.execute(
                 """
                 DELETE FROM product_rate 
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (self.id,),
             )
 
@@ -77,13 +87,14 @@ class ProductRate:
         with SQLCursor() as cur:
 
             if not cur:
-                return None
+                return dict()
 
             if not id:
                 records = cur.execute(
                     """
                     SELECT id, product_id, rate_type_id, rate 
-                    FROM product_rate;"""
+                    FROM product_rate;
+                    """
                 ).fetchall()
 
             else:
@@ -91,7 +102,8 @@ class ProductRate:
                     """
                     SELECT id, product_id, rate_type_id, rate 
                     FROM product_rate 
-                    WHERE id = ?;""",
+                    WHERE id = ?;
+                    """,
                     (id,),
                 ).fetchall()
 

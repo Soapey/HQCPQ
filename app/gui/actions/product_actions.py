@@ -27,7 +27,7 @@ def navigate_to_listing_view(main_window: Ui_MainWindow):
 
 def search(main_window: Ui_MainWindow, search_text: str):
 
-    global matches
+    global products, matches
     matches = (
         products
         if not search_text
@@ -52,6 +52,7 @@ def on_row_select(main_window: Ui_MainWindow):
 
 def refresh_table(main_window: Ui_MainWindow):
 
+    global matches
     tbl_headers = ["ID", "Name"]
 
     tbl: QTableWidget = main_window.tblProducts
@@ -110,6 +111,7 @@ def edit(main_window: Ui_MainWindow):
 
     fetch_productrate_global_entities()
 
+    global products
     product: Product = products[selected_row_id(main_window.tblProducts)]
 
     main_window.lblProductId.setText(str(product.id))
@@ -130,6 +132,7 @@ def edit(main_window: Ui_MainWindow):
 
 def delete(main_window: Ui_MainWindow):
 
+    global products
     product: Product = products[selected_row_id(main_window.tblProducts)]
 
     product.delete()
@@ -173,6 +176,8 @@ def form_is_valid(main_window: Ui_MainWindow):
         result = False
         error_string += "\n- Name field cannot be blank."
     else:
+
+        global products
         products_with_same_name = [
             p for p in products.values() if p.name == entity_name and p.id != entity_id
         ]

@@ -42,7 +42,8 @@ class QuoteItem:
             cur.execute(
                 """
                 INSERT INTO quote_item (quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name) 
-                VALUES (?, ?, ?, ?, ?, ?, ?);""",
+                VALUES (?, ?, ?, ?, ?, ?, ?);
+                """,
                 (
                     self.quote_id,
                     self.vehicle_combination_name,
@@ -54,10 +55,17 @@ class QuoteItem:
                 ),
             )
 
-            last_record = cur.execute(
-                "SELECT id FROM quote_item WHERE ROWID = last_insert_rowid();"
+            res = cur.execute(
+                """
+                SELECT id 
+                FROM quote_item 
+                WHERE ROWID = last_insert_rowid();
+                """
             ).fetchall()
-            self.id = last_record[0][0]
+
+            if res:
+                last_record = res[0]
+                self.id = last_record[0]
 
     def update(self):
 
@@ -70,7 +78,8 @@ class QuoteItem:
                 """
                 UPDATE quote_item 
                 SET quote_id = ?, vehicle_combination_name = ?, vehicle_combination_net = ?, transport_rate_ex_gst = ?, product_name = ?, product_rate_ex_gst = ?, charge_type_name = ?
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (
                     self.quote_id,
                     self.vehicle_combination_name,
@@ -93,7 +102,8 @@ class QuoteItem:
             cur.execute(
                 """
                 DELETE FROM quote_item 
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (self.id,),
             )
 
@@ -105,13 +115,14 @@ class QuoteItem:
         with SQLCursor() as cur:
 
             if not cur:
-                return None
+                return dict()
 
             if not id:
                 records = cur.execute(
                     """
                     SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name 
-                    FROM quote_item;"""
+                    FROM quote_item;
+                    """
                 ).fetchall()
 
             else:
@@ -119,7 +130,8 @@ class QuoteItem:
                     """
                     SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name 
                     FROM quote_item 
-                    WHERE id = ?;""",
+                    WHERE id = ?;
+                    """,
                     (id,),
                 ).fetchall()
 

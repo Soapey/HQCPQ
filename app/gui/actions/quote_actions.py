@@ -20,11 +20,7 @@ from app.gui.actions.quoteitem_actions import (
     calculate_quote_item_totals,
     fetch_global_entities as fetch_quote_item_globals,
 )
-from tkinter import Tk
-from tkinter.filedialog import askdirectory
 
-import win32com.client as win32
-import os
 
 quotes: dict[int, Quote] = dict()
 matches: dict[int, Quote] = dict()
@@ -32,6 +28,7 @@ matches: dict[int, Quote] = dict()
 
 def refresh_table(main_window: Ui_MainWindow):
 
+    global matches
     tbl_headers: list[str] = [
         "ID",
         "Date Created",
@@ -151,6 +148,7 @@ def new(main_window: Ui_MainWindow):
 def edit(main_window: Ui_MainWindow):
 
     # Fetch the Quote object to be edited.
+    global quotes
     quote_id: int = selected_row_id(main_window.tblQuotes)
     quote: Quote = quotes[quote_id]
 
@@ -195,6 +193,7 @@ def delete(main_window: Ui_MainWindow):
     quote_id: int = selected_row_id(main_window.tblQuotes)
 
     # Delete the Quote object from SQL database
+    global quotes
     quotes[quote_id].delete()
 
     # Remove from global dictionary (avoids a second call to database).
@@ -287,31 +286,35 @@ def save(main_window: Ui_MainWindow):
 
     # Update all children QuoteItem objects to use the most updated kilometres for their transport_rate_ex_gst.
     with SQLCursor() as cur:
-        quote_item_tuples = cur.execute(
-            """
-        SELECT qi.id, vc.charge_type
-        FROM quote_item qi
-        LEFT JOIN vehicle_combination vc ON qi.vehicle_combination_name = vc.name
-        WHERE qi.quote_id = ?
-        """,
-            (quote.id,),
-        ).fetchall()
 
-        for t in quote_item_tuples:
-
-            transport_rate_ex_gst = get_transport_rate_ex_gst(quote.kilometres, t[1])
-
-            cur.execute(
+        if cur:
+            quote_item_tuples = cur.execute(
                 """
-            UPDATE quote_item 
-            SET transport_rate_ex_gst = ? 
-            WHERE id = ?;
-            """,
-                (
-                    transport_rate_ex_gst,
-                    t[0],
-                ),
-            )
+                SELECT qi.id, vc.charge_type
+                FROM quote_item qi
+                LEFT JOIN vehicle_combination vc ON qi.vehicle_combination_name = vc.name
+                WHERE qi.quote_id = ?l
+                """,
+                (quote.id,),
+            ).fetchall()
+
+            for t in quote_item_tuples:
+
+                transport_rate_ex_gst = get_transport_rate_ex_gst(
+                    quote.kilometres, t[1]
+                )
+
+                cur.execute(
+                    """
+                    UPDATE quote_item 
+                    SET transport_rate_ex_gst = ? 
+                    WHERE id = ?;
+                    """,
+                    (
+                        transport_rate_ex_gst,
+                        t[0],
+                    ),
+                )
 
     refresh_quote_items_table(main_window, quote.id)
 
@@ -328,7 +331,7 @@ def save(main_window: Ui_MainWindow):
 
 def search(main_window: Ui_MainWindow, search_text: str):
 
-    global matches
+    global quotes, matches
     matches = (
         quotes
         if not search_text
@@ -343,59 +346,20 @@ def search(main_window: Ui_MainWindow, search_text: str):
     refresh_table(main_window)
 
 
-def export(main_window: Ui_MainWindow):
+def export(quote_id: int):
 
-    quote_id: int = selected_row_id(main_window.tblQuotes)
-    quote: Quote = quotes[quote_id]
-    quote_items = quote.items()
+    global quotes
+    quotes[quote_id].export()
 
-    try:
-        Tk().withdraw()
-        directory_path = askdirectory()
-    except Exception as e:
-        print(e)
-
-    if not directory_path:
-        return
-
-    try:
-        excel = win32.Dispatch('Excel.Application')
-
-        wb = excel.Workbooks.Open(os.path.abspath(r'app\quote_template.xlsx'))
-
-        ws = wb.Worksheets['Sheet1']
-
-        ws.Cells(9, 1).Value = quote.name
-        ws.Cells(10, 1).Value = quote.address
-        ws.Cells(11, 1).Value = quote.suburb
-        ws.Cells(12, 1).Value = quote.contact_number
-        ws.Cells(8, 4).Value = quote.id
-        ws.Cells(9, 4).Value = datetime.strftime(quote.date_created, '%d/%m/%Y')
-        ws.Cells(15, 4).Value = quote.total_inc_gst()
-
-        for index, quote_item in enumerate(quote_items.values()):
-            ws.Cells(20 + index, 1).Value = quote_item.vehicle_combination_net
-            ws.Cells(20 + index, 2).Value = quote_item.product_name
-            ws.Cells(20 + index, 3).Value = quote_item.vehicle_combination_name
-            ws.Cells(20 + index, 4).Value = quote_item.total_inc_gst()
-            ws.Cells(20 + index, 4).NumberFormat = '$#,##0.00'
-            ws.Range(ws.Cells(20 + index, 1), ws.Cells(20 + index, 4)).HorizontalAlignment = win32.constants.xlCenter
-
-        ws.ExportAsFixedFormat(0, os.path.abspath(rf'{directory_path}\test.pdf'))
-
-    except Exception as e:
-        print(e)
-    finally:
-        wb.Close(False)
-        ws = None
-        wb = None
-        excel = None
-    
 
 def connect(main_window: Ui_MainWindow):
 
-    main_window.btnExportQuote.clicked.connect(lambda: export(main_window))
-    # Export button entry
+    main_window.btnExportQuote.clicked.connect(
+        lambda: export(selected_row_id(main_window.tblQuotes))
+    )
+    main_window.btnExportQuote_Entry.clicked.connect(
+        lambda: export(int_conv(main_window.lblQuoteId.text()))
+    )
     main_window.btnNewQuote.clicked.connect(lambda: new(main_window))
     main_window.btnEditQuote.clicked.connect(lambda: edit(main_window))
     main_window.btnDeleteQuote.clicked.connect(lambda: delete(main_window))

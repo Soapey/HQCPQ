@@ -51,17 +51,19 @@ def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
     selected_product_id: int = selected_id or selected_row_id(main_window.tblProducts)
 
     global records
+
     with SQLCursor() as cur:
 
-        records = cur.execute(
-            """
-            SELECT pr.id, rt.name, pr.rate
-            FROM product_rate pr
-            LEFT JOIN rate_type rt ON pr.rate_type_id = rt.id
-            WHERE pr.product_id = ?;
-            """,
-            (selected_product_id,),
-        ).fetchall()
+        if cur:
+            records = cur.execute(
+                """
+                SELECT pr.id, rt.name, pr.rate
+                FROM product_rate pr
+                LEFT JOIN rate_type rt ON pr.rate_type_id = rt.id
+                WHERE pr.product_id = ?;
+                """,
+                (selected_product_id,),
+            ).fetchall()
 
     tbl_headers: list[str] = ["ID", "Type", "Rate"]
     tbl.clear()
@@ -86,7 +88,7 @@ def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
 def clear_entry_fields(main_window: Ui_MainWindow):
 
     # Fetch all RateTypes from SQLite database.
-    global rate_types
+    global rate_types, records
     rate_types = RateType.get()
 
     main_window.lblProductRateId.clear()
@@ -117,7 +119,9 @@ def edit(main_window: Ui_MainWindow):
 
     selected_id: int = selected_row_id(main_window.tblProductRates)
 
+    global records
     record_list: list[tuple] = [r for r in records if r[0] == selected_id]
+
     record = record_list[0] if record_list else None
 
     clear_entry_fields(main_window)
@@ -133,7 +137,7 @@ def edit(main_window: Ui_MainWindow):
 def delete(main_window: Ui_MainWindow):
 
     global product_rates
-    
+
     product_rate: ProductRate = product_rates[
         selected_row_id(main_window.tblProductRates)
     ]
@@ -153,9 +157,12 @@ def save(main_window: Ui_MainWindow):
 
         product_rate_id: int = int_conv(main_window.lblProductRateId.text())
         product_id: int = int_conv(main_window.lblProductId.text())
+
+        global rate_types
         rate_type_list: list[RateType] = [
             rt for rt in rate_types.values() if rt.name == selected_rate_type_name
         ]
+
         rate_type: RateType = rate_type_list[0] if rate_type_list else None
         rate: float = float_conv(main_window.txtProductRate_Rate.text())
 
@@ -188,9 +195,11 @@ def form_is_valid(main_window: Ui_MainWindow):
 
         product_id: int = int(main_window.lblProductId.text())
 
+        global rate_types, product_rates
         rate_type_list: list[RateType] = [
             rt for rt in rate_types.values() if rt.name == selected_rate_type_name
         ]
+
         rate_type: RateType = rate_type_list[0] if rate_type_list else None
 
         existing_product_rates = [

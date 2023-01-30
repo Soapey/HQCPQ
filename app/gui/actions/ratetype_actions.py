@@ -23,7 +23,7 @@ def change_to_rate_type_view(main_window: Ui_MainWindow):
 
 def search(main_window: Ui_MainWindow, search_text: str):
 
-    global matches
+    global rate_types, matches
     matches = (
         rate_types
         if not search_text
@@ -48,7 +48,9 @@ def on_row_select(main_window: Ui_MainWindow):
 
 def refresh_table(main_window: Ui_MainWindow):
 
+    global matches
     headers = ["ID", "Name"]
+
     tbl: QTableWidget = main_window.tblRateTypes
     tbl.clear()
     tbl.setRowCount(len(matches.values()))
@@ -93,6 +95,7 @@ def edit(main_window: Ui_MainWindow):
 
 def delete(main_window: Ui_MainWindow):
 
+    global rate_types
     rate_type: RateType = rate_types[selected_row_id(main_window.tblRateTypes)]
 
     rate_type.delete()
@@ -130,6 +133,8 @@ def form_is_valid(main_window: Ui_MainWindow):
         result = False
         error_string += "\n- Name field cannot be blank."
     else:
+
+        global rate_types
         ratetypes_with_same_name = [
             rt
             for rt in rate_types.values()

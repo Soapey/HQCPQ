@@ -1,4 +1,5 @@
-from sqlite3 import connect, Error
+from sqlite3 import connect, Error, Cursor
+from tkinter import messagebox
 
 
 PRODUCTION_SQLITE_PATH = r"app\db\hqcpq.sqlite3"
@@ -12,18 +13,17 @@ class SQLCursor:
 
     def __enter__(self):
 
+        result: Cursor = None
+
         try:
             self.connection = connect(self.path)
-
             self.cursor = self.connection.cursor()
-
             self.cursor.execute("PRAGMA foreign_keys = ON;")
-
-            return self.cursor
+            result = self.cursor
         except Error as e:
-            print(e)
-
-        return None
+            messagebox.showerror(message=e)
+        finally:
+            return result
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
 
@@ -32,4 +32,4 @@ class SQLCursor:
             self.cursor.close()
             self.connection.close()
         except Error as e:
-            print(e)
+            messagebox.showerror(message=e)

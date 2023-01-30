@@ -21,17 +21,26 @@ class VehicleCombination:
             cur.execute(
                 """
                 INSERT INTO vehicle_combination (name, net, charge_type) 
-                VALUES (?, ?, ?);""",
+                VALUES (?, ?, ?);
+                """,
                 (
                     self.name,
                     self.net,
                     self.charge_type,
                 ),
             )
-            last_record = cur.execute(
-                "SELECT id FROM vehicle_combination WHERE ROWID = last_insert_rowid();"
+
+            res = cur.execute(
+                """
+                SELECT id 
+                FROM vehicle_combination 
+                WHERE ROWID = last_insert_rowid();
+                """
             ).fetchall()
-            self.id = last_record[0][0]
+
+            if res:
+                last_record = res[0]
+                self.id = last_record[0]
 
     def update(self):
 
@@ -44,7 +53,8 @@ class VehicleCombination:
                 """
                 UPDATE vehicle_combination 
                 SET name = ?, net = ?, charge_type = ?
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (
                     self.name,
                     self.net,
@@ -63,7 +73,8 @@ class VehicleCombination:
             cur.execute(
                 """
                 DELETE FROM vehicle_combination 
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (self.id,),
             )
 
@@ -75,13 +86,14 @@ class VehicleCombination:
         with SQLCursor() as cur:
 
             if not cur:
-                return None
+                return dict()
 
             if not id:
                 records = cur.execute(
                     """
                     SELECT id, name, net, charge_type 
-                    FROM vehicle_combination;"""
+                    FROM vehicle_combination;
+                    """
                 ).fetchall()
 
             else:
@@ -89,7 +101,8 @@ class VehicleCombination:
                     """
                     SELECT id, name, net, charge_type 
                     FROM vehicle_combination 
-                    WHERE id = ?;""",
+                    WHERE id = ?;
+                    """,
                     (id,),
                 ).fetchall()
 

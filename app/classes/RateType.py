@@ -22,10 +22,14 @@ class RateType:
                 VALUES (?);""",
                 (self.name,),
             )
-            last_record = cur.execute(
+
+            res = cur.execute(
                 "SELECT id FROM rate_type WHERE ROWID = last_insert_rowid();"
             ).fetchall()
-            self.id = last_record[0][0]
+
+            if res:
+                last_record = res[0]
+                self.id = last_record[0]
 
     def update(self):
 
@@ -67,7 +71,7 @@ class RateType:
         with SQLCursor() as cur:
 
             if not cur:
-                return dict
+                return dict()
 
             if not id:
                 records = cur.execute(
