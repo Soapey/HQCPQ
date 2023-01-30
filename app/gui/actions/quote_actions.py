@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt5.QtGui import QIntValidator
 from tkinter import messagebox
 from datetime import datetime
-from openpyxl import load_workbook, Workbook
 from app.gui.helpers import (
     toggle_buttons,
     change_view,
@@ -21,7 +20,11 @@ from app.gui.actions.quoteitem_actions import (
     calculate_quote_item_totals,
     fetch_global_entities as fetch_quote_item_globals,
 )
-from win32com import client
+from tkinter import Tk
+from tkinter.filedialog import askdirectory
+
+import win32com.client as win32
+import os
 
 quotes: dict[int, Quote] = dict()
 matches: dict[int, Quote] = dict()
@@ -346,27 +349,48 @@ def export(main_window: Ui_MainWindow):
     quote: Quote = quotes[quote_id]
     quote_items = quote.items()
 
-    wkb = load_workbook(filename="app/quote_template.xlsx")
-    sheet = wkb["Sheet1"]
-    sheet["A9"] = quote.name
-    sheet["A10"] = quote.address
-    sheet["A11"] = quote.suburb
-    sheet["A12"] = quote.contact_number
-    sheet["D8"] = quote.id
-    sheet["D9"] = quote.date_created
+    try:
+        Tk().withdraw()
+        directory_path = askdirectory()
+    except Exception as e:
+        print(e)
 
-    for index, quote_item in enumerate(quote_items.values()):
-        sheet[f"A{20 + index}"] = quote_item.vehicle_combination_net
-        sheet[f"B{20 + index}"] = quote_item.product_name
-        sheet[f"C{20 + index}"] = quote_item.vehicle_combination_name
-        sheet[f"D{20 + index}"] = quote_item.total_inc_gst()
+    if not directory_path:
+        return
 
-    wkb.save("test.xlsx")
+    try:
+        excel = win32.Dispatch('Excel.Application')
 
-    excel = client.Dispatch("Excel.Application")
-    sheets = excel.Workbooks.Open('test.xlsx')
-    work_sheets = sheets.Worksheets[0]
-    work_sheets.ExportAsFixedFormat(0, 'test.pdf')
+        wb = excel.Workbooks.Open(os.path.abspath(r'app\quote_template.xlsx'))
+
+        ws = wb.Worksheets['Sheet1']
+
+        ws.Cells(9, 1).Value = quote.name
+        ws.Cells(10, 1).Value = quote.address
+        ws.Cells(11, 1).Value = quote.suburb
+        ws.Cells(12, 1).Value = quote.contact_number
+        ws.Cells(8, 4).Value = quote.id
+        ws.Cells(9, 4).Value = datetime.strftime(quote.date_created, '%d/%m/%Y')
+        ws.Cells(15, 4).Value = quote.total_inc_gst()
+
+        for index, quote_item in enumerate(quote_items.values()):
+            ws.Cells(20 + index, 1).Value = quote_item.vehicle_combination_net
+            ws.Cells(20 + index, 2).Value = quote_item.product_name
+            ws.Cells(20 + index, 3).Value = quote_item.vehicle_combination_name
+            ws.Cells(20 + index, 4).Value = quote_item.total_inc_gst()
+            ws.Cells(20 + index, 4).NumberFormat = '$#,##0.00'
+            ws.Range(ws.Cells(20 + index, 1), ws.Cells(20 + index, 4)).HorizontalAlignment = win32.constants.xlCenter
+
+        ws.ExportAsFixedFormat(0, os.path.abspath(rf'{directory_path}\test.pdf'))
+
+    except Exception as e:
+        print(e)
+    finally:
+        wb.Close(False)
+        ws = None
+        wb = None
+        excel = None
+    
 
 def connect(main_window: Ui_MainWindow):
 
