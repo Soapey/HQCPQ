@@ -98,14 +98,14 @@ class QuoteItem:
             )
 
     @classmethod
-    def get(cls, id: int = None) -> list:
+    def get(cls, id: int = None, quote_id: int = None) -> dict:
 
-        records = list()
+        records: list[tuple] = None
 
         with SQLCursor() as cur:
 
             if not cur:
-                return list()
+                return None
 
             if not id:
                 records = cur.execute(
@@ -113,6 +113,7 @@ class QuoteItem:
                     SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name 
                     FROM quote_item;"""
                 ).fetchall()
+
             else:
                 records = cur.execute(
                     """
@@ -122,24 +123,10 @@ class QuoteItem:
                     (id,),
                 ).fetchall()
 
-        return [QuoteItem(*r) for r in records]
+        quote_item_list: list[QuoteItem] = [QuoteItem(*r) for r in records]
+        if quote_id:
+            quote_item_list = list(
+                filter(lambda qi: qi.quote_id == quote_id, quote_item_list)
+            )
 
-    @classmethod
-    def get_by_quote_id(cls, id: int):
-
-        records = list()
-
-        with SQLCursor() as cur:
-
-            if not cur:
-                return list()
-
-            records = cur.execute(
-                """
-                SELECT id, quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name 
-                FROM quote_item  
-                WHERE quote_id = ?;""",
-                (id,),
-            ).fetchall()
-
-        return [QuoteItem(*r) for r in records]
+        return {qi.id: qi for qi in quote_item_list}

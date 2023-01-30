@@ -70,14 +70,14 @@ class ProductRate:
             )
 
     @classmethod
-    def get(cls, id: int = None) -> list:
+    def get(cls, id: int = None) -> dict:
 
-        records = list()
+        records: list[tuple] = None
 
         with SQLCursor() as cur:
 
             if not cur:
-                return list()
+                return None
 
             if not id:
                 records = cur.execute(
@@ -85,6 +85,7 @@ class ProductRate:
                     SELECT id, product_id, rate_type_id, rate 
                     FROM product_rate;"""
                 ).fetchall()
+
             else:
                 records = cur.execute(
                     """
@@ -94,4 +95,4 @@ class ProductRate:
                     (id,),
                 ).fetchall()
 
-        return [ProductRate(*r) for r in records]
+        return {pr.id: pr for pr in [ProductRate(*r) for r in records]}

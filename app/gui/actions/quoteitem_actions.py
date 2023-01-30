@@ -1,7 +1,13 @@
-from app.gui.components.main_window import Ui_MainWindow
-from app.db.SQLCursor import SQLCursor
-from app.classes.Quote import Quote
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox, QHeaderView
+from PyQt5.QtGui import QDoubleValidator
+from tkinter import messagebox
+from app.classes.VehicleCombination import VehicleCombination
+from app.classes.Product import Product
+from app.classes.ProductRate import ProductRate
+from app.classes.RateType import RateType
 from app.classes.QuoteItem import QuoteItem
+from app.classes.Quote import Quote
+from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
 from app.gui.helpers import (
     selected_row_id,
@@ -10,67 +16,43 @@ from app.gui.helpers import (
     int_conv,
     get_transport_rate_ex_gst,
 )
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox, QHeaderView
-from PyQt5.QtGui import QDoubleValidator
-from tkinter import messagebox
 
 
-vehicle_combinations: list[tuple] = list()
-products: list[tuple] = list()
-product_rates: list[tuple] = list()
-quote_items: list[tuple] = list()
+vehicle_combinations: dict[int, VehicleCombination] = dict()
+products: dict[int, Product] = dict()
+product_rates: dict[int, ProductRate] = dict()
+rate_types: dict[int, RateType] = dict()
+quote_items: dict[int, QuoteItem] = dict()
 
 
 def fetch_global_entities():
 
-    with SQLCursor() as cur:
+    global vehicle_combinations, products, product_rates, rate_types, quote_items
 
-        global vehicle_combinations, products, product_rates, quote_items
+    products = Product.get()
 
-        vehicle_combinations = cur.execute(
-            """
-            SELECT vc.id, vc.name, vc.net, vc.charge_type 
-            FROM vehicle_combination vc
-            """
-        ).fetchall()
+    product_rates = ProductRate.get()
 
-        products = cur.execute(
-            """
-            SELECT p.id, p.name
-            FROM product p
-            """
-        ).fetchall()
+    rate_types = RateType.get()
 
-        product_rates = cur.execute(
-            """
-            SELECT pr.id, p.id, p.name, rt.name, pr.rate
-            FROM product_rate pr
-            LEFT JOIN product p ON pr.product_id = p.id 
-            LEFT JOIN rate_type rt ON pr.rate_type_id = rt.id 
-            """
-        ).fetchall()
-
-        quote_items = cur.execute(
-            """
-            SELECT qi.id, qi.quote_id, qi.vehicle_combination_name, qi.vehicle_combination_net, qi.product_name, qi.transport_rate_ex_gst, qi.product_rate_ex_gst, qi.charge_type_name 
-            FROM quote_item qi
-            """
-        ).fetchall()
+    quote_items = QuoteItem.get()
 
 
 def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
-    """
-    Refreshes the table of saved entities.
-    Makes SQL request for entities, clears the table, loops through the returned entities and inserts each table cell data into correct position.
-    """
 
     fetch_global_entities()
 
     selected_quote_id: int = quote_id or selected_row_id(main_window.tblQuotes)
+    quotes_list = list(Quote.get(selected_quote_id).values())
 
-    records = list(filter(lambda t: t[1] == selected_quote_id, quote_items))
+    if not quotes_list:
+        return
 
-    headers: list[str] = [
+    quote: Quote = quotes_list[0] if quotes_list else None
+    global quote_items
+    items: dict[int, QuoteItem] = quote.items(quote_items)
+
+    tbl_headers: list[str] = [
         "ID",
         "Vehicle Combination",
         "Net",
@@ -82,55 +64,59 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
 
     tbl: QTableWidget = main_window.tblQuoteItems
     tbl.clear()
-    tbl.setRowCount(len(records))
-    tbl.setColumnCount(len(headers))
-    tbl.setHorizontalHeaderLabels(headers)
+    tbl.setRowCount(len(items.values()))
+    tbl.setColumnCount(len(tbl_headers))
+    tbl.setHorizontalHeaderLabels(tbl_headers)
 
-    for index, record in enumerate(records):
-        tbl.setItem(index, 0, QTableWidgetItem(str(record[0])))
-        tbl.setItem(index, 1, QTableWidgetItem(record[2]))
-        tbl.setItem(index, 2, QTableWidgetItem(str(record[3])))
-        tbl.setItem(index, 3, QTableWidgetItem(record[4]))
-        tbl.setItem(index, 4, QTableWidgetItem("${:,.2f}".format(record[5])))
-        tbl.setItem(index, 5, QTableWidgetItem("${:,.2f}".format(record[6])))
+    for index, quote_item in enumerate(items.values()):
+        tbl.setItem(index, 0, QTableWidgetItem(str(quote_item.id)))
+        tbl.setItem(index, 1, QTableWidgetItem(quote_item.vehicle_combination_name))
+        tbl.setItem(index, 2, QTableWidgetItem(str(quote_item.vehicle_combination_net)))
+        tbl.setItem(index, 3, QTableWidgetItem(quote_item.product_name))
+        tbl.setItem(
+            index,
+            4,
+            QTableWidgetItem("${:,.2f}".format(quote_item.transport_rate_ex_gst)),
+        )
+        tbl.setItem(
+            index,
+            5,
+            QTableWidgetItem("${:,.2f}".format(quote_item.product_rate_ex_gst)),
+        )
         tbl.setItem(
             index,
             6,
-            QTableWidgetItem(
-                "${:,.2f}".format(1.1 * ((record[5] + record[6]) * record[3]))
-            ),
+            QTableWidgetItem("${:,.2f}".format(quote_item.total_inc_gst())),
         )
 
     header = tbl.horizontalHeader()
-    header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)
-    header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
+    for i in range(len(tbl_headers)):
+        header.setSectionResizeMode(
+            i,
+            QHeaderView.ResizeMode.ResizeToContents
+            if i < len(tbl_headers) - 1
+            else QHeaderView.ResizeMode.Stretch,
+        )
 
 
 def calculate_quote_item_totals(main_window: Ui_MainWindow, quote_id: int = None):
 
     selected_id: int = quote_id or selected_row_id(main_window.tblQuotes)
-
-    records = filter(lambda t: t[1] == selected_id, quote_items)
+    quotes_list = list(Quote.get(selected_id).values())
+    quote: Quote = quotes_list[0] if quotes_list else None
+    global quote_items
+    items = quote.items(quote_items)
 
     transport_total_ex_gst: float = 0
     product_total_ex_gst: float = 0
-    transport_rate_ex_gst: float
-    product_rate_ex_gst: float
-    vehicle_combination_net: float
 
-    for record in records:
-
-        vehicle_combination_net = float(record[3])
-        transport_rate_ex_gst = float(record[5])
-        product_rate_ex_gst = float(record[6])
-
-        transport_total_ex_gst += transport_rate_ex_gst * vehicle_combination_net
-        product_total_ex_gst += product_rate_ex_gst * vehicle_combination_net
+    for quote_item in items.values():
+        transport_total_ex_gst += (
+            quote_item.transport_rate_ex_gst * quote_item.vehicle_combination_net
+        )
+        product_total_ex_gst += (
+            quote_item.product_rate_ex_gst * quote_item.vehicle_combination_net
+        )
 
     main_window.lblQuote_ProductTotalExGST.setText(
         "${:,.2f}".format(product_total_ex_gst)
@@ -142,7 +128,7 @@ def calculate_quote_item_totals(main_window: Ui_MainWindow, quote_id: int = None
         "${:,.2f}".format(product_total_ex_gst + transport_total_ex_gst)
     )
     main_window.lblQuote_TotalIncGST.setText(
-        "${:,.2f}".format((product_total_ex_gst + transport_total_ex_gst) * 1.1)
+        "${:,.2f}".format(1.1 * (product_total_ex_gst + transport_total_ex_gst))
     )
 
 
@@ -151,17 +137,16 @@ def update_product_rate(main_window: Ui_MainWindow):
     product_name = main_window.cmbQuoteItem_Product.currentText()
     rate_type_name = main_window.cmbQuoteItem_ProductRate.currentText()
 
-    product_rate_match_tuples = list(
-        filter(lambda t: t[2] == product_name and t[3] == rate_type_name, product_rates)
-    )
+    product_rates_list = [
+        pr
+        for pr in product_rates.values()
+        if products[pr.product_id].name == product_name
+        and rate_types[pr.rate_type_id].name == rate_type_name
+    ]
+    product_rate: ProductRate = product_rates_list[0] if product_rates_list else None
 
-    if not product_rate_match_tuples:
-        return
-
-    product_rate = product_rate_match_tuples[0]
-    rate = product_rate[4]
-
-    main_window.txtQuoteItem_ProductRate.setText(str(rate))
+    if product_rate:
+        main_window.txtQuoteItem_ProductRate.setText(str(product_rate.rate))
 
 
 def on_product_select(main_window: Ui_MainWindow):
@@ -169,52 +154,46 @@ def on_product_select(main_window: Ui_MainWindow):
     cmbProductRates: QComboBox = main_window.cmbQuoteItem_ProductRate
 
     show_hide = len(main_window.cmbQuoteItem_Product.currentText()) > 0
-
-    cmbProductRates.clear()
-
-    if show_hide:
-
-        tuple_match_list = list(
-            filter(
-                lambda t: t[1] == main_window.cmbQuoteItem_Product.currentText(),
-                products,
-            )
-        )
-
-        if not tuple_match_list:
-            return
-
-        product: tuple = tuple_match_list[0]
-
-        records = list(filter(lambda t: t[1] == product[0], product_rates))
-        cmbProductRates.addItems([t[3] for t in records])
-
     main_window.lblQuoteItem_ProductRate.setVisible(show_hide)
     cmbProductRates.setVisible(show_hide)
 
-    update_product_rate(main_window)
+    if show_hide is False:
+        return
 
+    selected_product_name: str = main_window.cmbQuoteItem_Product.currentText()
 
-def on_rate_type_select(main_window: Ui_MainWindow):
+    products_list = [p for p in products.values() if p.name == selected_product_name]
+    product: Product = products_list[0] if products_list else None
+
+    match_product_rate_names = [
+        rate_types[pr.rate_type_id].name
+        for pr in product_rates.values()
+        if pr.product_id == product.id
+    ]
+
+    cmbProductRates.clear()
+    cmbProductRates.addItems(match_product_rate_names)
 
     update_product_rate(main_window)
 
 
 def on_vehicle_combination_select(main_window: Ui_MainWindow):
 
-    tuple_match_list = list(
-        filter(
-            lambda t: t[1] == main_window.cmbQuoteItem_VehicleCombination.currentText(),
-            vehicle_combinations,
-        )
+    selected_vehicle_combination_name: str = (
+        main_window.cmbQuoteItem_VehicleCombination.currentText()
     )
 
-    if not tuple_match_list:
-        return
+    vehicle_combinations_list = [
+        vc
+        for vc in vehicle_combinations.values()
+        if vc.name == selected_vehicle_combination_name
+    ]
+    vehicle_combination: VehicleCombination = (
+        vehicle_combinations_list[0] if vehicle_combinations_list else None
+    )
 
-    vehicle_combination: tuple = tuple_match_list[0]
-
-    main_window.txtQuoteItem_Tonnes.setText(str(vehicle_combination[2]))
+    if vehicle_combination:
+        main_window.txtQuoteItem_Tonnes.setText(str(vehicle_combination.net))
 
 
 def clear_entry_fields(main_window: Ui_MainWindow):
@@ -226,11 +205,11 @@ def clear_entry_fields(main_window: Ui_MainWindow):
 
     cmbVehicleCombinations: QComboBox = main_window.cmbQuoteItem_VehicleCombination
     cmbVehicleCombinations.clear()
-    cmbVehicleCombinations.addItems([t[1] for t in vehicle_combinations])
+    cmbVehicleCombinations.addItems([vc.name for vc in vehicle_combinations.values()])
 
     cmbProducts: QComboBox = main_window.cmbQuoteItem_Product
     cmbProducts.clear()
-    cmbProducts.addItems([t[1] for t in products])
+    cmbProducts.addItems([p.name for p in products.values()])
 
     on_product_select(main_window)
 
@@ -285,71 +264,75 @@ def edit(main_window: Ui_MainWindow):
 
     fetch_global_entities()
 
-    selected_id: int = selected_row_id(main_window.tblQuoteItems)
-    entity_tuple = list(filter(lambda e: e[0] == selected_id, quote_items))[0]
+    quote_item: QuoteItem = quote_items[selected_row_id(main_window.tblQuoteItems)]
 
     clear_entry_fields(main_window)
 
-    main_window.lblQuoteItemId.setText(str(entity_tuple[0]))
-    main_window.lblQuoteItem_QuoteId.setText(str(entity_tuple[1]))
-    main_window.cmbQuoteItem_VehicleCombination.setCurrentText(entity_tuple[2])
-    main_window.cmbQuoteItem_Product.setCurrentText(entity_tuple[4])
-    main_window.cmbQuoteItem_ProductRate.setCurrentText(entity_tuple[7])
-    main_window.txtQuoteItem_Tonnes.setText(str(entity_tuple[3]))
-    main_window.txtQuoteItem_ProductRate.setText(str(entity_tuple[6]))
+    main_window.lblQuoteItemId.setText(str(quote_item.id))
+    main_window.lblQuoteItem_QuoteId.setText(str(quote_item.quote_id))
+    main_window.cmbQuoteItem_VehicleCombination.setCurrentText(
+        quote_item.vehicle_combination_name
+    )
+    main_window.cmbQuoteItem_Product.setCurrentText(quote_item.product_name)
+    main_window.cmbQuoteItem_ProductRate.setCurrentText(quote_item.charge_type_name)
+    main_window.txtQuoteItem_Tonnes.setText(str(quote_item.vehicle_combination_net))
+    main_window.txtQuoteItem_ProductRate.setText(str(quote_item.product_rate_ex_gst))
 
     change_view(main_window.swPages, ViewPage.QUOTE_ITEM_ENTRY)
 
 
 def delete(main_window: Ui_MainWindow):
 
-    quote_id: int = selected_row_id(main_window.tblQuotes)
-    selected_id: int = selected_row_id(main_window.tblQuoteItems)
+    quote_item: QuoteItem = quote_items[selected_row_id(main_window.tblQuoteItems)]
 
-    QuoteItem(selected_id, None, None, None, None, None, None, None).delete()
+    quote_item.delete()
 
-    refresh_table(main_window, quote_id)
+    del quote_items[quote_item.id]
+
+    refresh_table(main_window, quote_item.quote_id)
 
 
 def save(main_window: Ui_MainWindow):
 
     if form_is_valid(main_window):
 
-        id: int = int_conv(main_window.lblQuoteItemId.text())
         quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
-        quote: Quote = Quote.get(quote_id)[0]
-
-        vehicle_combination_tuple = list(
-            filter(
-                lambda t: t[1]
-                == main_window.cmbQuoteItem_VehicleCombination.currentText(),
-                vehicle_combinations,
-            )
-        )[0]
-
-        vehicle_combination_name: str = vehicle_combination_tuple[1]
-        vehicle_combination_net: float = float(main_window.txtQuoteItem_Tonnes.text())
-        vehicle_combination_charge_type: str = vehicle_combination_tuple[3]
-
+        quotes_list = list(Quote.get(quote_id).values())
+        quote: Quote = quotes_list[0] if quotes_list else None
+        quote_item_id: int = int_conv(main_window.lblQuoteItemId.text())
+        tonnes: float = float(main_window.txtQuoteItem_Tonnes.text())
         product_name: str = main_window.cmbQuoteItem_Product.currentText()
         charge_type_name: str = main_window.cmbQuoteItem_ProductRate.currentText()
-        transport_rate_ex_gst: float = get_transport_rate_ex_gst(
-            quote.kilometres, vehicle_combination_charge_type
-        )
         product_rate_ex_gst: float = float(main_window.txtQuoteItem_ProductRate.text())
+        selected_vehicle_combination_name: str = (
+            main_window.cmbQuoteItem_VehicleCombination.currentText()
+        )
 
-        qi = QuoteItem(
-            id,
+        vehicle_combinations_list = [
+            vc
+            for vc in vehicle_combinations.values()
+            if vc.name == selected_vehicle_combination_name
+        ]
+        vehicle_combination: VehicleCombination = (
+            vehicle_combinations_list[0] if vehicle_combinations_list else None
+        )
+
+        transport_rate_ex_gst: float = get_transport_rate_ex_gst(
+            quote.kilometres, vehicle_combination.charge_type
+        )
+
+        quote_item = QuoteItem(
+            quote_item_id,
             quote_id,
-            vehicle_combination_name,
-            vehicle_combination_net,
+            selected_vehicle_combination_name,
+            tonnes,
             transport_rate_ex_gst,
             product_name,
             product_rate_ex_gst,
             charge_type_name,
         )
 
-        qi.update() if id else qi.insert()
+        quote_item.update() if quote_item_id else quote_item.insert()
 
         refresh_table(main_window, quote_id)
 
@@ -389,7 +372,7 @@ def connect(main_window: Ui_MainWindow):
         lambda: on_product_select(main_window)
     )
     main_window.cmbQuoteItem_ProductRate.currentTextChanged.connect(
-        lambda: on_rate_type_select(main_window)
+        lambda: update_product_rate(main_window)
     )
 
     # Set numeric only validator on Tonnes and Rate textbox.

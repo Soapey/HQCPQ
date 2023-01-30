@@ -60,14 +60,14 @@ class RateType:
             )
 
     @classmethod
-    def get(cls, id: int = None) -> list:
+    def get(cls, id: int = None) -> dict:
 
-        records = list()
+        records: list[tuple] = None
 
         with SQLCursor() as cur:
 
             if not cur:
-                return list()
+                return dict
 
             if not id:
                 records = cur.execute(
@@ -75,6 +75,7 @@ class RateType:
                     SELECT id, name 
                     FROM rate_type;"""
                 ).fetchall()
+
             else:
                 records = cur.execute(
                     """
@@ -84,4 +85,4 @@ class RateType:
                     (id,),
                 ).fetchall()
 
-        return [RateType(*r) for r in records]
+        return {rt.id: rt for rt in [RateType(*r) for r in records]}
