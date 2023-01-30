@@ -1,6 +1,6 @@
 from tkinter import messagebox
-from app.classes.Product import Product
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+from app.classes.Product import Product
 from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
 from app.gui.helpers import change_view, selected_row_id, toggle_buttons, int_conv

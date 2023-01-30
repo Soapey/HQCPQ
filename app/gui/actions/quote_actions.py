@@ -1,12 +1,11 @@
-from app.gui.view_enum import ViewPage
-from app.classes.Quote import Quote
-from app.classes.QuoteItem import QuoteItem
-from app.gui.components.main_window import Ui_MainWindow
-from app.db.SQLCursor import SQLCursor
+from datetime import datetime
+from tkinter import messagebox
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt5.QtGui import QIntValidator
-from tkinter import messagebox
-from datetime import datetime
+from app.gui.view_enum import ViewPage
+from app.classes.Quote import Quote
+from app.gui.components.main_window import Ui_MainWindow
+from app.db.SQLCursor import SQLCursor
 from app.gui.helpers import (
     toggle_buttons,
     change_view,

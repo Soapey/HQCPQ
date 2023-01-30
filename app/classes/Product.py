@@ -19,12 +19,17 @@ class Product:
             cur.execute(
                 """
                 INSERT INTO product (name) 
-                VALUES (?);""",
+                VALUES (?);
+                """,
                 (self.name,),
             )
 
             res = cur.execute(
-                "SELECT id FROM product WHERE ROWID = last_insert_rowid();"
+                """
+                SELECT id 
+                FROM product 
+                WHERE ROWID = last_insert_rowid();
+                """
             ).fetchall()
 
             if res:
@@ -42,7 +47,8 @@ class Product:
                 """
                 UPDATE product 
                 SET name = ? 
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (
                     self.name,
                     self.id,
@@ -59,7 +65,8 @@ class Product:
             cur.execute(
                 """
                 DELETE FROM product 
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (self.id,),
             )
 
@@ -77,7 +84,8 @@ class Product:
                 records = cur.execute(
                     """
                     SELECT id, name 
-                    FROM product;"""
+                    FROM product;
+                    """
                 ).fetchall()
 
             else:
@@ -85,7 +93,8 @@ class Product:
                     """
                     SELECT id, name 
                     FROM product 
-                    WHERE id = ?;""",
+                    WHERE id = ?;
+                    """,
                     (id,),
                 ).fetchall()
 

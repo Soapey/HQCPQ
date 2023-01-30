@@ -1,8 +1,8 @@
 from tkinter import messagebox
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from app.classes.RateType import RateType
 from app.gui.view_enum import ViewPage
 from app.gui.components.main_window import Ui_MainWindow
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from app.gui.helpers import change_view, selected_row_id, toggle_buttons, int_conv
 
 
@@ -10,7 +10,7 @@ rate_types: dict[int, RateType] = dict()
 matches: dict[int, RateType] = dict()
 
 
-def change_to_rate_type_view(main_window: Ui_MainWindow):
+def navigate_to_listing_view(main_window: Ui_MainWindow):
 
     global rate_types, matches
     rate_types = RateType.get()
@@ -116,7 +116,7 @@ def save(main_window: Ui_MainWindow):
 
         rate_type.update() if rate_type_id else rate_type.insert()
 
-        change_to_rate_type_view(main_window)
+        navigate_to_listing_view(main_window)
 
         clear_entry_fields(main_window)
 
@@ -154,7 +154,7 @@ def form_is_valid(main_window: Ui_MainWindow):
 def connect(main_window: Ui_MainWindow):
 
     main_window.actionRate_Types.triggered.connect(
-        lambda: change_to_rate_type_view(main_window)
+        lambda: navigate_to_listing_view(main_window)
     )
     main_window.tblRateTypes.selectionModel().selectionChanged.connect(
         lambda: on_row_select(main_window)

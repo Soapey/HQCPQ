@@ -1,10 +1,10 @@
+import os
+import win32com.client as win32
 from datetime import datetime
-from .QuoteItem import QuoteItem
-from app.db.SQLCursor import SQLCursor
 from tkinter import Tk, messagebox
 from tkinter.filedialog import askdirectory
-import win32com.client as win32
-import os
+from app.classes.QuoteItem import QuoteItem
+from app.db.SQLCursor import SQLCursor
 
 
 class Quote:
@@ -209,7 +209,8 @@ class Quote:
                 records = cur.execute(
                     """
                     SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres
-                    FROM quote WHERE id = ?;
+                    FROM quote 
+                    WHERE id = ?;
                     """,
                     (id,),
                 ).fetchall()

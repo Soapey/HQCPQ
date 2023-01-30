@@ -1,6 +1,6 @@
+import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from app.gui.components.main_window import Ui_MainWindow
-from app.gui.view_enum import ViewPage
 from app.db.config import start_db
 from app.gui.actions.quote_actions import (
     connect as connect_quotes,
@@ -13,7 +13,6 @@ from app.gui.actions.ratetype_actions import connect as connect_rate_types
 from app.gui.actions.vehiclecombination_actions import (
     connect as connect_vehicle_combinations,
 )
-import sys
 
 
 def connect_main_window_actions(main_window: object):

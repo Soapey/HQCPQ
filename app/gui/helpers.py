@@ -1,6 +1,6 @@
+from datetime import datetime
 from PyQt5.QtWidgets import QTableWidget, QPushButton
 from app.gui.view_enum import ViewPage
-from datetime import datetime
 
 
 def change_view(stacked_widget, page: ViewPage):

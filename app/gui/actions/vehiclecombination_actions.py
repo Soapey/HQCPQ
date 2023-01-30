@@ -1,5 +1,4 @@
 from tkinter import messagebox
-from app.classes.VehicleCombination import VehicleCombination
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import (
     QTableWidget,
@@ -7,6 +6,7 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QHeaderView,
 )
+from app.classes.VehicleCombination import VehicleCombination
 from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
 from app.gui.helpers import (
@@ -22,7 +22,7 @@ vehicle_combinations: dict[int, VehicleCombination] = dict()
 matches: dict[int, VehicleCombination] = dict()
 
 
-def change_to_vehiclecombinations_view(main_window: Ui_MainWindow):
+def navigate_to_listing_view(main_window: Ui_MainWindow):
 
     global vehicle_combinations, matches
     vehicle_combinations = VehicleCombination.get()
@@ -172,7 +172,7 @@ def save(main_window: Ui_MainWindow):
 
         vehicle_combination.update() if vehicle_combination_id else vehicle_combination.insert()
 
-        change_to_vehiclecombinations_view(main_window)
+        navigate_to_listing_view(main_window)
 
         clear_entry_fields(main_window)
 
@@ -211,7 +211,7 @@ def form_is_valid(main_window: Ui_MainWindow):
 def connect(main_window: Ui_MainWindow):
 
     main_window.actionVehicle_Combinations.triggered.connect(
-        lambda: change_to_vehiclecombinations_view(main_window)
+        lambda: navigate_to_listing_view(main_window)
     )
     main_window.tblVehicleCombinations.selectionModel().selectionChanged.connect(
         lambda: on_row_select(main_window)

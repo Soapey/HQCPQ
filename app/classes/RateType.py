@@ -19,12 +19,17 @@ class RateType:
             cur.execute(
                 """
                 INSERT INTO rate_type (name) 
-                VALUES (?);""",
+                VALUES (?);
+                """,
                 (self.name,),
             )
 
             res = cur.execute(
-                "SELECT id FROM rate_type WHERE ROWID = last_insert_rowid();"
+                """
+                SELECT id 
+                FROM rate_type 
+                WHERE ROWID = last_insert_rowid();
+                """
             ).fetchall()
 
             if res:
@@ -42,7 +47,8 @@ class RateType:
                 """
                 UPDATE rate_type 
                 SET name = ? 
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (
                     self.name,
                     self.id,
@@ -59,7 +65,8 @@ class RateType:
             cur.execute(
                 """
                 DELETE FROM rate_type 
-                WHERE id = ?;""",
+                WHERE id = ?;
+                """,
                 (self.id,),
             )
 
@@ -77,7 +84,8 @@ class RateType:
                 records = cur.execute(
                     """
                     SELECT id, name 
-                    FROM rate_type;"""
+                    FROM rate_type;
+                    """
                 ).fetchall()
 
             else:
@@ -85,7 +93,8 @@ class RateType:
                     """
                     SELECT id, name 
                     FROM rate_type 
-                    WHERE id = ?;""",
+                    WHERE id = ?;
+                    """,
                     (id,),
                 ).fetchall()
 

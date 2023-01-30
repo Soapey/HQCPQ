@@ -1,6 +1,6 @@
+from tkinter import messagebox
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox, QHeaderView
 from PyQt5.QtGui import QDoubleValidator
-from tkinter import messagebox
 from app.classes.VehicleCombination import VehicleCombination
 from app.classes.Product import Product
 from app.classes.ProductRate import ProductRate

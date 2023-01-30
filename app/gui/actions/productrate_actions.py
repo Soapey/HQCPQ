@@ -1,12 +1,12 @@
+from tkinter import messagebox
+from PyQt5.QtGui import QDoubleValidator
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox
 from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
 from app.classes.Product import Product
 from app.classes.ProductRate import ProductRate
 from app.classes.RateType import RateType
 from app.db.SQLCursor import SQLCursor
-from PyQt5.QtGui import QDoubleValidator
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox
-from tkinter import messagebox
 from app.gui.helpers import (
     selected_row_id,
     change_view,
@@ -191,11 +191,12 @@ def form_is_valid(main_window: Ui_MainWindow):
 
     else:
 
+        global rate_types, product_rates
+
         selected_rate_type_name: str = main_window.cmbProductRate_RateType.currentText()
 
         product_id: int = int(main_window.lblProductId.text())
 
-        global rate_types, product_rates
         rate_type_list: list[RateType] = [
             rt for rt in rate_types.values() if rt.name == selected_rate_type_name
         ]

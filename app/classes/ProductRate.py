@@ -34,7 +34,8 @@ class ProductRate:
 
             res = cur.execute(
                 """
-                SELECT id FROM product_rate 
+                SELECT id 
+                FROM product_rate 
                 WHERE ROWID = last_insert_rowid();
                 """
             ).fetchall()
