@@ -5,7 +5,7 @@ from sqlite3 import connect, Error, Cursor
 PRODUCTION_SQLITE_PATH = r"app\db\hqcpq.sqlite3"
 
 
-class SQLCursor:
+class SQLiteCursor:
     def __init__(self) -> None:
         self.path = PRODUCTION_SQLITE_PATH
         self.connection = None

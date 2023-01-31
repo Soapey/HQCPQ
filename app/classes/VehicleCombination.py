@@ -1,4 +1,4 @@
-from app.db.SQLCursor import SQLCursor
+from app.db.SQLiteCursor import SQLiteCursor
 
 
 class VehicleCombination:
@@ -13,7 +13,7 @@ class VehicleCombination:
 
     def insert(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -44,7 +44,7 @@ class VehicleCombination:
 
     def update(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -65,7 +65,7 @@ class VehicleCombination:
 
     def delete(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -83,7 +83,7 @@ class VehicleCombination:
 
         records: list[tuple] = None
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return dict()

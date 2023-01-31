@@ -1,4 +1,4 @@
-from app.db.SQLCursor import SQLCursor
+from app.db.SQLiteCursor import SQLiteCursor
 
 
 class RateType:
@@ -11,7 +11,7 @@ class RateType:
 
     def insert(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -38,7 +38,7 @@ class RateType:
 
     def update(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -57,7 +57,7 @@ class RateType:
 
     def delete(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -75,7 +75,7 @@ class RateType:
 
         records: list[tuple] = None
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return dict()

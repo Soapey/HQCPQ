@@ -1,4 +1,4 @@
-from app.db.SQLCursor import SQLCursor
+from app.db.SQLiteCursor import SQLiteCursor
 
 
 class ProductRate:
@@ -15,7 +15,7 @@ class ProductRate:
 
     def insert(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -46,7 +46,7 @@ class ProductRate:
 
     def update(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -67,7 +67,7 @@ class ProductRate:
 
     def delete(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -85,7 +85,7 @@ class ProductRate:
 
         records: list[tuple] = None
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return dict()

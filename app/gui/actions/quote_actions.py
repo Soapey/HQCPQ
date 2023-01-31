@@ -5,7 +5,7 @@ from PyQt5.QtGui import QIntValidator
 from app.gui.view_enum import ViewPage
 from app.classes.Quote import Quote
 from app.gui.components.main_window import Ui_MainWindow
-from app.db.SQLCursor import SQLCursor
+from app.db.SQLiteCursor import SQLiteCursor
 from app.gui.helpers import (
     toggle_buttons,
     change_view,
@@ -309,7 +309,7 @@ def save(main_window: Ui_MainWindow):
     main_window.lblQuoteId.setText(str(quote.id))
 
     # Update all children QuoteItem objects to use the most updated kilometres for their transport_rate_ex_gst.
-    with SQLCursor() as cur:
+    with SQLiteCursor() as cur:
 
         if cur:
             quote_item_tuples = cur.execute(

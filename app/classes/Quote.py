@@ -4,7 +4,7 @@ from datetime import datetime
 from tkinter import Tk, messagebox
 from tkinter.filedialog import askdirectory
 from app.classes.QuoteItem import QuoteItem
-from app.db.SQLCursor import SQLCursor
+from app.db.SQLiteCursor import SQLiteCursor
 
 
 class Quote:
@@ -62,7 +62,7 @@ class Quote:
 
     def insert(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -97,7 +97,7 @@ class Quote:
 
     def update(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -122,7 +122,7 @@ class Quote:
 
     def delete(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -203,7 +203,7 @@ class Quote:
 
         records: list[tuple] = None
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return dict()

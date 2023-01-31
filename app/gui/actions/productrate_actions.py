@@ -6,7 +6,7 @@ from app.gui.view_enum import ViewPage
 from app.classes.Product import Product
 from app.classes.ProductRate import ProductRate
 from app.classes.RateType import RateType
-from app.db.SQLCursor import SQLCursor
+from app.db.SQLiteCursor import SQLiteCursor
 from app.gui.helpers import (
     selected_row_id,
     change_view,
@@ -35,7 +35,7 @@ def fetch_records(main_window: Ui_MainWindow):
 
     product_id: int = int_conv(main_window.lblProductId.text())
 
-    with SQLCursor() as cur:
+    with SQLiteCursor() as cur:
 
         if cur and product_id:
             global records

@@ -1,4 +1,4 @@
-from app.db.SQLCursor import SQLCursor
+from app.db.SQLiteCursor import SQLiteCursor
 
 
 class QuoteItem:
@@ -34,7 +34,7 @@ class QuoteItem:
 
     def insert(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -69,7 +69,7 @@ class QuoteItem:
 
     def update(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -94,7 +94,7 @@ class QuoteItem:
 
     def delete(self):
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return
@@ -112,7 +112,7 @@ class QuoteItem:
 
         records: list[tuple] = None
 
-        with SQLCursor() as cur:
+        with SQLiteCursor() as cur:
 
             if not cur:
                 return dict()
