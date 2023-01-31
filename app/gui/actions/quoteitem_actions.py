@@ -102,21 +102,23 @@ def calculate_quote_item_totals(main_window: Ui_MainWindow, quote_id: int = None
 
     selected_id: int = quote_id or selected_row_id(main_window.tblQuotes)
     quotes_list = list(Quote.get(selected_id).values())
-    quote: Quote = quotes_list[0] if quotes_list else None
-
-    global quote_items
-    items = quote.items(quote_items)
 
     transport_total_ex_gst: float = 0
     product_total_ex_gst: float = 0
 
-    for quote_item in items.values():
-        transport_total_ex_gst += (
-            quote_item.transport_rate_ex_gst * quote_item.vehicle_combination_net
-        )
-        product_total_ex_gst += (
-            quote_item.product_rate_ex_gst * quote_item.vehicle_combination_net
-        )
+    if quotes_list:
+
+        quote: Quote = quotes_list[0] if quotes_list else None
+        global quote_items
+        items = quote.items(quote_items)
+
+        for quote_item in items.values():
+            transport_total_ex_gst += (
+                quote_item.transport_rate_ex_gst * quote_item.vehicle_combination_net
+            )
+            product_total_ex_gst += (
+                quote_item.product_rate_ex_gst * quote_item.vehicle_combination_net
+            )
 
     main_window.lblQuote_ProductTotalExGST.setText(
         "${:,.2f}".format(product_total_ex_gst)
@@ -295,62 +297,81 @@ def delete(main_window: Ui_MainWindow):
     global quote_items
     quote_item: QuoteItem = quote_items[selected_row_id(main_window.tblQuoteItems)]
 
+    delete_confirmed: bool = messagebox.askyesno(
+        title="Confirm Delete",
+        message=f"Are you sure that you would like to delete {quote_item.vehicle_combination_net} tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name}?",
+    )
+
+    if not delete_confirmed:
+        return
+
     quote_item.delete()
 
     del quote_items[quote_item.id]
 
     refresh_table(main_window, quote_item.quote_id)
 
+    messagebox.showinfo(
+        title="Delete Success",
+        message=f"{quote_item.vehicle_combination_net} tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name} successfully deleted.",
+    )
+
 
 def save(main_window: Ui_MainWindow):
 
-    if form_is_valid(main_window):
+    if form_is_valid(main_window) is False:
+        return
 
-        quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
-        quotes_list = list(Quote.get(quote_id).values())
-        quote: Quote = quotes_list[0] if quotes_list else None
-        quote_item_id: int = int_conv(main_window.lblQuoteItemId.text())
-        tonnes: float = float(main_window.txtQuoteItem_Tonnes.text())
-        product_name: str = main_window.cmbQuoteItem_Product.currentText()
-        charge_type_name: str = main_window.cmbQuoteItem_ProductRate.currentText()
-        product_rate_ex_gst: float = float(main_window.txtQuoteItem_ProductRate.text())
-        selected_vehicle_combination_name: str = (
-            main_window.cmbQuoteItem_VehicleCombination.currentText()
-        )
+    quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
+    quotes_list = list(Quote.get(quote_id).values())
+    quote: Quote = quotes_list[0] if quotes_list else None
+    quote_item_id: int = int_conv(main_window.lblQuoteItemId.text())
+    tonnes: float = float(main_window.txtQuoteItem_Tonnes.text())
+    product_name: str = main_window.cmbQuoteItem_Product.currentText()
+    charge_type_name: str = main_window.cmbQuoteItem_ProductRate.currentText()
+    product_rate_ex_gst: float = float(main_window.txtQuoteItem_ProductRate.text())
+    selected_vehicle_combination_name: str = (
+        main_window.cmbQuoteItem_VehicleCombination.currentText()
+    )
 
-        global vehicle_combinations
-        vehicle_combinations_list = [
-            vc
-            for vc in vehicle_combinations.values()
-            if vc.name == selected_vehicle_combination_name
-        ]
+    global vehicle_combinations
+    vehicle_combinations_list = [
+        vc
+        for vc in vehicle_combinations.values()
+        if vc.name == selected_vehicle_combination_name
+    ]
 
-        vehicle_combination: VehicleCombination = vehicle_combinations_list[0]
+    vehicle_combination: VehicleCombination = vehicle_combinations_list[0]
 
-        transport_rate_ex_gst: float = get_transport_rate_ex_gst(
-            quote.kilometres, vehicle_combination.charge_type
-        )
+    transport_rate_ex_gst: float = get_transport_rate_ex_gst(
+        quote.kilometres, vehicle_combination.charge_type
+    )
 
-        quote_item = QuoteItem(
-            quote_item_id,
-            quote_id,
-            selected_vehicle_combination_name,
-            tonnes,
-            transport_rate_ex_gst,
-            product_name,
-            product_rate_ex_gst,
-            charge_type_name,
-        )
+    quote_item = QuoteItem(
+        quote_item_id,
+        quote_id,
+        selected_vehicle_combination_name,
+        tonnes,
+        transport_rate_ex_gst,
+        product_name,
+        product_rate_ex_gst,
+        charge_type_name,
+    )
 
-        quote_item.update() if quote_item_id else quote_item.insert()
+    quote_item.update() if quote_item_id else quote_item.insert()
 
-        refresh_table(main_window, quote_id)
+    refresh_table(main_window, quote_id)
 
-        calculate_quote_item_totals(main_window, quote_id)
+    calculate_quote_item_totals(main_window, quote_id)
 
-        change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
+    change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
 
-        clear_entry_fields(main_window)
+    clear_entry_fields(main_window)
+
+    messagebox.showinfo(
+        title="Save Success",
+        message=f"Successfully saved {quote_item.vehicle_combination_net} tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name}.",
+    )
 
 
 def on_row_select(main_window: Ui_MainWindow):

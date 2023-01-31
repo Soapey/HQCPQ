@@ -135,33 +135,51 @@ def delete(main_window: Ui_MainWindow):
     global products
     product: Product = products[selected_row_id(main_window.tblProducts)]
 
+    delete_confirmed: bool = messagebox.askyesno(
+        title="Confirm Delete",
+        message=f"Are you sure that you would like to delete {product.name}?",
+    )
+
+    if not delete_confirmed:
+        return
+
     product.delete()
 
     del products[product.id]
 
     refresh_table(main_window)
 
+    messagebox.showinfo(
+        title="Delete Success", message=f"{product.name} successfully deleted."
+    )
+
 
 def save(main_window: Ui_MainWindow):
 
-    if form_is_valid(main_window):
+    if form_is_valid(main_window) is False:
+        return
 
-        product_id: int = int_conv(main_window.lblProductId.text())
-        product_name: str = main_window.txtProductName.text()
+    product_id: int = int_conv(main_window.lblProductId.text())
+    product_name: str = main_window.txtProductName.text()
 
-        product: Product = Product(product_id, product_name)
+    product: Product = Product(product_id, product_name)
 
-        product.update() if product_id else product.insert()
+    product.update() if product_id else product.insert()
+    products[product.id] = product
 
-        main_window.lblProductId.setText(str(product.id))
+    main_window.lblProductId.setText(str(product.id))
 
-        toggle_buttons(
-            [
-                (main_window.btnNewProductRate, True),
-                (main_window.btnEditProductRate, False),
-                (main_window.btnDeleteProductRate, False),
-            ]
-        )
+    toggle_buttons(
+        [
+            (main_window.btnNewProductRate, True),
+            (main_window.btnEditProductRate, False),
+            (main_window.btnDeleteProductRate, False),
+        ]
+    )
+
+    messagebox.showinfo(
+        title="Save Success", message=f"Successfully saved {product.name}."
+    )
 
 
 def form_is_valid(main_window: Ui_MainWindow):

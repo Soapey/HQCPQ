@@ -141,40 +141,57 @@ def delete(main_window: Ui_MainWindow):
     global vehicle_combinations
     vehicle_combination: VehicleCombination = vehicle_combinations[selected_id]
 
+    delete_confirmed: bool = messagebox.askyesno(
+        title="Confirm Delete",
+        message=f"Are you sure that you would like to delete {vehicle_combination.name}?",
+    )
+
+    if not delete_confirmed:
+        return
+
     vehicle_combination.delete()
 
     del vehicle_combinations[vehicle_combination.id]
 
     refresh_table(main_window)
 
+    messagebox.showinfo(
+        title="Delete Success",
+        message=f" {vehicle_combination.name} successfully deleted.",
+    )
+
 
 def save(main_window: Ui_MainWindow):
 
-    if form_is_valid(main_window):
+    if form_is_valid(main_window) is False:
+        return
 
-        vehicle_combination_name: str = main_window.txtVehicleCombination_Name.text()
-        vehicle_combination_id: int = int_conv(
-            main_window.lblVehicleCombinationId.text()
-        )
-        vehicle_combination_net: float = float_conv(
-            main_window.txtVehicleCombination_Net.text()
-        )
-        vehicle_combination_charge_type: str = (
-            main_window.cmbVehicleCombination_ChargeType.currentText()
-        )
+    vehicle_combination_name: str = main_window.txtVehicleCombination_Name.text()
+    vehicle_combination_id: int = int_conv(main_window.lblVehicleCombinationId.text())
+    vehicle_combination_net: float = float_conv(
+        main_window.txtVehicleCombination_Net.text()
+    )
+    vehicle_combination_charge_type: str = (
+        main_window.cmbVehicleCombination_ChargeType.currentText()
+    )
 
-        vehicle_combination = VehicleCombination(
-            vehicle_combination_id,
-            vehicle_combination_name,
-            vehicle_combination_net,
-            vehicle_combination_charge_type,
-        )
+    vehicle_combination = VehicleCombination(
+        vehicle_combination_id,
+        vehicle_combination_name,
+        vehicle_combination_net,
+        vehicle_combination_charge_type,
+    )
 
-        vehicle_combination.update() if vehicle_combination_id else vehicle_combination.insert()
+    vehicle_combination.update() if vehicle_combination_id else vehicle_combination.insert()
 
-        navigate_to_listing_view(main_window)
+    navigate_to_listing_view(main_window)
 
-        clear_entry_fields(main_window)
+    clear_entry_fields(main_window)
+
+    messagebox.showinfo(
+        title="Save Success",
+        message=f"Successfully saved {vehicle_combination.name}.",
+    )
 
 
 def form_is_valid(main_window: Ui_MainWindow):

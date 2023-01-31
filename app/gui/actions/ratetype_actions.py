@@ -98,27 +98,46 @@ def delete(main_window: Ui_MainWindow):
     global rate_types
     rate_type: RateType = rate_types[selected_row_id(main_window.tblRateTypes)]
 
+    delete_confirmed: bool = messagebox.askyesno(
+        title="Confirm Delete",
+        message=f"Are you sure that you would like to delete {rate_type.name}?",
+    )
+
+    if not delete_confirmed:
+        return
+
     rate_type.delete()
 
     del rate_types[rate_type.id]
 
     refresh_table(main_window)
 
+    messagebox.showinfo(
+        title="Delete Success",
+        message=f" {rate_type.name} successfully deleted.",
+    )
+
 
 def save(main_window: Ui_MainWindow):
 
-    if form_is_valid(main_window):
+    if form_is_valid(main_window) is False:
+        return
 
-        rate_type_id: int = int_conv(main_window.lblRateTypeId.text())
-        rate_type_name: str = main_window.txtRateType_Name.text()
+    rate_type_id: int = int_conv(main_window.lblRateTypeId.text())
+    rate_type_name: str = main_window.txtRateType_Name.text()
 
-        rate_type: RateType = RateType(rate_type_id, rate_type_name)
+    rate_type: RateType = RateType(rate_type_id, rate_type_name)
 
-        rate_type.update() if rate_type_id else rate_type.insert()
+    rate_type.update() if rate_type_id else rate_type.insert()
 
-        navigate_to_listing_view(main_window)
+    navigate_to_listing_view(main_window)
 
-        clear_entry_fields(main_window)
+    clear_entry_fields(main_window)
+
+    messagebox.showinfo(
+        title="Save Success",
+        message=f"Successfully saved {rate_type.name}.",
+    )
 
 
 def form_is_valid(main_window: Ui_MainWindow):

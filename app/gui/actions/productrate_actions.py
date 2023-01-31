@@ -137,10 +137,17 @@ def edit(main_window: Ui_MainWindow):
 def delete(main_window: Ui_MainWindow):
 
     global product_rates
-
     product_rate: ProductRate = product_rates[
         selected_row_id(main_window.tblProductRates)
     ]
+
+    delete_confirmed: bool = messagebox.askyesno(
+        title="Confirm Delete",
+        message=f"Are you sure that you would like to delete Product Rate with id: {product_rate.id}?",
+    )
+
+    if not delete_confirmed:
+        return
 
     product_rate.delete()
 
@@ -148,33 +155,44 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window, product_rate.product_id)
 
+    messagebox.showinfo(
+        title="Delete Success",
+        message=f"Product Rate id: {product_rate.id}, successfully deleted.",
+    )
+
 
 def save(main_window: Ui_MainWindow):
 
-    if form_is_valid(main_window):
+    if form_is_valid(main_window) is False:
+        return
 
-        selected_rate_type_name: str = main_window.cmbProductRate_RateType.currentText()
+    selected_rate_type_name: str = main_window.cmbProductRate_RateType.currentText()
 
-        product_rate_id: int = int_conv(main_window.lblProductRateId.text())
-        product_id: int = int_conv(main_window.lblProductId.text())
+    product_rate_id: int = int_conv(main_window.lblProductRateId.text())
+    product_id: int = int_conv(main_window.lblProductId.text())
 
-        global rate_types
-        rate_type_list: list[RateType] = [
-            rt for rt in rate_types.values() if rt.name == selected_rate_type_name
-        ]
+    global rate_types
+    rate_type_list: list[RateType] = [
+        rt for rt in rate_types.values() if rt.name == selected_rate_type_name
+    ]
 
-        rate_type: RateType = rate_type_list[0] if rate_type_list else None
-        rate: float = float_conv(main_window.txtProductRate_Rate.text())
+    rate_type: RateType = rate_type_list[0] if rate_type_list else None
+    rate: float = float_conv(main_window.txtProductRate_Rate.text())
 
-        product_rate = ProductRate(product_rate_id, product_id, rate_type.id, rate)
+    product_rate = ProductRate(product_rate_id, product_id, rate_type.id, rate)
 
-        product_rate.update() if product_rate_id else product_rate.insert()
+    product_rate.update() if product_rate_id else product_rate.insert()
 
-        refresh_table(main_window, product_id)
+    refresh_table(main_window, product_id)
 
-        change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
+    change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
 
-        clear_entry_fields(main_window)
+    clear_entry_fields(main_window)
+
+    messagebox.showinfo(
+        title="Save Success",
+        message=f"Successfully saved Product Rate id: {product_rate.id}.",
+    )
 
 
 def form_is_valid(main_window: Ui_MainWindow):

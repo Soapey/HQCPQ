@@ -25,6 +25,13 @@ quotes: dict[int, Quote] = dict()
 matches: dict[int, Quote] = dict()
 
 
+def fetch_global_entities():
+
+    global quotes, matches
+    quotes = Quote.get()
+    matches = quotes
+
+
 def refresh_table(main_window: Ui_MainWindow):
 
     global matches
@@ -89,9 +96,7 @@ def on_row_select(main_window: Ui_MainWindow):
 
 def navigate_to_listing_view(main_window: Ui_MainWindow):
 
-    global quotes, matches
-    quotes = Quote.get()
-    matches = quotes
+    fetch_global_entities()
 
     refresh_table(main_window)
 
@@ -139,7 +144,12 @@ def new(main_window: Ui_MainWindow):
         ]
     )
 
-    refresh_quote_items_table(main_window)
+    # Write all children QuoteItem objects to GUI table.
+    fetch_quote_item_globals()
+    refresh_quote_items_table(main_window, -1)
+
+    # Calculate and display pricing of all children QuoteItem objects on the GUI.
+    calculate_quote_item_totals(main_window, -1)
 
     change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
 
@@ -190,16 +200,30 @@ def delete(main_window: Ui_MainWindow):
 
     # Fetch the Quote object to be deleted.
     quote_id: int = selected_row_id(main_window.tblQuotes)
+    global quotes
+    quote: Quote = quotes[quote_id]
+
+    delete_confirmed: bool = messagebox.askyesno(
+        title="Confirm Delete",
+        message=f"Are you sure that you would like to delete {quote.name} - {quote.address}, {quote.suburb}?",
+    )
+
+    if not delete_confirmed:
+        return
 
     # Delete the Quote object from SQL database
-    global quotes
-    quotes[quote_id].delete()
+    quote.delete()
 
     # Remove from global dictionary (avoids a second call to database).
     del quotes[quote_id]
 
     # Refresh the table with the new dictionary.
     refresh_table(main_window)
+
+    messagebox.showinfo(
+        title="Delete Success",
+        message=f"{quote.name} - {quote.address}, {quote.suburb} successfully deleted.",
+    )
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -279,6 +303,7 @@ def save(main_window: Ui_MainWindow):
 
     # Save the Quote object.
     quote.update() if quote_id else quote.insert()
+    quotes[quote.id] = quote
 
     # Set the GUI id field to display the saved Quote object id.
     main_window.lblQuoteId.setText(str(quote.id))
@@ -327,6 +352,11 @@ def save(main_window: Ui_MainWindow):
         ]
     )
 
+    messagebox.showinfo(
+        title="Save Success",
+        message=f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.",
+    )
+
 
 def search(main_window: Ui_MainWindow, search_text: str):
 
@@ -338,7 +368,7 @@ def search(main_window: Ui_MainWindow, search_text: str):
             q.id: q
             for q in quotes.values()
             if search_text
-            in "".join([q.name.lower(), q.address.lower(), q.suburb.lower()])
+            in "".join([str(q.id), q.name.lower(), q.address.lower(), q.suburb.lower()])
         }
     )
 
