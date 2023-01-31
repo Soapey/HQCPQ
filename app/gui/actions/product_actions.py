@@ -14,19 +14,56 @@ products: dict[int, Product] = dict()
 matches: dict[int, Product] = dict()
 
 
-def navigate_to_listing_view(main_window: Ui_MainWindow):
+def fetch_global_variables():
+    """
+    Requests the SQL database for all products and writes them to the global variables.
+
+    Parameters
+    ----------
+    N/A
+    """
 
     global products, matches
     products = Product.get()
     matches = products
 
+
+def navigate_to_listing_view(main_window: Ui_MainWindow):
+    """
+    Prepares the GUI and then changes the stacked widget page to the Products listing view.
+
+    Parameters
+    ----------
+    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
+    """
+
+    # Set global variables.
+    fetch_global_variables()
+
+    # Refresh the Products listing view table with the products stored in the global matches variable.
     refresh_table(main_window)
 
+    # Change the stacked widget page to the Products listing view.
     change_view(main_window.swPages, ViewPage.PRODUCTS)
 
 
 def search(main_window: Ui_MainWindow, search_text: str):
+    """
+    Finds all products where their lowercased name matches the lowercased search text.
+    Then writes the matches to the global matches variable.
+    Then refreshes the Products listing view table with the match results.
 
+    If the search text is empty, it will show all products.
+
+    Parameters
+    ----------
+    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
+    search_text  :  The lowercased text (must be passed in lowercased) to be compared against each Product name.
+    """
+
+    # Loop through each product in the global products variable.
+    # If the lowercased name matches the search text, add it to the result dictionary --
+    # that will be written to the global matches variable.
     global products, matches
     matches = (
         products
@@ -34,13 +71,23 @@ def search(main_window: Ui_MainWindow, search_text: str):
         else {p.id: p for p in products.values() if search_text in p.name.lower()}
     )
 
+    # Refresh the Products listing view table with the products stored in the global matches variable.
     refresh_table(main_window)
 
 
 def on_row_select(main_window: Ui_MainWindow):
+    """
+    Determines what action buttons will be shown, depending on if a row is selected in the Products listing view table.
 
+    Parameters
+    ----------
+    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
+    """
+
+    # Get the id of the Product on the tables selected row, this will be None if there is no row selected.
     selected_id = selected_row_id(main_window.tblProducts)
 
+    # Show and hide action buttons according to whether a row is selected or not.
     toggle_buttons(
         [
             (main_window.btnNewProduct, True),
@@ -51,20 +98,30 @@ def on_row_select(main_window: Ui_MainWindow):
 
 
 def refresh_table(main_window: Ui_MainWindow):
+    """
+    Refreshes the Product listing view table with the products stored in the global matches variable.
+
+    Parameters
+    ----------
+    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
+    """
 
     global matches
-    tbl_headers = ["ID", "Name"]
 
+    # Configure the tables headers and prepare the row count before inserting data.
+    tbl_headers = ["ID", "Name"]
     tbl: QTableWidget = main_window.tblProducts
     tbl.clear()
     tbl.setRowCount(len(matches.values()))
     tbl.setColumnCount(len(tbl_headers))
     tbl.setHorizontalHeaderLabels(tbl_headers)
 
+    # Insert each data cell into table.
     for index, product in enumerate(matches.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(product.id)))
         tbl.setItem(index, 1, QTableWidgetItem(product.name))
 
+    # Set all columns of the table to fit the column contents and stretch the last column.
     header: QHeaderView = tbl.horizontalHeader()
     for i in range(len(tbl_headers)):
         header.setSectionResizeMode(
@@ -74,6 +131,7 @@ def refresh_table(main_window: Ui_MainWindow):
             else QHeaderView.ResizeMode.Stretch,
         )
 
+    # Hide edit & delete action buttons as no row will be selected once the table is refreshed.
     toggle_buttons(
         [
             (main_window.btnNewProduct, True),
@@ -84,6 +142,13 @@ def refresh_table(main_window: Ui_MainWindow):
 
 
 def clear_entry_fields(main_window: Ui_MainWindow):
+    """
+    Clears all entry fields to enter a new or edit a Product.
+
+    Parameters
+    ----------
+
+    """
 
     main_window.lblProductId.clear()
     main_window.txtProductName.clear()

@@ -31,6 +31,25 @@ def fetch_global_entities():
     rate_types = RateType.get()
 
 
+def fetch_records(main_window: Ui_MainWindow):
+
+    product_id: int = int_conv(main_window.lblProductId.text())
+
+    with SQLCursor() as cur:
+
+        if cur and product_id:
+            global records
+            records = cur.execute(
+                """
+                SELECT pr.id, rt.name, pr.rate
+                FROM product_rate pr
+                LEFT JOIN rate_type rt ON pr.rate_type_id = rt.id
+                WHERE pr.product_id = ?;
+                """,
+                (product_id,),
+            ).fetchall()
+
+
 def on_row_select(main_window: Ui_MainWindow):
 
     selected_id: int = selected_row_id(main_window.tblProductRates)
@@ -48,22 +67,8 @@ def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
 
     tbl: QTableWidget = main_window.tblProductRates
 
-    selected_product_id: int = selected_id or selected_row_id(main_window.tblProducts)
-
+    fetch_records(main_window)
     global records
-
-    with SQLCursor() as cur:
-
-        if cur:
-            records = cur.execute(
-                """
-                SELECT pr.id, rt.name, pr.rate
-                FROM product_rate pr
-                LEFT JOIN rate_type rt ON pr.rate_type_id = rt.id
-                WHERE pr.product_id = ?;
-                """,
-                (selected_product_id,),
-            ).fetchall()
 
     tbl_headers: list[str] = ["ID", "Type", "Rate"]
     tbl.clear()
@@ -88,8 +93,9 @@ def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
 def clear_entry_fields(main_window: Ui_MainWindow):
 
     # Fetch all RateTypes from SQLite database.
+    fetch_records(main_window)
+    fetch_global_entities()
     global rate_types, records
-    rate_types = RateType.get()
 
     main_window.lblProductRateId.clear()
 
@@ -119,12 +125,15 @@ def edit(main_window: Ui_MainWindow):
 
     selected_id: int = selected_row_id(main_window.tblProductRates)
 
+    clear_entry_fields(main_window)
+
     global records
     record_list: list[tuple] = [r for r in records if r[0] == selected_id]
 
     record = record_list[0] if record_list else None
 
-    clear_entry_fields(main_window)
+    if not record:
+        return
 
     main_window.lblProductRateId.setText(str(record[0]))
     main_window.cmbProductRate_RateType.addItem(record[1])
@@ -201,17 +210,20 @@ def form_is_valid(main_window: Ui_MainWindow):
     error_string: str = str()
 
     product_rate_id: int = int_conv(main_window.lblProductRateId.text())
+    selected_rate_type_name: str = main_window.cmbProductRate_RateType.currentText()
     product_rate_rate: float = float_conv(main_window.txtProductRate_Rate.text())
+
+    if not selected_rate_type_name:
+        result = False
+        error_string += "\n- Rate Type field cannot be blank."
 
     if not product_rate_rate:
         result = False
         error_string += "\n- Rate field cannot be blank."
 
-    else:
+    elif selected_rate_type_name and product_rate_rate:
 
         global rate_types, product_rates
-
-        selected_rate_type_name: str = main_window.cmbProductRate_RateType.currentText()
 
         product_id: int = int(main_window.lblProductId.text())
 
