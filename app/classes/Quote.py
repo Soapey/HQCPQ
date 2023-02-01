@@ -145,7 +145,7 @@ class Quote:
             excel = win32.Dispatch("Excel.Application")
 
             # Open the workbook and read the first worksheet to a variable.
-            wb = excel.Workbooks.Open(os.path.abspath(r"app\quote_template.xlsx"))
+            wb = excel.Workbooks.Open(os.path.abspath(r"files\quote_template.xlsx"))
             ws = wb.Worksheets["Sheet1"]
 
             # Write all Quote attribute values to the worksheet.
@@ -191,7 +191,6 @@ class Quote:
         finally:
             # Close the workbook regardless if export succeeds or fails.
             wb.Close(False)
-            excel.Quit()
 
     @classmethod
     def get(cls, id: int = None) -> dict:

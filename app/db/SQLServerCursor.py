@@ -5,9 +5,11 @@ from pypyodbc import connect, Cursor
 DRIVER_NAME = "ODBC Driver 17 for SQL Server"
 SERVER_NAME = "10.1.1.16,49172"
 DATABASE_NAME = "HQCPQ"
+USER_NAME = 'hqcpquser'
+PWD = 'hqcpqpwd'
 
 
-connection_string = f"DRIVER={{{DRIVER_NAME}}};SERVER={SERVER_NAME};DATABASE={DATABASE_NAME};trusted_connection=yes;"
+connection_string = f"DRIVER={{{DRIVER_NAME}}};SERVER={SERVER_NAME};DATABASE={DATABASE_NAME};UID={USER_NAME};PWD={PWD};"
 
 
 class SQLServerCursor:
