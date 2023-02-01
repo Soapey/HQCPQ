@@ -3,8 +3,8 @@ import win32com.client as win32
 from datetime import datetime
 from tkinter import Tk, messagebox
 from tkinter.filedialog import askdirectory
-from fpdf import FPDF
 from app.classes.QuoteItem import QuoteItem
+from app.classes.QuotePDF import QuotePDF
 from app.db.config import get_cursor_type
 
 
@@ -131,92 +131,9 @@ class Quote:
                 [self.id],
             )
 
-    def export_with_excel(self):
-
-        # Dialog box requests user to select destination folder.
-        Tk().withdraw()
-        directory_path = askdirectory()
-
-        # Return if no destination folder was selected.
-        if not directory_path:
-            return
-
-        try:
-            # Create excel object
-            excel = win32.Dispatch("Excel.Application")
-
-            # Open the workbook and read the first worksheet to a variable.
-            wb = excel.Workbooks.Open(os.path.abspath(r"files\quote_template.xlsx"))
-            ws = wb.Worksheets["Sheet1"]
-
-            # Write all Quote attribute values to the worksheet.
-            # (General values)
-            ws.Cells(9, 1).Value = self.name
-            ws.Cells(10, 1).Value = self.address
-            ws.Cells(11, 1).Value = self.suburb
-            ws.Cells(12, 1).Value = self.contact_number
-            ws.Cells(8, 4).Value = self.id
-            ws.Cells(9, 4).Value = datetime.strftime(self.date_created, "%d/%m/%Y")
-            ws.Cells(15, 4).Value = self.total_inc_gst()
-
-            # (Quote Items)
-            for index, quote_item in enumerate(self.items().values()):
-                ws.Cells(20 + index, 1).Value = quote_item.vehicle_combination_net
-                ws.Cells(20 + index, 2).Value = quote_item.product_name
-                ws.Cells(20 + index, 3).Value = quote_item.vehicle_combination_name
-                ws.Cells(20 + index, 4).Value = quote_item.total_inc_gst()
-                ws.Cells(20 + index, 4).NumberFormat = "$#,##0.00"
-
-                ws.Range(
-                    ws.Cells(20 + index, 1), ws.Cells(20 + index, 4)
-                ).HorizontalAlignment = 3
-
-            # Clean file name of illegal characters before exporting with it.
-            illegal_characters: str = r'*."/\\[]:;|,'
-            file_name: str = f"Hunter Quarries Quote #{self.id} - {self.name} ({datetime.strftime(self.date_created, '%d-%m-%Y')})"
-            for illegal_character in illegal_characters:
-                file_name = file_name.replace(illegal_character, "")
-
-            full_path: str = rf"{directory_path}\{file_name}.pdf"
-
-            # Export the worksheet as a PDF to the selected desination folder.
-            ws.ExportAsFixedFormat(0, os.path.abspath(full_path))
-
-            # Confirmation messagebox to confirm that the Quote was exported to a pdf successfully.
-            messagebox.showinfo(
-                title="Export Success",
-                message=f"Quote was successfully exported to path:\n\n{full_path}",
-            )
-        except Exception as e:
-            messagebox.showerror(message=e)
-        finally:
-            # Close the workbook regardless if export succeeds or fails.
-            wb.Close(False)
-
     def export(self):
 
-        # Dialog box requests user to select destination folder.
-        directory_path = askdirectory()
-
-        # Return if no destination folder was selected.
-        if not directory_path:
-            return
-
-        # Clean file name of illegal characters before exporting with it.
-        illegal_characters: str = r'*."/\\[]:;|,'
-        file_name: str = f"test"
-        for illegal_character in illegal_characters:
-            file_name = file_name.replace(illegal_character, "")
-
-        full_path: str = rf"{directory_path}\{file_name}.pdf"
-
-
-
-        pdf = FPDF('P', 'mm', 'A4')
-        pdf.add_page()
-        pdf.set_font("Arial", "", 14)
-        pdf.cell(40, 10, 'QUOTE')
-        pdf.output(full_path, "F")
+        QuotePDF(self).export()
 
     @classmethod
     def get(cls, id: int = None) -> dict:

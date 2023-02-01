@@ -253,10 +253,6 @@ def form_is_valid(main_window: Ui_MainWindow):
         result = False
         error_string += "\n- Suburb field cannot be blank."
 
-    if len(main_window.txtQuote_ContactNumber.text()) == 0:
-        result = False
-        error_string += "\n- Contact Number field cannot be blank."
-
     if len(kilometres_text) == 0:
         result = False
         error_string += "\n- Kilometres field cannot be blank."

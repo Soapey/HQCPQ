@@ -35,7 +35,7 @@ CREATE TABLE quote (
     name varchar(100) NOT NULL,
     address varchar(100) NOT NULL,
     suburb varchar(100) NOT NULL,
-    contact_number varchar(100) NOT NULL,
+    contact_number varchar(100),
     kilometres int NOT NULL
 );
 
