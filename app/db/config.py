@@ -17,6 +17,11 @@ def get_cursor_type():
             return SQLServerCursor
 
 
+def start_empty_sql_server_db():
+
+    start_db(DbType.SQL_SERVER, clean_start=True)
+
+
 def start_db(start_db_type: DbType, clean_start: bool = False):
 
     global db_type
