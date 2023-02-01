@@ -3,6 +3,7 @@ import win32com.client as win32
 from datetime import datetime
 from tkinter import Tk, messagebox
 from tkinter.filedialog import askdirectory
+from fpdf import FPDF
 from app.classes.QuoteItem import QuoteItem
 from app.db.config import get_cursor_type
 
@@ -130,7 +131,7 @@ class Quote:
                 [self.id],
             )
 
-    def export(self):
+    def export_with_excel(self):
 
         # Dialog box requests user to select destination folder.
         Tk().withdraw()
@@ -191,6 +192,31 @@ class Quote:
         finally:
             # Close the workbook regardless if export succeeds or fails.
             wb.Close(False)
+
+    def export(self):
+
+        # Dialog box requests user to select destination folder.
+        directory_path = askdirectory()
+
+        # Return if no destination folder was selected.
+        if not directory_path:
+            return
+
+        # Clean file name of illegal characters before exporting with it.
+        illegal_characters: str = r'*."/\\[]:;|,'
+        file_name: str = f"test"
+        for illegal_character in illegal_characters:
+            file_name = file_name.replace(illegal_character, "")
+
+        full_path: str = rf"{directory_path}\{file_name}.pdf"
+
+
+
+        pdf = FPDF('P', 'mm', 'A4')
+        pdf.add_page()
+        pdf.set_font("Arial", "", 14)
+        pdf.cell(40, 10, 'QUOTE')
+        pdf.output(full_path, "F")
 
     @classmethod
     def get(cls, id: int = None) -> dict:
