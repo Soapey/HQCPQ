@@ -3,11 +3,13 @@ from pypyodbc import connect, Cursor
 
 
 DRIVER_NAME = "ODBC Driver 17 for SQL Server"
-SERVER_NAME = "DESKTOP-A6HCEG9\SQLEXPRESS"
+SERVER_NAME = "10.1.1.16,49172"
 DATABASE_NAME = "HQCPQ"
 
 
-connection_string = f"Driver={{{DRIVER_NAME}}};Server={SERVER_NAME};Database={DATABASE_NAME};Trusted_Connection=yes;"
+connection_string = (
+    f"DRIVER={{{DRIVER_NAME}}};SERVER={SERVER_NAME};DATABASE={DATABASE_NAME};"
+)
 
 
 class SQLServerCursor:
@@ -22,7 +24,7 @@ class SQLServerCursor:
 
         try:
             self.connection_string = connection_string
-            self.connection = connect(connection_string)
+            self.connection = connect(self.connection_string)
             self.cursor = self.connection.cursor()
             result = self.cursor
         except Exception as e:

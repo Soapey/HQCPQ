@@ -1,6 +1,6 @@
 import os
 from app.db.SQLiteCursor import SQLiteCursor, PRODUCTION_SQLITE_PATH
-from app.db.SQLServerCursor import SQLServerCursor, DATABASE_NAME
+from app.db.SQLServerCursor import SQLServerCursor
 from app.db.db_type_enum import DbType
 
 
@@ -27,10 +27,12 @@ def start_db(start_db_type: DbType, clean_start: bool = False):
         case DbType.SQL_SERVER:
 
             with SQLServerCursor() as cur:
-                for tbl_tuple in cur.tables(tableType="TABLE"):
-                    if tbl_tuple[1] == "dbo":
-                        cur.execute(f"DROP TABLE IF EXISTS {tbl_tuple[2]};")
+                print(cur)
+                # for tbl_tuple in cur.tables(tableType="TABLE"):
+                # if tbl_tuple[1] == "dbo":
+                # print(tbl_tuple[2])
+                # cur.execute(f"DROP TABLE IF EXISTS {tbl_tuple[2]};")
 
-                with open(r"app\db\sqlserver_init.sql", mode="r") as f:
-                    script_contents = f.read()
-                    cur.execute(script_contents)
+                # with open(r"app\db\sqlserver_init.sql", mode="r") as f:
+                # script_contents = f.read()
+                # cur.execute(script_contents)
