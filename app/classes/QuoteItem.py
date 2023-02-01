@@ -1,4 +1,4 @@
-from app.db.SQLiteCursor import SQLiteCursor
+from app.db.config import get_cursor_type
 
 
 class QuoteItem:
@@ -34,17 +34,20 @@ class QuoteItem:
 
     def insert(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
 
-            cur.execute(
+            self.id = cur.execute(
                 """
                 INSERT INTO quote_item (quote_id, vehicle_combination_name, vehicle_combination_net, transport_rate_ex_gst, product_name, product_rate_ex_gst, charge_type_name) 
+                OUTPUT INSERTED.id
                 VALUES (?, ?, ?, ?, ?, ?, ?);
                 """,
-                (
+                [
                     self.quote_id,
                     self.vehicle_combination_name,
                     self.vehicle_combination_net,
@@ -52,24 +55,14 @@ class QuoteItem:
                     self.product_name,
                     self.product_rate_ex_gst,
                     self.charge_type_name,
-                ),
-            )
-
-            res = cur.execute(
-                """
-                SELECT id 
-                FROM quote_item 
-                WHERE ROWID = last_insert_rowid();
-                """
-            ).fetchall()
-
-            if res:
-                last_record = res[0]
-                self.id = last_record[0]
+                ],
+            ).fetchone()[0]
 
     def update(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -80,7 +73,7 @@ class QuoteItem:
                 SET quote_id = ?, vehicle_combination_name = ?, vehicle_combination_net = ?, transport_rate_ex_gst = ?, product_name = ?, product_rate_ex_gst = ?, charge_type_name = ?
                 WHERE id = ?;
                 """,
-                (
+                [
                     self.quote_id,
                     self.vehicle_combination_name,
                     self.vehicle_combination_net,
@@ -89,12 +82,14 @@ class QuoteItem:
                     self.product_rate_ex_gst,
                     self.charge_type_name,
                     self.id,
-                ),
+                ],
             )
 
     def delete(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -104,7 +99,7 @@ class QuoteItem:
                 DELETE FROM quote_item 
                 WHERE id = ?;
                 """,
-                (self.id,),
+                [self.id],
             )
 
     @classmethod
@@ -112,7 +107,9 @@ class QuoteItem:
 
         records: list[tuple] = None
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return dict()
@@ -132,7 +129,7 @@ class QuoteItem:
                     FROM quote_item 
                     WHERE id = ?;
                     """,
-                    (id,),
+                    [id],
                 ).fetchall()
 
         quote_item_list: list[QuoteItem] = [QuoteItem(*r) for r in records]

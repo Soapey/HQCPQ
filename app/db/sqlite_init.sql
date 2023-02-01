@@ -52,5 +52,3 @@ CREATE TABLE IF NOT EXISTS quote_item (
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
-
-PRAGMA foreign_keys = ON;

@@ -7,6 +7,16 @@ from app.db.db_type_enum import DbType
 db_type: DbType = None
 
 
+def get_cursor_type():
+
+    match db_type:
+        case DbType.SQLITE:
+            return SQLiteCursor
+
+        case DbType.SQL_SERVER:
+            return SQLServerCursor
+
+
 def start_db(start_db_type: DbType, clean_start: bool = False):
 
     global db_type
@@ -27,12 +37,24 @@ def start_db(start_db_type: DbType, clean_start: bool = False):
         case DbType.SQL_SERVER:
 
             with SQLServerCursor() as cur:
-                print(cur)
-                # for tbl_tuple in cur.tables(tableType="TABLE"):
-                # if tbl_tuple[1] == "dbo":
-                # print(tbl_tuple[2])
-                # cur.execute(f"DROP TABLE IF EXISTS {tbl_tuple[2]};")
 
-                # with open(r"app\db\sqlserver_init.sql", mode="r") as f:
-                # script_contents = f.read()
-                # cur.execute(script_contents)
+                if clean_start:
+
+                    priority_tables = ["dbo.product_rate", "dbo.quote_item"]
+
+                    for tbl_name in priority_tables:
+                        cur.execute(
+                            f"IF OBJECT_ID('{tbl_name}') IS NOT NULL DROP TABLE {tbl_name};"
+                        )
+
+                    for tbl in cur.tables(tableType="TABLE").fetchall():
+                        tbl_type = tbl[1]
+                        tbl_name = tbl[2]
+                        if tbl_type == "dbo" and tbl_name not in priority_tables:
+                            cur.execute(
+                                f"IF OBJECT_ID('{tbl_name}') IS NOT NULL DROP TABLE {tbl_name};"
+                            )
+
+                    with open(r"app\db\sqlserver_init.sql", mode="r") as f:
+                        script_contents = f.read()
+                        cur.execute(script_contents)

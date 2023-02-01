@@ -1,4 +1,4 @@
-from app.db.SQLiteCursor import SQLiteCursor
+from app.db.config import get_cursor_type
 
 
 class Product:
@@ -11,34 +11,27 @@ class Product:
 
     def insert(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
 
-            cur.execute(
+            self.id = cur.execute(
                 """
                 INSERT INTO product (name) 
+                OUTPUT INSERTED.id
                 VALUES (?);
                 """,
-                (self.name,),
-            )
-
-            res = cur.execute(
-                """
-                SELECT id 
-                FROM product 
-                WHERE ROWID = last_insert_rowid();
-                """
-            ).fetchall()
-
-            if res:
-                last_record = res[0]
-                self.id = last_record[0]
+                [self.name],
+            ).fetchone()[0]
 
     def update(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -49,15 +42,14 @@ class Product:
                 SET name = ? 
                 WHERE id = ?;
                 """,
-                (
-                    self.name,
-                    self.id,
-                ),
+                [self.name, self.id],
             )
 
     def delete(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -67,7 +59,7 @@ class Product:
                 DELETE FROM product 
                 WHERE id = ?;
                 """,
-                (self.id,),
+                [self.id],
             )
 
     @classmethod
@@ -75,7 +67,9 @@ class Product:
 
         records: list[tuple] = None
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return dict()
@@ -95,7 +89,7 @@ class Product:
                     FROM product 
                     WHERE id = ?;
                     """,
-                    (id,),
+                    [id],
                 ).fetchall()
 
         return {p.id: p for p in [Product(*r) for r in records]}

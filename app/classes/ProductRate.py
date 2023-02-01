@@ -1,4 +1,4 @@
-from app.db.SQLiteCursor import SQLiteCursor
+from app.db.config import get_cursor_type
 
 
 class ProductRate:
@@ -15,38 +15,27 @@ class ProductRate:
 
     def insert(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
 
-            cur.execute(
+            self.id = cur.execute(
                 """
                 INSERT INTO product_rate (product_id, rate_type_id, rate) 
+                OUTPUT INSERTED.id
                 VALUES (?, ?, ?);
                 """,
-                (
-                    self.product_id,
-                    self.rate_type_id,
-                    self.rate,
-                ),
-            )
-
-            res = cur.execute(
-                """
-                SELECT id 
-                FROM product_rate 
-                WHERE ROWID = last_insert_rowid();
-                """
-            ).fetchall()
-
-            if res:
-                last_record = res[0]
-                self.id = last_record[0]
+                [self.product_id, self.rate_type_id, self.rate],
+            ).fetchone()[0]
 
     def update(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -57,17 +46,14 @@ class ProductRate:
                 SET product_id = ?, rate_type_id = ?, rate = ? 
                 WHERE id = ?;
                 """,
-                (
-                    self.product_id,
-                    self.rate_type_id,
-                    self.rate,
-                    self.id,
-                ),
+                [self.product_id, self.rate_type_id, self.rate, self.id],
             )
 
     def delete(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -77,7 +63,7 @@ class ProductRate:
                 DELETE FROM product_rate 
                 WHERE id = ?;
                 """,
-                (self.id,),
+                [self.id],
             )
 
     @classmethod
@@ -85,7 +71,9 @@ class ProductRate:
 
         records: list[tuple] = None
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return dict()
@@ -105,7 +93,7 @@ class ProductRate:
                     FROM product_rate 
                     WHERE id = ?;
                     """,
-                    (id,),
+                    [id],
                 ).fetchall()
 
         return {pr.id: pr for pr in [ProductRate(*r) for r in records]}

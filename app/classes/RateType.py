@@ -1,4 +1,4 @@
-from app.db.SQLiteCursor import SQLiteCursor
+from app.db.config import get_cursor_type
 
 
 class RateType:
@@ -11,34 +11,27 @@ class RateType:
 
     def insert(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
 
-            cur.execute(
+            self.id = cur.execute(
                 """
                 INSERT INTO rate_type (name) 
+                OUTPUT INSERTED.id
                 VALUES (?);
                 """,
-                (self.name,),
-            )
-
-            res = cur.execute(
-                """
-                SELECT id 
-                FROM rate_type 
-                WHERE ROWID = last_insert_rowid();
-                """
-            ).fetchall()
-
-            if res:
-                last_record = res[0]
-                self.id = last_record[0]
+                [self.name],
+            ).fetchone()[0]
 
     def update(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -49,15 +42,14 @@ class RateType:
                 SET name = ? 
                 WHERE id = ?;
                 """,
-                (
-                    self.name,
-                    self.id,
-                ),
+                [self.name, self.id],
             )
 
     def delete(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -67,7 +59,7 @@ class RateType:
                 DELETE FROM rate_type 
                 WHERE id = ?;
                 """,
-                (self.id,),
+                [self.id],
             )
 
     @classmethod
@@ -75,7 +67,9 @@ class RateType:
 
         records: list[tuple] = None
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return dict()
@@ -95,7 +89,7 @@ class RateType:
                     FROM rate_type 
                     WHERE id = ?;
                     """,
-                    (id,),
+                    [id],
                 ).fetchall()
 
         return {rt.id: rt for rt in [RateType(*r) for r in records]}

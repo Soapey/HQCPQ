@@ -1,4 +1,4 @@
-from app.db.SQLiteCursor import SQLiteCursor
+from app.db.config import get_cursor_type
 
 
 class VehicleCombination:
@@ -13,38 +13,27 @@ class VehicleCombination:
 
     def insert(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
 
-            cur.execute(
+            self.id = cur.execute(
                 """
                 INSERT INTO vehicle_combination (name, net, charge_type) 
+                OUTPUT INSERTED.id
                 VALUES (?, ?, ?);
                 """,
-                (
-                    self.name,
-                    self.net,
-                    self.charge_type,
-                ),
-            )
-
-            res = cur.execute(
-                """
-                SELECT id 
-                FROM vehicle_combination 
-                WHERE ROWID = last_insert_rowid();
-                """
-            ).fetchall()
-
-            if res:
-                last_record = res[0]
-                self.id = last_record[0]
+                [self.name, self.net, self.charge_type],
+            ).fetchone()[0]
 
     def update(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -55,17 +44,14 @@ class VehicleCombination:
                 SET name = ?, net = ?, charge_type = ?
                 WHERE id = ?;
                 """,
-                (
-                    self.name,
-                    self.net,
-                    self.charge_type,
-                    self.id,
-                ),
+                [self.name, self.net, self.charge_type, self.id],
             )
 
     def delete(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -75,7 +61,7 @@ class VehicleCombination:
                 DELETE FROM vehicle_combination 
                 WHERE id = ?;
                 """,
-                (self.id,),
+                [self.id],
             )
 
     @classmethod
@@ -83,7 +69,9 @@ class VehicleCombination:
 
         records: list[tuple] = None
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return dict()
@@ -103,7 +91,7 @@ class VehicleCombination:
                     FROM vehicle_combination 
                     WHERE id = ?;
                     """,
-                    (id,),
+                    [id],
                 ).fetchall()
 
         return {vc.id: vc for vc in [VehicleCombination(*r) for r in records]}

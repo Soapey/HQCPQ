@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from app.gui.components.main_window import Ui_MainWindow
+from app.db.db_type_enum import DbType
 from app.db.config import start_db
 from app.gui.actions.quote_actions import (
     connect as connect_quotes,
@@ -38,7 +39,7 @@ def connect_main_window_actions(main_window: object):
 
 def main():
 
-    start_db()
+    start_db(DbType.SQL_SERVER)
 
     app = QApplication(sys.argv)
     main_window_root = QMainWindow()

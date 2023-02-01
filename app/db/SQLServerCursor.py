@@ -7,9 +7,7 @@ SERVER_NAME = "10.1.1.16,49172"
 DATABASE_NAME = "HQCPQ"
 
 
-connection_string = (
-    f"DRIVER={{{DRIVER_NAME}}};SERVER={SERVER_NAME};DATABASE={DATABASE_NAME};"
-)
+connection_string = f"DRIVER={{{DRIVER_NAME}}};SERVER={SERVER_NAME};DATABASE={DATABASE_NAME};trusted_connection=yes;"
 
 
 class SQLServerCursor:

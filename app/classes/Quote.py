@@ -4,7 +4,7 @@ from datetime import datetime
 from tkinter import Tk, messagebox
 from tkinter.filedialog import askdirectory
 from app.classes.QuoteItem import QuoteItem
-from app.db.SQLiteCursor import SQLiteCursor
+from app.db.config import get_cursor_type
 
 
 class Quote:
@@ -62,17 +62,20 @@ class Quote:
 
     def insert(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
 
-            cur.execute(
+            self.id = cur.execute(
                 """
                 INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number, kilometres) 
+                OUTPUT INSERTED.id
                 VALUES (?, ?, ?, ?, ?, ?, ?);
                 """,
-                (
+                [
                     self.date_created.date(),
                     self.date_required.date(),
                     self.name,
@@ -80,24 +83,14 @@ class Quote:
                     self.suburb,
                     self.contact_number,
                     self.kilometres,
-                ),
-            )
-
-            res = cur.execute(
-                """
-                SELECT id 
-                FROM quote 
-                WHERE ROWID = last_insert_rowid();
-                """
-            ).fetchall()
-
-            if res:
-                last_record = res[0]
-                self.id = last_record[0]
+                ],
+            ).fetchone()[0]
 
     def update(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -108,7 +101,7 @@ class Quote:
                 SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, contact_number = ?, kilometres = ? 
                 WHERE id = ?;
                 """,
-                (
+                [
                     self.date_created.date(),
                     self.date_required.date(),
                     self.name,
@@ -117,12 +110,14 @@ class Quote:
                     self.contact_number,
                     self.kilometres,
                     self.id,
-                ),
+                ],
             )
 
     def delete(self):
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return
@@ -132,7 +127,7 @@ class Quote:
                 DELETE FROM quote 
                 WHERE id = ?;
                 """,
-                (self.id,),
+                [self.id],
             )
 
     def export(self):
@@ -203,7 +198,9 @@ class Quote:
 
         records: list[tuple] = None
 
-        with SQLiteCursor() as cur:
+        cur_type = get_cursor_type()
+
+        with cur_type() as cur:
 
             if not cur:
                 return dict()
@@ -223,7 +220,7 @@ class Quote:
                     FROM quote 
                     WHERE id = ?;
                     """,
-                    (id,),
+                    [id],
                 ).fetchall()
 
         return {
