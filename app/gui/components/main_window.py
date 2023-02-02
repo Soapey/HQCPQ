@@ -92,9 +92,11 @@ class Ui_MainWindow(object):
         self.btnNewQuoteItem.setObjectName("btnNewQuoteItem")
         self.gridLayout_16.addWidget(self.btnNewQuoteItem, 9, 0, 1, 1)
         self.txtQuote_ContactNumber = QtWidgets.QLineEdit(self.pageQuoteEntry)
+        self.txtQuote_ContactNumber.setMaxLength(100)
         self.txtQuote_ContactNumber.setObjectName("txtQuote_ContactNumber")
         self.gridLayout_16.addWidget(self.txtQuote_ContactNumber, 6, 1, 1, 2)
         self.txtQuote_Suburb = QtWidgets.QLineEdit(self.pageQuoteEntry)
+        self.txtQuote_Suburb.setMaxLength(100)
         self.txtQuote_Suburb.setObjectName("txtQuote_Suburb")
         self.gridLayout_16.addWidget(self.txtQuote_Suburb, 5, 1, 1, 2)
         self.lblQuoteItem_Header = QtWidgets.QLabel(self.pageQuoteEntry)
@@ -134,6 +136,7 @@ class Ui_MainWindow(object):
         self.lblQuote_DateCreated_Label.setObjectName("lblQuote_DateCreated_Label")
         self.gridLayout_16.addWidget(self.lblQuote_DateCreated_Label, 1, 0, 1, 1)
         self.txtQuote_Name = QtWidgets.QLineEdit(self.pageQuoteEntry)
+        self.txtQuote_Name.setMaxLength(100)
         self.txtQuote_Name.setObjectName("txtQuote_Name")
         self.gridLayout_16.addWidget(self.txtQuote_Name, 3, 1, 1, 2)
         self.lblQuoteId = QtWidgets.QLabel(self.pageQuoteEntry)
@@ -142,6 +145,7 @@ class Ui_MainWindow(object):
         self.lblQuoteId.setObjectName("lblQuoteId")
         self.gridLayout_16.addWidget(self.lblQuoteId, 0, 1, 1, 2)
         self.txtQuote_Address = QtWidgets.QLineEdit(self.pageQuoteEntry)
+        self.txtQuote_Address.setMaxLength(100)
         self.txtQuote_Address.setObjectName("txtQuote_Address")
         self.gridLayout_16.addWidget(self.txtQuote_Address, 4, 1, 1, 2)
         self.lblQuote_Kilometres = QtWidgets.QLabel(self.pageQuoteEntry)
@@ -541,6 +545,7 @@ class Ui_MainWindow(object):
         self.lblProductId_Label.setObjectName("lblProductId_Label")
         self.gridLayout_2.addWidget(self.lblProductId_Label, 1, 0, 1, 1)
         self.txtProductName = QtWidgets.QLineEdit(self.pageProductEntry)
+        self.txtProductName.setMaxLength(30)
         self.txtProductName.setObjectName("txtProductName")
         self.gridLayout_2.addWidget(self.txtProductName, 3, 1, 1, 2)
         self.lblProductId = QtWidgets.QLabel(self.pageProductEntry)
@@ -758,6 +763,7 @@ class Ui_MainWindow(object):
         )
         self.gridLayout_5.addItem(spacerItem2, 4, 0, 1, 2)
         self.txtRateType_Name = QtWidgets.QLineEdit(self.pageRateTypeEntry)
+        self.txtRateType_Name.setMaxLength(100)
         self.txtRateType_Name.setObjectName("txtRateType_Name")
         self.gridLayout_5.addWidget(self.txtRateType_Name, 2, 1, 1, 1)
         self.lblRateTypeEntry_Header = QtWidgets.QLabel(self.pageRateTypeEntry)
@@ -837,6 +843,7 @@ class Ui_MainWindow(object):
         self.txtVehicleCombination_Name = QtWidgets.QLineEdit(
             self.pageVehicleCombinationEntry
         )
+        self.txtVehicleCombination_Name.setMaxLength(30)
         self.txtVehicleCombination_Name.setObjectName("txtVehicleCombination_Name")
         self.gridLayout_15.addWidget(self.txtVehicleCombination_Name, 2, 2, 1, 1)
         spacerItem3 = QtWidgets.QSpacerItem(
@@ -974,7 +981,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(3)
+        self.swPages.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.txtQuote_DateRequired, self.txtQuote_Name)
         MainWindow.setTabOrder(self.txtQuote_Name, self.txtQuote_Address)
@@ -1114,6 +1121,9 @@ class Ui_MainWindow(object):
         )
         self.lblProductRate_RateType.setText(_translate("MainWindow", "Rate Type"))
         self.lblProductRateId_Label.setText(_translate("MainWindow", "Id"))
+        self.txtProductRate_Rate.setPlaceholderText(
+            _translate("MainWindow", "(0-9999)")
+        )
         self.btnSaveProductRate.setText(_translate("MainWindow", "Save"))
         self.lblProductRate_Rate.setText(_translate("MainWindow", "Rate"))
         self.lblProductRateEntry_Header.setText(
@@ -1144,6 +1154,9 @@ class Ui_MainWindow(object):
         )
         self.lblVehicleCombinationId_Label.setText(_translate("MainWindow", "Id"))
         self.lblVehicleCombination_Name.setText(_translate("MainWindow", "Name"))
+        self.txtVehicleCombination_Net.setPlaceholderText(
+            _translate("MainWindow", "(0-9999)")
+        )
         self.lblVehicleCombination_Net.setText(_translate("MainWindow", "Average Net"))
         self.btnSaveVehicleCombination.setText(_translate("MainWindow", "Save"))
         self.lblVehicleCombination_ChargeType.setText(
