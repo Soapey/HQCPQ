@@ -203,6 +203,10 @@ class QuotePDF(FPDF):
                 "Payment required via credit card per load once final weights determined.",
                 self.row_height_mm,
             ),
+            (
+                "Site access must be suitable to receive goods. If deemed unsuitable on arrival by the driver, product will be returned to the quarry & credited, however freight charges will apply.",
+                self.row_height_mm + 5,
+            ),
         ]
 
         # Special conditions header.
