@@ -1,9 +1,9 @@
 from datetime import datetime
 from tkinter import messagebox
-from win10toast import ToastNotifier
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt5.QtGui import QIntValidator
 from app.gui.view_enum import ViewPage
+from app.classes.Toast import Toast
 from app.classes.Quote import Quote
 from app.gui.components.main_window import Ui_MainWindow
 from app.db.config import get_cursor_type
@@ -221,11 +221,10 @@ def delete(main_window: Ui_MainWindow):
     # Refresh the table with the new dictionary.
     refresh_table(main_window)
 
-    ToastNotifier().show_toast(
+    Toast(
         "Delete Success",
         f"{quote.name} - {quote.address}, {quote.suburb} successfully deleted.",
-        threaded=True,
-    )
+    ).show()
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -350,11 +349,10 @@ def save(main_window: Ui_MainWindow):
         ]
     )
 
-    ToastNotifier().show_toast(
+    Toast(
         "Save Success",
         f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.",
-        threaded=True,
-    )
+    ).show()
 
 
 def search(main_window: Ui_MainWindow, search_text: str):

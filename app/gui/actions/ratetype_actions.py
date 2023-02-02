@@ -1,6 +1,6 @@
 from tkinter import messagebox
-from win10toast import ToastNotifier
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
+from app.classes.Toast import Toast
 from app.classes.RateType import RateType
 from app.gui.view_enum import ViewPage
 from app.gui.components.main_window import Ui_MainWindow
@@ -113,9 +113,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    ToastNotifier().show_toast(
-        "Delete Success", f"{rate_type.name} successfully deleted.", threaded=True
-    )
+    Toast("Delete Success", f"{rate_type.name} successfully deleted.").show()
 
 
 def save(main_window: Ui_MainWindow):
@@ -134,9 +132,7 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    ToastNotifier().show_toast(
-        "Save Success", f"Successfully saved {rate_type.name}.", threaded=True
-    )
+    Toast("Save Success", f"Successfully saved {rate_type.name}.").show()
 
 
 def form_is_valid(main_window: Ui_MainWindow):

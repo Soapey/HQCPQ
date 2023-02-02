@@ -1,7 +1,7 @@
 from tkinter import messagebox
-from win10toast import ToastNotifier
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox, QHeaderView
 from PyQt5.QtGui import QDoubleValidator
+from app.classes.Toast import Toast
 from app.classes.VehicleCombination import VehicleCombination
 from app.classes.Product import Product
 from app.classes.ProductRate import ProductRate
@@ -312,11 +312,10 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window, quote_item.quote_id)
 
-    ToastNotifier().show_toast(
+    Toast(
         "Delete Success",
         f"{quote_item.vehicle_combination_net} tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name} successfully deleted.",
-        threaded=True,
-    )
+    ).show()
 
 
 def save(main_window: Ui_MainWindow):
@@ -370,11 +369,10 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    ToastNotifier().show_toast(
+    Toast(
         "Save Success",
         f"Successfully saved {quote_item.vehicle_combination_net} tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name}.",
-        threaded=True,
-    )
+    ).show()
 
 
 def on_row_select(main_window: Ui_MainWindow):

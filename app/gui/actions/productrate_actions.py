@@ -1,9 +1,9 @@
 from tkinter import messagebox
-from win10toast import ToastNotifier
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox
 from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
+from app.classes.Toast import Toast
 from app.classes.Product import Product
 from app.classes.ProductRate import ProductRate
 from app.classes.RateType import RateType
@@ -165,11 +165,9 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window, product_rate.product_id)
 
-    ToastNotifier().show_toast(
-        "Delete Success",
-        f"Product Rate id: {product_rate.id}, successfully deleted.",
-        threaded=True,
-    )
+    Toast(
+        "Delete Success", f"Product Rate id: {product_rate.id}, successfully deleted."
+    ).show()
 
 
 def save(main_window: Ui_MainWindow):
@@ -200,11 +198,9 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    ToastNotifier().show_toast(
-        "Save Success",
-        f"Successfully saved Product Rate id: {product_rate.id}.",
-        threaded=True,
-    )
+    Toast(
+        "Save Success", f"Successfully saved Product Rate id: {product_rate.id}."
+    ).show()
 
 
 def form_is_valid(main_window: Ui_MainWindow):

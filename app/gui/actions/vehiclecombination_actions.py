@@ -1,5 +1,4 @@
 from tkinter import messagebox
-from win10toast import ToastNotifier
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import (
     QTableWidget,
@@ -7,6 +6,7 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QHeaderView,
 )
+from app.classes.Toast import Toast
 from app.classes.VehicleCombination import VehicleCombination
 from app.gui.components.main_window import Ui_MainWindow
 from app.gui.view_enum import ViewPage
@@ -156,11 +156,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    ToastNotifier().show_toast(
-        "Delete Success",
-        f"Successfully deleted {vehicle_combination.name}.",
-        threaded=True,
-    )
+    Toast("Delete Success", f"Successfully deleted {vehicle_combination.name}.").show()
 
 
 def save(main_window: Ui_MainWindow):
@@ -190,9 +186,7 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    ToastNotifier().show_toast(
-        "Save Success", f"Successfully saved {vehicle_combination.name}.", threaded=True
-    )
+    Toast("Save Success", f"Successfully saved {vehicle_combination.name}.").show()
 
 
 def form_is_valid(main_window: Ui_MainWindow):
