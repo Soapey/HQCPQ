@@ -305,9 +305,7 @@ def save(main_window: Ui_MainWindow):
     main_window.lblQuoteId.setText(str(quote.id))
 
     # Update all children QuoteItem objects to use the most updated kilometres for their transport_rate_ex_gst.
-    cur_type = get_cursor_type()
-
-    with cur_type() as cur:
+    with get_cursor_type() as cur:
 
         if cur:
             quote_item_tuples = cur.execute(

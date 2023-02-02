@@ -1,8 +1,4 @@
-import os
-import win32com.client as win32
 from datetime import datetime
-from tkinter import Tk, messagebox
-from tkinter.filedialog import askdirectory
 from app.classes.QuoteItem import QuoteItem
 from app.classes.QuotePDF import QuotePDF
 from app.db.config import get_cursor_type
@@ -63,9 +59,7 @@ class Quote:
 
     def insert(self):
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return
@@ -89,9 +83,7 @@ class Quote:
 
     def update(self):
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return
@@ -116,9 +108,7 @@ class Quote:
 
     def delete(self):
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return
@@ -140,9 +130,7 @@ class Quote:
 
         records: list[tuple] = None
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return dict()

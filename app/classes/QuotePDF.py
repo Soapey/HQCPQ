@@ -1,11 +1,8 @@
+import os
 from datetime import datetime
 from fpdf import FPDF
 from tkinter import messagebox
 from tkinter.filedialog import askdirectory
-
-
-A4_PAGE_WIDTH_MM = 210
-A4_PAGE_BORDER = 20
 
 
 class QuotePDF(FPDF):
@@ -27,14 +24,32 @@ class QuotePDF(FPDF):
 
         # Header
         self.set_font("Arial", "B", 20)
-        self.cell(40, 10, "QUOTE", False, 0)
+        self.cell(self.column_width_mm * 2, self.row_height_mm, "QUOTE")
+
+        img_path = os.path.abspath("hq_keq_logos.jpg")
+        img_width_px = 258
+        img_height_px = 107
+        height_ratio = img_height_px / img_width_px
+        img_desired_width = 68
+        img_desired_height = img_desired_width * height_ratio
+
+        self.image(
+            img_path,
+            self.w - self.r_margin - img_desired_width,
+            0,
+            img_desired_width,
+            img_desired_height,
+        )
+
         self.ln(20)
 
     def _body(self):
 
         # Supplier details.
         self.set_font("Arial", "B", 14)
-        self.cell(self.column_width_mm * 2, self.row_height_mm, "Hunter Quarries")
+        self.cell(
+            self.column_width_mm * 2, self.row_height_mm, "Hunter Quarries Pty Ltd"
+        )
         self.ln(self.row_height_mm // 2)
 
         self.set_font("Arial", "", 12)
@@ -43,7 +58,13 @@ class QuotePDF(FPDF):
 
         self.cell(self.column_width_mm * 2, self.row_height_mm, "Karuah, NSW 2324")
         self.ln(self.row_height_mm // 2)
+
         self.cell(self.column_width_mm * 2, self.row_height_mm, "4050-0304")
+        self.ln(self.row_height_mm // 2)
+
+        self.cell(
+            self.column_width_mm * 2, self.row_height_mm, "orders@hunterquarries.com.au"
+        )
         self.ln(20)
 
         # Customer details.
@@ -87,7 +108,7 @@ class QuotePDF(FPDF):
         # Quote total inc GST.
         self.set_font("Arial", "B", 20)
         self.cell(
-            self.column_width_mm * 2, self.row_height_mm, "Total Inc. GST", 1, align="R"
+            self.column_width_mm * 2, self.row_height_mm, "Total inc. GST", 1, align="R"
         )
         self.cell(
             self.column_width_mm * 2,
@@ -117,7 +138,7 @@ class QuotePDF(FPDF):
         self.cell(
             self.column_width_mm,
             self.row_height_mm,
-            "via Combination",
+            "via",
             1,
             align="C",
             fill=1,
@@ -125,7 +146,7 @@ class QuotePDF(FPDF):
         self.cell(
             self.column_width_mm,
             self.row_height_mm,
-            "Total Inc. GST",
+            "Total inc. GST",
             1,
             align="C",
             fill=1,
@@ -156,8 +177,58 @@ class QuotePDF(FPDF):
                 )
             self.ln(self.row_height_mm)
 
+        self.ln(self.row_height_mm)
+
     def _footer(self):
-        pass
+
+        special_conditions = [
+            (
+                "Products are subject to availability and an agreed offtake schedule.",
+                self.row_height_mm,
+            ),
+            ("Rates valid for 8 weeks from time of quoting.", self.row_height_mm),
+            (
+                "Quarry operating hours: Mon to Fri 6:00am to 4:30pm, Sat 6:00am to 12:00pm (noon).",
+                self.row_height_mm,
+            ),
+            (
+                "Conformance to site specifications must be confirmed by the customer prior to supply. Hunter Quarries takes no responsibility for checking materials meets site specifications.",
+                self.row_height_mm + 5,
+            ),
+            (
+                "Hunter Quarries can supply test results upon request.",
+                self.row_height_mm,
+            ),
+            (
+                "Payment required via credit card per load once final weights determined.",
+                self.row_height_mm,
+            ),
+        ]
+
+        # Special conditions header.
+        self.set_font("Arial", "B", 10)
+        self.cell(
+            self.column_width_mm * 4,
+            self.row_height_mm,
+            "SPECIAL CONDITIONS",
+            border=1,
+            align="C",
+            fill=1,
+        )
+        self.ln(self.row_height_mm)
+
+        # Special conditions.
+        self.set_font("Arial", "", 8)
+        for special_condition in special_conditions:
+            self.multi_cell(
+                self.column_width_mm * 4,
+                special_condition[1],
+                special_condition[0],
+                border=1,
+                ln=3,
+                max_line_height=self.font_size_pt,
+            )
+            self.ln(special_condition[1])
 
     def export(self):
 

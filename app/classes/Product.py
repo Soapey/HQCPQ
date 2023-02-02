@@ -11,9 +11,7 @@ class Product:
 
     def insert(self):
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return
@@ -29,9 +27,7 @@ class Product:
 
     def update(self):
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return
@@ -47,9 +43,7 @@ class Product:
 
     def delete(self):
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return
@@ -67,9 +61,7 @@ class Product:
 
         records: list[tuple] = None
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return dict()

@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from app.gui.components.main_window import Ui_MainWindow
 from app.db.db_type_enum import DbType
+from app.db.build_type_enum import BuildType
 from app.db.config import start_db
 from app.gui.actions.quote_actions import (
     connect as connect_quotes,
@@ -37,9 +38,7 @@ def connect_main_window_actions(main_window: object):
     connect_vehicle_combinations(main_window)
 
 
-def main():
-
-    start_db(DbType.SQL_SERVER)
+def start_app():
 
     app = QApplication(sys.argv)
     main_window_root = QMainWindow()
@@ -54,5 +53,15 @@ def main():
     sys.exit(app.exec_())
 
 
+def main(build_type: BuildType = BuildType.DEVELOPMENT, clean_start: bool = True):
+
+    start_db(
+        start_build_type=build_type,
+        start_db_type=DbType.SQL_SERVER,
+        clean_start=clean_start,
+    )
+    start_app()
+
+
 if __name__ == "__main__":
-    main()
+    main(BuildType.PRODUCTION, clean_start=False)

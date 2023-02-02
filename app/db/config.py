@@ -1,9 +1,11 @@
 import os
-from app.db.SQLiteCursor import SQLiteCursor, PRODUCTION_SQLITE_PATH
+from app.db.SQLiteCursor import SQLiteCursor, PROD_SQLITE_PATH, DEV_SQLITE_PATH
 from app.db.SQLServerCursor import SQLServerCursor
 from app.db.db_type_enum import DbType
+from app.db.build_type_enum import BuildType
 
 
+build_type: BuildType = None
 db_type: DbType = None
 
 
@@ -11,37 +13,44 @@ def get_cursor_type():
 
     match db_type:
         case DbType.SQLITE:
-            return SQLiteCursor
+            return SQLiteCursor(build_type)
 
         case DbType.SQL_SERVER:
-            return SQLServerCursor
+            return SQLServerCursor(build_type)
 
 
-def start_empty_sql_server_db():
+def start_empty_db():
 
-    start_db(DbType.SQL_SERVER, clean_start=True)
+    start_db(BuildType.DEVELOPMENT, DbType.SQL_SERVER, clean_start=True)
 
 
-def start_db(start_db_type: DbType, clean_start: bool = False):
+def start_db(
+    start_build_type: BuildType, start_db_type: DbType, clean_start: bool = False
+):
 
-    global db_type
+    global db_type, build_type
+
+    build_type = start_build_type
     db_type = start_db_type
+    cursor_type = get_cursor_type()
 
     match start_db_type:
 
         case DbType.SQLITE:
 
-            if clean_start and os.path.exists(PRODUCTION_SQLITE_PATH):
-                os.remove(PRODUCTION_SQLITE_PATH)
+            sqlite_db_path = cursor_type.path
 
-            with SQLiteCursor() as cur:
+            if clean_start and os.path.exists(sqlite_db_path):
+                os.remove(sqlite_db_path)
+
+            with cursor_type as cur:
                 with open(r"app\db\sqlite_init.sql", mode="r") as f:
                     script_contents = f.read()
                     cur.executescript(script_contents)
 
         case DbType.SQL_SERVER:
 
-            with SQLServerCursor() as cur:
+            with cursor_type as cur:
 
                 if clean_start:
 

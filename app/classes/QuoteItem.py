@@ -34,9 +34,7 @@ class QuoteItem:
 
     def insert(self):
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return
@@ -60,9 +58,7 @@ class QuoteItem:
 
     def update(self):
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return
@@ -87,9 +83,7 @@ class QuoteItem:
 
     def delete(self):
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return
@@ -107,9 +101,7 @@ class QuoteItem:
 
         records: list[tuple] = None
 
-        cur_type = get_cursor_type()
-
-        with cur_type() as cur:
+        with get_cursor_type() as cur:
 
             if not cur:
                 return dict()

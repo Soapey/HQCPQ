@@ -56,6 +56,9 @@ def float_conv(value: str):
 
 def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
 
+    if kilometres == 0:
+        return 0
+
     start: float = 0
     rate_per_km: float = 0
     jump_per_50: float = 0

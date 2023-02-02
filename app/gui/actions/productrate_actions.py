@@ -35,9 +35,7 @@ def fetch_records(main_window: Ui_MainWindow):
 
     product_id: int = int_conv(main_window.lblProductId.text())
 
-    cur_type = get_cursor_type()
-
-    with cur_type() as cur:
+    with get_cursor_type() as cur:
 
         if cur and product_id:
             global records
