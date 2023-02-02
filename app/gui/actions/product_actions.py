@@ -1,4 +1,5 @@
 from tkinter import messagebox
+from win10toast import ToastNotifier
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from app.classes.Product import Product
 from app.gui.components.main_window import Ui_MainWindow
@@ -214,8 +215,8 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    messagebox.showinfo(
-        title="Delete Success", message=f"{product.name} successfully deleted."
+    ToastNotifier().show_toast(
+        "Delete Success", f"{product.name} successfully deleted.", threaded=True
     )
 
 
@@ -242,8 +243,8 @@ def save(main_window: Ui_MainWindow):
         ]
     )
 
-    messagebox.showinfo(
-        title="Save Success", message=f"Successfully saved {product.name}."
+    ToastNotifier().show_toast(
+        "Save Success", f"Successfully saved {product.name}.", threaded=True
     )
 
 

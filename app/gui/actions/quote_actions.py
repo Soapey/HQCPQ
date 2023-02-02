@@ -1,5 +1,6 @@
 from datetime import datetime
 from tkinter import messagebox
+from win10toast import ToastNotifier
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt5.QtGui import QIntValidator
 from app.gui.view_enum import ViewPage
@@ -220,9 +221,10 @@ def delete(main_window: Ui_MainWindow):
     # Refresh the table with the new dictionary.
     refresh_table(main_window)
 
-    messagebox.showinfo(
-        title="Delete Success",
-        message=f"{quote.name} - {quote.address}, {quote.suburb} successfully deleted.",
+    ToastNotifier().show_toast(
+        "Delete Success",
+        f"{quote.name} - {quote.address}, {quote.suburb} successfully deleted.",
+        threaded=True,
     )
 
 
@@ -348,9 +350,10 @@ def save(main_window: Ui_MainWindow):
         ]
     )
 
-    messagebox.showinfo(
-        title="Save Success",
-        message=f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.",
+    ToastNotifier().show_toast(
+        "Save Success",
+        f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.",
+        threaded=True,
     )
 
 
