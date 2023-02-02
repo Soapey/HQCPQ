@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from fpdf import FPDF
+from win10toast import ToastNotifier
 from tkinter import messagebox
 from tkinter.filedialog import askdirectory
 
@@ -255,9 +256,11 @@ class QuotePDF(FPDF):
             self.output(full_path, "F")
 
             # Confirmation messagebox to confirm that the Quote was exported to a pdf successfully.
-            messagebox.showinfo(
-                title="Export Success",
-                message=f"Quote was successfully exported to path:\n\n{full_path}",
+            ToastNotifier().show_toast(
+                "Export Success",
+                f"Quote was successfully exported to path:\n\n{full_path}",
+                threaded=True,
             )
+
         except Exception as e:
             messagebox.showerror(message=e)
