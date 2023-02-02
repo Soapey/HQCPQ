@@ -23,10 +23,10 @@ class QuotePDF(FPDF):
     def _header(self):
 
         # Header
-        self.set_font("Arial", "B", 20)
+        self.set_font("Helvetica", "B", 20)
         self.cell(self.column_width_mm * 2, self.row_height_mm, "QUOTE")
 
-        img_path = os.path.abspath("hq_keq_logos.jpg")
+        img_path = os.path.abspath(r"files\hq_keq_logos.jpg")
         img_width_px = 258
         img_height_px = 107
         height_ratio = img_height_px / img_width_px
@@ -46,13 +46,13 @@ class QuotePDF(FPDF):
     def _body(self):
 
         # Supplier details.
-        self.set_font("Arial", "B", 14)
+        self.set_font("Helvetica", "B", 14)
         self.cell(
             self.column_width_mm * 2, self.row_height_mm, "Hunter Quarries Pty Ltd"
         )
         self.ln(self.row_height_mm // 2)
 
-        self.set_font("Arial", "", 12)
+        self.set_font("Helvetica", "", 12)
         self.cell(self.column_width_mm * 2, self.row_height_mm, "Blue Rock Close")
         self.ln(self.row_height_mm // 2)
 
@@ -69,7 +69,7 @@ class QuotePDF(FPDF):
 
         # Customer details.
         # Row 1
-        self.set_font("Arial", "B", 12)
+        self.set_font("Helvetica", "B", 12)
         self.cell(self.column_width_mm * 2, self.row_height_mm, "Customer")
         self.cell(self.column_width_mm, self.row_height_mm, "Quote Number", align="R")
         self.cell(
@@ -78,11 +78,11 @@ class QuotePDF(FPDF):
         self.ln(self.row_height_mm // 2)
 
         # Row 2
-        self.set_font("Arial", "", 12)
+        self.set_font("Helvetica", "", 12)
         self.cell(self.column_width_mm * 2, self.row_height_mm, self.quote.name)
-        self.set_font("Arial", "B", 12)
+        self.set_font("Helvetica", "B", 12)
         self.cell(self.column_width_mm, self.row_height_mm, "Quote Date", align="R")
-        self.set_font("Arial", "", 12)
+        self.set_font("Helvetica", "", 12)
         self.cell(
             self.column_width_mm,
             self.row_height_mm,
@@ -106,7 +106,7 @@ class QuotePDF(FPDF):
         self.ln(self.row_height_mm)
 
         # Quote total inc GST.
-        self.set_font("Arial", "B", 20)
+        self.set_font("Helvetica", "B", 20)
         self.cell(
             self.column_width_mm * 2, self.row_height_mm, "Total inc. GST", 1, align="R"
         )
@@ -121,14 +121,14 @@ class QuotePDF(FPDF):
 
         # QuoteItem details.
         # QuoteItem table headers.
-        self.set_font("Arial", "B", 12)
+        self.set_font("Helvetica", "B", 12)
         self.set_fill_color(217, 217, 217)
         self.cell(
             self.column_width_mm * 4, self.row_height_mm, "ITEMS", 1, align="C", fill=1
         )
         self.ln(self.row_height_mm)
 
-        self.set_font("Arial", "B", 10)
+        self.set_font("Helvetica", "B", 10)
         self.cell(
             self.column_width_mm, self.row_height_mm, "Tonnes", 1, align="C", fill=1
         )
@@ -154,7 +154,7 @@ class QuotePDF(FPDF):
         self.ln(self.row_height_mm)
 
         # QuoteItems
-        self.set_font("Arial", "", 8)
+        self.set_font("Helvetica", "", 8)
         data = [
             [
                 str(quote_item.vehicle_combination_net),
@@ -206,7 +206,7 @@ class QuotePDF(FPDF):
         ]
 
         # Special conditions header.
-        self.set_font("Arial", "B", 10)
+        self.set_font("Helvetica", "B", 10)
         self.cell(
             self.column_width_mm * 4,
             self.row_height_mm,
@@ -218,7 +218,7 @@ class QuotePDF(FPDF):
         self.ln(self.row_height_mm)
 
         # Special conditions.
-        self.set_font("Arial", "", 8)
+        self.set_font("Helvetica", "", 8)
         for special_condition in special_conditions:
             self.multi_cell(
                 self.column_width_mm * 4,
