@@ -148,20 +148,31 @@ def clear_entry_fields(main_window: Ui_MainWindow):
 
     Parameters
     ----------
-
+    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
     """
 
+    # Clear entry fields.
     main_window.lblProductId.clear()
     main_window.txtProductName.clear()
     main_window.tblProductRates.setRowCount(0)
 
 
 def new(main_window: Ui_MainWindow):
+    """
+    Clears all entry fields and then changes the stacked widget page to the Product entry/edit view .
 
+    Parameters
+    ----------
+    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
+    """
+
+    # Refresh all global variables.
     fetch_productrate_global_entities()
 
+    # Clear entry fields.
     clear_entry_fields(main_window)
 
+    # Hide all ProductRate action buttons.
     toggle_buttons(
         [
             (main_window.btnNewProductRate, False),
@@ -170,21 +181,27 @@ def new(main_window: Ui_MainWindow):
         ]
     )
 
+    # Change the stacked widget page to the Product entry/edit view.
     change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
 
 
 def edit(main_window: Ui_MainWindow):
 
+    # Refresh all global variables.
     fetch_productrate_global_entities()
 
+    # Establish the Product to be edited.
     global products
     product: Product = products[selected_row_id(main_window.tblProducts)]
 
+    # Pre-fill entry fields with Product attribute values.
     main_window.lblProductId.setText(str(product.id))
     main_window.txtProductName.setText(product.name)
 
+    # Refresh ProductRate table with all ProductRates relevant to the Product.
     refresh_product_rates_table(main_window)
 
+    # Hide edit & delete action buttons as no row will be selected once the table is refreshed.
     toggle_buttons(
         [
             (main_window.btnNewProductRate, True),
@@ -193,28 +210,36 @@ def edit(main_window: Ui_MainWindow):
         ]
     )
 
+    # Change the stacked widget page to the Product entry/edit view.
     change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
 
 
 def delete(main_window: Ui_MainWindow):
 
+    # Establish the Product to be deleted.
     global products
     product: Product = products[selected_row_id(main_window.tblProducts)]
 
+    # Ask user to confirm the deletion.
     delete_confirmed: bool = messagebox.askyesno(
         title="Confirm Delete",
         message=f"Are you sure that you would like to delete {product.name}?",
     )
 
+    # If user would not like to delete, return early.
     if not delete_confirmed:
         return
 
+    # Delete the Product
     product.delete()
 
+    # Remove Product from global Product variable dictionary.
     del products[product.id]
 
+    # Refresh table with current global Product variable dictionary
     refresh_table(main_window)
 
+    # Show success toast notification.
     ToastNotifier().show_toast(
         "Delete Success", f"{product.name} successfully deleted.", threaded=True
     )
