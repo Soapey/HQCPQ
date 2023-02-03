@@ -277,11 +277,13 @@ def save(main_window: Ui_MainWindow):
     quote_suburb: str = main_window.txtQuote_Suburb.text().strip()
     quote_contact_number: str = main_window.txtQuote_ContactNumber.text().strip()
     quote_kilometres: int = int(main_window.txtQuote_Kilometres.text().strip())
+
     quote_date_created: datetime = (
-        datetime.strptime(main_window.txtQuote_DateRequired.text().strip(), "%d/%m/%Y")
+        datetime.strptime(main_window.lblQuote_DateCreated.text().strip(), "%d/%m/%Y")
         if quote_id
         else datetime.today()
     )
+
     quote_date_required: datetime = datetime.strptime(
         main_window.txtQuote_DateRequired.text().strip(), "%d/%m/%Y"
     )
