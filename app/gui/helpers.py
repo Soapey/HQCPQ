@@ -1,3 +1,5 @@
+import os
+import sys
 from datetime import datetime
 from PyQt5.QtWidgets import QTableWidget, QPushButton
 from app.gui.view_enum import ViewPage
@@ -79,3 +81,14 @@ def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
         result = result + (rate_per_km + (jump_per_50 * section))
 
     return round(result, 2)
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
