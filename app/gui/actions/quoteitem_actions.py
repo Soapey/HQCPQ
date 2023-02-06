@@ -178,7 +178,9 @@ def on_product_select(main_window: Ui_MainWindow):
 
     match_product_rate_names = [
         rate_types[pr.rate_type_id].name
-        for pr in product_rates.values()
+        for pr in sorted(
+            list(product_rates.values()), key=lambda pr: pr.id, reverse=True
+        )
         if pr.product_id == product.id
     ]
 
