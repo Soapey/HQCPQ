@@ -15,6 +15,7 @@ from app.gui.helpers import (
     toggle_buttons,
     change_view,
     int_conv,
+    float_conv,
     get_transport_rate_ex_gst,
 )
 
@@ -23,17 +24,19 @@ vehicle_combinations: dict[int, VehicleCombination] = dict()
 products: dict[int, Product] = dict()
 product_rates: dict[int, ProductRate] = dict()
 rate_types: dict[int, RateType] = dict()
+quotes: dict[int, Quote] = dict()
 quote_items: dict[int, QuoteItem] = dict()
 
 
 def fetch_global_entities():
 
-    global vehicle_combinations, products, product_rates, rate_types, quote_items
+    global vehicle_combinations, products, product_rates, rate_types, quotes, quote_items
 
     vehicle_combinations = VehicleCombination.get()
     products = Product.get()
     product_rates = ProductRate.get()
     rate_types = RateType.get()
+    quotes = Quote.get()
     quote_items = QuoteItem.get()
 
 
@@ -205,6 +208,20 @@ def on_vehicle_combination_select(main_window: Ui_MainWindow):
     if vehicle_combination:
         main_window.txtQuoteItem_Tonnes.setText(str(vehicle_combination.net))
 
+        quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
+
+        if quote_id:
+            kilometres = quotes[quote_id].kilometres
+
+            main_window.txtQuoteItem_TransportRate.setText(
+                str(
+                    get_transport_rate_ex_gst(
+                        kilometres,
+                        vehicle_combination.charge_type,
+                    )
+                )
+            )
+
 
 def clear_entry_fields(main_window: Ui_MainWindow):
 
@@ -212,6 +229,7 @@ def clear_entry_fields(main_window: Ui_MainWindow):
     main_window.lblQuoteItem_QuoteId.clear()
     main_window.txtQuoteItem_Tonnes.clear()
     main_window.txtQuoteItem_ProductRate.clear()
+    main_window.txtQuoteItem_TransportRate.clear()
 
     global vehicle_combinations
     cmbVehicleCombinations: QComboBox = main_window.cmbQuoteItem_VehicleCombination
@@ -289,6 +307,9 @@ def edit(main_window: Ui_MainWindow):
     main_window.cmbQuoteItem_ProductRate.setCurrentText(quote_item.charge_type_name)
     main_window.txtQuoteItem_Tonnes.setText(str(quote_item.vehicle_combination_net))
     main_window.txtQuoteItem_ProductRate.setText(str(quote_item.product_rate_ex_gst))
+    main_window.txtQuoteItem_TransportRate.setText(
+        str(quote_item.transport_rate_ex_gst)
+    )
 
     change_view(main_window.swPages, ViewPage.QUOTE_ITEM_ENTRY)
 
@@ -324,8 +345,6 @@ def save(main_window: Ui_MainWindow):
         return
 
     quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
-    quotes_list = list(Quote.get(quote_id).values())
-    quote: Quote = quotes_list[0] if quotes_list else None
     quote_item_id: int = int_conv(main_window.lblQuoteItemId.text())
     tonnes: float = float(main_window.txtQuoteItem_Tonnes.text())
     product_name: str = main_window.cmbQuoteItem_Product.currentText()
@@ -335,17 +354,8 @@ def save(main_window: Ui_MainWindow):
         main_window.cmbQuoteItem_VehicleCombination.currentText()
     )
 
-    global vehicle_combinations
-    vehicle_combinations_list = [
-        vc
-        for vc in vehicle_combinations.values()
-        if vc.name == selected_vehicle_combination_name
-    ]
-
-    vehicle_combination: VehicleCombination = vehicle_combinations_list[0]
-
-    transport_rate_ex_gst: float = get_transport_rate_ex_gst(
-        quote.kilometres, vehicle_combination.charge_type
+    transport_rate_ex_gst: float = float_conv(
+        main_window.txtQuoteItem_TransportRate.text()
     )
 
     quote_item = QuoteItem(
@@ -411,5 +421,6 @@ def connect(main_window: Ui_MainWindow):
     onlyNumeric = QDoubleValidator()
     onlyNumeric.setNotation(QDoubleValidator.Notation.StandardNotation)
     onlyNumeric.setRange(0.00, 9999.00, 2)
+    main_window.txtQuoteItem_TransportRate.setValidator(onlyNumeric)
     main_window.txtQuoteItem_Tonnes.setValidator(onlyNumeric)
     main_window.txtQuoteItem_ProductRate.setValidator(onlyNumeric)

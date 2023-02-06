@@ -45,6 +45,7 @@ def refresh_table(main_window: Ui_MainWindow):
         "Suburb",
         "Contact Number",
         "Kilometres",
+        "Completed",
     ]
 
     tbl: QTableWidget = main_window.tblQuotes
@@ -70,6 +71,7 @@ def refresh_table(main_window: Ui_MainWindow):
         tbl.setItem(index, 5, QTableWidgetItem(quote.suburb))
         tbl.setItem(index, 6, QTableWidgetItem(str(quote.contact_number)))
         tbl.setItem(index, 7, QTableWidgetItem(str(quote.kilometres)))
+        tbl.setItem(index, 8, QTableWidgetItem(str(quote.completed)))
 
     header: QHeaderView = tbl.horizontalHeader()
     for i in range(len(tbl_headers)):
@@ -123,6 +125,7 @@ def clear_entry_fields(main_window: Ui_MainWindow):
     main_window.txtQuote_Suburb.clear()
     main_window.txtQuote_ContactNumber.clear()
     main_window.txtQuote_Kilometres.clear()
+    main_window.chkQuote_Completed.setChecked(False)
     main_window.tblQuoteItems.clear()
     main_window.lblQuote_ProductTotalExGST.clear()
     main_window.lblQuote_TransportTotalExGST.clear()
@@ -169,6 +172,7 @@ def edit(main_window: Ui_MainWindow):
     main_window.txtQuote_Suburb.setText(quote.suburb)
     main_window.txtQuote_ContactNumber.setText(quote.contact_number)
     main_window.txtQuote_Kilometres.setText(str(quote.kilometres))
+    main_window.chkQuote_Completed.setChecked(quote.completed)
     main_window.lblQuote_DateCreated.setText(
         datetime.strftime(quote.date_created, "%d/%m/%Y")
     )
@@ -277,6 +281,7 @@ def save(main_window: Ui_MainWindow):
     quote_suburb: str = main_window.txtQuote_Suburb.text().strip()
     quote_contact_number: str = main_window.txtQuote_ContactNumber.text().strip()
     quote_kilometres: int = int(main_window.txtQuote_Kilometres.text().strip())
+    quote_completed: bool = main_window.chkQuote_Completed.isChecked()
 
     quote_date_created: datetime = (
         datetime.strptime(main_window.lblQuote_DateCreated.text().strip(), "%d/%m/%Y")
@@ -298,6 +303,7 @@ def save(main_window: Ui_MainWindow):
         quote_suburb,
         quote_contact_number,
         quote_kilometres,
+        quote_completed,
     )
 
     # Save the Quote object.

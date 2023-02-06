@@ -133,7 +133,7 @@ class Ui_MainWindow(object):
         self.lblQuotes_Header.setObjectName("lblQuotes_Header")
         self.gridLayout_3.addWidget(self.lblQuotes_Header, 0, 0, 1, 4)
         self.txtQuoteSearch = QtWidgets.QLineEdit(self.pageQuotes)
-        self.txtQuoteSearch.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.txtQuoteSearch.setFocusPolicy(QtCore.Qt.NoFocus)
         self.txtQuoteSearch.setStyleSheet(
             "border: 1px solid #003049;\n"
             "border-radius: 6px;\n"
@@ -169,6 +169,35 @@ class Ui_MainWindow(object):
         self.pageQuoteEntry.setObjectName("pageQuoteEntry")
         self.gridLayout_16 = QtWidgets.QGridLayout(self.pageQuoteEntry)
         self.gridLayout_16.setObjectName("gridLayout_16")
+        self.btnNewQuoteItem = QtWidgets.QPushButton(self.pageQuoteEntry)
+        self.btnNewQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnNewQuoteItem.setStyleSheet(
+            "background-color: #4361ee;\n"
+            "border: 1px solid rgba(27, 31, 35, .15);\n"
+            "border-radius: 6px;\n"
+            "color: #fff;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 14px;\n"
+            "font-weight: 600;\n"
+            "line-height: 20px;\n"
+            "padding: 6px 16px;\n"
+            "position: relative;\n"
+            "text-align: center;\n"
+            "text-decoration: none;\n"
+            "vertical-align: middle;\n"
+            "white-space: nowrap;"
+        )
+        self.btnNewQuoteItem.setObjectName("btnNewQuoteItem")
+        self.gridLayout_16.addWidget(self.btnNewQuoteItem, 19, 0, 1, 1)
+        self.lblQuote_Address = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuote_Address.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuote_Address.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuote_Address.setObjectName("lblQuote_Address")
+        self.gridLayout_16.addWidget(self.lblQuote_Address, 5, 0, 1, 1)
         self.txtQuote_Name = QtWidgets.QLineEdit(self.pageQuoteEntry)
         self.txtQuote_Name.setStyleSheet(
             "border: 1px solid #003049;\n"
@@ -180,26 +209,16 @@ class Ui_MainWindow(object):
         self.txtQuote_Name.setMaxLength(100)
         self.txtQuote_Name.setObjectName("txtQuote_Name")
         self.gridLayout_16.addWidget(self.txtQuote_Name, 4, 1, 1, 2)
-        self.btnDeleteQuoteItem = QtWidgets.QPushButton(self.pageQuoteEntry)
-        self.btnDeleteQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnDeleteQuoteItem.setStyleSheet(
-            "background-color: #d62828;\n"
-            "border: 1px solid rgba(27, 31, 35, .15);\n"
+        self.txtQuote_Kilometres = QtWidgets.QLineEdit(self.pageQuoteEntry)
+        self.txtQuote_Kilometres.setStyleSheet(
+            "border: 1px solid #003049;\n"
             "border-radius: 6px;\n"
-            "color: #fff;\n"
             'font-family: "Helvetica";\n'
-            "font-size: 14px;\n"
-            "font-weight: 600;\n"
-            "line-height: 20px;\n"
-            "padding: 6px 16px;\n"
-            "position: relative;\n"
-            "text-align: center;\n"
-            "text-decoration: none;\n"
-            "vertical-align: middle;\n"
-            "white-space: nowrap;"
+            "font-size: 10pt;\n"
+            "padding: 5px;"
         )
-        self.btnDeleteQuoteItem.setObjectName("btnDeleteQuoteItem")
-        self.gridLayout_16.addWidget(self.btnDeleteQuoteItem, 17, 2, 1, 1)
+        self.txtQuote_Kilometres.setObjectName("txtQuote_Kilometres")
+        self.gridLayout_16.addWidget(self.txtQuote_Kilometres, 8, 1, 1, 2)
         self.txtQuote_Address = QtWidgets.QLineEdit(self.pageQuoteEntry)
         self.txtQuote_Address.setStyleSheet(
             "border: 1px solid #003049;\n"
@@ -211,151 +230,6 @@ class Ui_MainWindow(object):
         self.txtQuote_Address.setMaxLength(100)
         self.txtQuote_Address.setObjectName("txtQuote_Address")
         self.gridLayout_16.addWidget(self.txtQuote_Address, 5, 1, 1, 2)
-        self.txtQuote_ContactNumber = QtWidgets.QLineEdit(self.pageQuoteEntry)
-        self.txtQuote_ContactNumber.setStyleSheet(
-            "border: 1px solid #003049;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.txtQuote_ContactNumber.setMaxLength(100)
-        self.txtQuote_ContactNumber.setObjectName("txtQuote_ContactNumber")
-        self.gridLayout_16.addWidget(self.txtQuote_ContactNumber, 7, 1, 1, 2)
-        self.lblQuote_Kilometres = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuote_Kilometres.setStyleSheet(
-            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
-        )
-        self.lblQuote_Kilometres.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuote_Kilometres.setObjectName("lblQuote_Kilometres")
-        self.gridLayout_16.addWidget(self.lblQuote_Kilometres, 8, 0, 1, 1)
-        self.lblQuote_Address = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuote_Address.setStyleSheet(
-            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
-        )
-        self.lblQuote_Address.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuote_Address.setObjectName("lblQuote_Address")
-        self.gridLayout_16.addWidget(self.lblQuote_Address, 5, 0, 1, 1)
-        self.lblQuote_TransportTotalExGST = QtWidgets.QLabel(self.pageQuoteEntry)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        self.lblQuote_TransportTotalExGST.setFont(font)
-        self.lblQuote_TransportTotalExGST.setStyleSheet(
-            "background-color: #edf6f9;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.lblQuote_TransportTotalExGST.setText("")
-        self.lblQuote_TransportTotalExGST.setObjectName("lblQuote_TransportTotalExGST")
-        self.gridLayout_16.addWidget(self.lblQuote_TransportTotalExGST, 10, 1, 1, 2)
-        self.lblQuote_DateCreated_Label = QtWidgets.QLabel(self.pageQuoteEntry)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(37)
-        self.lblQuote_DateCreated_Label.setFont(font)
-        self.lblQuote_DateCreated_Label.setStyleSheet(
-            "color: #6c757d;\n"
-            'font-family: "Helvetica";\n'
-            "font-weight: 300;\n"
-            "font-size: 10pt"
-        )
-        self.lblQuote_DateCreated_Label.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuote_DateCreated_Label.setObjectName("lblQuote_DateCreated_Label")
-        self.gridLayout_16.addWidget(self.lblQuote_DateCreated_Label, 2, 0, 1, 1)
-        self.lblQuote_TotalExGST_Label = QtWidgets.QLabel(self.pageQuoteEntry)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(37)
-        self.lblQuote_TotalExGST_Label.setFont(font)
-        self.lblQuote_TotalExGST_Label.setStyleSheet(
-            "color: #6c757d;\n"
-            'font-family: "Helvetica";\n'
-            "font-weight: 300;\n"
-            "font-size: 10pt"
-        )
-        self.lblQuote_TotalExGST_Label.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuote_TotalExGST_Label.setObjectName("lblQuote_TotalExGST_Label")
-        self.gridLayout_16.addWidget(self.lblQuote_TotalExGST_Label, 11, 0, 1, 1)
-        self.lblQuote_Suburb = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuote_Suburb.setStyleSheet(
-            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
-        )
-        self.lblQuote_Suburb.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuote_Suburb.setObjectName("lblQuote_Suburb")
-        self.gridLayout_16.addWidget(self.lblQuote_Suburb, 6, 0, 1, 1)
-        self.btnEditQuoteItem = QtWidgets.QPushButton(self.pageQuoteEntry)
-        self.btnEditQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnEditQuoteItem.setStyleSheet(
-            "background-color: #f77f00;\n"
-            "border: 1px solid rgba(27, 31, 35, .15);\n"
-            "border-radius: 6px;\n"
-            "color: #fff;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 14px;\n"
-            "font-weight: 600;\n"
-            "line-height: 20px;\n"
-            "padding: 6px 16px;\n"
-            "position: relative;\n"
-            "text-align: center;\n"
-            "text-decoration: none;\n"
-            "vertical-align: middle;\n"
-            "white-space: nowrap;"
-        )
-        self.btnEditQuoteItem.setObjectName("btnEditQuoteItem")
-        self.gridLayout_16.addWidget(self.btnEditQuoteItem, 17, 1, 1, 1)
-        self.lblQuote_TotalIncGST = QtWidgets.QLabel(self.pageQuoteEntry)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(87)
-        self.lblQuote_TotalIncGST.setFont(font)
-        self.lblQuote_TotalIncGST.setStyleSheet(
-            "background-color: #cfe1b9;\n"
-            "border-radius: 6px;\n"
-            "color: #283618;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "font-weight: 700;\n"
-            "padding: 5px;"
-        )
-        self.lblQuote_TotalIncGST.setText("")
-        self.lblQuote_TotalIncGST.setObjectName("lblQuote_TotalIncGST")
-        self.gridLayout_16.addWidget(self.lblQuote_TotalIncGST, 12, 1, 1, 2)
-        self.tblQuoteItems = QtWidgets.QTableWidget(self.pageQuoteEntry)
-        self.tblQuoteItems.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.tblQuoteItems.setStyleSheet(
-            "border: 1px solid #003049;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;"
-        )
-        self.tblQuoteItems.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tblQuoteItems.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.tblQuoteItems.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.tblQuoteItems.setObjectName("tblQuoteItems")
-        self.tblQuoteItems.setColumnCount(0)
-        self.tblQuoteItems.setRowCount(0)
-        self.tblQuoteItems.horizontalHeader().setStretchLastSection(True)
-        self.tblQuoteItems.verticalHeader().setVisible(False)
-        self.tblQuoteItems.verticalHeader().setStretchLastSection(False)
-        self.gridLayout_16.addWidget(self.tblQuoteItems, 16, 0, 1, 3)
         self.lblQuote_TransportTotalExGST_Label = QtWidgets.QLabel(self.pageQuoteEntry)
         font = QtGui.QFont()
         font.setFamily("Helvetica")
@@ -376,8 +250,70 @@ class Ui_MainWindow(object):
             "lblQuote_TransportTotalExGST_Label"
         )
         self.gridLayout_16.addWidget(
-            self.lblQuote_TransportTotalExGST_Label, 10, 0, 1, 1
+            self.lblQuote_TransportTotalExGST_Label, 12, 0, 1, 1
         )
+        self.lblQuote_ProductTotalExGST = QtWidgets.QLabel(self.pageQuoteEntry)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        self.lblQuote_ProductTotalExGST.setFont(font)
+        self.lblQuote_ProductTotalExGST.setStyleSheet(
+            "background-color: #edf6f9;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.lblQuote_ProductTotalExGST.setText("")
+        self.lblQuote_ProductTotalExGST.setObjectName("lblQuote_ProductTotalExGST")
+        self.gridLayout_16.addWidget(self.lblQuote_ProductTotalExGST, 11, 1, 1, 2)
+        self.lblQuoteItem_Header = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuoteItem_Header.setStyleSheet(
+            "border: 1px solid rgba(27, 31, 35, .15);\n"
+            "border-radius: 6px;\n"
+            "background-color: #003049;\n"
+            "color: #ffffff;\n"
+            "font-size: 14pt;\n"
+            'font-family: "Helvetica";\n'
+            "font-style: normal;\n"
+            "font-weight: 700;\n"
+            "padding: 6px;"
+        )
+        self.lblQuoteItem_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblQuoteItem_Header.setObjectName("lblQuoteItem_Header")
+        self.gridLayout_16.addWidget(self.lblQuoteItem_Header, 16, 0, 1, 3)
+        self.lblQuote_TransportTotalExGST = QtWidgets.QLabel(self.pageQuoteEntry)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        self.lblQuote_TransportTotalExGST.setFont(font)
+        self.lblQuote_TransportTotalExGST.setStyleSheet(
+            "background-color: #edf6f9;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.lblQuote_TransportTotalExGST.setText("")
+        self.lblQuote_TransportTotalExGST.setObjectName("lblQuote_TransportTotalExGST")
+        self.gridLayout_16.addWidget(self.lblQuote_TransportTotalExGST, 12, 1, 1, 2)
+        self.tblQuoteItems = QtWidgets.QTableWidget(self.pageQuoteEntry)
+        self.tblQuoteItems.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.tblQuoteItems.setStyleSheet(
+            "border: 1px solid #003049;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;"
+        )
+        self.tblQuoteItems.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tblQuoteItems.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblQuoteItems.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tblQuoteItems.setObjectName("tblQuoteItems")
+        self.tblQuoteItems.setColumnCount(0)
+        self.tblQuoteItems.setRowCount(0)
+        self.tblQuoteItems.horizontalHeader().setStretchLastSection(True)
+        self.tblQuoteItems.verticalHeader().setVisible(False)
+        self.tblQuoteItems.verticalHeader().setStretchLastSection(False)
+        self.gridLayout_16.addWidget(self.tblQuoteItems, 18, 0, 1, 3)
         self.lblQuoteId_Label = QtWidgets.QLabel(self.pageQuoteEntry)
         font = QtGui.QFont()
         font.setFamily("Helvetica")
@@ -396,174 +332,6 @@ class Ui_MainWindow(object):
         )
         self.lblQuoteId_Label.setObjectName("lblQuoteId_Label")
         self.gridLayout_16.addWidget(self.lblQuoteId_Label, 1, 0, 1, 1)
-        self.lblQuote_DateRequired = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuote_DateRequired.setStyleSheet(
-            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
-        )
-        self.lblQuote_DateRequired.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuote_DateRequired.setObjectName("lblQuote_DateRequired")
-        self.gridLayout_16.addWidget(self.lblQuote_DateRequired, 3, 0, 1, 1)
-        self.lblQuote_ProductTotalExGST = QtWidgets.QLabel(self.pageQuoteEntry)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        self.lblQuote_ProductTotalExGST.setFont(font)
-        self.lblQuote_ProductTotalExGST.setStyleSheet(
-            "background-color: #edf6f9;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.lblQuote_ProductTotalExGST.setText("")
-        self.lblQuote_ProductTotalExGST.setObjectName("lblQuote_ProductTotalExGST")
-        self.gridLayout_16.addWidget(self.lblQuote_ProductTotalExGST, 9, 1, 1, 2)
-        self.lblQuoteEntry_Header = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuoteEntry_Header.setStyleSheet(
-            "border: 1px solid rgba(27, 31, 35, .15);\n"
-            "border-radius: 6px;\n"
-            "background-color: #003049;\n"
-            "color: #ffffff;\n"
-            "font-size: 20pt;\n"
-            'font-family: "Helvetica";\n'
-            "font-style: normal;\n"
-            "font-weight: 700;\n"
-            "padding: 6px;"
-        )
-        self.lblQuoteEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
-        self.lblQuoteEntry_Header.setObjectName("lblQuoteEntry_Header")
-        self.gridLayout_16.addWidget(self.lblQuoteEntry_Header, 0, 0, 1, 3)
-        self.lblQuote_TotalExGST = QtWidgets.QLabel(self.pageQuoteEntry)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        self.lblQuote_TotalExGST.setFont(font)
-        self.lblQuote_TotalExGST.setStyleSheet(
-            "background-color: #edf6f9;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.lblQuote_TotalExGST.setText("")
-        self.lblQuote_TotalExGST.setObjectName("lblQuote_TotalExGST")
-        self.gridLayout_16.addWidget(self.lblQuote_TotalExGST, 11, 1, 1, 2)
-        self.lblQuoteItem_Header = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuoteItem_Header.setStyleSheet(
-            "border: 1px solid rgba(27, 31, 35, .15);\n"
-            "border-radius: 6px;\n"
-            "background-color: #003049;\n"
-            "color: #ffffff;\n"
-            "font-size: 14pt;\n"
-            'font-family: "Helvetica";\n'
-            "font-style: normal;\n"
-            "font-weight: 700;\n"
-            "padding: 6px;"
-        )
-        self.lblQuoteItem_Header.setAlignment(QtCore.Qt.AlignCenter)
-        self.lblQuoteItem_Header.setObjectName("lblQuoteItem_Header")
-        self.gridLayout_16.addWidget(self.lblQuoteItem_Header, 14, 0, 1, 3)
-        self.txtQuote_Suburb = QtWidgets.QLineEdit(self.pageQuoteEntry)
-        self.txtQuote_Suburb.setStyleSheet(
-            "border: 1px solid #003049;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.txtQuote_Suburb.setMaxLength(100)
-        self.txtQuote_Suburb.setObjectName("txtQuote_Suburb")
-        self.gridLayout_16.addWidget(self.txtQuote_Suburb, 6, 1, 1, 2)
-        self.txtQuote_DateRequired = QtWidgets.QLineEdit(self.pageQuoteEntry)
-        self.txtQuote_DateRequired.setStyleSheet(
-            "border: 1px solid #003049;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.txtQuote_DateRequired.setClearButtonEnabled(False)
-        self.txtQuote_DateRequired.setObjectName("txtQuote_DateRequired")
-        self.gridLayout_16.addWidget(self.txtQuote_DateRequired, 3, 1, 1, 2)
-        self.lblQuote_Name = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuote_Name.setStyleSheet(
-            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
-        )
-        self.lblQuote_Name.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuote_Name.setObjectName("lblQuote_Name")
-        self.gridLayout_16.addWidget(self.lblQuote_Name, 4, 0, 1, 1)
-        self.btnNewQuoteItem = QtWidgets.QPushButton(self.pageQuoteEntry)
-        self.btnNewQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnNewQuoteItem.setStyleSheet(
-            "background-color: #4361ee;\n"
-            "border: 1px solid rgba(27, 31, 35, .15);\n"
-            "border-radius: 6px;\n"
-            "color: #fff;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 14px;\n"
-            "font-weight: 600;\n"
-            "line-height: 20px;\n"
-            "padding: 6px 16px;\n"
-            "position: relative;\n"
-            "text-align: center;\n"
-            "text-decoration: none;\n"
-            "vertical-align: middle;\n"
-            "white-space: nowrap;"
-        )
-        self.btnNewQuoteItem.setObjectName("btnNewQuoteItem")
-        self.gridLayout_16.addWidget(self.btnNewQuoteItem, 17, 0, 1, 1)
-        self.lblQuote_TotalIncGST_Label = QtWidgets.QLabel(self.pageQuoteEntry)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(37)
-        self.lblQuote_TotalIncGST_Label.setFont(font)
-        self.lblQuote_TotalIncGST_Label.setStyleSheet(
-            "color: #6c757d;\n"
-            'font-family: "Helvetica";\n'
-            "font-weight: 300;\n"
-            "font-size: 10pt"
-        )
-        self.lblQuote_TotalIncGST_Label.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuote_TotalIncGST_Label.setObjectName("lblQuote_TotalIncGST_Label")
-        self.gridLayout_16.addWidget(self.lblQuote_TotalIncGST_Label, 12, 0, 1, 1)
-        self.txtQuote_Kilometres = QtWidgets.QLineEdit(self.pageQuoteEntry)
-        self.txtQuote_Kilometres.setStyleSheet(
-            "border: 1px solid #003049;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.txtQuote_Kilometres.setObjectName("txtQuote_Kilometres")
-        self.gridLayout_16.addWidget(self.txtQuote_Kilometres, 8, 1, 1, 2)
-        self.lblQuote_ProductTotalExGst_Label = QtWidgets.QLabel(self.pageQuoteEntry)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(37)
-        self.lblQuote_ProductTotalExGst_Label.setFont(font)
-        self.lblQuote_ProductTotalExGst_Label.setStyleSheet(
-            "color: #6c757d;\n"
-            'font-family: "Helvetica";\n'
-            "font-weight: 300;\n"
-            "font-size: 10pt"
-        )
-        self.lblQuote_ProductTotalExGst_Label.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuote_ProductTotalExGst_Label.setObjectName(
-            "lblQuote_ProductTotalExGst_Label"
-        )
-        self.gridLayout_16.addWidget(self.lblQuote_ProductTotalExGst_Label, 9, 0, 1, 1)
         self.lblQuote_DateCreated = QtWidgets.QLabel(self.pageQuoteEntry)
         self.lblQuote_DateCreated.setStyleSheet(
             "background-color: rgb(215, 215, 215);\n"
@@ -574,45 +342,24 @@ class Ui_MainWindow(object):
         self.lblQuote_DateCreated.setText("")
         self.lblQuote_DateCreated.setObjectName("lblQuote_DateCreated")
         self.gridLayout_16.addWidget(self.lblQuote_DateCreated, 2, 1, 1, 2)
-        self.lblQuote_ContactNumber = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuote_ContactNumber.setStyleSheet(
-            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        self.lblQuote_TotalExGST_Label = QtWidgets.QLabel(self.pageQuoteEntry)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(37)
+        self.lblQuote_TotalExGST_Label.setFont(font)
+        self.lblQuote_TotalExGST_Label.setStyleSheet(
+            "color: #6c757d;\n"
+            'font-family: "Helvetica";\n'
+            "font-weight: 300;\n"
+            "font-size: 10pt"
         )
-        self.lblQuote_ContactNumber.setAlignment(
+        self.lblQuote_TotalExGST_Label.setAlignment(
             QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
         )
-        self.lblQuote_ContactNumber.setObjectName("lblQuote_ContactNumber")
-        self.gridLayout_16.addWidget(self.lblQuote_ContactNumber, 7, 0, 1, 1)
-        self.lblQuoteId = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuoteId.setStyleSheet(
-            "background-color: rgb(215, 215, 215);\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "padding: 5px;"
-        )
-        self.lblQuoteId.setText("")
-        self.lblQuoteId.setObjectName("lblQuoteId")
-        self.gridLayout_16.addWidget(self.lblQuoteId, 1, 1, 1, 2)
-        self.btnSaveQuote = QtWidgets.QPushButton(self.pageQuoteEntry)
-        self.btnSaveQuote.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnSaveQuote.setStyleSheet(
-            "background-color: #2ea44f;\n"
-            "border: 1px solid rgba(27, 31, 35, .15);\n"
-            "border-radius: 6px;\n"
-            "color: #fff;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 14px;\n"
-            "font-weight: 600;\n"
-            "line-height: 20px;\n"
-            "padding: 6px 16px;\n"
-            "position: relative;\n"
-            "text-align: center;\n"
-            "text-decoration: none;\n"
-            "vertical-align: middle;\n"
-            "white-space: nowrap;"
-        )
-        self.btnSaveQuote.setObjectName("btnSaveQuote")
-        self.gridLayout_16.addWidget(self.btnSaveQuote, 13, 0, 1, 1)
+        self.lblQuote_TotalExGST_Label.setObjectName("lblQuote_TotalExGST_Label")
+        self.gridLayout_16.addWidget(self.lblQuote_TotalExGST_Label, 13, 0, 1, 1)
         self.btnExportQuote_Entry = QtWidgets.QPushButton(self.pageQuoteEntry)
         self.btnExportQuote_Entry.setFocusPolicy(QtCore.Qt.NoFocus)
         self.btnExportQuote_Entry.setStyleSheet(
@@ -632,7 +379,268 @@ class Ui_MainWindow(object):
             "white-space: nowrap;"
         )
         self.btnExportQuote_Entry.setObjectName("btnExportQuote_Entry")
-        self.gridLayout_16.addWidget(self.btnExportQuote_Entry, 13, 1, 1, 1)
+        self.gridLayout_16.addWidget(self.btnExportQuote_Entry, 15, 1, 1, 1)
+        self.btnEditQuoteItem = QtWidgets.QPushButton(self.pageQuoteEntry)
+        self.btnEditQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnEditQuoteItem.setStyleSheet(
+            "background-color: #f77f00;\n"
+            "border: 1px solid rgba(27, 31, 35, .15);\n"
+            "border-radius: 6px;\n"
+            "color: #fff;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 14px;\n"
+            "font-weight: 600;\n"
+            "line-height: 20px;\n"
+            "padding: 6px 16px;\n"
+            "position: relative;\n"
+            "text-align: center;\n"
+            "text-decoration: none;\n"
+            "vertical-align: middle;\n"
+            "white-space: nowrap;"
+        )
+        self.btnEditQuoteItem.setObjectName("btnEditQuoteItem")
+        self.gridLayout_16.addWidget(self.btnEditQuoteItem, 19, 1, 1, 1)
+        self.lblQuote_Kilometres = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuote_Kilometres.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuote_Kilometres.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuote_Kilometres.setObjectName("lblQuote_Kilometres")
+        self.gridLayout_16.addWidget(self.lblQuote_Kilometres, 8, 0, 1, 1)
+        self.lblQuoteEntry_Header = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuoteEntry_Header.setStyleSheet(
+            "border: 1px solid rgba(27, 31, 35, .15);\n"
+            "border-radius: 6px;\n"
+            "background-color: #003049;\n"
+            "color: #ffffff;\n"
+            "font-size: 20pt;\n"
+            'font-family: "Helvetica";\n'
+            "font-style: normal;\n"
+            "font-weight: 700;\n"
+            "padding: 6px;"
+        )
+        self.lblQuoteEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblQuoteEntry_Header.setObjectName("lblQuoteEntry_Header")
+        self.gridLayout_16.addWidget(self.lblQuoteEntry_Header, 0, 0, 1, 3)
+        self.txtQuote_ContactNumber = QtWidgets.QLineEdit(self.pageQuoteEntry)
+        self.txtQuote_ContactNumber.setStyleSheet(
+            "border: 1px solid #003049;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.txtQuote_ContactNumber.setMaxLength(100)
+        self.txtQuote_ContactNumber.setObjectName("txtQuote_ContactNumber")
+        self.gridLayout_16.addWidget(self.txtQuote_ContactNumber, 7, 1, 1, 2)
+        self.txtQuote_Suburb = QtWidgets.QLineEdit(self.pageQuoteEntry)
+        self.txtQuote_Suburb.setStyleSheet(
+            "border: 1px solid #003049;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.txtQuote_Suburb.setMaxLength(100)
+        self.txtQuote_Suburb.setObjectName("txtQuote_Suburb")
+        self.gridLayout_16.addWidget(self.txtQuote_Suburb, 6, 1, 1, 2)
+        self.lblQuote_ContactNumber = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuote_ContactNumber.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuote_ContactNumber.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuote_ContactNumber.setObjectName("lblQuote_ContactNumber")
+        self.gridLayout_16.addWidget(self.lblQuote_ContactNumber, 7, 0, 1, 1)
+        self.lblQuote_DateCreated_Label = QtWidgets.QLabel(self.pageQuoteEntry)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(37)
+        self.lblQuote_DateCreated_Label.setFont(font)
+        self.lblQuote_DateCreated_Label.setStyleSheet(
+            "color: #6c757d;\n"
+            'font-family: "Helvetica";\n'
+            "font-weight: 300;\n"
+            "font-size: 10pt"
+        )
+        self.lblQuote_DateCreated_Label.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuote_DateCreated_Label.setObjectName("lblQuote_DateCreated_Label")
+        self.gridLayout_16.addWidget(self.lblQuote_DateCreated_Label, 2, 0, 1, 1)
+        self.lblQuote_TotalExGST = QtWidgets.QLabel(self.pageQuoteEntry)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        self.lblQuote_TotalExGST.setFont(font)
+        self.lblQuote_TotalExGST.setStyleSheet(
+            "background-color: #edf6f9;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.lblQuote_TotalExGST.setText("")
+        self.lblQuote_TotalExGST.setObjectName("lblQuote_TotalExGST")
+        self.gridLayout_16.addWidget(self.lblQuote_TotalExGST, 13, 1, 1, 2)
+        self.txtQuote_DateRequired = QtWidgets.QLineEdit(self.pageQuoteEntry)
+        self.txtQuote_DateRequired.setStyleSheet(
+            "border: 1px solid #003049;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.txtQuote_DateRequired.setClearButtonEnabled(False)
+        self.txtQuote_DateRequired.setObjectName("txtQuote_DateRequired")
+        self.gridLayout_16.addWidget(self.txtQuote_DateRequired, 3, 1, 1, 2)
+        self.lblQuote_ProductTotalExGst_Label = QtWidgets.QLabel(self.pageQuoteEntry)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(37)
+        self.lblQuote_ProductTotalExGst_Label.setFont(font)
+        self.lblQuote_ProductTotalExGst_Label.setStyleSheet(
+            "color: #6c757d;\n"
+            'font-family: "Helvetica";\n'
+            "font-weight: 300;\n"
+            "font-size: 10pt"
+        )
+        self.lblQuote_ProductTotalExGst_Label.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuote_ProductTotalExGst_Label.setObjectName(
+            "lblQuote_ProductTotalExGst_Label"
+        )
+        self.gridLayout_16.addWidget(self.lblQuote_ProductTotalExGst_Label, 11, 0, 1, 1)
+        self.lblQuote_DateRequired = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuote_DateRequired.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuote_DateRequired.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuote_DateRequired.setObjectName("lblQuote_DateRequired")
+        self.gridLayout_16.addWidget(self.lblQuote_DateRequired, 3, 0, 1, 1)
+        self.lblQuoteId = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuoteId.setStyleSheet(
+            "background-color: rgb(215, 215, 215);\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "padding: 5px;"
+        )
+        self.lblQuoteId.setText("")
+        self.lblQuoteId.setObjectName("lblQuoteId")
+        self.gridLayout_16.addWidget(self.lblQuoteId, 1, 1, 1, 2)
+        self.lblQuote_TotalIncGST = QtWidgets.QLabel(self.pageQuoteEntry)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(87)
+        self.lblQuote_TotalIncGST.setFont(font)
+        self.lblQuote_TotalIncGST.setStyleSheet(
+            "background-color: #cfe1b9;\n"
+            "border-radius: 6px;\n"
+            "color: #283618;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "font-weight: 700;\n"
+            "padding: 5px;"
+        )
+        self.lblQuote_TotalIncGST.setText("")
+        self.lblQuote_TotalIncGST.setObjectName("lblQuote_TotalIncGST")
+        self.gridLayout_16.addWidget(self.lblQuote_TotalIncGST, 14, 1, 1, 2)
+        self.btnSaveQuote = QtWidgets.QPushButton(self.pageQuoteEntry)
+        self.btnSaveQuote.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnSaveQuote.setStyleSheet(
+            "background-color: #2ea44f;\n"
+            "border: 1px solid rgba(27, 31, 35, .15);\n"
+            "border-radius: 6px;\n"
+            "color: #fff;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 14px;\n"
+            "font-weight: 600;\n"
+            "line-height: 20px;\n"
+            "padding: 6px 16px;\n"
+            "position: relative;\n"
+            "text-align: center;\n"
+            "text-decoration: none;\n"
+            "vertical-align: middle;\n"
+            "white-space: nowrap;"
+        )
+        self.btnSaveQuote.setObjectName("btnSaveQuote")
+        self.gridLayout_16.addWidget(self.btnSaveQuote, 15, 0, 1, 1)
+        self.btnDeleteQuoteItem = QtWidgets.QPushButton(self.pageQuoteEntry)
+        self.btnDeleteQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnDeleteQuoteItem.setStyleSheet(
+            "background-color: #d62828;\n"
+            "border: 1px solid rgba(27, 31, 35, .15);\n"
+            "border-radius: 6px;\n"
+            "color: #fff;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 14px;\n"
+            "font-weight: 600;\n"
+            "line-height: 20px;\n"
+            "padding: 6px 16px;\n"
+            "position: relative;\n"
+            "text-align: center;\n"
+            "text-decoration: none;\n"
+            "vertical-align: middle;\n"
+            "white-space: nowrap;"
+        )
+        self.btnDeleteQuoteItem.setObjectName("btnDeleteQuoteItem")
+        self.gridLayout_16.addWidget(self.btnDeleteQuoteItem, 19, 2, 1, 1)
+        self.lblQuote_Suburb = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuote_Suburb.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuote_Suburb.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuote_Suburb.setObjectName("lblQuote_Suburb")
+        self.gridLayout_16.addWidget(self.lblQuote_Suburb, 6, 0, 1, 1)
+        self.lblQuote_Name = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuote_Name.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuote_Name.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuote_Name.setObjectName("lblQuote_Name")
+        self.gridLayout_16.addWidget(self.lblQuote_Name, 4, 0, 1, 1)
+        self.lblQuote_TotalIncGST_Label = QtWidgets.QLabel(self.pageQuoteEntry)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(37)
+        self.lblQuote_TotalIncGST_Label.setFont(font)
+        self.lblQuote_TotalIncGST_Label.setStyleSheet(
+            "color: #6c757d;\n"
+            'font-family: "Helvetica";\n'
+            "font-weight: 300;\n"
+            "font-size: 10pt"
+        )
+        self.lblQuote_TotalIncGST_Label.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuote_TotalIncGST_Label.setObjectName("lblQuote_TotalIncGST_Label")
+        self.gridLayout_16.addWidget(self.lblQuote_TotalIncGST_Label, 14, 0, 1, 1)
+        self.chkQuote_Completed = QtWidgets.QCheckBox(self.pageQuoteEntry)
+        self.chkQuote_Completed.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.chkQuote_Completed.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.chkQuote_Completed.setTristate(False)
+        self.chkQuote_Completed.setObjectName("chkQuote_Completed")
+        self.gridLayout_16.addWidget(self.chkQuote_Completed, 9, 1, 1, 1)
         self.tblQuoteItems.raise_()
         self.txtQuote_ContactNumber.raise_()
         self.txtQuote_Suburb.raise_()
@@ -665,32 +673,12 @@ class Ui_MainWindow(object):
         self.btnDeleteQuoteItem.raise_()
         self.btnSaveQuote.raise_()
         self.btnExportQuote_Entry.raise_()
+        self.chkQuote_Completed.raise_()
         self.swPages.addWidget(self.pageQuoteEntry)
         self.pageQuoteItemEntry = QtWidgets.QWidget()
         self.pageQuoteItemEntry.setObjectName("pageQuoteItemEntry")
         self.gridLayout_7 = QtWidgets.QGridLayout(self.pageQuoteItemEntry)
         self.gridLayout_7.setObjectName("gridLayout_7")
-        self.cmbQuoteItem_Product = QtWidgets.QComboBox(self.pageQuoteItemEntry)
-        self.cmbQuoteItem_Product.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.cmbQuoteItem_Product.setStyleSheet(
-            "border: 1px solid #003049;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.cmbQuoteItem_Product.setObjectName("cmbQuoteItem_Product")
-        self.gridLayout_7.addWidget(self.cmbQuoteItem_Product, 4, 1, 1, 1)
-        self.txtQuoteItem_ProductRate = QtWidgets.QLineEdit(self.pageQuoteItemEntry)
-        self.txtQuoteItem_ProductRate.setStyleSheet(
-            "border: 1px solid #003049;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.txtQuoteItem_ProductRate.setObjectName("txtQuoteItem_ProductRate")
-        self.gridLayout_7.addWidget(self.txtQuoteItem_ProductRate, 7, 1, 1, 1)
         self.lblQuoteItemId_Label = QtWidgets.QLabel(self.pageQuoteItemEntry)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum
@@ -713,46 +701,6 @@ class Ui_MainWindow(object):
         )
         self.lblQuoteItemId_Label.setObjectName("lblQuoteItemId_Label")
         self.gridLayout_7.addWidget(self.lblQuoteItemId_Label, 1, 0, 1, 1)
-        self.lblQuoteItemEntry_Header = QtWidgets.QLabel(self.pageQuoteItemEntry)
-        self.lblQuoteItemEntry_Header.setStyleSheet(
-            "border: 1px solid rgba(27, 31, 35, .15);\n"
-            "border-radius: 6px;\n"
-            "background-color: #003049;\n"
-            "color: #ffffff;\n"
-            "font-size: 20pt;\n"
-            'font-family: "Helvetica";\n'
-            "font-style: normal;\n"
-            "font-weight: 700;\n"
-            "padding: 6px;"
-        )
-        self.lblQuoteItemEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
-        self.lblQuoteItemEntry_Header.setObjectName("lblQuoteItemEntry_Header")
-        self.gridLayout_7.addWidget(self.lblQuoteItemEntry_Header, 0, 0, 1, 2)
-        self.lblQuoteItem_Tonnes = QtWidgets.QLabel(self.pageQuoteItemEntry)
-        self.lblQuoteItem_Tonnes.setStyleSheet(
-            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
-        )
-        self.lblQuoteItem_Tonnes.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuoteItem_Tonnes.setWordWrap(False)
-        self.lblQuoteItem_Tonnes.setObjectName("lblQuoteItem_Tonnes")
-        self.gridLayout_7.addWidget(self.lblQuoteItem_Tonnes, 6, 0, 1, 1)
-        self.cmbQuoteItem_VehicleCombination = QtWidgets.QComboBox(
-            self.pageQuoteItemEntry
-        )
-        self.cmbQuoteItem_VehicleCombination.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.cmbQuoteItem_VehicleCombination.setStyleSheet(
-            "border: 1px solid #003049;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.cmbQuoteItem_VehicleCombination.setObjectName(
-            "cmbQuoteItem_VehicleCombination"
-        )
-        self.gridLayout_7.addWidget(self.cmbQuoteItem_VehicleCombination, 3, 1, 1, 1)
         self.lblQuoteItem_QuoteId = QtWidgets.QLabel(self.pageQuoteItemEntry)
         self.lblQuoteItem_QuoteId.setStyleSheet(
             "background-color: rgb(215, 215, 215);\n"
@@ -763,38 +711,6 @@ class Ui_MainWindow(object):
         self.lblQuoteItem_QuoteId.setText("")
         self.lblQuoteItem_QuoteId.setObjectName("lblQuoteItem_QuoteId")
         self.gridLayout_7.addWidget(self.lblQuoteItem_QuoteId, 2, 1, 1, 1)
-        self.txtQuoteItem_Tonnes = QtWidgets.QLineEdit(self.pageQuoteItemEntry)
-        self.txtQuoteItem_Tonnes.setStyleSheet(
-            "border: 1px solid #003049;\n"
-            "border-radius: 6px;\n"
-            'font-family: "Helvetica";\n'
-            "font-size: 10pt;\n"
-            "padding: 5px;"
-        )
-        self.txtQuoteItem_Tonnes.setObjectName("txtQuoteItem_Tonnes")
-        self.gridLayout_7.addWidget(self.txtQuoteItem_Tonnes, 6, 1, 1, 1)
-        self.lblQuoteItem_ProductRate = QtWidgets.QLabel(self.pageQuoteItemEntry)
-        self.lblQuoteItem_ProductRate.setStyleSheet(
-            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
-        )
-        self.lblQuoteItem_ProductRate.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuoteItem_ProductRate.setObjectName("lblQuoteItem_ProductRate")
-        self.gridLayout_7.addWidget(self.lblQuoteItem_ProductRate, 5, 0, 1, 1)
-        self.lblQuoteItem_ProductRateOverride = QtWidgets.QLabel(
-            self.pageQuoteItemEntry
-        )
-        self.lblQuoteItem_ProductRateOverride.setStyleSheet(
-            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
-        )
-        self.lblQuoteItem_ProductRateOverride.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
-        )
-        self.lblQuoteItem_ProductRateOverride.setObjectName(
-            "lblQuoteItem_ProductRateOverride"
-        )
-        self.gridLayout_7.addWidget(self.lblQuoteItem_ProductRateOverride, 7, 0, 1, 1)
         self.lblQuoteItemId = QtWidgets.QLabel(self.pageQuoteItemEntry)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum
@@ -814,17 +730,30 @@ class Ui_MainWindow(object):
         self.lblQuoteItemId.setText("")
         self.lblQuoteItemId.setObjectName("lblQuoteItemId")
         self.gridLayout_7.addWidget(self.lblQuoteItemId, 1, 1, 1, 1)
-        self.lblQuoteItem_VehicleCombination = QtWidgets.QLabel(self.pageQuoteItemEntry)
-        self.lblQuoteItem_VehicleCombination.setStyleSheet(
+        self.lblQuoteItemEntry_Header = QtWidgets.QLabel(self.pageQuoteItemEntry)
+        self.lblQuoteItemEntry_Header.setStyleSheet(
+            "border: 1px solid rgba(27, 31, 35, .15);\n"
+            "border-radius: 6px;\n"
+            "background-color: #003049;\n"
+            "color: #ffffff;\n"
+            "font-size: 20pt;\n"
+            'font-family: "Helvetica";\n'
+            "font-style: normal;\n"
+            "font-weight: 700;\n"
+            "padding: 6px;"
+        )
+        self.lblQuoteItemEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblQuoteItemEntry_Header.setObjectName("lblQuoteItemEntry_Header")
+        self.gridLayout_7.addWidget(self.lblQuoteItemEntry_Header, 0, 0, 1, 2)
+        self.lblQuoteItem_ProductRate = QtWidgets.QLabel(self.pageQuoteItemEntry)
+        self.lblQuoteItem_ProductRate.setStyleSheet(
             'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
         )
-        self.lblQuoteItem_VehicleCombination.setAlignment(
+        self.lblQuoteItem_ProductRate.setAlignment(
             QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
         )
-        self.lblQuoteItem_VehicleCombination.setObjectName(
-            "lblQuoteItem_VehicleCombination"
-        )
-        self.gridLayout_7.addWidget(self.lblQuoteItem_VehicleCombination, 3, 0, 1, 1)
+        self.lblQuoteItem_ProductRate.setObjectName("lblQuoteItem_ProductRate")
+        self.gridLayout_7.addWidget(self.lblQuoteItem_ProductRate, 6, 0, 1, 1)
         self.cmbQuoteItem_ProductRate = QtWidgets.QComboBox(self.pageQuoteItemEntry)
         self.cmbQuoteItem_ProductRate.setFocusPolicy(QtCore.Qt.NoFocus)
         self.cmbQuoteItem_ProductRate.setStyleSheet(
@@ -835,11 +764,17 @@ class Ui_MainWindow(object):
             "padding: 5px;"
         )
         self.cmbQuoteItem_ProductRate.setObjectName("cmbQuoteItem_ProductRate")
-        self.gridLayout_7.addWidget(self.cmbQuoteItem_ProductRate, 5, 1, 1, 1)
-        spacerItem = QtWidgets.QSpacerItem(
-            824, 507, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        self.gridLayout_7.addWidget(self.cmbQuoteItem_ProductRate, 6, 1, 1, 1)
+        self.txtQuoteItem_ProductRate = QtWidgets.QLineEdit(self.pageQuoteItemEntry)
+        self.txtQuoteItem_ProductRate.setStyleSheet(
+            "border: 1px solid #003049;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
         )
-        self.gridLayout_7.addItem(spacerItem, 10, 0, 1, 2)
+        self.txtQuoteItem_ProductRate.setObjectName("txtQuoteItem_ProductRate")
+        self.gridLayout_7.addWidget(self.txtQuoteItem_ProductRate, 8, 1, 1, 1)
         self.lblQuoteItem_QuoteId_Label = QtWidgets.QLabel(self.pageQuoteItemEntry)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum
@@ -862,6 +797,60 @@ class Ui_MainWindow(object):
         )
         self.lblQuoteItem_QuoteId_Label.setObjectName("lblQuoteItem_QuoteId_Label")
         self.gridLayout_7.addWidget(self.lblQuoteItem_QuoteId_Label, 2, 0, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(
+            824, 507, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
+        )
+        self.gridLayout_7.addItem(spacerItem, 11, 0, 1, 2)
+        self.cmbQuoteItem_Product = QtWidgets.QComboBox(self.pageQuoteItemEntry)
+        self.cmbQuoteItem_Product.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.cmbQuoteItem_Product.setStyleSheet(
+            "border: 1px solid #003049;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.cmbQuoteItem_Product.setObjectName("cmbQuoteItem_Product")
+        self.gridLayout_7.addWidget(self.cmbQuoteItem_Product, 5, 1, 1, 1)
+        self.lblQuoteItem_VehicleCombination = QtWidgets.QLabel(self.pageQuoteItemEntry)
+        self.lblQuoteItem_VehicleCombination.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuoteItem_VehicleCombination.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuoteItem_VehicleCombination.setObjectName(
+            "lblQuoteItem_VehicleCombination"
+        )
+        self.gridLayout_7.addWidget(self.lblQuoteItem_VehicleCombination, 3, 0, 1, 1)
+        self.cmbQuoteItem_VehicleCombination = QtWidgets.QComboBox(
+            self.pageQuoteItemEntry
+        )
+        self.cmbQuoteItem_VehicleCombination.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.cmbQuoteItem_VehicleCombination.setStyleSheet(
+            "border: 1px solid #003049;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.cmbQuoteItem_VehicleCombination.setObjectName(
+            "cmbQuoteItem_VehicleCombination"
+        )
+        self.gridLayout_7.addWidget(self.cmbQuoteItem_VehicleCombination, 3, 1, 1, 1)
+        self.lblQuoteItem_ProductRateOverride = QtWidgets.QLabel(
+            self.pageQuoteItemEntry
+        )
+        self.lblQuoteItem_ProductRateOverride.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuoteItem_ProductRateOverride.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuoteItem_ProductRateOverride.setObjectName(
+            "lblQuoteItem_ProductRateOverride"
+        )
+        self.gridLayout_7.addWidget(self.lblQuoteItem_ProductRateOverride, 8, 0, 1, 1)
         self.lblQuoteItem_Product = QtWidgets.QLabel(self.pageQuoteItemEntry)
         self.lblQuoteItem_Product.setStyleSheet(
             'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
@@ -870,7 +859,7 @@ class Ui_MainWindow(object):
             QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
         )
         self.lblQuoteItem_Product.setObjectName("lblQuoteItem_Product")
-        self.gridLayout_7.addWidget(self.lblQuoteItem_Product, 4, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.lblQuoteItem_Product, 5, 0, 1, 1)
         self.btnSaveQuoteItem = QtWidgets.QPushButton(self.pageQuoteItemEntry)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
@@ -899,13 +888,57 @@ class Ui_MainWindow(object):
             "white-space: nowrap;"
         )
         self.btnSaveQuoteItem.setObjectName("btnSaveQuoteItem")
-        self.gridLayout_7.addWidget(self.btnSaveQuoteItem, 8, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.btnSaveQuoteItem, 9, 0, 1, 1)
+        self.lblQuoteItem_Tonnes = QtWidgets.QLabel(self.pageQuoteItemEntry)
+        self.lblQuoteItem_Tonnes.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuoteItem_Tonnes.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuoteItem_Tonnes.setWordWrap(False)
+        self.lblQuoteItem_Tonnes.setObjectName("lblQuoteItem_Tonnes")
+        self.gridLayout_7.addWidget(self.lblQuoteItem_Tonnes, 7, 0, 1, 1)
+        self.txtQuoteItem_Tonnes = QtWidgets.QLineEdit(self.pageQuoteItemEntry)
+        self.txtQuoteItem_Tonnes.setStyleSheet(
+            "border: 1px solid #003049;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.txtQuoteItem_Tonnes.setObjectName("txtQuoteItem_Tonnes")
+        self.gridLayout_7.addWidget(self.txtQuoteItem_Tonnes, 7, 1, 1, 1)
+        self.txtQuoteItem_TransportRate = QtWidgets.QLineEdit(self.pageQuoteItemEntry)
+        self.txtQuoteItem_TransportRate.setStyleSheet(
+            "border: 1px solid #003049;\n"
+            "border-radius: 6px;\n"
+            'font-family: "Helvetica";\n'
+            "font-size: 10pt;\n"
+            "padding: 5px;"
+        )
+        self.txtQuoteItem_TransportRate.setObjectName("txtQuoteItem_TransportRate")
+        self.gridLayout_7.addWidget(self.txtQuoteItem_TransportRate, 4, 1, 1, 1)
+        self.lblQuoteItem_TransportRateOverride = QtWidgets.QLabel(
+            self.pageQuoteItemEntry
+        )
+        self.lblQuoteItem_TransportRateOverride.setStyleSheet(
+            'font-family: "Helvetica";\n' "font-weight: 700;\n" "font-size: 10pt;"
+        )
+        self.lblQuoteItem_TransportRateOverride.setAlignment(
+            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter
+        )
+        self.lblQuoteItem_TransportRateOverride.setObjectName(
+            "lblQuoteItem_TransportRateOverride"
+        )
+        self.gridLayout_7.addWidget(self.lblQuoteItem_TransportRateOverride, 4, 0, 1, 1)
         self.swPages.addWidget(self.pageQuoteItemEntry)
         self.pageProducts = QtWidgets.QWidget()
         self.pageProducts.setObjectName("pageProducts")
         self.gridLayout = QtWidgets.QGridLayout(self.pageProducts)
         self.gridLayout.setObjectName("gridLayout")
         self.txtProductSearch = QtWidgets.QLineEdit(self.pageProducts)
+        self.txtProductSearch.setFocusPolicy(QtCore.Qt.NoFocus)
         self.txtProductSearch.setStyleSheet(
             "border: 1px solid #003049;\n"
             "border-radius: 6px;\n"
@@ -956,6 +989,7 @@ class Ui_MainWindow(object):
         self.btnEditProduct.setObjectName("btnEditProduct")
         self.gridLayout.addWidget(self.btnEditProduct, 1, 1, 1, 1)
         self.tblProducts = QtWidgets.QTableWidget(self.pageProducts)
+        self.tblProducts.setFocusPolicy(QtCore.Qt.NoFocus)
         self.tblProducts.setStyleSheet(
             "border: 1px solid #003049;\n"
             'font-family: "Helvetica";\n'
@@ -1103,6 +1137,7 @@ class Ui_MainWindow(object):
         self.lblProductName.setObjectName("lblProductName")
         self.gridLayout_2.addWidget(self.lblProductName, 3, 0, 1, 1)
         self.tblProductRates = QtWidgets.QTableWidget(self.pageProductEntry)
+        self.tblProductRates.setFocusPolicy(QtCore.Qt.NoFocus)
         self.tblProductRates.setStyleSheet(
             "border: 1px solid #003049;\n"
             'font-family: "Helvetica";\n'
@@ -1377,6 +1412,7 @@ class Ui_MainWindow(object):
         self.btnDeleteRateType.setObjectName("btnDeleteRateType")
         self.gridLayout_6.addWidget(self.btnDeleteRateType, 1, 2, 1, 1)
         self.txtRateTypeSearch = QtWidgets.QLineEdit(self.pageRateTypes)
+        self.txtRateTypeSearch.setFocusPolicy(QtCore.Qt.NoFocus)
         self.txtRateTypeSearch.setStyleSheet(
             "border: 1px solid #003049;\n"
             "border-radius: 6px;\n"
@@ -1427,6 +1463,7 @@ class Ui_MainWindow(object):
         self.btnEditRateType.setObjectName("btnEditRateType")
         self.gridLayout_6.addWidget(self.btnEditRateType, 1, 1, 1, 1)
         self.tblRateTypes = QtWidgets.QTableWidget(self.pageRateTypes)
+        self.tblRateTypes.setFocusPolicy(QtCore.Qt.NoFocus)
         self.tblRateTypes.setStyleSheet(
             "border: 1px solid #003049;\n"
             'font-family: "Helvetica";\n'
@@ -1658,6 +1695,7 @@ class Ui_MainWindow(object):
         self.txtVehicleCombinationSearch = QtWidgets.QLineEdit(
             self.pageVehicleCombinations
         )
+        self.txtVehicleCombinationSearch.setFocusPolicy(QtCore.Qt.NoFocus)
         self.txtVehicleCombinationSearch.setStyleSheet(
             "border: 1px solid #003049;\n"
             "border-radius: 6px;\n"
@@ -1670,6 +1708,7 @@ class Ui_MainWindow(object):
         self.tblVehicleCombinations = QtWidgets.QTableWidget(
             self.pageVehicleCombinations
         )
+        self.tblVehicleCombinations.setFocusPolicy(QtCore.Qt.NoFocus)
         self.tblVehicleCombinations.setStyleSheet(
             "border: 1px solid #003049;\n"
             'font-family: "Helvetica";\n'
@@ -1909,48 +1948,27 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.txtQuote_Address, self.txtQuote_Suburb)
         MainWindow.setTabOrder(self.txtQuote_Suburb, self.txtQuote_ContactNumber)
         MainWindow.setTabOrder(self.txtQuote_ContactNumber, self.txtQuote_Kilometres)
-        MainWindow.setTabOrder(self.txtQuote_Kilometres, self.txtProductSearch)
-        MainWindow.setTabOrder(self.txtProductSearch, self.btnEditProduct)
-        MainWindow.setTabOrder(self.btnEditProduct, self.btnDeleteProduct)
-        MainWindow.setTabOrder(self.btnDeleteProduct, self.tblProducts)
-        MainWindow.setTabOrder(self.tblProducts, self.txtQuoteItem_Tonnes)
+        MainWindow.setTabOrder(
+            self.txtQuote_Kilometres, self.txtQuoteItem_TransportRate
+        )
+        MainWindow.setTabOrder(
+            self.txtQuoteItem_TransportRate, self.txtQuoteItem_Tonnes
+        )
         MainWindow.setTabOrder(self.txtQuoteItem_Tonnes, self.txtQuoteItem_ProductRate)
-        MainWindow.setTabOrder(self.txtQuoteItem_ProductRate, self.btnNewProduct)
-        MainWindow.setTabOrder(self.btnNewProduct, self.txtProductName)
-        MainWindow.setTabOrder(self.txtProductName, self.tblProductRates)
-        MainWindow.setTabOrder(self.tblProductRates, self.cmbProductRate_RateType)
+        MainWindow.setTabOrder(self.txtQuoteItem_ProductRate, self.txtProductName)
+        MainWindow.setTabOrder(self.txtProductName, self.cmbProductRate_RateType)
         MainWindow.setTabOrder(self.cmbProductRate_RateType, self.txtProductRate_Rate)
-        MainWindow.setTabOrder(self.txtProductRate_Rate, self.btnDeleteRateType)
-        MainWindow.setTabOrder(self.btnDeleteRateType, self.txtRateTypeSearch)
-        MainWindow.setTabOrder(self.txtRateTypeSearch, self.btnNewRateType)
-        MainWindow.setTabOrder(self.btnNewRateType, self.btnEditRateType)
-        MainWindow.setTabOrder(self.btnEditRateType, self.tblRateTypes)
-        MainWindow.setTabOrder(self.tblRateTypes, self.txtRateType_Name)
-        MainWindow.setTabOrder(self.txtRateType_Name, self.btnNewVehicleCombination)
-        MainWindow.setTabOrder(
-            self.btnNewVehicleCombination, self.btnEditVehicleCombination
-        )
-        MainWindow.setTabOrder(
-            self.btnEditVehicleCombination, self.btnDeleteVehicleCombination
-        )
-        MainWindow.setTabOrder(
-            self.btnDeleteVehicleCombination, self.txtVehicleCombinationSearch
-        )
-        MainWindow.setTabOrder(
-            self.txtVehicleCombinationSearch, self.tblVehicleCombinations
-        )
-        MainWindow.setTabOrder(
-            self.tblVehicleCombinations, self.txtVehicleCombination_Name
-        )
+        MainWindow.setTabOrder(self.txtProductRate_Rate, self.txtRateType_Name)
+        MainWindow.setTabOrder(self.txtRateType_Name, self.txtVehicleCombination_Name)
         MainWindow.setTabOrder(
             self.txtVehicleCombination_Name, self.txtVehicleCombination_Net
         )
         MainWindow.setTabOrder(
             self.txtVehicleCombination_Net, self.cmbVehicleCombination_ChargeType
         )
-        MainWindow.setTabOrder(
-            self.cmbVehicleCombination_ChargeType, self.txtQuoteSearch
-        )
+        MainWindow.setTabOrder(self.cmbVehicleCombination_ChargeType, self.tblRateTypes)
+        MainWindow.setTabOrder(self.tblRateTypes, self.tblProductRates)
+        MainWindow.setTabOrder(self.tblProductRates, self.tblVehicleCombinations)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -1961,62 +1979,69 @@ class Ui_MainWindow(object):
         self.btnExportQuote.setText(_translate("MainWindow", "Export Quote"))
         self.lblQuotes_Header.setText(_translate("MainWindow", "Quotes"))
         self.txtQuoteSearch.setPlaceholderText(_translate("MainWindow", "Search"))
-        self.btnDeleteQuoteItem.setText(_translate("MainWindow", "Delete Quote Item"))
-        self.lblQuote_Kilometres.setText(_translate("MainWindow", "Kilometres"))
+        self.btnNewQuoteItem.setText(_translate("MainWindow", "New Quote Item"))
         self.lblQuote_Address.setText(_translate("MainWindow", "Address"))
-        self.lblQuote_DateCreated_Label.setText(
-            _translate("MainWindow", "Date Created")
+        self.txtQuote_Kilometres.setPlaceholderText(
+            _translate("MainWindow", "(0-9999)")
         )
-        self.lblQuote_TotalExGST_Label.setText(
-            _translate("MainWindow", "Total ex. GST")
-        )
-        self.lblQuote_Suburb.setText(_translate("MainWindow", "Suburb"))
-        self.btnEditQuoteItem.setText(_translate("MainWindow", "Edit Quote Item"))
         self.lblQuote_TransportTotalExGST_Label.setText(
             _translate("MainWindow", "Transport Total ex. GST")
         )
-        self.lblQuoteId_Label.setText(_translate("MainWindow", "Id"))
-        self.lblQuote_DateRequired.setText(_translate("MainWindow", "Date Required"))
-        self.lblQuoteEntry_Header.setText(_translate("MainWindow", "Quote Entry/Edit"))
         self.lblQuoteItem_Header.setText(_translate("MainWindow", "Added Quote Items"))
+        self.lblQuoteId_Label.setText(_translate("MainWindow", "Id"))
+        self.lblQuote_TotalExGST_Label.setText(
+            _translate("MainWindow", "Total ex. GST")
+        )
+        self.btnExportQuote_Entry.setText(_translate("MainWindow", "Export Quote"))
+        self.btnEditQuoteItem.setText(_translate("MainWindow", "Edit Quote Item"))
+        self.lblQuote_Kilometres.setText(_translate("MainWindow", "Kilometres"))
+        self.lblQuoteEntry_Header.setText(_translate("MainWindow", "Quote Entry/Edit"))
+        self.lblQuote_ContactNumber.setText(_translate("MainWindow", "Contact Number"))
+        self.lblQuote_DateCreated_Label.setText(
+            _translate("MainWindow", "Date Created")
+        )
         self.txtQuote_DateRequired.setPlaceholderText(
             _translate("MainWindow", "dd/mm/yyyy")
-        )
-        self.lblQuote_Name.setText(_translate("MainWindow", "Customer Name"))
-        self.btnNewQuoteItem.setText(_translate("MainWindow", "New Quote Item"))
-        self.lblQuote_TotalIncGST_Label.setText(
-            _translate("MainWindow", "Total inc. GST")
-        )
-        self.txtQuote_Kilometres.setPlaceholderText(
-            _translate("MainWindow", "(0-9999)")
         )
         self.lblQuote_ProductTotalExGst_Label.setText(
             _translate("MainWindow", "Product Total ex. GST")
         )
-        self.lblQuote_ContactNumber.setText(_translate("MainWindow", "Contact Number"))
+        self.lblQuote_DateRequired.setText(_translate("MainWindow", "Date Required"))
         self.btnSaveQuote.setText(_translate("MainWindow", "Save Quote"))
-        self.btnExportQuote_Entry.setText(_translate("MainWindow", "Export Quote"))
-        self.txtQuoteItem_ProductRate.setPlaceholderText(
-            _translate("MainWindow", "(0-9999)")
+        self.btnDeleteQuoteItem.setText(_translate("MainWindow", "Delete Quote Item"))
+        self.lblQuote_Suburb.setText(_translate("MainWindow", "Suburb"))
+        self.lblQuote_Name.setText(_translate("MainWindow", "Customer Name"))
+        self.lblQuote_TotalIncGST_Label.setText(
+            _translate("MainWindow", "Total inc. GST")
         )
+        self.chkQuote_Completed.setText(_translate("MainWindow", "Is Complete"))
         self.lblQuoteItemId_Label.setText(_translate("MainWindow", "Id"))
         self.lblQuoteItemEntry_Header.setText(
             _translate("MainWindow", "Quote Item Entry/Edit")
         )
+        self.lblQuoteItem_ProductRate.setText(_translate("MainWindow", "Rate Type"))
+        self.txtQuoteItem_ProductRate.setPlaceholderText(
+            _translate("MainWindow", "(0-9999)")
+        )
+        self.lblQuoteItem_QuoteId_Label.setText(_translate("MainWindow", "Quote Id"))
+        self.lblQuoteItem_VehicleCombination.setText(
+            _translate("MainWindow", "Vehicle Combination")
+        )
+        self.lblQuoteItem_ProductRateOverride.setText(
+            _translate("MainWindow", "Product Rate")
+        )
+        self.lblQuoteItem_Product.setText(_translate("MainWindow", "Product"))
+        self.btnSaveQuoteItem.setText(_translate("MainWindow", "Save Quote Item"))
         self.lblQuoteItem_Tonnes.setText(_translate("MainWindow", "Tonnes"))
         self.txtQuoteItem_Tonnes.setPlaceholderText(
             _translate("MainWindow", "(0-9999)")
         )
-        self.lblQuoteItem_ProductRate.setText(_translate("MainWindow", "Rate Type"))
-        self.lblQuoteItem_ProductRateOverride.setText(
-            _translate("MainWindow", "Product Rate")
+        self.txtQuoteItem_TransportRate.setPlaceholderText(
+            _translate("MainWindow", "(0-9999)")
         )
-        self.lblQuoteItem_VehicleCombination.setText(
-            _translate("MainWindow", "Vehicle Combination")
+        self.lblQuoteItem_TransportRateOverride.setText(
+            _translate("MainWindow", "Transport Rate")
         )
-        self.lblQuoteItem_QuoteId_Label.setText(_translate("MainWindow", "Quote Id"))
-        self.lblQuoteItem_Product.setText(_translate("MainWindow", "Product"))
-        self.btnSaveQuoteItem.setText(_translate("MainWindow", "Save Quote Item"))
         self.txtProductSearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.btnDeleteProduct.setText(_translate("MainWindow", "Delete Product"))
         self.btnEditProduct.setText(_translate("MainWindow", "Edit Product"))
@@ -2092,14 +2117,3 @@ class Ui_MainWindow(object):
         self.actionVehicle_Combinations.setText(
             _translate("MainWindow", "Vehicle Combinations")
         )
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

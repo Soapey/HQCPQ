@@ -48,9 +48,7 @@ class QuotePDF(FPDF):
 
         # Supplier details.
         self.set_font("Helvetica", "B", 14)
-        self.cell(
-            self.column_width_mm * 2, self.row_height_mm, "Hunter Quarries Pty Ltd"
-        )
+        self.cell(self.column_width_mm * 2, self.row_height_mm, "Hunter Quarries")
         self.ln(self.row_height_mm // 2)
 
         self.set_font("Helvetica", "", 12)
@@ -201,7 +199,7 @@ class QuotePDF(FPDF):
                 self.row_height_mm,
             ),
             (
-                "Payment required via credit card per load once final weights determined.",
+                "Payment required via credit card per load once final weights determined & prior to despatch.",
                 self.row_height_mm,
             ),
             (
@@ -234,6 +232,14 @@ class QuotePDF(FPDF):
                 max_line_height=self.font_size_pt,
             )
             self.ln(special_condition[1])
+
+        # Business details.
+        self.set_font("Helvetica", "B", 10)
+        self.multi_cell(
+            self.column_width_mm * 4,
+            self.row_height_mm,
+            "Karuah East Quarry Pty Ltd trading as Hunter Quarries - ABN: 80 141 505 035",
+        )
 
     def export(self):
 

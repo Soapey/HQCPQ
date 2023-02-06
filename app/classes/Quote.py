@@ -15,6 +15,7 @@ class Quote:
         suburb: str,
         contact_number: str,
         kilometres: int,
+        completed: bool,
     ) -> None:
         self.id = id
         self.date_created = date_created
@@ -24,6 +25,7 @@ class Quote:
         self.suburb = suburb
         self.contact_number = contact_number
         self.kilometres = kilometres
+        self.completed = completed
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
@@ -66,9 +68,9 @@ class Quote:
 
             self.id = cur.execute(
                 """
-                INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number, kilometres) 
+                INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number, kilometres, completed) 
                 OUTPUT INSERTED.id
-                VALUES (?, ?, ?, ?, ?, ?, ?);
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?);
                 """,
                 [
                     self.date_created.date(),
@@ -78,6 +80,7 @@ class Quote:
                     self.suburb,
                     self.contact_number,
                     self.kilometres,
+                    int(self.completed),
                 ],
             ).fetchone()[0]
 
@@ -91,7 +94,7 @@ class Quote:
             cur.execute(
                 """
                 UPDATE quote 
-                SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, contact_number = ?, kilometres = ? 
+                SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, contact_number = ?, kilometres = ?, completed = ? 
                 WHERE id = ?;
                 """,
                 [
@@ -102,6 +105,7 @@ class Quote:
                     self.suburb,
                     self.contact_number,
                     self.kilometres,
+                    int(self.completed),
                     self.id,
                 ],
             )
@@ -138,7 +142,7 @@ class Quote:
             if not id:
                 records = cur.execute(
                     """
-                    SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres 
+                    SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres, completed  
                     FROM quote;
                     """
                 ).fetchall()
@@ -146,7 +150,7 @@ class Quote:
             else:
                 records = cur.execute(
                     """
-                    SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres
+                    SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres, completed 
                     FROM quote 
                     WHERE id = ?;
                     """,
@@ -165,6 +169,7 @@ class Quote:
                     r[5],
                     r[6],
                     r[7],
+                    bool(r[8]),
                 )
                 for r in records
             ]

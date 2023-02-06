@@ -36,7 +36,8 @@ CREATE TABLE quote (
     address varchar(100) NOT NULL,
     suburb varchar(100) NOT NULL,
     contact_number varchar(100),
-    kilometres int NOT NULL
+    kilometres int NOT NULL,
+    completed bit NOT NULL
 );
 
 CREATE TABLE quote_item (
@@ -52,3 +53,9 @@ CREATE TABLE quote_item (
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
+
+INSERT INTO vehicle_combination (name, net, charge_type) VALUES ('Truck & Trailer', 32.5, 'Truck & Trailer');
+INSERT INTO vehicle_combination (name, net, charge_type) VALUES ('Rigid', 12.5, 'Rigid');
+INSERT INTO rate_type (name) VALUES ('COD');
+INSERT INTO product (name) VALUES ('CMS');
+INSERT INTO product_rate (product_id, rate_type_id, rate) VALUES (1, 1, 14.0);

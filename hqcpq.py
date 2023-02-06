@@ -17,7 +17,7 @@ from app.gui.actions.vehiclecombination_actions import (
 )
 
 
-def connect_main_window_actions(main_window: object):
+def connect_main_window_actions(main_window: Ui_MainWindow):
 
     # Set up Quote gui actions
     connect_quotes(main_window)
