@@ -1,18 +1,26 @@
 from tkinter import messagebox
 from pypyodbc import connect, Cursor
-from app.db.build_type_enum import BuildType
+from hqcpq.db.build_type_enum import BuildType
+from hqcpq.helpers import read_config
 
 
-DRIVER_NAME = "ODBC Driver 17 for SQL Server"
-SERVER_NAME = "10.1.1.16"
-DEV_DATABASE_NAME = "HQCPQ_Dev"
-PROD_DATABASE_NAME = "HQCPQ"
-USER_NAME = "hqcpquser"
-PWD = "hqcpqpwd"
+def connection_string(build_type: BuildType) -> str:
 
+    config = read_config()
 
-dev_connection_string = f"DRIVER={{{DRIVER_NAME}}};SERVER={SERVER_NAME};DATABASE={DEV_DATABASE_NAME};UID={USER_NAME};PWD={PWD};"
-prod_connection_string = f"DRIVER={{{DRIVER_NAME}}};SERVER={SERVER_NAME};DATABASE={PROD_DATABASE_NAME};UID={USER_NAME};PWD={PWD};"
+    driver = config["SQLServerSettings"]["driver"]
+    server = config["SQLServerSettings"]["server"]
+    username = config["SQLServerSettings"]["username"]
+    password = config["SQLServerSettings"]["password"]
+
+    match build_type:
+        case BuildType.DEVELOPMENT:
+            return f"DRIVER={{{driver}}};SERVER={server};DATABASE={config['SQLServerSettings']['development_database_name']};UID={username};PWD={password};"
+
+        case BuildType.PRODUCTION:
+            return f"DRIVER={{{driver}}};SERVER={server};DATABASE={config['SQLServerSettings']['production_database_name']};UID={username};PWD={password};"
+
+    return None
 
 
 class SQLServerCursor:
@@ -27,12 +35,7 @@ class SQLServerCursor:
         result: Cursor = None
 
         try:
-            match self.build_type:
-                case BuildType.DEVELOPMENT:
-                    self.connection_string = dev_connection_string
-                case BuildType.PRODUCTION:
-                    self.connection_string = prod_connection_string
-
+            self.connection_string = connection_string(self.build_type)
             self.connection = connect(self.connection_string)
             self.cursor = self.connection.cursor()
             result = self.cursor

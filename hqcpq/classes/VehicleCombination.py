@@ -1,14 +1,12 @@
-from app.db.config import get_cursor_type
+from hqcpq.db.db import get_cursor_type
 
 
-class ProductRate:
-    def __init__(
-        self, id: int, product_id: int, rate_type_id: int, rate: float
-    ) -> None:
+class VehicleCombination:
+    def __init__(self, id: int, name: str, net: float, charge_type: str) -> None:
         self.id = id
-        self.product_id = product_id
-        self.rate_type_id = rate_type_id
-        self.rate = rate
+        self.name = name
+        self.net = net
+        self.charge_type = charge_type
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
@@ -22,11 +20,11 @@ class ProductRate:
 
             self.id = cur.execute(
                 """
-                INSERT INTO product_rate (product_id, rate_type_id, rate) 
+                INSERT INTO vehicle_combination (name, net, charge_type) 
                 OUTPUT INSERTED.id
                 VALUES (?, ?, ?);
                 """,
-                [self.product_id, self.rate_type_id, self.rate],
+                [self.name, self.net, self.charge_type],
             ).fetchone()[0]
 
     def update(self):
@@ -38,11 +36,11 @@ class ProductRate:
 
             cur.execute(
                 """
-                UPDATE product_rate 
-                SET product_id = ?, rate_type_id = ?, rate = ? 
+                UPDATE vehicle_combination 
+                SET name = ?, net = ?, charge_type = ?
                 WHERE id = ?;
                 """,
-                [self.product_id, self.rate_type_id, self.rate, self.id],
+                [self.name, self.net, self.charge_type, self.id],
             )
 
     def delete(self):
@@ -54,7 +52,7 @@ class ProductRate:
 
             cur.execute(
                 """
-                DELETE FROM product_rate 
+                DELETE FROM vehicle_combination 
                 WHERE id = ?;
                 """,
                 [self.id],
@@ -73,19 +71,19 @@ class ProductRate:
             if not id:
                 records = cur.execute(
                     """
-                    SELECT id, product_id, rate_type_id, rate 
-                    FROM product_rate;
+                    SELECT id, name, net, charge_type 
+                    FROM vehicle_combination;
                     """
                 ).fetchall()
 
             else:
                 records = cur.execute(
                     """
-                    SELECT id, product_id, rate_type_id, rate 
-                    FROM product_rate 
+                    SELECT id, name, net, charge_type 
+                    FROM vehicle_combination 
                     WHERE id = ?;
                     """,
                     [id],
                 ).fetchall()
 
-        return {pr.id: pr for pr in [ProductRate(*r) for r in records]}
+        return {vc.id: vc for vc in [VehicleCombination(*r) for r in records]}

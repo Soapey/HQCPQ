@@ -1,4 +1,4 @@
-from app.db.config import get_cursor_type
+from hqcpq.db.db import get_cursor_type
 
 
 class QuoteItem:

@@ -1,11 +1,11 @@
 from tkinter import messagebox
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
-from app.classes.Toast import Toast
-from app.classes.RateType import RateType
-from app.gui.view_enum import ViewPage
-from app.gui.components.main_window import Ui_MainWindow
-from app.gui.helpers import change_view, selected_row_id, toggle_buttons, int_conv
-
+from hqcpq.classes.Toast import Toast
+from hqcpq.classes.RateType import RateType
+from hqcpq.gui.view_enum import ViewPage
+from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.helpers import int_conv
+from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 
 rate_types: dict[int, RateType] = dict()
 matches: dict[int, RateType] = dict()

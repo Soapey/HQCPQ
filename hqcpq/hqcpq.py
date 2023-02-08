@@ -1,18 +1,17 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from app.gui.components.main_window import Ui_MainWindow
-from app.db.db_type_enum import DbType
-from app.db.build_type_enum import BuildType
-from app.db.config import start_db
-from app.gui.actions.quote_actions import (
+from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.db.build_type_enum import BuildType
+from hqcpq.db.db import start_db
+from hqcpq.gui.actions.quote_actions import (
     connect as connect_quotes,
     navigate_to_listing_view,
 )
-from app.gui.actions.quoteitem_actions import connect as connect_quote_items
-from app.gui.actions.product_actions import connect as connect_products
-from app.gui.actions.productrate_actions import connect as connect_product_rates
-from app.gui.actions.ratetype_actions import connect as connect_rate_types
-from app.gui.actions.vehiclecombination_actions import (
+from hqcpq.gui.actions.quoteitem_actions import connect as connect_quote_items
+from hqcpq.gui.actions.product_actions import connect as connect_products
+from hqcpq.gui.actions.productrate_actions import connect as connect_product_rates
+from hqcpq.gui.actions.ratetype_actions import connect as connect_rate_types
+from hqcpq.gui.actions.vehiclecombination_actions import (
     connect as connect_vehicle_combinations,
 )
 
@@ -57,7 +56,6 @@ def main(build_type: BuildType = BuildType.DEVELOPMENT, clean_start: bool = True
 
     start_db(
         start_build_type=build_type,
-        start_db_type=DbType.SQL_SERVER,
         clean_start=clean_start,
     )
     start_app()

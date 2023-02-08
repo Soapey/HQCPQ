@@ -2,8 +2,8 @@ from datetime import datetime
 from fpdf import FPDF
 from tkinter import messagebox
 from tkinter.filedialog import askdirectory
-from app.gui.helpers import resource_path
-from app.classes.Toast import Toast
+from hqcpq.helpers import resource_path
+from hqcpq.classes.Toast import Toast
 
 
 class QuotePDF(FPDF):

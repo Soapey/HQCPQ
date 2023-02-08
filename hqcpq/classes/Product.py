@@ -1,7 +1,7 @@
-from app.db.config import get_cursor_type
+from hqcpq.db.db import get_cursor_type
 
 
-class RateType:
+class Product:
     def __init__(self, id: int, name: str) -> None:
         self.id = id
         self.name = name
@@ -18,7 +18,7 @@ class RateType:
 
             self.id = cur.execute(
                 """
-                INSERT INTO rate_type (name) 
+                INSERT INTO product (name) 
                 OUTPUT INSERTED.id
                 VALUES (?);
                 """,
@@ -34,7 +34,7 @@ class RateType:
 
             cur.execute(
                 """
-                UPDATE rate_type 
+                UPDATE product 
                 SET name = ? 
                 WHERE id = ?;
                 """,
@@ -50,7 +50,7 @@ class RateType:
 
             cur.execute(
                 """
-                DELETE FROM rate_type 
+                DELETE FROM product 
                 WHERE id = ?;
                 """,
                 [self.id],
@@ -70,7 +70,7 @@ class RateType:
                 records = cur.execute(
                     """
                     SELECT id, name 
-                    FROM rate_type;
+                    FROM product;
                     """
                 ).fetchall()
 
@@ -78,10 +78,10 @@ class RateType:
                 records = cur.execute(
                     """
                     SELECT id, name 
-                    FROM rate_type 
+                    FROM product 
                     WHERE id = ?;
                     """,
                     [id],
                 ).fetchall()
 
-        return {rt.id: rt for rt in [RateType(*r) for r in records]}
+        return {p.id: p for p in [Product(*r) for r in records]}

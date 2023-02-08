@@ -1,20 +1,15 @@
 from tkinter import messagebox
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox
-from app.gui.components.main_window import Ui_MainWindow
-from app.gui.view_enum import ViewPage
-from app.classes.Toast import Toast
-from app.classes.Product import Product
-from app.classes.ProductRate import ProductRate
-from app.classes.RateType import RateType
-from app.db.config import get_cursor_type
-from app.gui.helpers import (
-    selected_row_id,
-    change_view,
-    toggle_buttons,
-    int_conv,
-    float_conv,
-)
+from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.gui.view_enum import ViewPage
+from hqcpq.classes.Toast import Toast
+from hqcpq.classes.Product import Product
+from hqcpq.classes.ProductRate import ProductRate
+from hqcpq.classes.RateType import RateType
+from hqcpq.db.db import get_cursor_type
+from hqcpq.gui.helpers import selected_row_id, change_view, toggle_buttons
+from hqcpq.helpers import int_conv, float_conv
 
 
 # Global entities

@@ -1,7 +1,7 @@
 from datetime import datetime
-from app.classes.QuoteItem import QuoteItem
-from app.classes.QuotePDF import QuotePDF
-from app.db.config import get_cursor_type
+from hqcpq.classes.QuoteItem import QuoteItem
+from hqcpq.classes.QuotePDF import QuotePDF
+from hqcpq.db.db import get_cursor_type
 
 
 class Quote:

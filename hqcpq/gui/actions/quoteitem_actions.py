@@ -1,23 +1,17 @@
 from tkinter import messagebox
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox, QHeaderView
 from PyQt5.QtGui import QDoubleValidator
-from app.classes.Toast import Toast
-from app.classes.VehicleCombination import VehicleCombination
-from app.classes.Product import Product
-from app.classes.ProductRate import ProductRate
-from app.classes.RateType import RateType
-from app.classes.QuoteItem import QuoteItem
-from app.classes.Quote import Quote
-from app.gui.components.main_window import Ui_MainWindow
-from app.gui.view_enum import ViewPage
-from app.gui.helpers import (
-    selected_row_id,
-    toggle_buttons,
-    change_view,
-    int_conv,
-    float_conv,
-    get_transport_rate_ex_gst,
-)
+from hqcpq.classes.Toast import Toast
+from hqcpq.classes.VehicleCombination import VehicleCombination
+from hqcpq.classes.Product import Product
+from hqcpq.classes.ProductRate import ProductRate
+from hqcpq.classes.RateType import RateType
+from hqcpq.classes.QuoteItem import QuoteItem
+from hqcpq.classes.Quote import Quote
+from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.gui.view_enum import ViewPage
+from hqcpq.helpers import int_conv, float_conv, get_transport_rate_ex_gst
+from hqcpq.gui.helpers import selected_row_id, toggle_buttons, change_view
 
 
 vehicle_combinations: dict[int, VehicleCombination] = dict()

@@ -2,20 +2,14 @@ from datetime import datetime
 from tkinter import messagebox
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt5.QtGui import QIntValidator
-from app.gui.view_enum import ViewPage
-from app.classes.Toast import Toast
-from app.classes.Quote import Quote
-from app.gui.components.main_window import Ui_MainWindow
-from app.db.config import get_cursor_type
-from app.gui.helpers import (
-    toggle_buttons,
-    change_view,
-    selected_row_id,
-    isdate,
-    int_conv,
-    get_transport_rate_ex_gst,
-)
-from app.gui.actions.quoteitem_actions import (
+from hqcpq.gui.view_enum import ViewPage
+from hqcpq.classes.Toast import Toast
+from hqcpq.classes.Quote import Quote
+from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.db.db import get_cursor_type
+from hqcpq.helpers import isdate, int_conv, get_transport_rate_ex_gst
+from hqcpq.gui.helpers import toggle_buttons, change_view, selected_row_id
+from hqcpq.gui.actions.quoteitem_actions import (
     refresh_table as refresh_quote_items_table,
     calculate_quote_item_totals,
     fetch_global_entities as fetch_quote_item_globals,
