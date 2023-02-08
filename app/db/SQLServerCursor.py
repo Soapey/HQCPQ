@@ -4,7 +4,7 @@ from app.db.build_type_enum import BuildType
 
 
 DRIVER_NAME = "ODBC Driver 17 for SQL Server"
-SERVER_NAME = "10.1.1.16,49172"
+SERVER_NAME = "10.1.1.16"
 DEV_DATABASE_NAME = "HQCPQ_Dev"
 PROD_DATABASE_NAME = "HQCPQ"
 USER_NAME = "hqcpquser"
