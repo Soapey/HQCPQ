@@ -52,14 +52,37 @@ def start_app():
     sys.exit(app.exec_())
 
 
-def main(build_type: BuildType = BuildType.DEVELOPMENT, clean_start: bool = True):
+def main(build_type: BuildType, clean_start: bool):
 
-    start_db(
-        start_build_type=build_type,
-        clean_start=clean_start,
-    )
+    start_db(build_type, clean_start)
     start_app()
 
 
 if __name__ == "__main__":
-    main(BuildType.PRODUCTION, clean_start=False)
+
+    # Establish build type.
+    build_type: str
+    try:
+        build_type = sys.argv[1].strip().lower()
+    except:
+        build_type = "production"
+
+    # Establish whether database will be clean started.
+    clean_start: str
+    try:
+        clean_start = sys.argv[2].strip().lower()
+    except:
+        clean_start = "false"
+
+    # Start the program.
+    if build_type == "development":
+        if clean_start == "true":
+            main(build_type=BuildType.DEVELOPMENT, clean_start=True)
+        elif clean_start == "false":
+            main(build_type=BuildType.DEVELOPMENT, clean_start=False)
+
+    elif build_type == "production":
+        if clean_start == "true":
+            main(build_type=BuildType.PRODUCTION, clean_start=True)
+        elif clean_start == "false":
+            main(build_type=BuildType.PRODUCTION, clean_start=False)

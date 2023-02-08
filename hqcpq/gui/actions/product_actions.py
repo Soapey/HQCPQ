@@ -4,7 +4,8 @@ from hqcpq.classes.Toast import Toast
 from hqcpq.classes.Product import Product
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.view_enum import ViewPage
-from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons, int_conv
+from hqcpq.helpers import int_conv
+from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.gui.actions.productrate_actions import (
     refresh_table as refresh_product_rates_table,
     fetch_global_entities as fetch_productrate_global_entities,
