@@ -6,7 +6,7 @@ from datetime import datetime
 
 def read_config():
     config = configparser.ConfigParser()
-    config.read(r"hqcpq\config.ini")
+    config.read(resource_path("hqcpq\\config.ini"))
     return config
 
 
@@ -64,10 +64,13 @@ def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
 
 def resource_path(relative_path):
     """Get absolute path to resource, works for dev and for PyInstaller"""
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
 
-    return os.path.join(base_path, relative_path)
+    base_path = os.path.abspath(".")
+
+    full_path = os.path.join(base_path, relative_path)
+
+    print("Base Path:", base_path)
+    print("Relative Path:", relative_path)
+    print("Full Path:", full_path)
+
+    return full_path

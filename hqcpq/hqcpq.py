@@ -14,6 +14,7 @@ from hqcpq.gui.actions.ratetype_actions import connect as connect_rate_types
 from hqcpq.gui.actions.vehiclecombination_actions import (
     connect as connect_vehicle_combinations,
 )
+from hqcpq.helpers import read_config
 
 
 def connect_main_window_actions(main_window: Ui_MainWindow):
@@ -60,29 +61,15 @@ def main(build_type: BuildType, clean_start: bool):
 
 if __name__ == "__main__":
 
-    # Establish build type.
-    build_type: str
-    try:
-        build_type = sys.argv[1].strip().lower()
-    except:
-        build_type = "production"
+    config = read_config()
 
-    # Establish whether database will be clean started.
-    clean_start: str
-    try:
-        clean_start = sys.argv[2].strip().lower()
-    except:
-        clean_start = "false"
+    # Establish build type.
+    build = config["SQLServerSettings"]["build"].strip().lower()
 
     # Start the program.
-    if build_type == "development":
-        if clean_start == "true":
-            main(build_type=BuildType.DEVELOPMENT, clean_start=True)
-        elif clean_start == "false":
-            main(build_type=BuildType.DEVELOPMENT, clean_start=False)
-
-    elif build_type == "production":
-        if clean_start == "true":
-            main(build_type=BuildType.PRODUCTION, clean_start=True)
-        elif clean_start == "false":
-            main(build_type=BuildType.PRODUCTION, clean_start=False)
+    if build == "d":
+        main(build_type=BuildType.DEVELOPMENT, clean_start=False)
+    elif build == "d_clean":
+        main(build_type=BuildType.DEVELOPMENT, clean_start=True)
+    elif build == "p":
+        main(build_type=BuildType.PRODUCTION, clean_start=False)
