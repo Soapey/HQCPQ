@@ -33,7 +33,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="pageQuotes">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -165,7 +165,7 @@ padding: 6px;</string>
         <item row="2" column="0" colspan="4">
          <widget class="QLineEdit" name="txtQuoteSearch">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">border: 1px solid #003049;
@@ -1248,7 +1248,7 @@ font-size: 10pt;</string>
         <item row="2" column="0" colspan="3">
          <widget class="QLineEdit" name="txtProductSearch">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">border: 1px solid #003049;
@@ -1873,7 +1873,7 @@ white-space: nowrap;</string>
         <item row="2" column="0" colspan="3">
          <widget class="QLineEdit" name="txtRateTypeSearch">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">border: 1px solid #003049;
@@ -2242,7 +2242,7 @@ white-space: nowrap;</string>
         <item row="2" column="0" colspan="3">
          <widget class="QLineEdit" name="txtVehicleCombinationSearch">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">border: 1px solid #003049;
