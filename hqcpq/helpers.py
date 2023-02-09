@@ -1,20 +1,26 @@
 import os
-import sys
 import configparser
 from datetime import datetime
 
 CONFIG_PATH = "hqcpq\\config.ini"
 
 
-def read_config():
+def read_config(confile_file_path: str = None):
+
+    if not confile_file_path:
+        confile_file_path = resource_path(CONFIG_PATH)
+
     config = configparser.ConfigParser()
-    config.read(resource_path(CONFIG_PATH))
+    config.read(confile_file_path)
     return config
 
 
-def update_config(config):
-    config = configparser.ConfigParser()
-    with open(resource_path(CONFIG_PATH), "w+") as configFile:
+def update_config(config: configparser.ConfigParser, config_file_path: str = None):
+
+    if not config_file_path:
+        config_file_path = resource_path(CONFIG_PATH)
+
+    with open(config_file_path, "w+") as configFile:
         config.write(configFile)
 
 
