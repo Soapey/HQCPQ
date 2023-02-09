@@ -69,8 +69,4 @@ def resource_path(relative_path):
 
     full_path = os.path.join(base_path, relative_path)
 
-    print("Base Path:", base_path)
-    print("Relative Path:", relative_path)
-    print("Full Path:", full_path)
-
     return full_path
