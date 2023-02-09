@@ -1,6 +1,5 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
-import AutoUpdate
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.db.build_type_enum import BuildType
 from hqcpq.db.db import start_db
@@ -63,13 +62,6 @@ def main(build_type: BuildType, clean_start: bool):
 if __name__ == "__main__":
 
     config = read_config()
-
-    AutoUpdate.set_url(config["AppSettings"]["update_version_url"])
-    AutoUpdate.set_current_version(config["AppSettings"]["version"])
-
-    if not AutoUpdate.is_up_to_date():
-        AutoUpdate.download(config["AppSettings"]["update_file_url"])
-        sys.exit()
 
     # Establish build type.
     build = config["AppSettings"]["build"].strip().lower()

@@ -3,11 +3,19 @@ import sys
 import configparser
 from datetime import datetime
 
+CONFIG_PATH = "hqcpq\\config.ini"
+
 
 def read_config():
     config = configparser.ConfigParser()
-    config.read(resource_path("hqcpq\\config.ini"))
+    config.read(resource_path(CONFIG_PATH))
     return config
+
+
+def update_config(config):
+    config = configparser.ConfigParser()
+    with open(resource_path(CONFIG_PATH), "w+") as configFile:
+        config.write(configFile)
 
 
 def isfloat(value: str):
