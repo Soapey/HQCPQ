@@ -82,19 +82,22 @@ def update():
     # Read configuration file.
     config = read_config()
     current_version = config["AppSettings"]["version"]
+    update_directory = config["AppSettings"]["update_directory"]
 
     # Read update configuration file.
-    update_directory = config["AppSettings"]["update_directory"]
-    update_config_file = read_config(f"{update_directory}\\update_config.ini")
-    update_version = update_config_file["Configuration"]["version"]
-    update_exe_name = update_config_file["Configuration"]["exe_name"]
+    try:
+        update_config_file = read_config(f"{update_directory}\\update_config.ini")
+        update_version = update_config_file["Configuration"]["version"]
+        update_exe_name = update_config_file["Configuration"]["exe_name"]
+    except:
+        return
 
     # Check if current app version out of date.
     if current_version != update_version:
 
         # Ask user if they would like to update.
         if askyesno(
-            "Update Rrequired",
+            "Update Required",
             "The current application version is out of date.\nWould you like to fetch the updated version?",
         ):
 
@@ -105,12 +108,15 @@ def update():
                     rf"{update_directory}\{update_exe_name}",
                     new_exe_path,
                 )
-            except Exception as e:
+            except:
+                if os.path.exists(new_exe_path):
+                    os.remove(new_exe_path)
+
                 messagebox.showerror(
                     "Update Failed",
                     "An error occurred while trying to download the update file.\nPlease try again later.",
                 )
-                sys.exit()
+                return
 
             try:
                 # Change the current version in the config file.
@@ -121,15 +127,13 @@ def update():
                     "Update Failed",
                     "An error occurred while trying change the version number in the configuration file. Please change this manually.",
                 )
-                sys.exit()
+                return
 
             # Start the updated version.
             os.startfile(new_exe_path)
 
-            # Exit the current running program.
+            # Exit the current (older) version.
             sys.exit()
-
-    remove_previous_versions()
 
 
 def remove_previous_versions():
@@ -160,5 +164,7 @@ def remove_previous_versions():
 if __name__ == "__main__":
 
     update()
+
+    remove_previous_versions()
 
     main()
