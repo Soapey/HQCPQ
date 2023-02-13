@@ -28,7 +28,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='HQCPQ',
+    name='HQCPQ_1.0.0',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
