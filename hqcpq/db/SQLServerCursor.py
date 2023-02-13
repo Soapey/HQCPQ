@@ -37,6 +37,7 @@ class SQLServerCursor:
         try:
             self.connection_string = connection_string(self.build_type)
             self.connection = connect(self.connection_string)
+            self.connection.set_connection_timeout(60)
             self.cursor = self.connection.cursor()
             result = self.cursor
         except Exception as e:
