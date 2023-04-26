@@ -341,6 +341,7 @@ def save(main_window: Ui_MainWindow):
         return
 
     quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
+    quote: Quote = Quote.get(quote_id)
     quote_item_id: int = int_conv(main_window.lblQuoteItemId.text())
     tonnes: float = float(main_window.txtQuoteItem_Tonnes.text())
     product_name: str = main_window.cmbQuoteItem_Product.currentText()
@@ -350,9 +351,14 @@ def save(main_window: Ui_MainWindow):
         main_window.cmbQuoteItem_VehicleCombination.currentText()
     )
 
-    transport_rate_ex_gst: float = float_conv(
-        main_window.txtQuoteItem_TransportRate.text()
-    )
+    transport_rate_ex_gst_text: str =  main_window.txtQuoteItem_TransportRate.text()
+    transport_rate_ex_gst: float = 0
+    if transport_rate_ex_gst_text:
+        transport_rate_ex_gst = float_conv(
+            transport_rate_ex_gst_text
+        )
+    else:
+        transport_rate_ex_gst = get_transport_rate_ex_gst(quote.kilometres, charge_type_name)
 
     quote_item = QuoteItem(
         quote_item_id,
