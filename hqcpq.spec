@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ['hqcpq\\hqcpq.py'],
+    ['hqcpq\\app.py'],
     pathex=[],
     binaries=[],
     datas=[],

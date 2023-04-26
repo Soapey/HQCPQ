@@ -1,5 +1,6 @@
 import os
 import configparser
+import traceback
 from datetime import datetime
 
 CONFIG_PATH = "hqcpq\\config.ini"
@@ -69,6 +70,7 @@ def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
             jump_per_50 = 0.04
 
     result: float = start
+    section: float = 0
     for i in range(1, kilometres + 1):
         section = int(i / 50) + 1
         result = result + (rate_per_km + (jump_per_50 * section))
@@ -77,10 +79,20 @@ def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
 
 
 def resource_path(relative_path):
-    """Get absolute path to resource, works for dev and for PyInstaller"""
 
     base_path = os.path.abspath(".")
 
     full_path = os.path.join(base_path, relative_path)
 
     return full_path
+
+
+def log_exceptions(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            with open('crash_log.txt', 'a') as f:
+                traceback.print_exc(file=f)
+            raise e
+    return wrapper
