@@ -57,7 +57,7 @@ def main():
 
     # Read configuration file.
     config = read_config()
-    build = config["AppSettings"]["build"].strip().lower()
+    build = config["SQLServerSettings"]["build"].strip().lower()
 
     # Start the program.
     if build == "d":
