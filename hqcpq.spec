@@ -48,7 +48,7 @@ exe = EXE(
 
 import os
 import shutil
-from hqcpq.helpers import resource_path
+from hqcpq.helpers.io import resource_path
 
 
 attachment_directory_path = resource_path("dist\\hqcpq\\")
