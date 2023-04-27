@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>HQCPQ</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../../hqcpq.ico</normaloff>../../../hqcpq.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -33,7 +37,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="pageQuotes">
        <layout class="QGridLayout" name="gridLayout_3">
