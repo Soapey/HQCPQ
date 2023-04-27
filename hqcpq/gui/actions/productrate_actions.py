@@ -9,7 +9,8 @@ from hqcpq.classes.ProductRate import ProductRate
 from hqcpq.classes.RateType import RateType
 from hqcpq.db.db import get_cursor_type
 from hqcpq.gui.helpers import selected_row_id, change_view, toggle_buttons
-from hqcpq.helpers import int_conv, float_conv
+from hqcpq.helpers.conversion import string_to_float
+from hqcpq.helpers.conversion import string_to_int
 
 
 # Global entities
@@ -29,7 +30,7 @@ def fetch_global_entities():
 
 def fetch_records(main_window: Ui_MainWindow):
 
-    product_id: int = int_conv(main_window.lblProductId.text())
+    product_id: int = string_to_int(main_window.lblProductId.text())
 
     with get_cursor_type() as cur:
 
@@ -172,8 +173,8 @@ def save(main_window: Ui_MainWindow):
 
     selected_rate_type_name: str = main_window.cmbProductRate_RateType.currentText()
 
-    product_rate_id: int = int_conv(main_window.lblProductRateId.text())
-    product_id: int = int_conv(main_window.lblProductId.text())
+    product_rate_id: int = string_to_int(main_window.lblProductRateId.text())
+    product_id: int = string_to_int(main_window.lblProductId.text())
 
     global rate_types
     rate_type_list: list[RateType] = [
@@ -181,7 +182,7 @@ def save(main_window: Ui_MainWindow):
     ]
 
     rate_type: RateType = rate_type_list[0] if rate_type_list else None
-    rate: float = float_conv(main_window.txtProductRate_Rate.text())
+    rate: float = string_to_float(main_window.txtProductRate_Rate.text())
 
     product_rate = ProductRate(product_rate_id, product_id, rate_type.id, rate)
 
@@ -203,9 +204,9 @@ def form_is_valid(main_window: Ui_MainWindow):
     result: bool = True
     error_string: str = str()
 
-    product_rate_id: int = int_conv(main_window.lblProductRateId.text())
+    product_rate_id: int = string_to_int(main_window.lblProductRateId.text())
     selected_rate_type_name: str = main_window.cmbProductRate_RateType.currentText()
-    product_rate_rate: float = float_conv(main_window.txtProductRate_Rate.text())
+    product_rate_rate: float = string_to_float(main_window.txtProductRate_Rate.text())
 
     if not selected_rate_type_name:
         result = False

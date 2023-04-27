@@ -1,7 +1,7 @@
 from tkinter import messagebox
 from pypyodbc import connect, Cursor
 from hqcpq.db.build_type_enum import BuildType
-from hqcpq.helpers import read_config
+from hqcpq.helpers.io import read_config
 
 
 def connection_string(build_type: BuildType, config) -> str:

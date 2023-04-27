@@ -10,8 +10,9 @@ from hqcpq.classes.Toast import Toast
 from hqcpq.classes.VehicleCombination import VehicleCombination
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.view_enum import ViewPage
-from hqcpq.helpers import int_conv, float_conv
+from hqcpq.helpers.conversion import string_to_float
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
+from hqcpq.helpers.conversion import string_to_int
 
 
 vehicle_combinations: dict[int, VehicleCombination] = dict()
@@ -160,8 +161,8 @@ def save(main_window: Ui_MainWindow):
         return
 
     vehicle_combination_name: str = main_window.txtVehicleCombination_Name.text()
-    vehicle_combination_id: int = int_conv(main_window.lblVehicleCombinationId.text())
-    vehicle_combination_net: float = float_conv(
+    vehicle_combination_id: int = string_to_int(main_window.lblVehicleCombinationId.text())
+    vehicle_combination_net: float = string_to_float(
         main_window.txtVehicleCombination_Net.text()
     )
     vehicle_combination_charge_type: str = (
@@ -189,7 +190,7 @@ def form_is_valid(main_window: Ui_MainWindow):
     result = True
     error_string = str()
 
-    vehicle_combination_id: int = int_conv(main_window.lblVehicleCombinationId.text())
+    vehicle_combination_id: int = string_to_int(main_window.lblVehicleCombinationId.text())
     vehicle_combination_name: str = main_window.txtVehicleCombination_Name.text()
 
     if not vehicle_combination_name:

@@ -4,7 +4,7 @@ from hqcpq.classes.Toast import Toast
 from hqcpq.classes.Product import Product
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.view_enum import ViewPage
-from hqcpq.helpers import int_conv
+from hqcpq.helpers.conversion import string_to_int
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.gui.actions.productrate_actions import (
     refresh_table as refresh_product_rates_table,
@@ -249,7 +249,7 @@ def save(main_window: Ui_MainWindow):
     if form_is_valid(main_window) is False:
         return
 
-    product_id: int = int_conv(main_window.lblProductId.text())
+    product_id: int = string_to_int(main_window.lblProductId.text())
     product_name: str = main_window.txtProductName.text()
 
     product: Product = Product(product_id, product_name)
@@ -275,7 +275,7 @@ def form_is_valid(main_window: Ui_MainWindow):
     result = True
     error_string = str()
 
-    entity_id: int = int_conv(main_window.lblProductId.text())
+    entity_id: int = string_to_int(main_window.lblProductId.text())
     entity_name = main_window.txtProductName.text()
 
     if len(entity_name) == 0:

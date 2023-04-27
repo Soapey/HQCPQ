@@ -2,7 +2,7 @@ from datetime import datetime
 from fpdf import FPDF
 from tkinter import messagebox
 from tkinter.filedialog import askdirectory
-from hqcpq.helpers import resource_path
+from hqcpq.helpers.io import resource_path
 from hqcpq.classes.Toast import Toast
 
 

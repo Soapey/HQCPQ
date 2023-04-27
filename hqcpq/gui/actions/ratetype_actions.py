@@ -4,7 +4,7 @@ from hqcpq.classes.Toast import Toast
 from hqcpq.classes.RateType import RateType
 from hqcpq.gui.view_enum import ViewPage
 from hqcpq.gui.components.main_window import Ui_MainWindow
-from hqcpq.helpers import int_conv
+from hqcpq.helpers.conversion import string_to_int
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 
 rate_types: dict[int, RateType] = dict()
@@ -121,7 +121,7 @@ def save(main_window: Ui_MainWindow):
     if form_is_valid(main_window) is False:
         return
 
-    rate_type_id: int = int_conv(main_window.lblRateTypeId.text())
+    rate_type_id: int = string_to_int(main_window.lblRateTypeId.text())
     rate_type_name: str = main_window.txtRateType_Name.text()
 
     rate_type: RateType = RateType(rate_type_id, rate_type_name)
@@ -140,7 +140,7 @@ def form_is_valid(main_window: Ui_MainWindow):
     result = True
     error_string = str()
 
-    entity_id: int = int_conv(main_window.lblRateTypeId.text())
+    entity_id: int = string_to_int(main_window.lblRateTypeId.text())
     entity_name: str = main_window.txtRateType_Name.text()
 
     if len(entity_name) == 0:

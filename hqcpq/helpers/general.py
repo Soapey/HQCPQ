@@ -1,55 +1,5 @@
-import os
-import configparser
 import traceback
-from datetime import datetime
-
-
-CONFIG_PATH = "hqcpq\\config.ini"
-ENCRYPTION_SALT = b"salt1234"
-
-
-def read_config(confile_file_path: str = None):
-
-    if not confile_file_path:
-        confile_file_path = resource_path(CONFIG_PATH)
-
-    config = configparser.ConfigParser()
-    config.read(confile_file_path)
-    return config
-
-
-def update_config(config: configparser.ConfigParser, config_file_path: str = None):
-
-    if not config_file_path:
-        config_file_path = resource_path(CONFIG_PATH)
-
-    with open(config_file_path, "w+") as configFile:
-        config.write(configFile)
-
-
-def isfloat(value: str):
-    try:
-        f = float(value)
-        return True
-    except:
-        return False
-
-
-def isdate(value: str):
-
-    try:
-        datetime.strptime(value, "%d/%m/%Y")
-        return True
-    except ValueError:
-        return False
-
-
-def int_conv(value: str):
-    return int(value) if value.isnumeric() else None
-
-
-def float_conv(value: str):
-    return float(value) if isfloat(value) else None
+from hqcpq.helpers.io import read_config
 
 
 def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
@@ -85,15 +35,6 @@ def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
         result += bracket_increment
 
     return round(result, 2)
-
-
-def resource_path(relative_path):
-
-    base_path = os.path.abspath(".")
-
-    full_path = os.path.join(base_path, relative_path)
-
-    return full_path
 
 
 def log_exceptions(func):

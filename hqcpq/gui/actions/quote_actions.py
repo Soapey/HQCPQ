@@ -7,13 +7,14 @@ from hqcpq.classes.Toast import Toast
 from hqcpq.classes.Quote import Quote
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.db.db import get_cursor_type
-from hqcpq.helpers import isdate, int_conv, get_transport_rate_ex_gst
+from hqcpq.helpers import isdate, get_transport_rate_ex_gst
 from hqcpq.gui.helpers import toggle_buttons, change_view, selected_row_id
 from hqcpq.gui.actions.quoteitem_actions import (
     refresh_table as refresh_quote_items_table,
     calculate_quote_item_totals,
     fetch_global_entities as fetch_quote_item_globals,
 )
+from hqcpq.helpers.conversion import string_to_int
 
 
 quotes: dict[int, Quote] = dict()
@@ -269,7 +270,7 @@ def save(main_window: Ui_MainWindow):
         return
 
     # Read GUI fields to variables for readability.
-    quote_id: int = int_conv(main_window.lblQuoteId.text())
+    quote_id: int = string_to_int(main_window.lblQuoteId.text())
     quote_name: str = main_window.txtQuote_Name.text().strip()
     quote_address: str = main_window.txtQuote_Address.text().strip()
     quote_suburb: str = main_window.txtQuote_Suburb.text().strip()
@@ -386,7 +387,7 @@ def connect(main_window: Ui_MainWindow):
         lambda: export(selected_row_id(main_window.tblQuotes))
     )
     main_window.btnExportQuote_Entry.clicked.connect(
-        lambda: export(int_conv(main_window.lblQuoteId.text()))
+        lambda: export(string_to_int(main_window.lblQuoteId.text()))
     )
     main_window.btnNewQuote.clicked.connect(lambda: new(main_window))
     main_window.btnEditQuote.clicked.connect(lambda: edit(main_window))

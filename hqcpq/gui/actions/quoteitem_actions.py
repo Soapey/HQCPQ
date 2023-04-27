@@ -10,8 +10,9 @@ from hqcpq.classes.QuoteItem import QuoteItem
 from hqcpq.classes.Quote import Quote
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.view_enum import ViewPage
-from hqcpq.helpers import int_conv, float_conv, get_transport_rate_ex_gst, log_exceptions
+from hqcpq.helpers import get_transport_rate_ex_gst, log_exceptions
 from hqcpq.gui.helpers import selected_row_id, toggle_buttons, change_view
+from hqcpq.helpers.conversion import string_to_float, string_to_int
 
 
 vehicle_combinations: dict[int, VehicleCombination] = dict()
@@ -204,7 +205,7 @@ def on_vehicle_combination_select(main_window: Ui_MainWindow):
     if vehicle_combination:
         main_window.txtQuoteItem_Tonnes.setText(str(vehicle_combination.net))
 
-        quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
+        quote_id: int = string_to_int(main_window.lblQuoteItem_QuoteId.text())
 
         if quote_id:
             kilometres = quotes[quote_id].kilometres
@@ -340,9 +341,9 @@ def save(main_window: Ui_MainWindow):
     if form_is_valid(main_window) is False:
         return
 
-    quote_id: int = int_conv(main_window.lblQuoteItem_QuoteId.text())
+    quote_id: int = string_to_int(main_window.lblQuoteItem_QuoteId.text())
     quote: Quote = Quote.get()[quote_id]
-    quote_item_id: int = int_conv(main_window.lblQuoteItemId.text())
+    quote_item_id: int = string_to_int(main_window.lblQuoteItemId.text())
     tonnes: float = float(main_window.txtQuoteItem_Tonnes.text())
     product_name: str = main_window.cmbQuoteItem_Product.currentText()
     charge_type_name: str = main_window.cmbQuoteItem_ProductRate.currentText()
@@ -354,7 +355,7 @@ def save(main_window: Ui_MainWindow):
     transport_rate_ex_gst_text: str =  main_window.txtQuoteItem_TransportRate.text()
     transport_rate_ex_gst: float = 0
     if len(transport_rate_ex_gst_text) > 0:
-        transport_rate_ex_gst = float_conv(
+        transport_rate_ex_gst = string_to_float(
             transport_rate_ex_gst_text
         )
     else:
