@@ -7,7 +7,8 @@ from hqcpq.classes.Toast import Toast
 from hqcpq.classes.Quote import Quote
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.db.db import get_cursor_type
-from hqcpq.helpers import isdate, get_transport_rate_ex_gst
+from hqcpq.helpers.comparison import isdate
+from hqcpq.helpers.general import get_transport_rate_ex_gst
 from hqcpq.gui.helpers import toggle_buttons, change_view, selected_row_id
 from hqcpq.gui.actions.quoteitem_actions import (
     refresh_table as refresh_quote_items_table,

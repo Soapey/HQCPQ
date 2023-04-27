@@ -1,4 +1,4 @@
-from hqcpq.helpers import isfloat
+from hqcpq.helpers.comparison import isfloat
 
 
 def string_to_int(value: str) -> int:

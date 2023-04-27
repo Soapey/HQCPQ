@@ -52,13 +52,17 @@ from hqcpq.helpers import resource_path
 
 
 attachment_directory_path = resource_path("dist\\hqcpq\\")
+assets_directory_path = resource_path("dist\\hqcpq\\assets\\")
 
 if not os.path.exists(attachment_directory_path):
     os.mkdir(attachment_directory_path)
 
+if not os.path.exists(assets_directory_path):
+    os.mkdir(assets_directory_path)
+
 shutil.copyfile(
-    resource_path("hqcpq\\hq_keq_logos.jpg"),
-    os.path.join(attachment_directory_path, "hq_keq_logos.jpg"),
+    resource_path("hqcpq\\assets\\hq_keq_logos.jpg"),
+    os.path.join(assets_directory_path, "hq_keq_logos.jpg"),
 )
 shutil.copyfile(
     resource_path("hqcpq\\config.ini"),

@@ -10,7 +10,7 @@ from hqcpq.classes.QuoteItem import QuoteItem
 from hqcpq.classes.Quote import Quote
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.view_enum import ViewPage
-from hqcpq.helpers import get_transport_rate_ex_gst, log_exceptions
+from hqcpq.helpers.general import get_transport_rate_ex_gst
 from hqcpq.gui.helpers import selected_row_id, toggle_buttons, change_view
 from hqcpq.helpers.conversion import string_to_float, string_to_int
 
