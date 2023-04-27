@@ -2,7 +2,6 @@ import os
 import configparser
 import traceback
 from datetime import datetime
-from cryptography.fernet import Fernet
 
 
 CONFIG_PATH = "hqcpq\\config.ini"
