@@ -335,7 +335,6 @@ def delete(main_window: Ui_MainWindow):
     ).show()
 
 
-@log_exceptions
 def save(main_window: Ui_MainWindow):
 
     if form_is_valid(main_window) is False:

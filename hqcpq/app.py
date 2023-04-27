@@ -14,7 +14,7 @@ from hqcpq.gui.actions.ratetype_actions import connect as connect_rate_types
 from hqcpq.gui.actions.vehiclecombination_actions import (
     connect as connect_vehicle_combinations,
 )
-from hqcpq.helpers import read_config
+from hqcpq.helpers import read_config, log_exceptions
 
 
 def connect_main_window_actions(main_window: Ui_MainWindow):
@@ -53,6 +53,7 @@ def start_app():
     sys.exit(app.exec_())
 
 
+@log_exceptions
 def main():
 
     # Read configuration file.
