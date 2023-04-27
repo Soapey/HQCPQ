@@ -55,25 +55,31 @@ def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
     if kilometres == 0:
         return 0
 
-    start: float = 0
-    rate_per_km: float = 0
-    jump_per_50: float = 0
+    config = read_config()['TransportSettings']
 
-    match charge_type:
-        case "Truck & Trailer":
-            start = 3.43
-            rate_per_km = 0.11
-            jump_per_50 = 0.03
-        case "Rigid":
-            start = 8.92
-            rate_per_km = 0.12
-            jump_per_50 = 0.04
+    bracket_size = int(config['bracket_size'])
 
-    result: float = start
-    section: float = 0
+    if charge_type.lower() == 'rigid':
+        flagfall = float(config['flagfall_rigid'])
+        starting_increment = float(config['starting_increment_rigid'])
+        starting_jump = float(config['starting_jump_rigid'])
+        jump_per_bracket = float(config['jump_per_bracket_rigid'])
+    else:
+        flagfall = float(config['flagfall_td'])
+        starting_increment = float(config['starting_increment_td'])
+        starting_jump = float(config['starting_jump_td'])
+        jump_per_bracket = float(config['jump_per_bracket_td'])
+
+    result: float = flagfall
+    bracket_increment: float
+
     for i in range(1, kilometres + 1):
-        section = int(i / 50) + 1
-        result = result + (rate_per_km + (jump_per_50 * section))
+        bracket = ((i - 1) // bracket_size) + 1
+        bracket_increment = starting_increment
+        for j in range(1, bracket + 1):
+            bracket_increment += starting_jump + (jump_per_bracket * (j - 1))
+        print('kilometre:', i, 'increment:', bracket_increment)
+        result += bracket_increment
 
     return round(result, 2)
 
