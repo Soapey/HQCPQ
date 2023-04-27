@@ -2,8 +2,11 @@ import os
 import configparser
 import traceback
 from datetime import datetime
+from cryptography.fernet import Fernet
+
 
 CONFIG_PATH = "hqcpq\\config.ini"
+ENCRYPTION_SALT = b"salt1234"
 
 
 def read_config(confile_file_path: str = None):
