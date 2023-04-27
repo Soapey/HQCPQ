@@ -75,13 +75,14 @@ def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
 
     result: float = flagfall
     bracket_increment: float
+    kilometre_cap: float = int(config['kilometre_cap'])
 
     for i in range(1, kilometres + 1):
-        bracket = ((i - 1) // bracket_size) + 1
+        kilometre = min(i, kilometre_cap)
+        bracket = ((kilometre - 1) // bracket_size) + 1
         bracket_increment = starting_increment
         for j in range(1, bracket + 1):
             bracket_increment += starting_jump + (jump_per_bracket * (j - 1))
-        print('kilometre:', i, 'increment:', bracket_increment)
         result += bracket_increment
 
     return round(result, 2)
