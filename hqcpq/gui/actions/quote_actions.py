@@ -7,7 +7,7 @@ from hqcpq.classes.Toast import Toast
 from hqcpq.classes.Quote import Quote
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.db.db import get_cursor_type
-from hqcpq.helpers.comparison import isdate
+from hqcpq.helpers.comparison import can_be_date
 from hqcpq.helpers.general import get_transport_rate_ex_gst
 from hqcpq.gui.helpers import toggle_buttons, change_view, selected_row_id
 from hqcpq.gui.actions.quoteitem_actions import (
@@ -238,7 +238,7 @@ def form_is_valid(main_window: Ui_MainWindow):
     if len(date_required_text) == 0:
         result = False
         error_string += "\n- Date Required field cannot be blank."
-    elif isdate(date_required_text) is False:
+    elif can_be_date(date_required_text) is False:
         result = False
         error_string += "\n- Date Required value must be in a valid date format."
 

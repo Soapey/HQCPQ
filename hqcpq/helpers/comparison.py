@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def isfloat(value: str):
+def can_be_float(value: str):
     try:
         f = float(value)
         return True
@@ -9,10 +9,15 @@ def isfloat(value: str):
         return False
 
 
-def isdate(value: str):
+def can_be_date(value: str, formats: list = None):
 
-    try:
-        datetime.strptime(value, "%d/%m/%Y")
-        return True
-    except ValueError:
-        return False
+    if not formats:
+        formats = ['%d/%m/%Y', '%d/%m/%y']
+        
+    for format in formats:
+        try:
+            datetime.strptime(value, format)
+            return True
+        except ValueError:
+            pass
+    return False
