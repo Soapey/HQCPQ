@@ -3,6 +3,8 @@ from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.helpers import change_view
 from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.io import read_config, update_config
+from hqcpq.helpers.comparison import can_be_float
+from tkinter import messagebox
 from hqcpq.classes.Toast import Toast
 
 
@@ -52,7 +54,28 @@ def refresh_table(main_window: Ui_MainWindow):
         )
 
 
+def form_is_valid(main_window: Ui_MainWindow):
+
+    error_string = str()
+
+    tbl: QTableWidget = main_window.tblTransportSettings
+
+    for row in range(tbl.rowCount()):
+        if not can_be_float(tbl.item(row, 0).text()):
+            error_string += f"\n- {tbl.verticalHeaderItem(row).text()} must be a numeric value."
+
+    if len(error_string) > 0:
+        messagebox.showerror("Save Error", error_string)
+        return False
+    
+    return True
+
+
 def save(main_window: Ui_MainWindow):
+
+    if not form_is_valid(main_window):
+        return
+    
     config = read_config()
     tbl: QTableWidget = main_window.tblTransportSettings
     data = dict()
