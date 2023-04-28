@@ -1526,6 +1526,57 @@ class Ui_MainWindow(object):
         self.btnSaveVehicleCombination.setObjectName("btnSaveVehicleCombination")
         self.gridLayout_15.addWidget(self.btnSaveVehicleCombination, 5, 0, 1, 1)
         self.swPages.addWidget(self.pageVehicleCombinationEntry)
+        self.pageTransportSettings = QtWidgets.QWidget()
+        self.pageTransportSettings.setObjectName("pageTransportSettings")
+        self.gridLayout_8 = QtWidgets.QGridLayout(self.pageTransportSettings)
+        self.gridLayout_8.setObjectName("gridLayout_8")
+        self.tblTransportSettings = QtWidgets.QTableWidget(self.pageTransportSettings)
+        self.tblTransportSettings.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.tblTransportSettings.setStyleSheet("border: 1px solid #003049;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;")
+        self.tblTransportSettings.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tblTransportSettings.setEditTriggers(QtWidgets.QAbstractItemView.AnyKeyPressed)
+        self.tblTransportSettings.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblTransportSettings.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
+        self.tblTransportSettings.setColumnCount(0)
+        self.tblTransportSettings.setObjectName("tblTransportSettings")
+        self.tblTransportSettings.setRowCount(0)
+        self.tblTransportSettings.horizontalHeader().setStretchLastSection(True)
+        self.tblTransportSettings.verticalHeader().setVisible(True)
+        self.tblTransportSettings.verticalHeader().setStretchLastSection(False)
+        self.gridLayout_8.addWidget(self.tblTransportSettings, 1, 0, 1, 2)
+        self.lblTransportSettings_Header = QtWidgets.QLabel(self.pageTransportSettings)
+        self.lblTransportSettings_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"background-color: #003049;\n"
+"color: #ffffff;\n"
+"font-size: 20pt;\n"
+"font-family: \"Helvetica\";\n"
+"font-style: normal;\n"
+"font-weight: 700;\n"
+"padding: 6px;")
+        self.lblTransportSettings_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblTransportSettings_Header.setObjectName("lblTransportSettings_Header")
+        self.gridLayout_8.addWidget(self.lblTransportSettings_Header, 0, 0, 1, 2)
+        self.btnSaveTransportSettings = QtWidgets.QPushButton(self.pageTransportSettings)
+        self.btnSaveTransportSettings.setStyleSheet("background-color: #2ea44f;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnSaveTransportSettings.setObjectName("btnSaveTransportSettings")
+        self.gridLayout_8.addWidget(self.btnSaveTransportSettings, 2, 0, 1, 1)
+        self.swPages.addWidget(self.pageTransportSettings)
         self.horizontalLayout.addWidget(self.swPages)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -1545,14 +1596,18 @@ class Ui_MainWindow(object):
         self.actionRate_Types.setObjectName("actionRate_Types")
         self.actionVehicle_Combinations = QtWidgets.QAction(MainWindow)
         self.actionVehicle_Combinations.setObjectName("actionVehicle_Combinations")
+        self.actionTransport_Settings = QtWidgets.QAction(MainWindow)
+        self.actionTransport_Settings.setObjectName("actionTransport_Settings")
         self.menuMenu.addAction(self.actionQuotes)
         self.menuMenu.addAction(self.actionProducts)
         self.menuMenu.addAction(self.actionRate_Types)
         self.menuMenu.addAction(self.actionVehicle_Combinations)
+        self.menuMenu.addSeparator()
+        self.menuMenu.addAction(self.actionTransport_Settings)
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(0)
+        self.swPages.setCurrentIndex(10)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.txtQuote_DateRequired, self.txtQuote_Name)
         MainWindow.setTabOrder(self.txtQuote_Name, self.txtQuote_Address)
@@ -1663,11 +1718,15 @@ class Ui_MainWindow(object):
         self.lblVehicleCombination_Net.setText(_translate("MainWindow", "Average Net"))
         self.lblVehicleCombination_ChargeType.setText(_translate("MainWindow", "Charge Type"))
         self.btnSaveVehicleCombination.setText(_translate("MainWindow", "Save Vehicle Combination"))
+        self.tblTransportSettings.setSortingEnabled(True)
+        self.lblTransportSettings_Header.setText(_translate("MainWindow", "Transport Settings"))
+        self.btnSaveTransportSettings.setText(_translate("MainWindow", "Save Transport Settings"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionProducts.setText(_translate("MainWindow", "Products"))
         self.actionQuotes.setText(_translate("MainWindow", "Quotes"))
         self.actionRate_Types.setText(_translate("MainWindow", "Rate Types"))
         self.actionVehicle_Combinations.setText(_translate("MainWindow", "Vehicle Combinations"))
+        self.actionTransport_Settings.setText(_translate("MainWindow", "Transport Settings"))
 
 
 if __name__ == "__main__":

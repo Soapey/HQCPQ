@@ -37,7 +37,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>10</number>
       </property>
       <widget class="QWidget" name="pageQuotes">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -2502,6 +2502,93 @@ white-space: nowrap;</string>
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="pageTransportSettings">
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="1" column="0" colspan="2">
+         <widget class="QTableWidget" name="tblTransportSettings">
+          <property name="focusPolicy">
+           <enum>Qt::StrongFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #003049;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;</string>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::AnyKeyPressed</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectItems</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="columnCount">
+           <number>0</number>
+          </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
+         <widget class="QLabel" name="lblTransportSettings_Header">
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid rgba(27, 31, 35, .15);
+border-radius: 6px;
+background-color: #003049;
+color: #ffffff;
+font-size: 20pt;
+font-family: &quot;Helvetica&quot;;
+font-style: normal;
+font-weight: 700;
+padding: 6px;</string>
+          </property>
+          <property name="text">
+           <string>Transport Settings</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="btnSaveTransportSettings">
+          <property name="styleSheet">
+           <string notr="true">background-color: #2ea44f;
+border: 1px solid rgba(27, 31, 35, .15);
+border-radius: 6px;
+color: #fff;
+font-family: &quot;Helvetica&quot;;
+font-size: 14px;
+font-weight: 600;
+line-height: 20px;
+padding: 6px 16px;
+position: relative;
+text-align: center;
+text-decoration: none;
+vertical-align: middle;
+white-space: nowrap;</string>
+          </property>
+          <property name="text">
+           <string>Save Transport Settings</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -2523,6 +2610,8 @@ white-space: nowrap;</string>
     <addaction name="actionProducts"/>
     <addaction name="actionRate_Types"/>
     <addaction name="actionVehicle_Combinations"/>
+    <addaction name="separator"/>
+    <addaction name="actionTransport_Settings"/>
    </widget>
    <addaction name="menuMenu"/>
   </widget>
@@ -2545,6 +2634,11 @@ white-space: nowrap;</string>
   <action name="actionVehicle_Combinations">
    <property name="text">
     <string>Vehicle Combinations</string>
+   </property>
+  </action>
+  <action name="actionTransport_Settings">
+   <property name="text">
+    <string>Transport Settings</string>
    </property>
   </action>
  </widget>
