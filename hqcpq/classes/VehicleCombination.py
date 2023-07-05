@@ -1,9 +1,9 @@
-from hqcpq.db.db import get_cursor_type
+from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
 class VehicleCombination:
-    def __init__(self, id: int, name: str, net: float, charge_type: str) -> None:
-        self.id = id
+    def __init__(self, obj_id: int, name: str, net: float, charge_type: str):
+        self.id = obj_id
         self.name = name
         self.net = net
         self.charge_type = charge_type
@@ -12,78 +12,38 @@ class VehicleCombination:
         return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            self.id = cur.execute(
-                """
-                INSERT INTO vehicle_combination (name, net, charge_type) 
-                OUTPUT INSERTED.id
-                VALUES (?, ?, ?);
-                """,
-                [self.name, self.net, self.charge_type],
-            ).fetchone()[0]
+        query = "INSERT INTO vehicle_combination (name, net, charge_type) VALUES (?, ?, ?)"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (self.name, self.net, self.charge_type))
+            self.id = cur.lastrowid
+        return self
 
     def update(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            cur.execute(
-                """
-                UPDATE vehicle_combination 
-                SET name = ?, net = ?, charge_type = ?
-                WHERE id = ?;
-                """,
-                [self.name, self.net, self.charge_type, self.id],
-            )
-
-    def delete(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            cur.execute(
-                """
-                DELETE FROM vehicle_combination 
-                WHERE id = ?;
-                """,
-                [self.id],
-            )
+        query = "UPDATE vehicle_combination SET name = ?, net = ?, charge_type = ? WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (self.name, self.net, self.charge_type, self.id))
+        return self
 
     @classmethod
-    def get(cls, id: int = None) -> dict:
+    def delete(cls, obj_id):
+        query = "DELETE FROM vehicle_combination WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (obj_id,))
 
-        records: list[tuple] = None
+    @classmethod
+    def get(cls, obj_id):
+        query = "SELECT * FROM vehicle_combination WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (obj_id,))
+            row = cur.fetchone()
+            if row:
+                return cls(*row)
+        return None
 
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return dict()
-
-            if not id:
-                records = cur.execute(
-                    """
-                    SELECT id, name, net, charge_type 
-                    FROM vehicle_combination;
-                    """
-                ).fetchall()
-
-            else:
-                records = cur.execute(
-                    """
-                    SELECT id, name, net, charge_type 
-                    FROM vehicle_combination 
-                    WHERE id = ?;
-                    """,
-                    [id],
-                ).fetchall()
-
-        return {vc.id: vc for vc in [VehicleCombination(*r) for r in records]}
+    @classmethod
+    def get_all(cls):
+        query = "SELECT * FROM vehicle_combination"
+        with SQLiteConnection() as cur:
+            cur.execute(query)
+            rows = cur.fetchall()
+            return {row[0]: cls(*row) for row in rows}

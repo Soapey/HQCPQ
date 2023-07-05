@@ -1,13 +1,13 @@
 from datetime import datetime
 from hqcpq.classes.QuoteItem import QuoteItem
 from hqcpq.classes.QuotePDF import QuotePDF
-from hqcpq.db.db import get_cursor_type
+from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
 class Quote:
     def __init__(
         self,
-        id: int,
+        obj_id: int,
         date_created: datetime,
         date_required: datetime,
         name: str,
@@ -16,8 +16,8 @@ class Quote:
         contact_number: str,
         kilometres: int,
         completed: bool,
-    ) -> None:
-        self.id = id
+    ):
+        self.id = obj_id
         self.date_created = date_created
         self.date_required = date_required
         self.name = name
@@ -30,147 +30,101 @@ class Quote:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
 
-    def items(
-        self, all_quote_items: dict[int, QuoteItem] = None
-    ) -> dict[int, QuoteItem]:
+    def export(self):
+        QuotePDF(self).export()
 
-        if all_quote_items:
-            return {
-                qi.id: qi for qi in all_quote_items.values() if qi.quote_id == self.id
-            }
+    def items(self):
+        return QuoteItem.get_all_by_quote_id(self.id)
 
-        return QuoteItem.get(quote_id=self.id)
-
-    def total_inc_gst(self, all_quote_items: dict[int, QuoteItem] = None) -> float:
-
-        quote_items: dict[int, QuoteItem] = None
-        if all_quote_items:
-            quote_items = self.items(all_quote_items)
-        else:
-            quote_items = self.items()
+    def total_inc_gst(self):
+        quote_items = self.items()
 
         return 1.1 * sum(
             [
                 (
-                    (qi.transport_rate_ex_gst + qi.product_rate_ex_gst)
-                    * qi.vehicle_combination_net
+                    (quote_item.transport_rate_ex_gst + quote_item.product_rate_ex_gst)
+                    * quote_item.vehicle_combination_net
                 )
-                for qi in quote_items.values()
+                for quote_item in quote_items.values()
             ]
         )
 
     def insert(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            self.id = cur.execute(
-                """
-                INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number, kilometres, completed) 
-                OUTPUT INSERTED.id
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-                """,
-                [
-                    self.date_created.date(),
-                    self.date_required.date(),
-                    self.name,
-                    self.address,
-                    self.suburb,
-                    self.contact_number,
-                    self.kilometres,
-                    int(self.completed),
-                ],
-            ).fetchone()[0]
+        query = "INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number, kilometres, " \
+                "completed) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        with SQLiteConnection() as cur:
+            cur.execute(query, (
+                self.date_created.date(),
+                self.date_required.date(),
+                self.name,
+                self.address,
+                self.suburb,
+                self.contact_number,
+                self.kilometres,
+                int(self.completed)
+            ))
+            self.id = cur.lastrowid
+        return self
 
     def update(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            cur.execute(
-                """
-                UPDATE quote 
-                SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, contact_number = ?, kilometres = ?, completed = ? 
-                WHERE id = ?;
-                """,
-                [
-                    self.date_created.date(),
-                    self.date_required.date(),
-                    self.name,
-                    self.address,
-                    self.suburb,
-                    self.contact_number,
-                    self.kilometres,
-                    int(self.completed),
-                    self.id,
-                ],
-            )
-
-    def delete(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            cur.execute(
-                """
-                DELETE FROM quote 
-                WHERE id = ?;
-                """,
-                [self.id],
-            )
-
-    def export(self):
-
-        QuotePDF(self).export()
+        query = "UPDATE quote SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, " \
+                "contact_number = ?, kilometres = ?, completed = ? WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (
+                self.date_created.date(),
+                self.date_required.date(),
+                self.name,
+                self.address,
+                self.suburb,
+                self.contact_number,
+                self.kilometres,
+                int(self.completed),
+                self.id
+            ))
+        return self
 
     @classmethod
-    def get(cls, id: int = None) -> dict:
+    def delete(cls, obj_id):
+        query = "DELETE FROM quote WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (obj_id,))
 
-        records: list[tuple] = None
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return dict()
-
-            if not id:
-                records = cur.execute(
-                    """
-                    SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres, completed  
-                    FROM quote;
-                    """
-                ).fetchall()
-
-            else:
-                records = cur.execute(
-                    """
-                    SELECT id, date_created, date_required, name, address, suburb, contact_number, kilometres, completed 
-                    FROM quote 
-                    WHERE id = ?;
-                    """,
-                    [id],
-                ).fetchall()
-
-        return {
-            q.id: q
-            for q in [
-                Quote(
-                    r[0],
-                    datetime.strptime(r[1], "%Y-%m-%d"),
-                    datetime.strptime(r[2], "%Y-%m-%d"),
-                    r[3],
-                    r[4],
-                    r[5],
-                    r[6],
-                    r[7],
-                    bool(r[8]),
+    @classmethod
+    def get(cls, obj_id):
+        query = "SELECT * FROM quote WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (obj_id,))
+            row = cur.fetchone()
+            if row:
+                return cls(
+                    obj_id=row[0],
+                    date_created=datetime.strptime(row[1], "%Y-%m-%d"),
+                    date_required=datetime.strptime(row[2], "%Y-%m-%d"),
+                    name=row[3],
+                    address=row[4],
+                    suburb=row[5],
+                    contact_number=row[6],
+                    kilometres=row[7],
+                    completed=bool(row[8])
                 )
-                for r in records
-            ]
-        }
+        return None
+
+    @classmethod
+    def get_all(cls):
+        query = "SELECT * FROM quote"
+        with SQLiteConnection() as cur:
+            cur.execute(query)
+            rows = cur.fetchall()
+            return {
+                row[0]: cls(
+                    obj_id=row[0],
+                    date_created=datetime.strptime(row[1], "%Y-%m-%d"),
+                    date_required=datetime.strptime(row[2], "%Y-%m-%d"),
+                    name=row[3],
+                    address=row[4],
+                    suburb=row[5],
+                    contact_number=row[6],
+                    kilometres=row[7],
+                    completed=bool(row[8]))
+                for row in rows
+            }

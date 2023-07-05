@@ -1,11 +1,11 @@
-from hqcpq.db.db import get_cursor_type
+from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
 class ProductRate:
     def __init__(
-        self, id: int, product_id: int, rate_type_id: int, rate: float
-    ) -> None:
-        self.id = id
+        self, obj_id: int, product_id: int, rate_type_id: int, rate: float
+    ):
+        self.id = obj_id
         self.product_id = product_id
         self.rate_type_id = rate_type_id
         self.rate = rate
@@ -14,78 +14,38 @@ class ProductRate:
         return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            self.id = cur.execute(
-                """
-                INSERT INTO product_rate (product_id, rate_type_id, rate) 
-                OUTPUT INSERTED.id
-                VALUES (?, ?, ?);
-                """,
-                [self.product_id, self.rate_type_id, self.rate],
-            ).fetchone()[0]
+        query = "INSERT INTO product_rate (product_id, rate_type_id, rate) VALUES (?, ?, ?)"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (self.product_id, self.rate_type_id, self.rate))
+            self.id = cur.lastrowid
+        return self
 
     def update(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            cur.execute(
-                """
-                UPDATE product_rate 
-                SET product_id = ?, rate_type_id = ?, rate = ? 
-                WHERE id = ?;
-                """,
-                [self.product_id, self.rate_type_id, self.rate, self.id],
-            )
-
-    def delete(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            cur.execute(
-                """
-                DELETE FROM product_rate 
-                WHERE id = ?;
-                """,
-                [self.id],
-            )
+        query = "UPDATE product_rate SET product_id = ?, rate_type_id = ?, rate = ? WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (self.product_id, self.rate_type_id, self.rate, self.id))
+        return self
 
     @classmethod
-    def get(cls, id: int = None) -> dict:
+    def delete(cls, obj_id):
+        query = "DELETE FROM product_rate WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (obj_id,))
 
-        records: list[tuple] = None
+    @classmethod
+    def get(cls, obj_id):
+        query = "SELECT * FROM product_rate WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (obj_id,))
+            row = cur.fetchone()
+            if row:
+                return cls(*row)
+        return None
 
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return dict()
-
-            if not id:
-                records = cur.execute(
-                    """
-                    SELECT id, product_id, rate_type_id, rate 
-                    FROM product_rate;
-                    """
-                ).fetchall()
-
-            else:
-                records = cur.execute(
-                    """
-                    SELECT id, product_id, rate_type_id, rate 
-                    FROM product_rate 
-                    WHERE id = ?;
-                    """,
-                    [id],
-                ).fetchall()
-
-        return {pr.id: pr for pr in [ProductRate(*r) for r in records]}
+    @classmethod
+    def get_all(cls):
+        query = "SELECT * FROM product_rate"
+        with SQLiteConnection() as cur:
+            cur.execute(query)
+            rows = cur.fetchall()
+            return {row[0]: cls(*row) for row in rows}

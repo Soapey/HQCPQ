@@ -1,9 +1,8 @@
 import configparser
 import os
 
-CONFIG_PATH = "hqcpq\\config.ini"
 
-def resource_path(relative_path):
+def join_to_project_folder(relative_path):
 
     base_path = os.path.abspath(".")
 
@@ -12,20 +11,25 @@ def resource_path(relative_path):
     return full_path
 
 
-def read_config(confile_file_path: str = None):
-
-    if not confile_file_path:
-        confile_file_path = resource_path(CONFIG_PATH)
-
-    config = configparser.ConfigParser()
-    config.read(confile_file_path)
-    return config
+def default_config_path():
+    return join_to_project_folder(os.path.join("hqcpq", "config.ini"))
 
 
-def update_config(config: configparser.ConfigParser, config_file_path: str = None):
+def read_config(config_file_path: str = None):
 
     if not config_file_path:
-        config_file_path = resource_path(CONFIG_PATH)
+        config_file_path = default_config_path()
 
-    with open(config_file_path, "w+") as configFile:
-        config.write(configFile)
+    config_parser = configparser.ConfigParser()
+    config_parser.read(config_file_path)
+
+    return config_parser
+
+
+def update_config(config_parser: configparser.ConfigParser, config_file_path: str = None):
+
+    if not config_file_path:
+        config_file_path = default_config_path()
+
+    with open(config_file_path, "w+") as config_file:
+        config_parser.write(config_file)

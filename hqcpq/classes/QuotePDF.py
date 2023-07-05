@@ -2,7 +2,7 @@ from datetime import datetime
 from fpdf import FPDF
 from tkinter import messagebox
 from tkinter.filedialog import askdirectory
-from hqcpq.helpers.io import resource_path
+from hqcpq.helpers.io import join_to_project_folder
 from hqcpq.classes.Toast import Toast
 
 
@@ -27,7 +27,7 @@ class QuotePDF(FPDF):
         self.set_font("Helvetica", "B", 20)
         self.cell(self.column_width_mm * 2, self.row_height_mm, "QUOTE")
 
-        img_path = resource_path(r"hqcpq\assets\hq_keq_logos.jpg")
+        img_path = join_to_project_folder(r"hqcpq\assets\hq_keq_logos.jpg")
         img_width_px = 258
         img_height_px = 107
         height_ratio = img_height_px / img_width_px
@@ -123,16 +123,16 @@ class QuotePDF(FPDF):
         self.set_font("Helvetica", "B", 12)
         self.set_fill_color(217, 217, 217)
         self.cell(
-            self.column_width_mm * 4, self.row_height_mm, "ITEMS", 1, align="C", fill=1
+            self.column_width_mm * 4, self.row_height_mm, "ITEMS", 1, align="C", fill=True
         )
         self.ln(self.row_height_mm)
 
         self.set_font("Helvetica", "B", 10)
         self.cell(
-            self.column_width_mm, self.row_height_mm, "Tonnes", 1, align="C", fill=1
+            self.column_width_mm, self.row_height_mm, "Tonnes", 1, align="C", fill=True
         )
         self.cell(
-            self.column_width_mm, self.row_height_mm, "Product", 1, align="C", fill=1
+            self.column_width_mm, self.row_height_mm, "Product", 1, align="C", fill=True
         )
         self.cell(
             self.column_width_mm,
@@ -140,7 +140,7 @@ class QuotePDF(FPDF):
             "via",
             1,
             align="C",
-            fill=1,
+            fill=True,
         )
         self.cell(
             self.column_width_mm,
@@ -148,7 +148,7 @@ class QuotePDF(FPDF):
             "Total inc. GST",
             1,
             align="C",
-            fill=1,
+            fill=True,
         )
         self.ln(self.row_height_mm)
 
@@ -191,7 +191,8 @@ class QuotePDF(FPDF):
                 self.row_height_mm,
             ),
             (
-                "Conformance to site specifications must be confirmed by the customer prior to supply. Hunter Quarries takes no responsibility for checking materials meets site specifications.",
+                "Conformance to site specifications must be confirmed by the customer prior to supply. Hunter "
+                "Quarries takes no responsibility for checking materials meets site specifications.",
                 self.row_height_mm + 5,
             ),
             (
@@ -203,12 +204,13 @@ class QuotePDF(FPDF):
                 self.row_height_mm,
             ),
             (
-                "Site access must be suitable to receive goods. If deemed unsuitable on arrival by the driver, product will be returned to the quarry & credited, however freight charges will apply.",
+                "Site access must be suitable to receive goods. If deemed unsuitable on arrival by the driver, "
+                "product will be returned to the quarry & credited, however freight charges will apply.",
                 self.row_height_mm + 5,
             ),
         ]
 
-        # Special conditions header.
+        # Special conditions' header.
         self.set_font("Helvetica", "B", 10)
         self.cell(
             self.column_width_mm * 4,
@@ -216,7 +218,7 @@ class QuotePDF(FPDF):
             "SPECIAL CONDITIONS",
             border=1,
             align="C",
-            fill=1,
+            fill=True,
         )
         self.ln(self.row_height_mm)
 
@@ -253,13 +255,16 @@ class QuotePDF(FPDF):
         try:
             # Clean file name of illegal characters before exporting with it.
             illegal_characters: str = r'*."/\\[]:;|,'
-            file_name: str = f"Hunter Quarries Quote #{self.quote.id} - {self.quote.name} ({datetime.strftime(self.quote.date_created, '%d-%m-%Y')})"
+            file_name = (
+                f"Hunter Quarries Quote #{self.quote.id} - "
+                f"{self.quote.name} ({datetime.strftime(self.quote.date_created, '%d-%m-%Y')})"
+            )
             for illegal_character in illegal_characters:
                 file_name = file_name.replace(illegal_character, "")
 
             full_path: str = rf"{directory_path}\{file_name}.pdf"
 
-            self.output(full_path, "F")
+            self.output(full_path)
 
             # Confirmation messagebox to confirm that the Quote was exported to a pdf successfully.
             Toast(
@@ -268,4 +273,4 @@ class QuotePDF(FPDF):
             ).show()
 
         except Exception as e:
-            messagebox.showerror(message=e)
+            messagebox.showerror(message=str(e))

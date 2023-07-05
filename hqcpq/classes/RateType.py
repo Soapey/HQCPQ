@@ -1,87 +1,47 @@
-from hqcpq.db.db import get_cursor_type
+from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
 class RateType:
-    def __init__(self, id: int, name: str) -> None:
-        self.id = id
+    def __init__(self, obj_id: int, name: str):
+        self.id = obj_id
         self.name = name
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            self.id = cur.execute(
-                """
-                INSERT INTO rate_type (name) 
-                OUTPUT INSERTED.id
-                VALUES (?);
-                """,
-                [self.name],
-            ).fetchone()[0]
+        query = "INSERT INTO rate_type (name) VALUES (?)"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (self.name,))
+            self.id = cur.lastrowid
+        return self
 
     def update(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            cur.execute(
-                """
-                UPDATE rate_type 
-                SET name = ? 
-                WHERE id = ?;
-                """,
-                [self.name, self.id],
-            )
-
-    def delete(self):
-
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return
-
-            cur.execute(
-                """
-                DELETE FROM rate_type 
-                WHERE id = ?;
-                """,
-                [self.id],
-            )
+        query = "UPDATE rate_type SET name = ? WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (self.name, self.id))
+        return self
 
     @classmethod
-    def get(cls, id: int = None) -> dict:
+    def delete(cls, obj_id):
+        query = "DELETE FROM rate_type WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (obj_id,))
 
-        records: list[tuple] = None
+    @classmethod
+    def get(cls, obj_id):
+        query = "SELECT * FROM rate_type WHERE id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (obj_id,))
+            row = cur.fetchone()
+            if row:
+                return cls(*row)
+        return None
 
-        with get_cursor_type() as cur:
-
-            if not cur:
-                return dict()
-
-            if not id:
-                records = cur.execute(
-                    """
-                    SELECT id, name 
-                    FROM rate_type;
-                    """
-                ).fetchall()
-
-            else:
-                records = cur.execute(
-                    """
-                    SELECT id, name 
-                    FROM rate_type 
-                    WHERE id = ?;
-                    """,
-                    [id],
-                ).fetchall()
-
-        return {rt.id: rt for rt in [RateType(*r) for r in records]}
+    @classmethod
+    def get_all(cls):
+        query = "SELECT * FROM rate_type"
+        with SQLiteConnection() as cur:
+            cur.execute(query)
+            rows = cur.fetchall()
+            return {row[0]: cls(*row) for row in rows}

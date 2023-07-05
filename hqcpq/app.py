@@ -1,8 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from hqcpq.gui.components.main_window import Ui_MainWindow
-from hqcpq.db.build_type_enum import BuildType
-from hqcpq.db.db import start_db
 from hqcpq.gui.actions.quote_actions import (
     connect as connect_quotes,
     navigate_to_listing_view,
@@ -15,42 +13,31 @@ from hqcpq.gui.actions.vehiclecombination_actions import (
     connect as connect_vehicle_combinations,
 )
 from hqcpq.gui.actions.transportsettings_actions import connect as connect_transport_settings
-from hqcpq.helpers.general import log_exceptions
-from hqcpq.helpers.io import read_config
+from hqcpq.db.SQLiteUtil import initialise_db
 
 
 def connect_main_window_actions(main_window: Ui_MainWindow):
-
-    # Set up Quote gui actions
     connect_quotes(main_window)
-
-    # Set up QuoteItem gui actions
     connect_quote_items(main_window)
-
-    # Set up Product gui actions
     connect_products(main_window)
-
-    # Set up ProductRate gui actions
     connect_product_rates(main_window)
-
-    # Set up RateType gui actions
     connect_rate_types(main_window)
-
-    # Set up VehicleCombination gui actions
     connect_vehicle_combinations(main_window)
-
-    # Set up TransportSettings gui actions
     connect_transport_settings(main_window)
 
 
-def start_app():
+def main():
+    initialise_db()
 
     app = QApplication(sys.argv)
+
     main_window_root = QMainWindow()
+
     main_window = Ui_MainWindow()
     main_window.setupUi(main_window_root)
 
     navigate_to_listing_view(main_window)
+
     main_window_root.showMaximized()
 
     connect_main_window_actions(main_window)
@@ -58,26 +45,5 @@ def start_app():
     sys.exit(app.exec_())
 
 
-def main():
-
-    # Read configuration file.
-    config = read_config()["SQLServerSettings"]
-    build = config["build"].strip().lower()
-
-    # Start the program.
-    if build == "d":
-        start_db(start_build_type=BuildType.DEVELOPMENT, clean_start=False)
-    elif build == "d_clean":
-        start_db(start_build_type=BuildType.DEVELOPMENT, clean_start=True)
-    elif build == "p":
-        start_db(start_build_type=BuildType.PRODUCTION, clean_start=False)
-    else:
-        sys.exit()
-
-    # Load the application root window and display.
-    start_app()
-
-
 if __name__ == "__main__":
-
     main()
