@@ -6,7 +6,6 @@ from hqcpq.gui.view_enum import ViewPage
 from hqcpq.classes.Toast import Toast
 from hqcpq.classes.Quote import Quote
 from hqcpq.gui.components.main_window import Ui_MainWindow
-from hqcpq.db.db import get_cursor_type
 from hqcpq.helpers.comparison import can_be_date
 from hqcpq.helpers.general import get_transport_rate_ex_gst
 from hqcpq.gui.helpers import toggle_buttons, change_view, selected_row_id
@@ -16,6 +15,7 @@ from hqcpq.gui.actions.quoteitem_actions import (
     fetch_global_entities as fetch_quote_item_globals,
 )
 from hqcpq.helpers.conversion import string_to_int
+from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
 quotes: dict[int, Quote] = dict()
@@ -23,14 +23,12 @@ matches: dict[int, Quote] = dict()
 
 
 def fetch_global_entities():
-
     global quotes, matches
-    quotes = Quote.get()
+    quotes = Quote.get_all()
     matches = quotes
 
 
 def refresh_table(main_window: Ui_MainWindow):
-
     global matches
     tbl_headers: list[str] = [
         "ID",
@@ -144,24 +142,19 @@ def new(main_window: Ui_MainWindow):
         ]
     )
 
-    # Write all children QuoteItem objects to GUI table.
     fetch_quote_item_globals()
     refresh_quote_items_table(main_window, -1)
 
-    # Calculate and display pricing of all children QuoteItem objects on the GUI.
     calculate_quote_item_totals(main_window, -1)
 
     change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
 
 
 def edit(main_window: Ui_MainWindow):
-
-    # Fetch the Quote object to be edited.
     global quotes
     quote_id: int = selected_row_id(main_window.tblQuotes)
     quote: Quote = quotes[quote_id]
 
-    # Write object attributes to GUI.
     main_window.lblQuoteId.setText(str(quote.id))
     main_window.txtQuote_Name.setText(quote.name)
     main_window.txtQuote_Address.setText(quote.address)
@@ -176,14 +169,11 @@ def edit(main_window: Ui_MainWindow):
         datetime.strftime(quote.date_required, "%d/%m/%Y")
     )
 
-    # Write all children QuoteItem objects to GUI table.
     fetch_quote_item_globals()
     refresh_quote_items_table(main_window, quote_id)
 
-    # Calculate and display pricing of all children QuoteItem objects on the GUI.
     calculate_quote_item_totals(main_window, quote.id)
 
-    # Show/hide action buttons.
     toggle_buttons(
         [
             (main_window.btnNewQuoteItem, True),
@@ -193,13 +183,11 @@ def edit(main_window: Ui_MainWindow):
         ]
     )
 
-    # Change the view to the Quote entry page.
     change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
 
 
 def delete(main_window: Ui_MainWindow):
 
-    # Fetch the Quote object to be deleted.
     quote_id: int = selected_row_id(main_window.tblQuotes)
     global quotes
     quote: Quote = quotes[quote_id]
@@ -212,13 +200,10 @@ def delete(main_window: Ui_MainWindow):
     if not delete_confirmed:
         return
 
-    # Delete the Quote object from SQL database
-    quote.delete()
+    Quote.delete(quote.id)
 
-    # Remove from global dictionary (avoids a second call to database).
     del quotes[quote_id]
 
-    # Refresh the table with the new dictionary.
     refresh_table(main_window)
 
     Toast(
@@ -266,11 +251,9 @@ def form_is_valid(main_window: Ui_MainWindow):
 
 def save(main_window: Ui_MainWindow):
 
-    # Check that all input fields are valid before continuing.
     if form_is_valid(main_window) is False:
         return
 
-    # Read GUI fields to variables for readability.
     quote_id: int = string_to_int(main_window.lblQuoteId.text())
     quote_name: str = main_window.txtQuote_Name.text().strip()
     quote_address: str = main_window.txtQuote_Address.text().strip()
@@ -289,7 +272,6 @@ def save(main_window: Ui_MainWindow):
         main_window.txtQuote_DateRequired.text().strip(), "%d/%m/%Y"
     )
 
-    # Instantiate Quote object to be saved.
     quote = Quote(
         quote_id,
         quote_date_created,
@@ -302,48 +284,42 @@ def save(main_window: Ui_MainWindow):
         quote_completed,
     )
 
-    # Save the Quote object.
     quote.update() if quote_id else quote.insert()
     quotes[quote.id] = quote
 
-    # Set the GUI id field to display the saved Quote object id.
     main_window.lblQuoteId.setText(str(quote.id))
 
-    # Update all children QuoteItem objects to use the most updated kilometres for their transport_rate_ex_gst.
-    with get_cursor_type() as cur:
+    with SQLiteConnection() as cur:
+        quote_item_tuples = cur.execute(
+            """
+            SELECT qi.id, vc.charge_type
+            FROM quote_item qi
+            LEFT JOIN vehicle_combination vc ON qi.vehicle_combination_name = vc.name
+            WHERE qi.quote_id = ?;
+            """,
+            (quote.id,),
+        ).fetchall()
 
-        if cur:
-            quote_item_tuples = cur.execute(
+        for t in quote_item_tuples:
+
+            transport_rate_ex_gst = get_transport_rate_ex_gst(
+                quote.kilometres, t[1]
+            )
+
+            cur.execute(
                 """
-                SELECT qi.id, vc.charge_type
-                FROM quote_item qi
-                LEFT JOIN vehicle_combination vc ON qi.vehicle_combination_name = vc.name
-                WHERE qi.quote_id = ?;
+                UPDATE quote_item 
+                SET transport_rate_ex_gst = ? 
+                WHERE id = ?;
                 """,
-                (quote.id,),
-            ).fetchall()
-
-            for t in quote_item_tuples:
-
-                transport_rate_ex_gst = get_transport_rate_ex_gst(
-                    quote.kilometres, t[1]
-                )
-
-                cur.execute(
-                    """
-                    UPDATE quote_item 
-                    SET transport_rate_ex_gst = ? 
-                    WHERE id = ?;
-                    """,
-                    (
-                        transport_rate_ex_gst,
-                        t[0],
-                    ),
-                )
+                (
+                    transport_rate_ex_gst,
+                    t[0],
+                ),
+            )
 
     refresh_quote_items_table(main_window, quote.id)
 
-    # Show all QuoteItem action buttons.
     toggle_buttons(
         [
             (main_window.btnNewQuoteItem, True),
@@ -377,7 +353,6 @@ def search(main_window: Ui_MainWindow, search_text: str):
 
 
 def export(quote_id: int):
-
     global quotes
     quotes[quote_id].export()
 
@@ -405,6 +380,6 @@ def connect(main_window: Ui_MainWindow):
     )
 
     # Set integer only validator on Kilometres textbox.
-    intOnly = QIntValidator()
-    intOnly.setRange(0, 9999)
-    main_window.txtQuote_Kilometres.setValidator(intOnly)
+    int_only_validator = QIntValidator()
+    int_only_validator.setRange(0, 9999)
+    main_window.txtQuote_Kilometres.setValidator(int_only_validator)

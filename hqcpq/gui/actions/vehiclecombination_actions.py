@@ -22,7 +22,7 @@ matches: dict[int, VehicleCombination] = dict()
 def navigate_to_listing_view(main_window: Ui_MainWindow):
 
     global vehicle_combinations, matches
-    vehicle_combinations = VehicleCombination.get()
+    vehicle_combinations = VehicleCombination.get_all()
     matches = vehicle_combinations
 
     refresh_table(main_window)
@@ -146,7 +146,7 @@ def delete(main_window: Ui_MainWindow):
     if not delete_confirmed:
         return
 
-    vehicle_combination.delete()
+    VehicleCombination.delete(vehicle_combination.id)
 
     del vehicle_combinations[vehicle_combination.id]
 
@@ -210,7 +210,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             result = False
             error_string += f"\n- {vehicle_combination_name} already exists."
 
-    if result == False:
+    if result is False:
         messagebox.showerror("Save Error", error_string)
 
     return result
@@ -235,7 +235,7 @@ def connect(main_window: Ui_MainWindow):
     )
 
     # Set numeric only validator on Net textbox.
-    onlyNumeric = QDoubleValidator()
-    onlyNumeric.setNotation(QDoubleValidator.Notation.StandardNotation)
-    onlyNumeric.setRange(0.0, 9999.0, 2)
-    main_window.txtVehicleCombination_Net.setValidator(onlyNumeric)
+    only_numeric_validator = QDoubleValidator()
+    only_numeric_validator.setNotation(QDoubleValidator.Notation.StandardNotation)
+    only_numeric_validator.setRange(0.0, 9999.0, 2)
+    main_window.txtVehicleCombination_Net.setValidator(only_numeric_validator)

@@ -17,79 +17,29 @@ matches: dict[int, Product] = dict()
 
 
 def fetch_global_variables():
-    """
-    Requests the SQL database for all products and writes them to the global variables.
-
-    Parameters
-    ----------
-    N/A
-    """
-
     global products, matches
-    products = Product.get()
+    products = Product.get_all()
     matches = products
 
 
 def navigate_to_listing_view(main_window: Ui_MainWindow):
-    """
-    Prepares the GUI and then changes the stacked widget page to the Products listing view.
-
-    Parameters
-    ----------
-    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
-    """
-
-    # Set global variables.
     fetch_global_variables()
-
-    # Refresh the Products listing view table with the products stored in the global matches variable.
     refresh_table(main_window)
-
-    # Change the stacked widget page to the Products listing view.
     change_view(main_window.swPages, ViewPage.PRODUCTS)
 
 
 def search(main_window: Ui_MainWindow, search_text: str):
-    """
-    Finds all products where their lowercased name matches the lowercased search text.
-    Then writes the matches to the global matches variable.
-    Then refreshes the Products listing view table with the match results.
-
-    If the search text is empty, it will show all products.
-
-    Parameters
-    ----------
-    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
-    search_text  :  The lowercased text (must be passed in lowercased) to be compared against each Product name.
-    """
-
-    # Loop through each product in the global products variable.
-    # If the lowercased name matches the search text, add it to the result dictionary --
-    # that will be written to the global matches variable.
     global products, matches
     matches = (
         products
         if not search_text
         else {p.id: p for p in products.values() if search_text in p.name.lower()}
     )
-
-    # Refresh the Products listing view table with the products stored in the global matches variable.
     refresh_table(main_window)
 
 
 def on_row_select(main_window: Ui_MainWindow):
-    """
-    Determines what action buttons will be shown, depending on if a row is selected in the Products listing view table.
-
-    Parameters
-    ----------
-    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
-    """
-
-    # Get the id of the Product on the tables selected row, this will be None if there is no row selected.
     selected_id = selected_row_id(main_window.tblProducts)
-
-    # Show and hide action buttons according to whether a row is selected or not.
     toggle_buttons(
         [
             (main_window.btnNewProduct, True),
@@ -100,17 +50,9 @@ def on_row_select(main_window: Ui_MainWindow):
 
 
 def refresh_table(main_window: Ui_MainWindow):
-    """
-    Refreshes the Product listing view table with the products stored in the global matches variable.
-
-    Parameters
-    ----------
-    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
-    """
 
     global matches
 
-    # Configure the tables headers and prepare the row count before inserting data.
     tbl_headers = ["ID", "Name"]
     tbl: QTableWidget = main_window.tblProducts
     tbl.clear()
@@ -118,12 +60,10 @@ def refresh_table(main_window: Ui_MainWindow):
     tbl.setColumnCount(len(tbl_headers))
     tbl.setHorizontalHeaderLabels(tbl_headers)
 
-    # Insert each data cell into table.
     for index, product in enumerate(matches.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(product.id)))
         tbl.setItem(index, 1, QTableWidgetItem(product.name))
 
-    # Set all columns of the table to fit the column contents and stretch the last column.
     header: QHeaderView = tbl.horizontalHeader()
     for i in range(len(tbl_headers)):
         header.setSectionResizeMode(
@@ -133,7 +73,6 @@ def refresh_table(main_window: Ui_MainWindow):
             else QHeaderView.ResizeMode.Stretch,
         )
 
-    # Hide edit & delete action buttons as no row will be selected once the table is refreshed.
     toggle_buttons(
         [
             (main_window.btnNewProduct, True),
@@ -144,36 +83,14 @@ def refresh_table(main_window: Ui_MainWindow):
 
 
 def clear_entry_fields(main_window: Ui_MainWindow):
-    """
-    Clears all entry fields to enter a new or edit a Product.
-
-    Parameters
-    ----------
-    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
-    """
-
-    # Clear entry fields.
     main_window.lblProductId.clear()
     main_window.txtProductName.clear()
     main_window.tblProductRates.setRowCount(0)
 
 
 def new(main_window: Ui_MainWindow):
-    """
-    Clears all entry fields and then changes the stacked widget page to the Product entry/edit view .
-
-    Parameters
-    ----------
-    main_window  :  A Ui_MainWindow object as the root of the GUI; this contains the stacked widget.
-    """
-
-    # Refresh all global variables.
     fetch_productrate_global_entities()
-
-    # Clear entry fields.
     clear_entry_fields(main_window)
-
-    # Hide all ProductRate action buttons.
     toggle_buttons(
         [
             (main_window.btnNewProductRate, False),
@@ -181,28 +98,20 @@ def new(main_window: Ui_MainWindow):
             (main_window.btnDeleteProductRate, False),
         ]
     )
-
-    # Change the stacked widget page to the Product entry/edit view.
     change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
 
 
 def edit(main_window: Ui_MainWindow):
-
-    # Refresh all global variables.
     fetch_productrate_global_entities()
 
-    # Establish the Product to be edited.
     global products
     product: Product = products[selected_row_id(main_window.tblProducts)]
 
-    # Pre-fill entry fields with Product attribute values.
     main_window.lblProductId.setText(str(product.id))
     main_window.txtProductName.setText(product.name)
 
-    # Refresh ProductRate table with all ProductRates relevant to the Product.
     refresh_product_rates_table(main_window)
 
-    # Hide edit & delete action buttons as no row will be selected once the table is refreshed.
     toggle_buttons(
         [
             (main_window.btnNewProductRate, True),
@@ -211,36 +120,27 @@ def edit(main_window: Ui_MainWindow):
         ]
     )
 
-    # Change the stacked widget page to the Product entry/edit view.
     change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
 
 
 def delete(main_window: Ui_MainWindow):
-
-    # Establish the Product to be deleted.
     global products
     product: Product = products[selected_row_id(main_window.tblProducts)]
 
-    # Ask user to confirm the deletion.
     delete_confirmed: bool = messagebox.askyesno(
         title="Confirm Delete",
         message=f"Are you sure that you would like to delete {product.name}?",
     )
 
-    # If user would not like to delete, return early.
     if not delete_confirmed:
         return
 
-    # Delete the Product
-    product.delete()
+    Product.delete(product.id)
 
-    # Remove Product from global Product variable dictionary.
     del products[product.id]
 
-    # Refresh table with current global Product variable dictionary
     refresh_table(main_window)
 
-    # Show success toast notification.
     Toast("Delete Success", f"{product.name} successfully deleted.").show()
 
 
@@ -292,7 +192,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             result = False
             error_string += f"\n- {entity_name} already exists."
 
-    if result == False:
+    if result is False:
         messagebox.showerror("Save Error", error_string)
 
     return result

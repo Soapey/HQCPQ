@@ -7,7 +7,7 @@ class QuoteItem:
         obj_id: int,
         quote_id: int,
         vehicle_combination_name: str,
-        vehicle_combination_net: int,
+        vehicle_combination_net: float,
         transport_rate_ex_gst: float,
         product_name: str,
         product_rate_ex_gst: float,

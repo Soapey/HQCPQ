@@ -7,44 +7,42 @@ from hqcpq.classes.Toast import Toast
 from hqcpq.classes.Product import Product
 from hqcpq.classes.ProductRate import ProductRate
 from hqcpq.classes.RateType import RateType
-from hqcpq.db.db import get_cursor_type
 from hqcpq.gui.helpers import selected_row_id, change_view, toggle_buttons
 from hqcpq.helpers.conversion import string_to_float
 from hqcpq.helpers.conversion import string_to_int
+from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
-# Global entities
 products: dict[int, Product] = dict()
 product_rates: dict[int, ProductRate] = dict()
 rate_types: dict[int, RateType] = dict()
-records: list[tuple] = dict()
+records: list[tuple] = list()
 
 
 def fetch_global_entities():
-
     global products, product_rates, rate_types
-    products = Product.get()
-    product_rates = ProductRate.get()
-    rate_types = RateType.get()
+    products = Product.get_all()
+    product_rates = ProductRate.get_all()
+    rate_types = RateType.get_all()
 
 
 def fetch_records(main_window: Ui_MainWindow):
-
     product_id: int = string_to_int(main_window.lblProductId.text())
 
-    with get_cursor_type() as cur:
+    if not product_id:
+        return
 
-        if cur and product_id:
-            global records
-            records = cur.execute(
-                """
-                SELECT pr.id, rt.name, pr.rate
-                FROM product_rate pr
-                LEFT JOIN rate_type rt ON pr.rate_type_id = rt.id
-                WHERE pr.product_id = ?;
-                """,
-                (product_id,),
-            ).fetchall()
+    with SQLiteConnection() as cur:
+        global records
+        records = cur.execute(
+            """
+            SELECT pr.id, rt.name, pr.rate
+            FROM product_rate pr
+            LEFT JOIN rate_type rt ON pr.rate_type_id = rt.id
+            WHERE pr.product_id = ?;
+            """,
+            (product_id,),
+        ).fetchall()
 
 
 def on_row_select(main_window: Ui_MainWindow):
@@ -60,7 +58,7 @@ def on_row_select(main_window: Ui_MainWindow):
     )
 
 
-def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
+def refresh_table(main_window: Ui_MainWindow):
 
     tbl: QTableWidget = main_window.tblProductRates
 
@@ -88,38 +86,31 @@ def refresh_table(main_window: Ui_MainWindow, selected_id: int = None):
 
 
 def clear_entry_fields(main_window: Ui_MainWindow):
-
-    # Fetch all RateTypes from SQLite database.
     fetch_records(main_window)
     fetch_global_entities()
+
     global rate_types, records
 
     main_window.lblProductRateId.clear()
 
-    # Create list of RateType name options for the gui combobox.
     existing_ratetype_names: list[str] = [r[1] for r in records]
     selectable_rate_type_names = [
         rt.name for rt in rate_types.values() if rt.name not in existing_ratetype_names
     ]
 
-    # Clear the gui combobox and fill with RateType name options.
     productrate_ratetype_combobox: QComboBox = main_window.cmbProductRate_RateType
     productrate_ratetype_combobox.clear()
     productrate_ratetype_combobox.addItems(selectable_rate_type_names)
 
-    # Clear the Rate field textbox.
     main_window.txtProductRate_Rate.clear()
 
 
 def new(main_window: Ui_MainWindow):
-
     clear_entry_fields(main_window)
-
     change_view(main_window.swPages, ViewPage.PRODUCT_RATE_ENTRY)
 
 
 def edit(main_window: Ui_MainWindow):
-
     selected_id: int = selected_row_id(main_window.tblProductRates)
 
     clear_entry_fields(main_window)
@@ -155,11 +146,11 @@ def delete(main_window: Ui_MainWindow):
     if not delete_confirmed:
         return
 
-    product_rate.delete()
+    ProductRate.delete(product_rate.id)
 
     del product_rates[product_rate.id]
 
-    refresh_table(main_window, product_rate.product_id)
+    refresh_table(main_window)
 
     Toast(
         "Delete Success", f"Product Rate id: {product_rate.id}, successfully deleted."
@@ -167,7 +158,6 @@ def delete(main_window: Ui_MainWindow):
 
 
 def save(main_window: Ui_MainWindow):
-
     if form_is_valid(main_window) is False:
         return
 
@@ -188,7 +178,7 @@ def save(main_window: Ui_MainWindow):
 
     product_rate.update() if product_rate_id else product_rate.insert()
 
-    refresh_table(main_window, product_id)
+    refresh_table(main_window)
 
     change_view(main_window.swPages, ViewPage.PRODUCT_ENTRY)
 
@@ -238,7 +228,9 @@ def form_is_valid(main_window: Ui_MainWindow):
 
         if len(existing_product_rates) > 0:
             result = False
-            error_string += f"\n- {products[product_id].name} with a {rate_types[rate_type.id].name} rate already exists."
+            error_string += (
+                f"\n- {products[product_id].name} with a "
+                f"{rate_types[rate_type.id].name} rate already exists.")
 
     if result is False:
         messagebox.showerror("Save Error", error_string)
@@ -247,8 +239,6 @@ def form_is_valid(main_window: Ui_MainWindow):
 
 
 def connect(main_window: Ui_MainWindow):
-
-    # Connect all actions to lambda functions.
     main_window.tblProductRates.selectionModel().selectionChanged.connect(
         lambda: on_row_select(main_window)
     )
@@ -257,8 +247,7 @@ def connect(main_window: Ui_MainWindow):
     main_window.btnDeleteProductRate.clicked.connect(lambda: delete(main_window))
     main_window.btnSaveProductRate.clicked.connect(lambda: save(main_window))
 
-    # Set numeric only validator on Rate textbox.
-    onlyNumeric = QDoubleValidator()
-    onlyNumeric.setNotation(QDoubleValidator.Notation.StandardNotation)
-    onlyNumeric.setRange(0.00, 9999.00, 2)
-    main_window.txtProductRate_Rate.setValidator(onlyNumeric)
+    only_numeric_validator = QDoubleValidator()
+    only_numeric_validator.setNotation(QDoubleValidator.Notation.StandardNotation)
+    only_numeric_validator.setRange(0.00, 9999.00, 2)
+    main_window.txtProductRate_Rate.setValidator(only_numeric_validator)

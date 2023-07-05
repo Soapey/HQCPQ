@@ -15,9 +15,9 @@ def selected_row_id(tbl: QTableWidget):
 
     selected_row = indexes[0].row()
     id_column = 0
-    id = int(tbl.item(selected_row, id_column).text())
+    obj_id = int(tbl.item(selected_row, id_column).text())
 
-    return id
+    return obj_id
 
 
 def toggle_buttons(button_show_tuple_list: list[tuple]):

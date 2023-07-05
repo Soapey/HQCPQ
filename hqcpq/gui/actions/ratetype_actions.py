@@ -14,7 +14,7 @@ matches: dict[int, RateType] = dict()
 def navigate_to_listing_view(main_window: Ui_MainWindow):
 
     global rate_types, matches
-    rate_types = RateType.get()
+    rate_types = RateType.get_all()
     matches = rate_types
 
     refresh_table(main_window)
@@ -107,7 +107,7 @@ def delete(main_window: Ui_MainWindow):
     if not delete_confirmed:
         return
 
-    rate_type.delete()
+    RateType.delete(rate_type.id)
 
     del rate_types[rate_type.id]
 
@@ -159,7 +159,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             result = False
             error_string += f"\n- {entity_name} already exists."
 
-    if result == False:
+    if result is False:
         messagebox.showerror("Save Error", error_string)
 
     return result

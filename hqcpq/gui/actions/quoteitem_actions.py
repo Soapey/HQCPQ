@@ -27,12 +27,12 @@ def fetch_global_entities():
 
     global vehicle_combinations, products, product_rates, rate_types, quotes, quote_items
 
-    vehicle_combinations = VehicleCombination.get()
-    products = Product.get()
-    product_rates = ProductRate.get()
-    rate_types = RateType.get()
-    quotes = Quote.get()
-    quote_items = QuoteItem.get()
+    vehicle_combinations = VehicleCombination.get_all()
+    products = Product.get_all()
+    product_rates = ProductRate.get_all()
+    rate_types = RateType.get_all()
+    quotes = Quote.get_all()
+    quote_items = QuoteItem.get_all()
 
 
 def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
@@ -48,7 +48,7 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
     quote: Quote = quotes_list[0] if quotes_list else None
 
     global quote_items
-    items: dict[int, QuoteItem] = quote.items(quote_items)
+    items: dict[int, QuoteItem] = quote.items()
 
     tbl_headers: list[str] = [
         "ID",
@@ -100,24 +100,23 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
 def calculate_quote_item_totals(main_window: Ui_MainWindow, quote_id: int = None):
 
     selected_id: int = quote_id or selected_row_id(main_window.tblQuotes)
-    quotes_list = list(Quote.get(selected_id).values())
+    quote = Quote.get(selected_id)
+
+    if not quote:
+        return
 
     transport_total_ex_gst: float = 0
     product_total_ex_gst: float = 0
 
-    if quotes_list:
+    items = quote.items()
 
-        quote: Quote = quotes_list[0] if quotes_list else None
-        global quote_items
-        items = quote.items(quote_items)
-
-        for quote_item in items.values():
-            transport_total_ex_gst += (
-                quote_item.transport_rate_ex_gst * quote_item.vehicle_combination_net
-            )
-            product_total_ex_gst += (
-                quote_item.product_rate_ex_gst * quote_item.vehicle_combination_net
-            )
+    for quote_item in items.values():
+        transport_total_ex_gst += (
+            quote_item.transport_rate_ex_gst * quote_item.vehicle_combination_net
+        )
+        product_total_ex_gst += (
+            quote_item.product_rate_ex_gst * quote_item.vehicle_combination_net
+        )
 
     main_window.lblQuote_ProductTotalExGST.setText(
         "${:,.2f}".format(product_total_ex_gst)
@@ -149,8 +148,10 @@ def update_product_rate(main_window: Ui_MainWindow):
 
     product_rate: ProductRate = product_rates_list[0] if product_rates_list else None
 
-    if product_rate:
-        main_window.txtQuoteItem_ProductRate.setText(str(product_rate.rate))
+    if not product_rate:
+        return
+
+    main_window.txtQuoteItem_ProductRate.setText(str(product_rate.rate))
 
 
 def on_product_select(main_window: Ui_MainWindow):
@@ -318,13 +319,17 @@ def delete(main_window: Ui_MainWindow):
 
     delete_confirmed: bool = messagebox.askyesno(
         title="Confirm Delete",
-        message=f"Are you sure that you would like to delete {quote_item.vehicle_combination_net} tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name}?",
+        message=(
+            f"Are you sure that you would like to delete "
+            f"{quote_item.vehicle_combination_net} tonnes of {quote_item.product_name} via "
+            f"{quote_item.vehicle_combination_name}?"
+        )
     )
 
     if not delete_confirmed:
         return
 
-    quote_item.delete()
+    QuoteItem.delete(quote_item.id)
 
     del quote_items[quote_item.id]
 
@@ -332,7 +337,10 @@ def delete(main_window: Ui_MainWindow):
 
     Toast(
         "Delete Success",
-        f"{quote_item.vehicle_combination_net} tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name} successfully deleted.",
+        (
+            f"{quote_item.vehicle_combination_net} tonnes of "
+            f"{quote_item.product_name} via {quote_item.vehicle_combination_name} successfully deleted."
+        )
     ).show()
 
 
@@ -342,7 +350,7 @@ def save(main_window: Ui_MainWindow):
         return
 
     quote_id: int = string_to_int(main_window.lblQuoteItem_QuoteId.text())
-    quote: Quote = Quote.get()[quote_id]
+    quote: Quote = Quote.get(quote_id)
     quote_item_id: int = string_to_int(main_window.lblQuoteItemId.text())
     tonnes: float = float(main_window.txtQuoteItem_Tonnes.text())
     product_name: str = main_window.cmbQuoteItem_Product.currentText()
@@ -352,8 +360,7 @@ def save(main_window: Ui_MainWindow):
         main_window.cmbQuoteItem_VehicleCombination.currentText()
     )
 
-    transport_rate_ex_gst_text: str =  main_window.txtQuoteItem_TransportRate.text()
-    transport_rate_ex_gst: float = 0
+    transport_rate_ex_gst_text: str = main_window.txtQuoteItem_TransportRate.text()
     if len(transport_rate_ex_gst_text) > 0:
         transport_rate_ex_gst = string_to_float(
             transport_rate_ex_gst_text
@@ -384,7 +391,10 @@ def save(main_window: Ui_MainWindow):
 
     Toast(
         "Save Success",
-        f"Successfully saved {quote_item.vehicle_combination_net} tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name}.",
+        (
+            f"Successfully saved {quote_item.vehicle_combination_net} "
+            f"tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name}."
+        )
     ).show()
 
 
