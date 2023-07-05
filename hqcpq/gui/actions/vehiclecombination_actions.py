@@ -1,4 +1,5 @@
-from tkinter import messagebox
+from tkinter.messagebox import showinfo, showerror, askyesno
+
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import (
     QTableWidget,
@@ -6,14 +7,13 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QHeaderView,
 )
-from hqcpq.classes.Toast import Toast
+
 from hqcpq.classes.VehicleCombination import VehicleCombination
 from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.conversion import string_to_float
-from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.helpers.conversion import string_to_int
-
 
 vehicle_combinations: dict[int, VehicleCombination] = dict()
 matches: dict[int, VehicleCombination] = dict()
@@ -138,7 +138,7 @@ def delete(main_window: Ui_MainWindow):
     global vehicle_combinations
     vehicle_combination: VehicleCombination = vehicle_combinations[selected_id]
 
-    delete_confirmed: bool = messagebox.askyesno(
+    delete_confirmed: bool = askyesno(
         title="Confirm Delete",
         message=f"Are you sure that you would like to delete {vehicle_combination.name}?",
     )
@@ -152,7 +152,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    Toast("Delete Success", f"Successfully deleted {vehicle_combination.name}.").show()
+    showinfo(title="Delete Success", message=f"Successfully deleted {vehicle_combination.name}.")
 
 
 def save(main_window: Ui_MainWindow):
@@ -182,7 +182,7 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    Toast("Save Success", f"Successfully saved {vehicle_combination.name}.").show()
+    showinfo(title="Save Success", message=f"Successfully saved {vehicle_combination.name}.")
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -211,7 +211,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             error_string += f"\n- {vehicle_combination_name} already exists."
 
     if result is False:
-        messagebox.showerror("Save Error", error_string)
+        showerror(title="Save Error", message=error_string)
 
     return result
 

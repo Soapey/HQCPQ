@@ -1,22 +1,22 @@
 from datetime import datetime
-from tkinter import messagebox
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+from tkinter.messagebox import showinfo, showerror, askyesno
+
 from PyQt5.QtGui import QIntValidator
-from hqcpq.gui.view_enum import ViewPage
-from hqcpq.classes.Toast import Toast
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+
 from hqcpq.classes.Quote import Quote
-from hqcpq.gui.components.main_window import Ui_MainWindow
-from hqcpq.helpers.comparison import can_be_date
-from hqcpq.helpers.general import get_transport_rate_ex_gst
-from hqcpq.gui.helpers import toggle_buttons, change_view, selected_row_id
+from hqcpq.db.SQLiteUtil import SQLiteConnection
 from hqcpq.gui.actions.quoteitem_actions import (
     refresh_table as refresh_quote_items_table,
     calculate_quote_item_totals,
     fetch_global_entities as fetch_quote_item_globals,
 )
+from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.gui.helpers import toggle_buttons, change_view, selected_row_id
+from hqcpq.gui.view_enum import ViewPage
+from hqcpq.helpers.comparison import can_be_date
 from hqcpq.helpers.conversion import string_to_int
-from hqcpq.db.SQLiteUtil import SQLiteConnection
-
+from hqcpq.helpers.general import get_transport_rate_ex_gst
 
 quotes: dict[int, Quote] = dict()
 matches: dict[int, Quote] = dict()
@@ -192,7 +192,7 @@ def delete(main_window: Ui_MainWindow):
     global quotes
     quote: Quote = quotes[quote_id]
 
-    delete_confirmed: bool = messagebox.askyesno(
+    delete_confirmed: bool = askyesno(
         title="Confirm Delete",
         message=f"Are you sure that you would like to delete {quote.name} - {quote.address}, {quote.suburb}?",
     )
@@ -206,10 +206,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    Toast(
-        "Delete Success",
-        f"{quote.name} - {quote.address}, {quote.suburb} successfully deleted.",
-    ).show()
+    showinfo(title="Delete Success", message=f"{quote.name} - {quote.address}, {quote.suburb} successfully deleted.")
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -244,7 +241,7 @@ def form_is_valid(main_window: Ui_MainWindow):
         error_string += "\n- Kilometres field cannot be blank."
 
     if result is False:
-        messagebox.showerror("Save Error", error_string)
+        showerror(title="Save Error", message=error_string)
 
     return result
 
@@ -329,10 +326,7 @@ def save(main_window: Ui_MainWindow):
         ]
     )
 
-    Toast(
-        "Save Success",
-        f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.",
-    ).show()
+    showinfo(title="Save Success", message=f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.")
 
 
 def search(main_window: Ui_MainWindow, search_text: str):

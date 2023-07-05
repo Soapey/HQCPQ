@@ -1,9 +1,11 @@
+import os
 from datetime import datetime
-from fpdf import FPDF
-from tkinter import messagebox
 from tkinter.filedialog import askdirectory
+from tkinter.messagebox import showinfo, showerror
+
+from fpdf import FPDF
+
 from hqcpq.helpers.io import join_to_project_folder
-from hqcpq.classes.Toast import Toast
 
 
 class QuotePDF(FPDF):
@@ -27,7 +29,7 @@ class QuotePDF(FPDF):
         self.set_font("Helvetica", "B", 20)
         self.cell(self.column_width_mm * 2, self.row_height_mm, "QUOTE")
 
-        img_path = join_to_project_folder(r"hqcpq\assets\hq_keq_logos.jpg")
+        img_path = join_to_project_folder(os.path.join("hqcpq", "assets", "hq_keq_logos.jpg"))
         img_width_px = 258
         img_height_px = 107
         height_ratio = img_height_px / img_width_px
@@ -267,10 +269,7 @@ class QuotePDF(FPDF):
             self.output(full_path)
 
             # Confirmation messagebox to confirm that the Quote was exported to a pdf successfully.
-            Toast(
-                "Export Success",
-                f"Quote was successfully exported to path:\n\n{full_path}",
-            ).show()
+            showinfo(title="Export Success", message=f"Quote was successfully exported to path:\n\n{full_path}")
 
         except Exception as e:
-            messagebox.showerror(message=str(e))
+            showerror(message=str(e))

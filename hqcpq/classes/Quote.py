@@ -51,7 +51,7 @@ class Quote:
 
     def insert(self):
         query = "INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number, kilometres, " \
-                "completed) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                "completed) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
         with SQLiteConnection() as cur:
             cur.execute(query, (
                 self.date_created.date(),

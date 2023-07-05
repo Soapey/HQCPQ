@@ -1,17 +1,17 @@
-from tkinter import messagebox
+from tkinter.messagebox import showinfo, showerror, askyesno
+
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox
-from hqcpq.gui.components.main_window import Ui_MainWindow
-from hqcpq.gui.view_enum import ViewPage
-from hqcpq.classes.Toast import Toast
+
 from hqcpq.classes.Product import Product
 from hqcpq.classes.ProductRate import ProductRate
 from hqcpq.classes.RateType import RateType
+from hqcpq.db.SQLiteUtil import SQLiteConnection
+from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.helpers import selected_row_id, change_view, toggle_buttons
+from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.conversion import string_to_float
 from hqcpq.helpers.conversion import string_to_int
-from hqcpq.db.SQLiteUtil import SQLiteConnection
-
 
 products: dict[int, Product] = dict()
 product_rates: dict[int, ProductRate] = dict()
@@ -138,7 +138,7 @@ def delete(main_window: Ui_MainWindow):
         selected_row_id(main_window.tblProductRates)
     ]
 
-    delete_confirmed: bool = messagebox.askyesno(
+    delete_confirmed: bool = askyesno(
         title="Confirm Delete",
         message=f"Are you sure that you would like to delete Product Rate with id: {product_rate.id}?",
     )
@@ -152,9 +152,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    Toast(
-        "Delete Success", f"Product Rate id: {product_rate.id}, successfully deleted."
-    ).show()
+    showinfo(title="Delete Success", message=f"Product Rate id: {product_rate.id}, successfully deleted.")
 
 
 def save(main_window: Ui_MainWindow):
@@ -184,9 +182,7 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    Toast(
-        "Save Success", f"Successfully saved Product Rate id: {product_rate.id}."
-    ).show()
+    showinfo(title="Save Success", message=f"Successfully saved Product Rate id: {product_rate.id}.")
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -233,7 +229,7 @@ def form_is_valid(main_window: Ui_MainWindow):
                 f"{rate_types[rate_type.id].name} rate already exists.")
 
     if result is False:
-        messagebox.showerror("Save Error", error_string)
+        showerror(title="Save Error", message=error_string)
 
     return result
 

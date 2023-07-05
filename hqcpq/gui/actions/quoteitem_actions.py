@@ -1,19 +1,19 @@
-from tkinter import messagebox
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox, QHeaderView
+from tkinter.messagebox import showinfo, showerror, askyesno
+
 from PyQt5.QtGui import QDoubleValidator
-from hqcpq.classes.Toast import Toast
-from hqcpq.classes.VehicleCombination import VehicleCombination
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QComboBox, QHeaderView
+
 from hqcpq.classes.Product import Product
 from hqcpq.classes.ProductRate import ProductRate
-from hqcpq.classes.RateType import RateType
-from hqcpq.classes.QuoteItem import QuoteItem
 from hqcpq.classes.Quote import Quote
+from hqcpq.classes.QuoteItem import QuoteItem
+from hqcpq.classes.RateType import RateType
+from hqcpq.classes.VehicleCombination import VehicleCombination
 from hqcpq.gui.components.main_window import Ui_MainWindow
-from hqcpq.gui.view_enum import ViewPage
-from hqcpq.helpers.general import get_transport_rate_ex_gst
 from hqcpq.gui.helpers import selected_row_id, toggle_buttons, change_view
+from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.conversion import string_to_float, string_to_int
-
+from hqcpq.helpers.general import get_transport_rate_ex_gst
 
 vehicle_combinations: dict[int, VehicleCombination] = dict()
 products: dict[int, Product] = dict()
@@ -40,12 +40,11 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
     fetch_global_entities()
 
     selected_quote_id: int = quote_id or selected_row_id(main_window.tblQuotes)
-    quotes_list = list(Quote.get(selected_quote_id).values())
 
-    if not quotes_list:
+    quote = Quote.get(selected_quote_id)
+
+    if not quote:
         return
-
-    quote: Quote = quotes_list[0] if quotes_list else None
 
     global quote_items
     items: dict[int, QuoteItem] = quote.items()
@@ -156,11 +155,11 @@ def update_product_rate(main_window: Ui_MainWindow):
 
 def on_product_select(main_window: Ui_MainWindow):
 
-    cmbProductRates: QComboBox = main_window.cmbQuoteItem_ProductRate
+    cmb_product_rates: QComboBox = main_window.cmbQuoteItem_ProductRate
 
     show_hide = len(main_window.cmbQuoteItem_Product.currentText()) > 0
     main_window.lblQuoteItem_ProductRate.setVisible(show_hide)
-    cmbProductRates.setVisible(show_hide)
+    cmb_product_rates.setVisible(show_hide)
 
     if show_hide is False:
         return
@@ -180,8 +179,8 @@ def on_product_select(main_window: Ui_MainWindow):
         if pr.product_id == product.id
     ]
 
-    cmbProductRates.clear()
-    cmbProductRates.addItems(match_product_rate_names)
+    cmb_product_rates.clear()
+    cmb_product_rates.addItems(match_product_rate_names)
 
     update_product_rate(main_window)
 
@@ -230,14 +229,14 @@ def clear_entry_fields(main_window: Ui_MainWindow):
     main_window.txtQuoteItem_TransportRate.clear()
 
     global vehicle_combinations
-    cmbVehicleCombinations: QComboBox = main_window.cmbQuoteItem_VehicleCombination
-    cmbVehicleCombinations.clear()
-    cmbVehicleCombinations.addItems([vc.name for vc in vehicle_combinations.values()])
+    cmb_vehicle_combinations: QComboBox = main_window.cmbQuoteItem_VehicleCombination
+    cmb_vehicle_combinations.clear()
+    cmb_vehicle_combinations.addItems([vc.name for vc in vehicle_combinations.values()])
 
     global products
-    cmbProducts: QComboBox = main_window.cmbQuoteItem_Product
-    cmbProducts.clear()
-    cmbProducts.addItems([p.name for p in products.values()])
+    cmb_products: QComboBox = main_window.cmbQuoteItem_Product
+    cmb_products.clear()
+    cmb_products.addItems([p.name for p in products.values()])
 
     on_product_select(main_window)
 
@@ -272,7 +271,7 @@ def form_is_valid(main_window: Ui_MainWindow):
         error_string += "\n- Product Rate field cannot be blank."
 
     if result is False:
-        messagebox.showerror("Save Error", error_string)
+        showerror("Save Error", error_string)
 
     return result
 
@@ -317,7 +316,7 @@ def delete(main_window: Ui_MainWindow):
     global quote_items
     quote_item: QuoteItem = quote_items[selected_row_id(main_window.tblQuoteItems)]
 
-    delete_confirmed: bool = messagebox.askyesno(
+    delete_confirmed: bool = askyesno(
         title="Confirm Delete",
         message=(
             f"Are you sure that you would like to delete "
@@ -335,13 +334,13 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window, quote_item.quote_id)
 
-    Toast(
-        "Delete Success",
-        (
+    showinfo(
+        title="Delete Success",
+        message=(
             f"{quote_item.vehicle_combination_net} tonnes of "
             f"{quote_item.product_name} via {quote_item.vehicle_combination_name} successfully deleted."
         )
-    ).show()
+    )
 
 
 def save(main_window: Ui_MainWindow):
@@ -389,13 +388,13 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    Toast(
-        "Save Success",
-        (
+    showinfo(
+        title="Save Success",
+        message=(
             f"Successfully saved {quote_item.vehicle_combination_net} "
             f"tonnes of {quote_item.product_name} via {quote_item.vehicle_combination_name}."
         )
-    ).show()
+    )
 
 
 def on_row_select(main_window: Ui_MainWindow):
@@ -430,10 +429,9 @@ def connect(main_window: Ui_MainWindow):
         lambda: update_product_rate(main_window)
     )
 
-    # Set numeric only validator on Tonnes and Rate textbox.
-    onlyNumeric = QDoubleValidator()
-    onlyNumeric.setNotation(QDoubleValidator.Notation.StandardNotation)
-    onlyNumeric.setRange(0.00, 9999.00, 2)
-    main_window.txtQuoteItem_TransportRate.setValidator(onlyNumeric)
-    main_window.txtQuoteItem_Tonnes.setValidator(onlyNumeric)
-    main_window.txtQuoteItem_ProductRate.setValidator(onlyNumeric)
+    only_numeric_validator = QDoubleValidator()
+    only_numeric_validator.setNotation(QDoubleValidator.Notation.StandardNotation)
+    only_numeric_validator.setRange(0.00, 9999.00, 2)
+    main_window.txtQuoteItem_TransportRate.setValidator(only_numeric_validator)
+    main_window.txtQuoteItem_Tonnes.setValidator(only_numeric_validator)
+    main_window.txtQuoteItem_ProductRate.setValidator(only_numeric_validator)

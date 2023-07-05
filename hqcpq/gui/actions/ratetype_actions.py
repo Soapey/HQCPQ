@@ -1,11 +1,12 @@
-from tkinter import messagebox
+from tkinter.messagebox import showinfo, showerror, askyesno
+
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
-from hqcpq.classes.Toast import Toast
+
 from hqcpq.classes.RateType import RateType
-from hqcpq.gui.view_enum import ViewPage
 from hqcpq.gui.components.main_window import Ui_MainWindow
-from hqcpq.helpers.conversion import string_to_int
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
+from hqcpq.gui.view_enum import ViewPage
+from hqcpq.helpers.conversion import string_to_int
 
 rate_types: dict[int, RateType] = dict()
 matches: dict[int, RateType] = dict()
@@ -99,9 +100,9 @@ def delete(main_window: Ui_MainWindow):
     global rate_types
     rate_type: RateType = rate_types[selected_row_id(main_window.tblRateTypes)]
 
-    delete_confirmed: bool = messagebox.askyesno(
+    delete_confirmed: bool = askyesno(
         title="Confirm Delete",
-        message=f"Are you sure that you would like to delete {rate_type.name}?",
+        message=f"Are you sure that you would like to delete {rate_type.name}?"
     )
 
     if not delete_confirmed:
@@ -113,7 +114,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    Toast("Delete Success", f"{rate_type.name} successfully deleted.").show()
+    showinfo(title="Delete Success", message=f"{rate_type.name} successfully deleted.")
 
 
 def save(main_window: Ui_MainWindow):
@@ -132,7 +133,7 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    Toast("Save Success", f"Successfully saved {rate_type.name}.").show()
+    showinfo(title="Save Success", message=f"Successfully saved {rate_type.name}.")
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -160,7 +161,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             error_string += f"\n- {entity_name} already exists."
 
     if result is False:
-        messagebox.showerror("Save Error", error_string)
+        showerror(title="Save Error", message=error_string)
 
     return result
 

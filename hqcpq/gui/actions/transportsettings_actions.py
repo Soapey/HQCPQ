@@ -1,11 +1,12 @@
+from tkinter.messagebox import showinfo, showerror
+
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.helpers import change_view
 from hqcpq.gui.view_enum import ViewPage
-from hqcpq.helpers.io import read_config, update_config
 from hqcpq.helpers.comparison import can_be_float
-from tkinter import messagebox
-from hqcpq.classes.Toast import Toast
+from hqcpq.helpers.io import read_config, update_config
 
 
 def navigate_to_listing_view(main_window: Ui_MainWindow):
@@ -65,7 +66,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             error_string += f"\n- {tbl.verticalHeaderItem(row).text()} must be a numeric value."
 
     if len(error_string) > 0:
-        messagebox.showerror("Save Error", error_string)
+        showerror(title="Save Error", message=error_string)
         return False
     
     return True
@@ -92,10 +93,10 @@ def save(main_window: Ui_MainWindow):
         for key, value in data.items():
             config.set('TransportSettings', key, value)
         update_config(config)
-        Toast("Save Success", "Successfully saved transport settings.").show()
+        showinfo(title="Save Success", message="Successfully saved transport settings.")
     except Exception as e:
         print(f"Error while saving config: {e}")
-        Toast("Save Error", "Failed to save transport settings.").show()
+        showinfo(title="Save Error", message="Failed to save transport settings.")
 
 
 def connect(main_window: Ui_MainWindow):
