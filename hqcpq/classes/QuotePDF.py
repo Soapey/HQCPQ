@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from tkinter import Tk
 from tkinter.filedialog import askdirectory
 from tkinter.messagebox import showinfo, showerror
 
@@ -15,13 +16,16 @@ class QuotePDF(FPDF):
 
         self.quote = quote
         self.items = quote.items()
-        self.column_width_mm = self.epw / 4
-        self.row_height_mm = 10
 
         self.add_page()
+
+        self.column_width_mm = (self.w - 20) // 4
+        self.row_height_mm = 10
+
         self._header()
         self._body()
         self._footer()
+
 
     def _header(self):
 
@@ -168,13 +172,12 @@ class QuotePDF(FPDF):
 
         for row in data:
             for datum in row:
-                self.multi_cell(
+                self.cell(
                     self.column_width_mm,
                     self.row_height_mm,
                     datum,
                     border=1,
-                    new_x="RIGHT",
-                    new_y="TOP",
+                    align="R",
                 )
             self.ln(self.row_height_mm)
 
@@ -228,14 +231,11 @@ class QuotePDF(FPDF):
         self.set_font("Helvetica", "", 8)
         for special_condition in special_conditions:
             self.multi_cell(
-                self.column_width_mm * 4,
-                special_condition[1],
-                special_condition[0],
+                w=self.column_width_mm * 4,
+                h=self.row_height_mm,
+                txt=special_condition[0],
                 border=1,
-                ln=3,
-                max_line_height=self.font_size_pt,
             )
-            self.ln(special_condition[1])
 
         # Business details.
         self.set_font("Helvetica", "B", 10)
@@ -248,6 +248,8 @@ class QuotePDF(FPDF):
     def export(self):
 
         # Dialog box requests user to select destination folder.
+        tk_root = Tk()
+        tk_root.withdraw()
         directory_path = askdirectory()
 
         # Return if no destination folder was selected.
