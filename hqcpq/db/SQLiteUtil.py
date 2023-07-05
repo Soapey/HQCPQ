@@ -20,7 +20,7 @@ def initialise_db(clear: bool = False):
     if clear and os.path.exists(database_path):
         os.remove(database_path)
 
-    with SQLiteConnection as cur:
+    with SQLiteConnection() as cur:
         init_script_path = join_to_project_folder(os.path.join("hqcpq", "db", "init.sql"))
         with open(init_script_path, "r") as init_file:
             init_script = init_file.read()
