@@ -1,8 +1,8 @@
-from tkinter.messagebox import showinfo, showerror
-
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 
 from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.gui.classes.InfoMessageBox import InfoMessageBox
+from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
 from hqcpq.gui.helpers import change_view
 from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.comparison import can_be_float
@@ -66,7 +66,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             error_string += f"\n- {tbl.verticalHeaderItem(row).text()} must be a numeric value."
 
     if len(error_string) > 0:
-        showerror(title="Save Error", message=error_string)
+        ErrorMessageBox(error_string)
         return False
     
     return True
@@ -93,10 +93,10 @@ def save(main_window: Ui_MainWindow):
         for key, value in data.items():
             config.set('TransportSettings', key, value)
         update_config(config)
-        showinfo(title="Save Success", message="Successfully saved transport settings.")
+        InfoMessageBox("Successfully saved transport settings.")
     except Exception as e:
         print(f"Error while saving config: {e}")
-        showinfo(title="Save Error", message="Failed to save transport settings.")
+        InfoMessageBox("Failed to save transport settings.")
 
 
 def connect(main_window: Ui_MainWindow):

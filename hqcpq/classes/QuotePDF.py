@@ -1,12 +1,12 @@
 import os
 from datetime import datetime
-from tkinter import Tk
-from tkinter.filedialog import askdirectory
-from tkinter.messagebox import showinfo, showerror
 
 from fpdf import FPDF
 
+from hqcpq.gui.classes.InfoMessageBox import InfoMessageBox
+from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
 from hqcpq.helpers.io import join_to_project_folder
+from hqcpq.helpers.general import select_directory
 
 
 class QuotePDF(FPDF):
@@ -248,9 +248,7 @@ class QuotePDF(FPDF):
     def export(self):
 
         # Dialog box requests user to select destination folder.
-        tk_root = Tk()
-        tk_root.withdraw()
-        directory_path = askdirectory()
+        directory_path = select_directory()
 
         # Return if no destination folder was selected.
         if not directory_path:
@@ -271,7 +269,7 @@ class QuotePDF(FPDF):
             self.output(full_path)
 
             # Confirmation messagebox to confirm that the Quote was exported to a pdf successfully.
-            showinfo(title="Export Success", message=f"Quote was successfully exported to path:\n\n{full_path}")
+            InfoMessageBox(f"Quote was successfully exported to path:\n\n{full_path}")
 
         except Exception as e:
-            showerror(message=str(e))
+            ErrorMessageBox(str(e))

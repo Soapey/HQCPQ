@@ -1,5 +1,8 @@
 import traceback
+import re
+import os
 from hqcpq.helpers.io import read_config
+from PyQt5.QtWidgets import QFileDialog
 
 
 def get_transport_rate_ex_gst(kilometres: int, charge_type: str):
@@ -46,3 +49,13 @@ def log_exceptions(func):
                 traceback.print_exc(file=f)
             raise e
     return wrapper
+
+
+def is_valid_email(email: str) -> bool:
+    regex = r"^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    return bool(re.match(regex, email))
+
+
+def select_directory():
+    current_dir = os.getcwd()
+    return QFileDialog.getExistingDirectory(None, "Select Directory", current_dir)

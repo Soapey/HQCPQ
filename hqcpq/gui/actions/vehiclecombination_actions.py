@@ -1,5 +1,3 @@
-from tkinter.messagebox import showinfo, showerror, askyesno
-
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import (
     QTableWidget,
@@ -10,6 +8,9 @@ from PyQt5.QtWidgets import (
 
 from hqcpq.classes.VehicleCombination import VehicleCombination
 from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.gui.classes.InfoMessageBox import InfoMessageBox
+from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
+from hqcpq.gui.classes.AskYesNoMessageBox import AskYesNoMessageBox
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.conversion import string_to_float
@@ -138,10 +139,7 @@ def delete(main_window: Ui_MainWindow):
     global vehicle_combinations
     vehicle_combination: VehicleCombination = vehicle_combinations[selected_id]
 
-    delete_confirmed: bool = askyesno(
-        title="Confirm Delete",
-        message=f"Are you sure that you would like to delete {vehicle_combination.name}?",
-    )
+    delete_confirmed: bool = AskYesNoMessageBox(f"Are you sure that you would like to delete {vehicle_combination.name}?")
 
     if not delete_confirmed:
         return
@@ -152,7 +150,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    showinfo(title="Delete Success", message=f"Successfully deleted {vehicle_combination.name}.")
+    InfoMessageBox(f"Successfully deleted {vehicle_combination.name}.")
 
 
 def save(main_window: Ui_MainWindow):
@@ -182,7 +180,7 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    showinfo(title="Save Success", message=f"Successfully saved {vehicle_combination.name}.")
+    InfoMessageBox(f"Successfully saved {vehicle_combination.name}.")
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -211,7 +209,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             error_string += f"\n- {vehicle_combination_name} already exists."
 
     if result is False:
-        showerror(title="Save Error", message=error_string)
+        ErrorMessageBox(error_string)
 
     return result
 

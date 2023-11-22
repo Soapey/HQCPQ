@@ -1,5 +1,3 @@
-from tkinter.messagebox import showinfo, showerror, askyesno
-
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 
 from hqcpq.classes.Product import Product
@@ -7,6 +5,9 @@ from hqcpq.gui.actions.productrate_actions import (
     refresh_table as refresh_product_rates_table,
     fetch_global_entities as fetch_productrate_global_entities,
 )
+from hqcpq.gui.classes.InfoMessageBox import InfoMessageBox
+from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
+from hqcpq.gui.classes.AskYesNoMessageBox import AskYesNoMessageBox
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.gui.view_enum import ViewPage
@@ -127,10 +128,7 @@ def delete(main_window: Ui_MainWindow):
     global products
     product: Product = products[selected_row_id(main_window.tblProducts)]
 
-    delete_confirmed: bool = askyesno(
-        title="Confirm Delete",
-        message=f"Are you sure that you would like to delete {product.name}?",
-    )
+    delete_confirmed: bool = AskYesNoMessageBox(f"Are you sure that you would like to delete {product.name}?")
 
     if not delete_confirmed:
         return
@@ -141,7 +139,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    showinfo(title="Delete Success", message=f"{product.name} successfully deleted.")
+    InfoMessageBox(f"{product.name} successfully deleted.")
 
 
 def save(main_window: Ui_MainWindow):
@@ -167,7 +165,7 @@ def save(main_window: Ui_MainWindow):
         ]
     )
 
-    showinfo(title="Save Success", message=f"Successfully saved {product.name}.")
+    InfoMessageBox(message=f"Successfully saved {product.name}.")
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -193,7 +191,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             error_string += f"\n- {entity_name} already exists."
 
     if result is False:
-        showerror(title="Save Error", message=error_string)
+        ErrorMessageBox(error_string)
 
     return result
 

@@ -1,5 +1,4 @@
 from datetime import datetime
-from tkinter.messagebox import showinfo, showerror, askyesno
 
 from PyQt5.QtGui import QIntValidator
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
@@ -12,11 +11,14 @@ from hqcpq.gui.actions.quoteitem_actions import (
     fetch_global_entities as fetch_quote_item_globals,
 )
 from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.gui.classes.InfoMessageBox import InfoMessageBox
+from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
+from hqcpq.gui.classes.AskYesNoMessageBox import AskYesNoMessageBox
 from hqcpq.gui.helpers import toggle_buttons, change_view, selected_row_id
 from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.comparison import can_be_date
 from hqcpq.helpers.conversion import string_to_int
-from hqcpq.helpers.general import get_transport_rate_ex_gst
+from hqcpq.helpers.general import get_transport_rate_ex_gst, is_valid_email
 
 quotes: dict[int, Quote] = dict()
 matches: dict[int, Quote] = dict()
@@ -38,6 +40,7 @@ def refresh_table(main_window: Ui_MainWindow):
         "Address",
         "Suburb",
         "Contact Number",
+        "Email",
         "Kilometres",
         "Completed",
     ]
@@ -64,8 +67,9 @@ def refresh_table(main_window: Ui_MainWindow):
         tbl.setItem(index, 4, QTableWidgetItem(quote.address))
         tbl.setItem(index, 5, QTableWidgetItem(quote.suburb))
         tbl.setItem(index, 6, QTableWidgetItem(str(quote.contact_number)))
-        tbl.setItem(index, 7, QTableWidgetItem(str(quote.kilometres)))
-        tbl.setItem(index, 8, QTableWidgetItem(str(quote.completed)))
+        tbl.setItem(index, 7, QTableWidgetItem(str(quote.email)))
+        tbl.setItem(index, 8, QTableWidgetItem(str(quote.kilometres)))
+        tbl.setItem(index, 9, QTableWidgetItem(str(quote.completed)))
 
     header: QHeaderView = tbl.horizontalHeader()
     for i in range(len(tbl_headers)):
@@ -118,6 +122,7 @@ def clear_entry_fields(main_window: Ui_MainWindow):
     main_window.txtQuote_Address.clear()
     main_window.txtQuote_Suburb.clear()
     main_window.txtQuote_ContactNumber.clear()
+    main_window.txtQuote_Email.clear()
     main_window.txtQuote_Kilometres.clear()
     main_window.chkQuote_Completed.setChecked(False)
     main_window.tblQuoteItems.clear()
@@ -160,6 +165,7 @@ def edit(main_window: Ui_MainWindow):
     main_window.txtQuote_Address.setText(quote.address)
     main_window.txtQuote_Suburb.setText(quote.suburb)
     main_window.txtQuote_ContactNumber.setText(quote.contact_number)
+    main_window.txtQuote_Email.setText(quote.email)
     main_window.txtQuote_Kilometres.setText(str(quote.kilometres))
     main_window.chkQuote_Completed.setChecked(quote.completed)
     main_window.lblQuote_DateCreated.setText(
@@ -192,10 +198,7 @@ def delete(main_window: Ui_MainWindow):
     global quotes
     quote: Quote = quotes[quote_id]
 
-    delete_confirmed: bool = askyesno(
-        title="Confirm Delete",
-        message=f"Are you sure that you would like to delete {quote.name} - {quote.address}, {quote.suburb}?",
-    )
+    delete_confirmed: bool = AskYesNoMessageBox(f"Are you sure that you would like to delete {quote.name} - {quote.address}, {quote.suburb}?")
 
     if not delete_confirmed:
         return
@@ -206,7 +209,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    showinfo(title="Delete Success", message=f"{quote.name} - {quote.address}, {quote.suburb} successfully deleted.")
+    InfoMessageBox(f"{quote.name} - {quote.address}, {quote.suburb} successfully deleted.")
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -236,12 +239,16 @@ def form_is_valid(main_window: Ui_MainWindow):
         result = False
         error_string += "\n- Suburb field cannot be blank."
 
+    if len(main_window.txtQuote_Email.text()) > 0 and is_valid_email(main_window.txtQuote_Email.text()) == False:
+        result = False
+        error_string += "\n- Email Address is not valid."
+
     if len(kilometres_text) == 0:
         result = False
         error_string += "\n- Kilometres field cannot be blank."
 
     if result is False:
-        showerror(title="Save Error", message=error_string)
+        ErrorMessageBox(error_string)
 
     return result
 
@@ -256,6 +263,7 @@ def save(main_window: Ui_MainWindow):
     quote_address: str = main_window.txtQuote_Address.text().strip()
     quote_suburb: str = main_window.txtQuote_Suburb.text().strip()
     quote_contact_number: str = main_window.txtQuote_ContactNumber.text().strip()
+    quote_email: str = main_window.txtQuote_Email.text().strip()
     quote_kilometres: int = int(main_window.txtQuote_Kilometres.text().strip())
     quote_completed: bool = main_window.chkQuote_Completed.isChecked()
 
@@ -277,6 +285,7 @@ def save(main_window: Ui_MainWindow):
         quote_address,
         quote_suburb,
         quote_contact_number,
+        quote_email,
         quote_kilometres,
         quote_completed,
     )
@@ -326,7 +335,7 @@ def save(main_window: Ui_MainWindow):
         ]
     )
 
-    showinfo(title="Save Success", message=f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.")
+    InfoMessageBox(f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.")
 
 
 def search(main_window: Ui_MainWindow, search_text: str):

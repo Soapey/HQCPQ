@@ -1,9 +1,10 @@
-from tkinter.messagebox import showinfo, showerror, askyesno
-
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 
 from hqcpq.classes.RateType import RateType
 from hqcpq.gui.components.main_window import Ui_MainWindow
+from hqcpq.gui.classes.InfoMessageBox import InfoMessageBox
+from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
+from hqcpq.gui.classes.AskYesNoMessageBox import AskYesNoMessageBox
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.conversion import string_to_int
@@ -100,10 +101,7 @@ def delete(main_window: Ui_MainWindow):
     global rate_types
     rate_type: RateType = rate_types[selected_row_id(main_window.tblRateTypes)]
 
-    delete_confirmed: bool = askyesno(
-        title="Confirm Delete",
-        message=f"Are you sure that you would like to delete {rate_type.name}?"
-    )
+    delete_confirmed: bool = AskYesNoMessageBox(f"Are you sure that you would like to delete {rate_type.name}?")
 
     if not delete_confirmed:
         return
@@ -114,7 +112,7 @@ def delete(main_window: Ui_MainWindow):
 
     refresh_table(main_window)
 
-    showinfo(title="Delete Success", message=f"{rate_type.name} successfully deleted.")
+    InfoMessageBox(f"{rate_type.name} successfully deleted.")
 
 
 def save(main_window: Ui_MainWindow):
@@ -133,7 +131,7 @@ def save(main_window: Ui_MainWindow):
 
     clear_entry_fields(main_window)
 
-    showinfo(title="Save Success", message=f"Successfully saved {rate_type.name}.")
+    InfoMessageBox(f"Successfully saved {rate_type.name}.")
 
 
 def form_is_valid(main_window: Ui_MainWindow):
@@ -161,7 +159,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             error_string += f"\n- {entity_name} already exists."
 
     if result is False:
-        showerror(title="Save Error", message=error_string)
+        ErrorMessageBox(error_string)
 
     return result
 

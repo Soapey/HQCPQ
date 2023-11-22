@@ -1,5 +1,4 @@
 import sys
-from tkinter import Tk
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
@@ -35,8 +34,6 @@ def main():
     app = QApplication(sys.argv)
 
     main_window_root = QMainWindow()
-    tk_root = Tk()
-    tk_root.withdraw()
 
     main_window = Ui_MainWindow()
     main_window.setupUi(main_window_root)
