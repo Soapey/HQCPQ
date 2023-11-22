@@ -229,204 +229,30 @@ font-size: 10pt;</string>
       </widget>
       <widget class="QWidget" name="pageQuoteEntry">
        <layout class="QGridLayout" name="gridLayout_9">
-        <item row="7" column="0">
-         <widget class="QLabel" name="lblQuote_ContactNumber">
+        <item row="5" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_Address">
           <property name="styleSheet">
-           <string notr="true">font-family: &quot;Helvetica&quot;;
-font-weight: 700;
-font-size: 10pt;</string>
-          </property>
-          <property name="text">
-           <string>Contact Number</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="lblQuote_Suburb">
-          <property name="styleSheet">
-           <string notr="true">font-family: &quot;Helvetica&quot;;
-font-weight: 700;
-font-size: 10pt;</string>
-          </property>
-          <property name="text">
-           <string>Suburb</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="19" column="1">
-         <widget class="QPushButton" name="btnEditQuoteItem">
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: #f77f00;
-border: 1px solid rgba(27, 31, 35, .15);
+           <string notr="true">border: 1px solid #003049;
 border-radius: 6px;
-color: #fff;
 font-family: &quot;Helvetica&quot;;
-font-size: 14px;
-font-weight: 600;
-line-height: 20px;
-padding: 6px 16px;
-position: relative;
-text-align: center;
-text-decoration: none;
-vertical-align: middle;
-white-space: nowrap;</string>
+font-size: 10pt;
+padding: 5px;</string>
           </property>
-          <property name="text">
-           <string>Edit Quote Item</string>
+          <property name="maxLength">
+           <number>100</number>
           </property>
          </widget>
         </item>
-        <item row="13" column="0">
-         <widget class="QLabel" name="lblQuote_TransportTotalExGST_Label">
-          <property name="font">
-           <font>
-            <family>Helvetica</family>
-            <pointsize>10</pointsize>
-            <weight>37</weight>
-            <bold>false</bold>
-           </font>
-          </property>
+        <item row="2" column="1" colspan="2">
+         <widget class="QLabel" name="lblQuote_DateCreated">
           <property name="styleSheet">
-           <string notr="true">color: #6c757d;
-font-family: &quot;Helvetica&quot;;
-font-weight: 300;
-font-size: 10pt</string>
-          </property>
-          <property name="text">
-           <string>Transport Total ex. GST</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="16" column="0">
-         <widget class="QPushButton" name="btnSaveQuote">
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: #2ea44f;
-border: 1px solid rgba(27, 31, 35, .15);
+           <string notr="true">background-color: rgb(215, 215, 215);
 border-radius: 6px;
-color: #fff;
 font-family: &quot;Helvetica&quot;;
-font-size: 14px;
-font-weight: 600;
-line-height: 20px;
-padding: 6px 16px;
-position: relative;
-text-align: center;
-text-decoration: none;
-vertical-align: middle;
-white-space: nowrap;</string>
+padding: 5px;</string>
           </property>
           <property name="text">
-           <string>Save Quote</string>
-          </property>
-         </widget>
-        </item>
-        <item row="16" column="1">
-         <widget class="QPushButton" name="btnExportQuote_Entry">
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: #2a9d8f;
-border: 1px solid rgba(27, 31, 35, .15);
-border-radius: 6px;
-color: #fff;
-font-family: &quot;Helvetica&quot;;
-font-size: 14px;
-font-weight: 600;
-line-height: 20px;
-padding: 6px 16px;
-position: relative;
-text-align: center;
-text-decoration: none;
-vertical-align: middle;
-white-space: nowrap;</string>
-          </property>
-          <property name="text">
-           <string>Export Quote</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="lblQuote_Name">
-          <property name="styleSheet">
-           <string notr="true">font-family: &quot;Helvetica&quot;;
-font-weight: 700;
-font-size: 10pt;</string>
-          </property>
-          <property name="text">
-           <string>Customer Name</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="lblQuote_Address">
-          <property name="styleSheet">
-           <string notr="true">font-family: &quot;Helvetica&quot;;
-font-weight: 700;
-font-size: 10pt;</string>
-          </property>
-          <property name="text">
-           <string>Address</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="14" column="0">
-         <widget class="QLabel" name="lblQuote_TotalExGST_Label">
-          <property name="font">
-           <font>
-            <family>Helvetica</family>
-            <pointsize>10</pointsize>
-            <weight>37</weight>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: #6c757d;
-font-family: &quot;Helvetica&quot;;
-font-weight: 300;
-font-size: 10pt</string>
-          </property>
-          <property name="text">
-           <string>Total ex. GST</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="lblQuote_DateRequired">
-          <property name="styleSheet">
-           <string notr="true">font-family: &quot;Helvetica&quot;;
-font-weight: 700;
-font-size: 10pt;</string>
-          </property>
-          <property name="text">
-           <string>Date Required</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           <string/>
           </property>
          </widget>
         </item>
@@ -454,133 +280,59 @@ font-size: 10pt</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="lblQuote_DateCreated_Label">
-          <property name="font">
-           <font>
-            <family>Helvetica</family>
-            <pointsize>10</pointsize>
-            <weight>37</weight>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: #6c757d;
-font-family: &quot;Helvetica&quot;;
-font-weight: 300;
-font-size: 10pt</string>
-          </property>
-          <property name="text">
-           <string>Date Created</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="1">
-         <widget class="QCheckBox" name="chkQuote_Completed">
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
+        <item row="9" column="0">
+         <widget class="QLabel" name="lblQuote_Email">
           <property name="styleSheet">
            <string notr="true">font-family: &quot;Helvetica&quot;;
 font-weight: 700;
 font-size: 10pt;</string>
           </property>
           <property name="text">
-           <string>Is Complete</string>
-          </property>
-          <property name="tristate">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="19" column="0">
-         <widget class="QPushButton" name="btnNewQuoteItem">
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: #4361ee;
-border: 1px solid rgba(27, 31, 35, .15);
-border-radius: 6px;
-color: #fff;
-font-family: &quot;Helvetica&quot;;
-font-size: 14px;
-font-weight: 600;
-line-height: 20px;
-padding: 6px 16px;
-position: relative;
-text-align: center;
-text-decoration: none;
-vertical-align: middle;
-white-space: nowrap;</string>
-          </property>
-          <property name="text">
-           <string>New Quote Item</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="0">
-         <widget class="QLabel" name="lblQuote_Kilometres">
-          <property name="styleSheet">
-           <string notr="true">font-family: &quot;Helvetica&quot;;
-font-weight: 700;
-font-size: 10pt;</string>
-          </property>
-          <property name="text">
-           <string>Kilometres</string>
+           <string>Email</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
-        <item row="19" column="2">
-         <widget class="QPushButton" name="btnDeleteQuoteItem">
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
+        <item row="10" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_Kilometres">
           <property name="styleSheet">
-           <string notr="true">background-color: #d62828;
-border: 1px solid rgba(27, 31, 35, .15);
+           <string notr="true">border: 1px solid #003049;
 border-radius: 6px;
-color: #fff;
 font-family: &quot;Helvetica&quot;;
-font-size: 14px;
-font-weight: 600;
-line-height: 20px;
-padding: 6px 16px;
-position: relative;
-text-align: center;
-text-decoration: none;
-vertical-align: middle;
-white-space: nowrap;</string>
+font-size: 10pt;
+padding: 5px;</string>
           </property>
-          <property name="text">
-           <string>Delete Quote Item</string>
+          <property name="placeholderText">
+           <string>(0-9999)</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="lblQuoteId_Label">
-          <property name="font">
-           <font>
-            <family>Helvetica</family>
-            <pointsize>10</pointsize>
-            <weight>37</weight>
-            <bold>false</bold>
-           </font>
-          </property>
+        <item row="5" column="0">
+         <widget class="QLabel" name="lblQuote_Address">
           <property name="styleSheet">
-           <string notr="true">color: #6c757d;
-font-family: &quot;Helvetica&quot;;
-font-weight: 300;
-font-size: 10pt</string>
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
           </property>
           <property name="text">
-           <string>Id</string>
+           <string>Address</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lblQuote_Name">
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Customer Name</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -611,133 +363,8 @@ font-size: 10pt</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="0">
-         <widget class="QLabel" name="lblQuote_Email">
-          <property name="styleSheet">
-           <string notr="true">font-family: &quot;Helvetica&quot;;
-font-weight: 700;
-font-size: 10pt;</string>
-          </property>
-          <property name="text">
-           <string>Email</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="18" column="0" colspan="3">
-         <widget class="QTableWidget" name="tblQuoteItems">
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid #003049;
-font-family: &quot;Helvetica&quot;;
-font-size: 10pt;</string>
-          </property>
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
-          </property>
-          <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
-          </property>
-          <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="verticalHeaderStretchLastSection">
-           <bool>false</bool>
-          </attribute>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="3">
-         <widget class="QLabel" name="lblQuoteEntry_Header">
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid rgba(27, 31, 35, .15);
-border-radius: 6px;
-background-color: #003049;
-color: #ffffff;
-font-size: 20pt;
-font-family: &quot;Helvetica&quot;;
-font-style: normal;
-font-weight: 700;
-padding: 6px;</string>
-          </property>
-          <property name="text">
-           <string>Quote Entry/Edit</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="1" colspan="2">
-         <widget class="QLineEdit" name="txtQuote_Kilometres">
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid #003049;
-border-radius: 6px;
-font-family: &quot;Helvetica&quot;;
-font-size: 10pt;
-padding: 5px;</string>
-          </property>
-          <property name="placeholderText">
-           <string>(0-9999)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1" colspan="2">
-         <widget class="QLineEdit" name="txtQuote_Email">
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid #003049;
-border-radius: 6px;
-font-family: &quot;Helvetica&quot;;
-font-size: 10pt;
-padding: 5px;</string>
-          </property>
-          <property name="maxLength">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1" colspan="2">
-         <widget class="QLineEdit" name="txtQuote_ContactNumber">
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid #003049;
-border-radius: 6px;
-font-family: &quot;Helvetica&quot;;
-font-size: 10pt;
-padding: 5px;</string>
-          </property>
-          <property name="maxLength">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
         <item row="6" column="1" colspan="2">
          <widget class="QLineEdit" name="txtQuote_Suburb">
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid #003049;
-border-radius: 6px;
-font-family: &quot;Helvetica&quot;;
-font-size: 10pt;
-padding: 5px;</string>
-          </property>
-          <property name="maxLength">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1" colspan="2">
-         <widget class="QLineEdit" name="txtQuote_Address">
           <property name="styleSheet">
            <string notr="true">border: 1px solid #003049;
 border-radius: 6px;
@@ -764,6 +391,234 @@ padding: 5px;</string>
           </property>
          </widget>
         </item>
+        <item row="16" column="0">
+         <widget class="QPushButton" name="btnSaveQuote">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #2ea44f;
+border: 1px solid rgba(27, 31, 35, .15);
+border-radius: 6px;
+color: #fff;
+font-family: &quot;Helvetica&quot;;
+font-size: 14px;
+font-weight: 600;
+line-height: 20px;
+padding: 6px 16px;
+position: relative;
+text-align: center;
+text-decoration: none;
+vertical-align: middle;
+white-space: nowrap;</string>
+          </property>
+          <property name="text">
+           <string>Save Quote</string>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="0">
+         <widget class="QLabel" name="lblQuote_TotalExGST_Label">
+          <property name="font">
+           <font>
+            <family>Helvetica</family>
+            <pointsize>10</pointsize>
+            <weight>37</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: #6c757d;
+font-family: &quot;Helvetica&quot;;
+font-weight: 300;
+font-size: 10pt</string>
+          </property>
+          <property name="text">
+           <string>Total ex. GST</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0">
+         <widget class="QLabel" name="lblQuote_Kilometres">
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Kilometres</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="lblQuote_DateRequired">
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Date Required</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_ContactNumber">
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #003049;
+border-radius: 6px;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;
+padding: 5px;</string>
+          </property>
+          <property name="maxLength">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="lblQuote_ContactNumber">
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Contact Number</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lblQuote_DateCreated_Label">
+          <property name="font">
+           <font>
+            <family>Helvetica</family>
+            <pointsize>10</pointsize>
+            <weight>37</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: #6c757d;
+font-family: &quot;Helvetica&quot;;
+font-weight: 300;
+font-size: 10pt</string>
+          </property>
+          <property name="text">
+           <string>Date Created</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="lblQuote_Suburb">
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Suburb</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="15" column="1" colspan="2">
+         <widget class="QLabel" name="lblQuote_TotalIncGST">
+          <property name="font">
+           <font>
+            <family>Helvetica</family>
+            <pointsize>10</pointsize>
+            <weight>87</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #cfe1b9;
+border-radius: 6px;
+color: #283618;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;
+font-weight: 700;
+padding: 5px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="1">
+         <widget class="QCheckBox" name="chkQuote_Completed">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Is Complete</string>
+          </property>
+          <property name="tristate">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_Email">
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #003049;
+border-radius: 6px;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;
+padding: 5px;</string>
+          </property>
+          <property name="maxLength">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="0">
+         <widget class="QLabel" name="lblQuote_TransportTotalExGST_Label">
+          <property name="font">
+           <font>
+            <family>Helvetica</family>
+            <pointsize>10</pointsize>
+            <weight>37</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: #6c757d;
+font-family: &quot;Helvetica&quot;;
+font-weight: 300;
+font-size: 10pt</string>
+          </property>
+          <property name="text">
+           <string>Transport Total ex. GST</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
         <item row="3" column="1" colspan="2">
          <widget class="QLineEdit" name="txtQuote_DateRequired">
           <property name="styleSheet">
@@ -781,29 +636,27 @@ padding: 5px;</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1" colspan="2">
-         <widget class="QLabel" name="lblQuote_DateCreated">
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblQuoteId_Label">
+          <property name="font">
+           <font>
+            <family>Helvetica</family>
+            <pointsize>10</pointsize>
+            <weight>37</weight>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(215, 215, 215);
-border-radius: 6px;
+           <string notr="true">color: #6c757d;
 font-family: &quot;Helvetica&quot;;
-padding: 5px;</string>
+font-weight: 300;
+font-size: 10pt</string>
           </property>
           <property name="text">
-           <string/>
+           <string>Id</string>
           </property>
-         </widget>
-        </item>
-        <item row="1" column="1" colspan="2">
-         <widget class="QLabel" name="lblQuoteId">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(215, 215, 215);
-border-radius: 6px;
-font-family: &quot;Helvetica&quot;;
-padding: 5px;</string>
-          </property>
-          <property name="text">
-           <string/>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -867,23 +720,64 @@ padding: 5px;</string>
           </property>
          </widget>
         </item>
-        <item row="15" column="1" colspan="2">
-         <widget class="QLabel" name="lblQuote_TotalIncGST">
-          <property name="font">
-           <font>
-            <family>Helvetica</family>
-            <pointsize>10</pointsize>
-            <weight>87</weight>
-            <bold>true</bold>
-           </font>
+        <item row="19" column="0">
+         <widget class="QPushButton" name="btnNewQuoteItem">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: #cfe1b9;
+           <string notr="true">background-color: #4361ee;
+border: 1px solid rgba(27, 31, 35, .15);
 border-radius: 6px;
-color: #283618;
+color: #fff;
 font-family: &quot;Helvetica&quot;;
-font-size: 10pt;
-font-weight: 700;
+font-size: 14px;
+font-weight: 600;
+line-height: 20px;
+padding: 6px 16px;
+position: relative;
+text-align: center;
+text-decoration: none;
+vertical-align: middle;
+white-space: nowrap;</string>
+          </property>
+          <property name="text">
+           <string>New Quote Item</string>
+          </property>
+         </widget>
+        </item>
+        <item row="19" column="1">
+         <widget class="QPushButton" name="btnEditQuoteItem">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #f77f00;
+border: 1px solid rgba(27, 31, 35, .15);
+border-radius: 6px;
+color: #fff;
+font-family: &quot;Helvetica&quot;;
+font-size: 14px;
+font-weight: 600;
+line-height: 20px;
+padding: 6px 16px;
+position: relative;
+text-align: center;
+text-decoration: none;
+vertical-align: middle;
+white-space: nowrap;</string>
+          </property>
+          <property name="text">
+           <string>Edit Quote Item</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QLabel" name="lblQuoteId">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(215, 215, 215);
+border-radius: 6px;
+font-family: &quot;Helvetica&quot;;
 padding: 5px;</string>
           </property>
           <property name="text">
@@ -891,7 +785,59 @@ padding: 5px;</string>
           </property>
          </widget>
         </item>
-        <item row="17" column="0" colspan="3">
+        <item row="16" column="1">
+         <widget class="QPushButton" name="btnExportQuote_Entry">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #2a9d8f;
+border: 1px solid rgba(27, 31, 35, .15);
+border-radius: 6px;
+color: #fff;
+font-family: &quot;Helvetica&quot;;
+font-size: 14px;
+font-weight: 600;
+line-height: 20px;
+padding: 6px 16px;
+position: relative;
+text-align: center;
+text-decoration: none;
+vertical-align: middle;
+white-space: nowrap;</string>
+          </property>
+          <property name="text">
+           <string>Export Quote</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="lblQuote_Memo">
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Memo</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3" rowspan="15">
+         <widget class="QPlainTextEdit" name="txtQuote_Memo">
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #003049;
+border-radius: 6px;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;
+padding: 5px;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="17" column="0" colspan="4">
          <widget class="QLabel" name="lblQuoteItem_Header">
           <property name="styleSheet">
            <string notr="true">border: 1px solid rgba(27, 31, 35, .15);
@@ -911,6 +857,112 @@ padding: 6px;</string>
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
+        </item>
+        <item row="18" column="0" colspan="4">
+         <widget class="QTableWidget" name="tblQuoteItems">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #003049;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;</string>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+         </widget>
+        </item>
+        <item row="19" column="3">
+         <widget class="QPushButton" name="btnDeleteQuoteItem">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #d62828;
+border: 1px solid rgba(27, 31, 35, .15);
+border-radius: 6px;
+color: #fff;
+font-family: &quot;Helvetica&quot;;
+font-size: 14px;
+font-weight: 600;
+line-height: 20px;
+padding: 6px 16px;
+position: relative;
+text-align: center;
+text-decoration: none;
+vertical-align: middle;
+white-space: nowrap;</string>
+          </property>
+          <property name="text">
+           <string>Delete Quote Item</string>
+          </property>
+         </widget>
+        </item>
+        <item row="19" column="2">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="0" colspan="4">
+         <widget class="QLabel" name="lblQuoteEntry_Header">
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid rgba(27, 31, 35, .15);
+border-radius: 6px;
+background-color: #003049;
+color: #ffffff;
+font-size: 20pt;
+font-family: &quot;Helvetica&quot;;
+font-style: normal;
+font-weight: 700;
+padding: 6px;</string>
+          </property>
+          <property name="text">
+           <string>Quote Entry/Edit</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="16" column="2">
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
        <zorder>tblQuoteItems</zorder>
@@ -942,12 +994,16 @@ padding: 6px;</string>
        <zorder>lblQuote_TotalIncGST</zorder>
        <zorder>btnNewQuoteItem</zorder>
        <zorder>btnEditQuoteItem</zorder>
-       <zorder>btnDeleteQuoteItem</zorder>
        <zorder>btnSaveQuote</zorder>
        <zorder>btnExportQuote_Entry</zorder>
        <zorder>chkQuote_Completed</zorder>
        <zorder>txtQuote_Email</zorder>
        <zorder>lblQuote_Email</zorder>
+       <zorder>lblQuote_Memo</zorder>
+       <zorder>txtQuote_Memo</zorder>
+       <zorder>btnDeleteQuoteItem</zorder>
+       <zorder>horizontalSpacer</zorder>
+       <zorder>horizontalSpacer_2</zorder>
       </widget>
       <widget class="QWidget" name="pageQuoteItemEntry">
        <layout class="QGridLayout" name="gridLayout_7">
