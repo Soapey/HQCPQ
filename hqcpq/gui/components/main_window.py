@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main_window.ui'
+# Form implementation generated from reading ui file 'ui_files/main_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         MainWindow.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../hqcpq.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("ui_files\\../../../hqcpq.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -185,13 +185,6 @@ class Ui_MainWindow(object):
         self.lblQuote_ProductTotalExGst_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblQuote_ProductTotalExGst_Label.setObjectName("lblQuote_ProductTotalExGst_Label")
         self.gridLayout_9.addWidget(self.lblQuote_ProductTotalExGst_Label, 12, 0, 1, 1)
-        self.lblQuote_Email = QtWidgets.QLabel(self.pageQuoteEntry)
-        self.lblQuote_Email.setStyleSheet("font-family: \"Helvetica\";\n"
-"font-weight: 700;\n"
-"font-size: 10pt;")
-        self.lblQuote_Email.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_Email.setObjectName("lblQuote_Email")
-        self.gridLayout_9.addWidget(self.lblQuote_Email, 9, 0, 1, 1)
         self.txtQuote_Kilometres = QtWidgets.QLineEdit(self.pageQuoteEntry)
         self.txtQuote_Kilometres.setStyleSheet("border: 1px solid #003049;\n"
 "border-radius: 6px;\n"
@@ -354,15 +347,6 @@ class Ui_MainWindow(object):
         self.chkQuote_Completed.setTristate(False)
         self.chkQuote_Completed.setObjectName("chkQuote_Completed")
         self.gridLayout_9.addWidget(self.chkQuote_Completed, 11, 1, 1, 1)
-        self.txtQuote_Email = QtWidgets.QLineEdit(self.pageQuoteEntry)
-        self.txtQuote_Email.setStyleSheet("border: 1px solid #003049;\n"
-"border-radius: 6px;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;\n"
-"padding: 5px;")
-        self.txtQuote_Email.setMaxLength(100)
-        self.txtQuote_Email.setObjectName("txtQuote_Email")
-        self.gridLayout_9.addWidget(self.txtQuote_Email, 9, 1, 1, 2)
         self.lblQuote_TransportTotalExGST_Label = QtWidgets.QLabel(self.pageQuoteEntry)
         font = QtGui.QFont()
         font.setFamily("Helvetica")
@@ -579,6 +563,22 @@ class Ui_MainWindow(object):
         self.gridLayout_9.addWidget(self.lblQuoteEntry_Header, 0, 0, 1, 4)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_9.addItem(spacerItem1, 16, 2, 1, 1)
+        self.lblQuote_Email = QtWidgets.QLabel(self.pageQuoteEntry)
+        self.lblQuote_Email.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblQuote_Email.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_Email.setObjectName("lblQuote_Email")
+        self.gridLayout_9.addWidget(self.lblQuote_Email, 8, 0, 1, 1)
+        self.txtQuote_Email = QtWidgets.QLineEdit(self.pageQuoteEntry)
+        self.txtQuote_Email.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtQuote_Email.setMaxLength(100)
+        self.txtQuote_Email.setObjectName("txtQuote_Email")
+        self.gridLayout_9.addWidget(self.txtQuote_Email, 8, 1, 1, 2)
         self.tblQuoteItems.raise_()
         self.txtQuote_ContactNumber.raise_()
         self.txtQuote_Suburb.raise_()
@@ -611,11 +611,11 @@ class Ui_MainWindow(object):
         self.btnSaveQuote.raise_()
         self.btnExportQuote_Entry.raise_()
         self.chkQuote_Completed.raise_()
-        self.txtQuote_Email.raise_()
-        self.lblQuote_Email.raise_()
         self.lblQuote_Memo.raise_()
         self.txtQuote_Memo.raise_()
         self.btnDeleteQuoteItem.raise_()
+        self.txtQuote_Email.raise_()
+        self.lblQuote_Email.raise_()
         self.swPages.addWidget(self.pageQuoteEntry)
         self.pageQuoteItemEntry = QtWidgets.QWidget()
         self.pageQuoteItemEntry.setObjectName("pageQuoteItemEntry")
@@ -1653,20 +1653,21 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.txtQuote_Name, self.txtQuote_Address)
         MainWindow.setTabOrder(self.txtQuote_Address, self.txtQuote_Suburb)
         MainWindow.setTabOrder(self.txtQuote_Suburb, self.txtQuote_ContactNumber)
-        MainWindow.setTabOrder(self.txtQuote_ContactNumber, self.txtQuote_Kilometres)
-        MainWindow.setTabOrder(self.txtQuote_Kilometres, self.txtQuoteItem_TransportRate)
-        MainWindow.setTabOrder(self.txtQuoteItem_TransportRate, self.txtQuoteItem_Tonnes)
-        MainWindow.setTabOrder(self.txtQuoteItem_Tonnes, self.txtQuoteItem_ProductRate)
-        MainWindow.setTabOrder(self.txtQuoteItem_ProductRate, self.txtProductName)
-        MainWindow.setTabOrder(self.txtProductName, self.cmbProductRate_RateType)
-        MainWindow.setTabOrder(self.cmbProductRate_RateType, self.txtProductRate_Rate)
-        MainWindow.setTabOrder(self.txtProductRate_Rate, self.txtRateType_Name)
-        MainWindow.setTabOrder(self.txtRateType_Name, self.txtVehicleCombination_Name)
-        MainWindow.setTabOrder(self.txtVehicleCombination_Name, self.txtVehicleCombination_Net)
-        MainWindow.setTabOrder(self.txtVehicleCombination_Net, self.cmbVehicleCombination_ChargeType)
-        MainWindow.setTabOrder(self.cmbVehicleCombination_ChargeType, self.tblRateTypes)
-        MainWindow.setTabOrder(self.tblRateTypes, self.tblProductRates)
-        MainWindow.setTabOrder(self.tblProductRates, self.tblVehicleCombinations)
+        MainWindow.setTabOrder(self.txtQuote_ContactNumber, self.txtQuote_Email)
+        MainWindow.setTabOrder(self.txtQuote_Email, self.txtQuote_Kilometres)
+        MainWindow.setTabOrder(self.txtQuote_Kilometres, self.txtQuote_Memo)
+        MainWindow.setTabOrder(self.txtQuote_Memo, self.txtProductRate_Rate)
+        MainWindow.setTabOrder(self.txtProductRate_Rate, self.cmbProductRate_RateType)
+        MainWindow.setTabOrder(self.cmbProductRate_RateType, self.txtVehicleCombination_Name)
+        MainWindow.setTabOrder(self.txtVehicleCombination_Name, self.txtQuoteItem_ProductRate)
+        MainWindow.setTabOrder(self.txtQuoteItem_ProductRate, self.cmbVehicleCombination_ChargeType)
+        MainWindow.setTabOrder(self.cmbVehicleCombination_ChargeType, self.txtRateType_Name)
+        MainWindow.setTabOrder(self.txtRateType_Name, self.txtQuoteItem_TransportRate)
+        MainWindow.setTabOrder(self.txtQuoteItem_TransportRate, self.txtProductName)
+        MainWindow.setTabOrder(self.txtProductName, self.txtQuoteItem_Tonnes)
+        MainWindow.setTabOrder(self.txtQuoteItem_Tonnes, self.tblTransportSettings)
+        MainWindow.setTabOrder(self.tblTransportSettings, self.btnSaveTransportSettings)
+        MainWindow.setTabOrder(self.btnSaveTransportSettings, self.txtVehicleCombination_Net)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -1679,7 +1680,6 @@ class Ui_MainWindow(object):
         self.txtQuoteSearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.tblQuotes.setSortingEnabled(True)
         self.lblQuote_ProductTotalExGst_Label.setText(_translate("MainWindow", "Product Total ex. GST"))
-        self.lblQuote_Email.setText(_translate("MainWindow", "Email"))
         self.txtQuote_Kilometres.setPlaceholderText(_translate("MainWindow", "(0-9999)"))
         self.lblQuote_Address.setText(_translate("MainWindow", "Address"))
         self.lblQuote_Name.setText(_translate("MainWindow", "Customer Name"))
@@ -1703,6 +1703,7 @@ class Ui_MainWindow(object):
         self.tblQuoteItems.setSortingEnabled(True)
         self.btnDeleteQuoteItem.setText(_translate("MainWindow", "Delete Quote Item"))
         self.lblQuoteEntry_Header.setText(_translate("MainWindow", "Quote Entry/Edit"))
+        self.lblQuote_Email.setText(_translate("MainWindow", "Email"))
         self.lblQuoteItemId_Label.setText(_translate("MainWindow", "Id"))
         self.lblQuoteItemEntry_Header.setText(_translate("MainWindow", "Quote Item Entry/Edit"))
         self.lblQuoteItem_ProductRate.setText(_translate("MainWindow", "Rate Type"))

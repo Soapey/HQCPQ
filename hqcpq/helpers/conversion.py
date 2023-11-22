@@ -28,7 +28,7 @@ def string_to_float(value: str) -> float:
     return float(value) if can_be_float(value) else None
 
 
-def string_to_date(date_str: str, formats: list[str] = None) -> datetime.date:
+def string_to_datetime(date_str: str, formats: list[str] = None) -> datetime:
     """
     Converts a string to a date if possible.
 
@@ -44,7 +44,7 @@ def string_to_date(date_str: str, formats: list[str] = None) -> datetime.date:
 
     for fmt in formats:
         try:
-            date = datetime.strptime(date_str, fmt).date()
+            date = datetime.strptime(date_str, fmt)
             return date
         except ValueError:
             pass

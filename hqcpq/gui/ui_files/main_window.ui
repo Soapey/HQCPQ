@@ -280,21 +280,6 @@ font-size: 10pt</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="0">
-         <widget class="QLabel" name="lblQuote_Email">
-          <property name="styleSheet">
-           <string notr="true">font-family: &quot;Helvetica&quot;;
-font-weight: 700;
-font-size: 10pt;</string>
-          </property>
-          <property name="text">
-           <string>Email</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
         <item row="10" column="1" colspan="2">
          <widget class="QLineEdit" name="txtQuote_Kilometres">
           <property name="styleSheet">
@@ -578,20 +563,6 @@ font-size: 10pt;</string>
           </property>
           <property name="tristate">
            <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1" colspan="2">
-         <widget class="QLineEdit" name="txtQuote_Email">
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid #003049;
-border-radius: 6px;
-font-family: &quot;Helvetica&quot;;
-font-size: 10pt;
-padding: 5px;</string>
-          </property>
-          <property name="maxLength">
-           <number>100</number>
           </property>
          </widget>
         </item>
@@ -964,6 +935,35 @@ padding: 6px;</string>
           </property>
          </spacer>
         </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="lblQuote_Email">
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Email</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtQuote_Email">
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #003049;
+border-radius: 6px;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;
+padding: 5px;</string>
+          </property>
+          <property name="maxLength">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
        </layout>
        <zorder>tblQuoteItems</zorder>
        <zorder>txtQuote_ContactNumber</zorder>
@@ -997,13 +997,13 @@ padding: 6px;</string>
        <zorder>btnSaveQuote</zorder>
        <zorder>btnExportQuote_Entry</zorder>
        <zorder>chkQuote_Completed</zorder>
-       <zorder>txtQuote_Email</zorder>
-       <zorder>lblQuote_Email</zorder>
        <zorder>lblQuote_Memo</zorder>
        <zorder>txtQuote_Memo</zorder>
        <zorder>btnDeleteQuoteItem</zorder>
        <zorder>horizontalSpacer</zorder>
        <zorder>horizontalSpacer_2</zorder>
+       <zorder>txtQuote_Email</zorder>
+       <zorder>lblQuote_Email</zorder>
       </widget>
       <widget class="QWidget" name="pageQuoteItemEntry">
        <layout class="QGridLayout" name="gridLayout_7">
@@ -2738,20 +2738,21 @@ white-space: nowrap;</string>
   <tabstop>txtQuote_Address</tabstop>
   <tabstop>txtQuote_Suburb</tabstop>
   <tabstop>txtQuote_ContactNumber</tabstop>
+  <tabstop>txtQuote_Email</tabstop>
   <tabstop>txtQuote_Kilometres</tabstop>
-  <tabstop>txtQuoteItem_TransportRate</tabstop>
-  <tabstop>txtQuoteItem_Tonnes</tabstop>
-  <tabstop>txtQuoteItem_ProductRate</tabstop>
-  <tabstop>txtProductName</tabstop>
-  <tabstop>cmbProductRate_RateType</tabstop>
+  <tabstop>txtQuote_Memo</tabstop>
   <tabstop>txtProductRate_Rate</tabstop>
-  <tabstop>txtRateType_Name</tabstop>
+  <tabstop>cmbProductRate_RateType</tabstop>
   <tabstop>txtVehicleCombination_Name</tabstop>
-  <tabstop>txtVehicleCombination_Net</tabstop>
+  <tabstop>txtQuoteItem_ProductRate</tabstop>
   <tabstop>cmbVehicleCombination_ChargeType</tabstop>
-  <tabstop>tblRateTypes</tabstop>
-  <tabstop>tblProductRates</tabstop>
-  <tabstop>tblVehicleCombinations</tabstop>
+  <tabstop>txtRateType_Name</tabstop>
+  <tabstop>txtQuoteItem_TransportRate</tabstop>
+  <tabstop>txtProductName</tabstop>
+  <tabstop>txtQuoteItem_Tonnes</tabstop>
+  <tabstop>tblTransportSettings</tabstop>
+  <tabstop>btnSaveTransportSettings</tabstop>
+  <tabstop>txtVehicleCombination_Net</tabstop>
  </tabstops>
  <resources/>
  <connections/>

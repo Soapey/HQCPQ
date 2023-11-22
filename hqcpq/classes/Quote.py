@@ -15,6 +15,7 @@ class Quote:
         suburb: str,
         contact_number: str,
         email: str,
+        memo: str,
         kilometres: int,
         completed: bool,
     ):
@@ -26,6 +27,7 @@ class Quote:
         self.suburb = suburb
         self.contact_number = contact_number
         self.email = email
+        self.memo = memo
         self.kilometres = kilometres
         self.completed = completed
 
@@ -52,8 +54,8 @@ class Quote:
         )
 
     def insert(self):
-        query = ("INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number, email, "
-                 "kilometres, completed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+        query = ("INSERT INTO quote (date_created, date_required, name, address, suburb, contact_number, email, memo, "
+                 "kilometres, completed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
         with SQLiteConnection() as cur:
             cur.execute(query, (
                 self.date_created.date(),
@@ -63,6 +65,7 @@ class Quote:
                 self.suburb,
                 self.contact_number,
                 self.email,
+                self.memo,
                 self.kilometres,
                 int(self.completed)
             ))
@@ -71,7 +74,7 @@ class Quote:
 
     def update(self):
         query = "UPDATE quote SET date_created = ?, date_required = ?, name = ?, address = ?, suburb = ?, " \
-                "contact_number = ?, email = ?, kilometres = ?, completed = ? WHERE id = ?"
+                "contact_number = ?, email = ?, memo = ?, kilometres = ?, completed = ? WHERE id = ?"
         with SQLiteConnection() as cur:
             cur.execute(query, (
                 self.date_created.date(),
@@ -81,6 +84,7 @@ class Quote:
                 self.suburb,
                 self.contact_number,
                 self.email,
+                self.memo,
                 self.kilometres,
                 int(self.completed),
                 self.id
@@ -109,8 +113,9 @@ class Quote:
                     suburb=row[5],
                     contact_number=row[6],
                     email=row[7],
-                    kilometres=row[8],
-                    completed=bool(row[9])
+                    memo=row[8],
+                    kilometres=row[9],
+                    completed=bool(row[10])
                 )
         return None
 
@@ -130,7 +135,8 @@ class Quote:
                     suburb=row[5],
                     contact_number=row[6],
                     email=row[7],
-                    kilometres=row[8],
-                    completed=bool(row[9]))
+                    memo=row[8],
+                    kilometres=row[9],
+                    completed=bool(row[10]))
                 for row in rows
             }

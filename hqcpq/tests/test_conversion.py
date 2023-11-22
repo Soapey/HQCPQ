@@ -21,12 +21,12 @@ class TestStringToFloat(unittest.TestCase):
 
 class TestStringToDate(unittest.TestCase):
     def test_string_to_date(self):
-        self.assertEqual(datetime.datetime(1999, 10, 1).date(), conversion.string_to_date('1/10/1999'))
-        self.assertEqual(datetime.datetime(1999, 10, 1).date(), conversion.string_to_date('01/10/1999'))
-        self.assertEqual(datetime.datetime(1999, 10, 1).date(), conversion.string_to_date('1/10/99'))
-        self.assertEqual(None, conversion.string_to_date('a'))
-        self.assertEqual(None, conversion.string_to_date('!'))
-        self.assertEqual(None, conversion.string_to_date('0'))
+        self.assertEqual(datetime.datetime(1999, 10, 1).date(), conversion.string_to_datetime('1/10/1999'))
+        self.assertEqual(datetime.datetime(1999, 10, 1).date(), conversion.string_to_datetime('01/10/1999'))
+        self.assertEqual(datetime.datetime(1999, 10, 1).date(), conversion.string_to_datetime('1/10/99'))
+        self.assertEqual(None, conversion.string_to_datetime('a'))
+        self.assertEqual(None, conversion.string_to_datetime('!'))
+        self.assertEqual(None, conversion.string_to_datetime('0'))
 
 
 if __name__ == '__main__':

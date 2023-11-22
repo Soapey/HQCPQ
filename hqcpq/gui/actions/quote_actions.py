@@ -17,7 +17,7 @@ from hqcpq.gui.classes.AskYesNoMessageBox import AskYesNoMessageBox
 from hqcpq.gui.helpers import toggle_buttons, change_view, selected_row_id
 from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.comparison import can_be_date
-from hqcpq.helpers.conversion import string_to_int
+from hqcpq.helpers.conversion import string_to_int, string_to_datetime
 from hqcpq.helpers.general import get_transport_rate_ex_gst, is_valid_email
 
 quotes: dict[int, Quote] = dict()
@@ -123,6 +123,7 @@ def clear_entry_fields(main_window: Ui_MainWindow):
     main_window.txtQuote_Suburb.clear()
     main_window.txtQuote_ContactNumber.clear()
     main_window.txtQuote_Email.clear()
+    main_window.txtQuote_Memo.clear()
     main_window.txtQuote_Kilometres.clear()
     main_window.chkQuote_Completed.setChecked(False)
     main_window.tblQuoteItems.clear()
@@ -166,6 +167,7 @@ def edit(main_window: Ui_MainWindow):
     main_window.txtQuote_Suburb.setText(quote.suburb)
     main_window.txtQuote_ContactNumber.setText(quote.contact_number)
     main_window.txtQuote_Email.setText(quote.email)
+    main_window.txtQuote_Memo.setPlainText(quote.memo)
     main_window.txtQuote_Kilometres.setText(str(quote.kilometres))
     main_window.chkQuote_Completed.setChecked(quote.completed)
     main_window.lblQuote_DateCreated.setText(
@@ -264,35 +266,37 @@ def save(main_window: Ui_MainWindow):
     quote_suburb: str = main_window.txtQuote_Suburb.text().strip()
     quote_contact_number: str = main_window.txtQuote_ContactNumber.text().strip()
     quote_email: str = main_window.txtQuote_Email.text().strip()
+    quote_memo: str = main_window.txtQuote_Memo.toPlainText().strip()
     quote_kilometres: int = int(main_window.txtQuote_Kilometres.text().strip())
     quote_completed: bool = main_window.chkQuote_Completed.isChecked()
 
-    quote_date_created: datetime = (
-        datetime.strptime(main_window.lblQuote_DateCreated.text().strip(), "%d/%m/%Y")
-        if quote_id
-        else datetime.today()
-    )
+    if quote_id:
+        quote_date_created: datetime = datetime.strptime(main_window.lblQuote_DateCreated.text().strip(), "%d/%m/%Y")
+    else:
+        quote_date_created: datetime = datetime.today()
 
-    quote_date_required: datetime = datetime.strptime(
-        main_window.txtQuote_DateRequired.text().strip(), "%d/%m/%Y"
-    )
+    quote_date_required: datetime = string_to_datetime(main_window.txtQuote_DateRequired.text().strip())
 
     quote = Quote(
         quote_id,
-        quote_date_created,
-        quote_date_required,
+        datetime.strptime(datetime.strftime(quote_date_created, "%Y-%m-%d"), "%Y-%m-%d"),
+        datetime.strptime(datetime.strftime(quote_date_required, "%Y-%m-%d"), "%Y-%m-%d"),
         quote_name,
         quote_address,
         quote_suburb,
         quote_contact_number,
         quote_email,
+        quote_memo,
         quote_kilometres,
         quote_completed,
     )
 
+    print(quote)
+
     quote.update() if quote_id else quote.insert()
     quotes[quote.id] = quote
 
+    main_window.lblQuote_DateCreated.setText(str(datetime.strftime(quote_date_created, "%d/%m/%Y")))
     main_window.lblQuoteId.setText(str(quote.id))
 
     with SQLiteConnection() as cur:

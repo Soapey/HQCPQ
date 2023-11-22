@@ -186,8 +186,7 @@ def on_product_select(main_window: Ui_MainWindow):
     update_product_rate(main_window)
 
 
-def on_vehicle_combination_select(main_window: Ui_MainWindow):
-
+def update_transport_rate(main_window: Ui_MainWindow):
     selected_vehicle_combination_name: str = (
         main_window.cmbQuoteItem_VehicleCombination.currentText()
     )
@@ -219,6 +218,10 @@ def on_vehicle_combination_select(main_window: Ui_MainWindow):
                     )
                 )
             )
+
+
+def on_vehicle_combination_select(main_window: Ui_MainWindow):
+    update_transport_rate(main_window)
 
 
 def clear_entry_fields(main_window: Ui_MainWindow):
@@ -286,6 +289,8 @@ def new(main_window: Ui_MainWindow):
     main_window.lblQuoteItem_QuoteId.setText(main_window.lblQuoteId.text())
 
     change_view(main_window.swPages, ViewPage.QUOTE_ITEM_ENTRY)
+
+    update_transport_rate(main_window)
 
 
 def edit(main_window: Ui_MainWindow):

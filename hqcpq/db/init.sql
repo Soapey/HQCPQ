@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS quote (
     suburb TEXT NOT NULL,
     contact_number TEXT,
     email TEXT,
+    memo TEXT,
     kilometres INTEGER NOT NULL,
     completed INTEGER NOT NULL
 );
