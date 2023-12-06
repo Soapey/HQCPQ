@@ -200,7 +200,7 @@ def delete(main_window: Ui_MainWindow):
     global quotes
     quote: Quote = quotes[quote_id]
 
-    delete_confirmed: bool = AskYesNoMessageBox(f"Are you sure that you would like to delete {quote.name} - {quote.address}, {quote.suburb}?")
+    delete_confirmed: bool = AskYesNoMessageBox(f"Are you sure that you would like to delete {quote.name} - {quote.address}, {quote.suburb}?").state
 
     if not delete_confirmed:
         return
