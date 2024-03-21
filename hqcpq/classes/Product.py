@@ -2,24 +2,25 @@ from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
 class Product:
-    def __init__(self, obj_id: int, name: str):
+    def __init__(self, obj_id: int, weighbridge_product_id: int, name: str):
         self.id = obj_id
+        self.weighbridge_product_id = weighbridge_product_id
         self.name = name
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
-        query = "INSERT INTO product (name) VALUES (?)"
+        query = "INSERT INTO product (weighbridge_product_id, name) VALUES (?, ?)"
         with SQLiteConnection() as cur:
-            cur.execute(query, (self.name,))
+            cur.execute(query, (self.weighbridge_product_id, self.name))
             self.id = cur.lastrowid
         return self
 
     def update(self):
-        query = "UPDATE product SET name = ? WHERE id = ?"
+        query = "UPDATE product SET weighbridge_product_id = ?, name = ? WHERE id = ?"
         with SQLiteConnection() as cur:
-            cur.execute(query, (self.name, self.id))
+            cur.execute(query, (self.weighbridge_product_id, self.name, self.id))
         return self
 
     @classmethod

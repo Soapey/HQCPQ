@@ -37,7 +37,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="pageQuotes">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -1759,6 +1759,32 @@ white-space: nowrap;</string>
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lblProductWeighbridgeProductId">
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Weighbridge Product Id</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="2">
+         <widget class="QLineEdit" name="txtProductWeighbridgeProductId">
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #003049;
+border-radius: 6px;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;
+padding: 5px;</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="pageProductRateEntry">
@@ -2748,6 +2774,7 @@ white-space: nowrap;</string>
   <tabstop>cmbVehicleCombination_ChargeType</tabstop>
   <tabstop>txtRateType_Name</tabstop>
   <tabstop>txtQuoteItem_TransportRate</tabstop>
+  <tabstop>txtProductWeighbridgeProductId</tabstop>
   <tabstop>txtProductName</tabstop>
   <tabstop>txtQuoteItem_Tonnes</tabstop>
   <tabstop>tblTransportSettings</tabstop>

@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS product (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    weighbridge_product_id INTEGER NOT NULL,
     name TEXT UNIQUE NOT NULL
 );
 

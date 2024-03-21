@@ -54,7 +54,7 @@ def refresh_table(main_window: Ui_MainWindow):
 
     global matches
 
-    tbl_headers = ["ID", "Name"]
+    tbl_headers = ["ID", "Name", "Weighbridge Product Id"]
     tbl: QTableWidget = main_window.tblProducts
     tbl.clear()
     tbl.setRowCount(len(matches.values()))
@@ -64,6 +64,7 @@ def refresh_table(main_window: Ui_MainWindow):
     for index, product in enumerate(matches.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(product.id)))
         tbl.setItem(index, 1, QTableWidgetItem(product.name))
+        tbl.setItem(index, 2, QTableWidgetItem(product.weighbridge_product_id))
 
     header: QHeaderView = tbl.horizontalHeader()
     for i in range(len(tbl_headers)):
@@ -85,6 +86,7 @@ def refresh_table(main_window: Ui_MainWindow):
 
 def clear_entry_fields(main_window: Ui_MainWindow):
     main_window.lblProductId.clear()
+    main_window.txtProductWeighbridgeProductId.clear()
     main_window.txtProductName.clear()
     main_window.tblProductRates.setRowCount(0)
 
@@ -109,6 +111,7 @@ def edit(main_window: Ui_MainWindow):
     product: Product = products[selected_row_id(main_window.tblProducts)]
 
     main_window.lblProductId.setText(str(product.id))
+    main_window.txtProductWeighbridgeProductId.setText(str(product.weighbridge_product_id))
     main_window.txtProductName.setText(product.name)
 
     refresh_product_rates_table(main_window)
@@ -148,9 +151,10 @@ def save(main_window: Ui_MainWindow):
         return
 
     product_id: int = string_to_int(main_window.lblProductId.text())
+    product_weighbridgeproductid: int = string_to_int(main_window.txtProductWeighbridgeProductId.text())
     product_name: str = main_window.txtProductName.text()
 
-    product: Product = Product(product_id, product_name)
+    product: Product = Product(product_id, product_weighbridgeproductid, product_name)
 
     product.update() if product_id else product.insert()
     products[product.id] = product
@@ -174,10 +178,13 @@ def form_is_valid(main_window: Ui_MainWindow):
     error_string = str()
 
     entity_id: int = string_to_int(main_window.lblProductId.text())
+    entity_weighbridgeproductid: int = string_to_int(main_window.txtProductWeighbridgeProductId.text())
     entity_name = main_window.txtProductName.text()
 
+    if entity_weighbridgeproductid is None:
+        error_string += "\n- Weighbridge Product Id field cannot be blank."
+
     if len(entity_name) == 0:
-        result = False
         error_string += "\n- Name field cannot be blank."
     else:
 
@@ -190,7 +197,7 @@ def form_is_valid(main_window: Ui_MainWindow):
             result = False
             error_string += f"\n- {entity_name} already exists."
 
-    if result is False:
+    if len(error_string) > 0:
         ErrorMessageBox(error_string)
 
     return result

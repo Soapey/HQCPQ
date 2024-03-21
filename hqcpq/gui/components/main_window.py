@@ -1071,6 +1071,21 @@ class Ui_MainWindow(object):
 "white-space: nowrap;")
         self.btnSaveProduct.setObjectName("btnSaveProduct")
         self.gridLayout_2.addWidget(self.btnSaveProduct, 4, 0, 1, 1)
+        self.lblProductWeighbridgeProductId = QtWidgets.QLabel(self.pageProductEntry)
+        self.lblProductWeighbridgeProductId.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblProductWeighbridgeProductId.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblProductWeighbridgeProductId.setObjectName("lblProductWeighbridgeProductId")
+        self.gridLayout_2.addWidget(self.lblProductWeighbridgeProductId, 2, 0, 1, 1)
+        self.txtProductWeighbridgeProductId = QtWidgets.QLineEdit(self.pageProductEntry)
+        self.txtProductWeighbridgeProductId.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtProductWeighbridgeProductId.setObjectName("txtProductWeighbridgeProductId")
+        self.gridLayout_2.addWidget(self.txtProductWeighbridgeProductId, 2, 1, 1, 2)
         self.swPages.addWidget(self.pageProductEntry)
         self.pageProductRateEntry = QtWidgets.QWidget()
         self.pageProductRateEntry.setObjectName("pageProductRateEntry")
@@ -1647,7 +1662,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(0)
+        self.swPages.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.txtQuote_DateRequired, self.txtQuote_Name)
         MainWindow.setTabOrder(self.txtQuote_Name, self.txtQuote_Address)
@@ -1663,7 +1678,8 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.txtQuoteItem_ProductRate, self.cmbVehicleCombination_ChargeType)
         MainWindow.setTabOrder(self.cmbVehicleCombination_ChargeType, self.txtRateType_Name)
         MainWindow.setTabOrder(self.txtRateType_Name, self.txtQuoteItem_TransportRate)
-        MainWindow.setTabOrder(self.txtQuoteItem_TransportRate, self.txtProductName)
+        MainWindow.setTabOrder(self.txtQuoteItem_TransportRate, self.txtProductWeighbridgeProductId)
+        MainWindow.setTabOrder(self.txtProductWeighbridgeProductId, self.txtProductName)
         MainWindow.setTabOrder(self.txtProductName, self.txtQuoteItem_Tonnes)
         MainWindow.setTabOrder(self.txtQuoteItem_Tonnes, self.tblTransportSettings)
         MainWindow.setTabOrder(self.tblTransportSettings, self.btnSaveTransportSettings)
@@ -1732,6 +1748,7 @@ class Ui_MainWindow(object):
         self.btnEditProductRate.setText(_translate("MainWindow", "Edit Product Rate"))
         self.btnDeleteProductRate.setText(_translate("MainWindow", "Delete Product Rate"))
         self.btnSaveProduct.setText(_translate("MainWindow", "Save Product"))
+        self.lblProductWeighbridgeProductId.setText(_translate("MainWindow", "Weighbridge Product Id"))
         self.lblProductRate_RateType.setText(_translate("MainWindow", "Rate Type"))
         self.lblProductRateId_Label.setText(_translate("MainWindow", "Id"))
         self.txtProductRate_Rate.setPlaceholderText(_translate("MainWindow", "(0-9999)"))
