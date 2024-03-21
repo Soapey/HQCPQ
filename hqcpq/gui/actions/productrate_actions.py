@@ -196,7 +196,7 @@ def form_is_valid(main_window: Ui_MainWindow):
         result = False
         error_string += "\n- Rate Type field cannot be blank."
 
-    if not product_rate_rate:
+    if product_rate_rate is None:
         result = False
         error_string += "\n- Rate field cannot be blank."
 

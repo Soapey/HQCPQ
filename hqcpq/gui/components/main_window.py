@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_files/main_window.ui'
+# Form implementation generated from reading ui file 'C:\Users\Grant\PycharmProjects\HQCPQ\hqcpq\gui\ui_files\main_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         MainWindow.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("ui_files\\../../../hqcpq.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("C:\\Users\\Grant\\PycharmProjects\\HQCPQ\\hqcpq\\gui\\ui_files\\../../../hqcpq.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -160,7 +160,7 @@ class Ui_MainWindow(object):
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtQuote_Address.setMaxLength(100)
+        self.txtQuote_Address.setMaxLength(32767)
         self.txtQuote_Address.setObjectName("txtQuote_Address")
         self.gridLayout_9.addWidget(self.txtQuote_Address, 5, 1, 1, 2)
         self.lblQuote_DateCreated = QtWidgets.QLabel(self.pageQuoteEntry)
@@ -227,7 +227,7 @@ class Ui_MainWindow(object):
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtQuote_Suburb.setMaxLength(100)
+        self.txtQuote_Suburb.setMaxLength(32767)
         self.txtQuote_Suburb.setObjectName("txtQuote_Suburb")
         self.gridLayout_9.addWidget(self.txtQuote_Suburb, 6, 1, 1, 2)
         self.txtQuote_Name = QtWidgets.QLineEdit(self.pageQuoteEntry)
@@ -236,7 +236,7 @@ class Ui_MainWindow(object):
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtQuote_Name.setMaxLength(100)
+        self.txtQuote_Name.setMaxLength(32767)
         self.txtQuote_Name.setObjectName("txtQuote_Name")
         self.gridLayout_9.addWidget(self.txtQuote_Name, 4, 1, 1, 2)
         self.btnSaveQuote = QtWidgets.QPushButton(self.pageQuoteEntry)
@@ -291,7 +291,7 @@ class Ui_MainWindow(object):
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtQuote_ContactNumber.setMaxLength(100)
+        self.txtQuote_ContactNumber.setMaxLength(32767)
         self.txtQuote_ContactNumber.setObjectName("txtQuote_ContactNumber")
         self.gridLayout_9.addWidget(self.txtQuote_ContactNumber, 7, 1, 1, 2)
         self.lblQuote_ContactNumber = QtWidgets.QLabel(self.pageQuoteEntry)
@@ -576,7 +576,7 @@ class Ui_MainWindow(object):
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtQuote_Email.setMaxLength(100)
+        self.txtQuote_Email.setMaxLength(32767)
         self.txtQuote_Email.setObjectName("txtQuote_Email")
         self.gridLayout_9.addWidget(self.txtQuote_Email, 8, 1, 1, 2)
         self.tblQuoteItems.raise_()
@@ -916,7 +916,7 @@ class Ui_MainWindow(object):
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtProductName.setMaxLength(30)
+        self.txtProductName.setMaxLength(32767)
         self.txtProductName.setObjectName("txtProductName")
         self.gridLayout_2.addWidget(self.txtProductName, 3, 1, 1, 2)
         self.lblProductEntry_Header = QtWidgets.QLabel(self.pageProductEntry)
@@ -1316,7 +1316,7 @@ class Ui_MainWindow(object):
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtRateType_Name.setMaxLength(100)
+        self.txtRateType_Name.setMaxLength(32767)
         self.txtRateType_Name.setObjectName("txtRateType_Name")
         self.gridLayout_5.addWidget(self.txtRateType_Name, 2, 1, 1, 1)
         self.lblRateTypeEntry_Header = QtWidgets.QLabel(self.pageRateTypeEntry)
@@ -1458,7 +1458,7 @@ class Ui_MainWindow(object):
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtVehicleCombination_Name.setMaxLength(30)
+        self.txtVehicleCombination_Name.setMaxLength(32767)
         self.txtVehicleCombination_Name.setObjectName("txtVehicleCombination_Name")
         self.gridLayout_15.addWidget(self.txtVehicleCombination_Name, 2, 2, 1, 1)
         spacerItem5 = QtWidgets.QSpacerItem(824, 430, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1647,7 +1647,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(1)
+        self.swPages.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.txtQuote_DateRequired, self.txtQuote_Name)
         MainWindow.setTabOrder(self.txtQuote_Name, self.txtQuote_Address)
@@ -1770,13 +1770,3 @@ class Ui_MainWindow(object):
         self.actionRate_Types.setText(_translate("MainWindow", "Rate Types"))
         self.actionVehicle_Combinations.setText(_translate("MainWindow", "Vehicle Combinations"))
         self.actionTransport_Settings.setText(_translate("MainWindow", "Transport Settings"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
