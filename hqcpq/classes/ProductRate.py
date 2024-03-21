@@ -1,3 +1,4 @@
+from hqcpq.classes.Product import Product
 from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
@@ -60,10 +61,14 @@ class ProductRate:
             return {row[0]: cls(*row) for row in rows}
 
     @classmethod
-    def get_by_productid_and_name(cls, product_id, name):
+    def get_by_productname_and_name(cls, product_name, name):
+        product = Product.get_by_name(product_name)
+        if not product:
+            return None
+
         query = "SELECT * FROM product_rate WHERE product_id = ? AND name = ?"
         with SQLiteConnection() as cur:
-            cur.execute(query, (product_id, name))
+            cur.execute(query, (product.id, name))
             row = cur.fetchone()
             if row:
                 return cls(*row)

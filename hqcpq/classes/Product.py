@@ -62,3 +62,13 @@ class Product:
             cur.execute(query)
             rows = cur.fetchall()
             return {row[0]: cls(*row) for row in rows}
+
+    @classmethod
+    def get_by_name(cls, name):
+        query = "SELECT * FROM product WHERE name = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (name,))
+            row = cur.fetchone()
+            if row:
+                return cls(*row)
+        return None

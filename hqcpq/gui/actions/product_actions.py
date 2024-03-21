@@ -310,7 +310,7 @@ def read_product_rate_csv_and_extract_columns(main_window: Ui_MainWindow):
 
     file_path = main_window.txtProduct_ImportFilePath.text()
     id_column_header = main_window.cmbProductRate_ImportIdColumn.currentText()
-    product_id_column_header = main_window.cmbProductRate_ImportProductIdColumn.currentText()
+    product_name_column_header = main_window.cmbProductRate_ImportProductIdColumn.currentText()
     name_column_header = main_window.cmbProductRate_ImportNameColumn.currentText()
     rate_column_header = main_window.cmbProductRate_ImportRateColumn.currentText()
 
@@ -320,7 +320,7 @@ def read_product_rate_csv_and_extract_columns(main_window: Ui_MainWindow):
             header_row = next(reader)
 
             id_index = header_row.index(id_column_header) if id_column_header in header_row else None
-            product_id_index = header_row.index(product_id_column_header) if product_id_column_header in header_row else None
+            product_name_index = header_row.index(product_name_column_header) if product_name_column_header in header_row else None
             name_index = header_row.index(name_column_header) if name_column_header in header_row else None
             rate_index = header_row.index(rate_column_header) if rate_column_header in header_row else None
 
@@ -328,15 +328,16 @@ def read_product_rate_csv_and_extract_columns(main_window: Ui_MainWindow):
             updated_product_rate_count = 0
             global products
             for row in reader:
-                if id_index is not None and product_id_index is not None and name_index is not None and rate_index is not None:
-                    if 0 <= id_index < len(row) and 0 <= product_id_index < len(row) and 0 <= name_index < len(row) and 0 <= rate_index < len(row):
+                if id_index is not None and product_name_index is not None and name_index is not None and rate_index is not None:
+                    if 0 <= id_index < len(row) and 0 <= product_name_index < len(row) and 0 <= name_index < len(row) and 0 <= rate_index < len(row):
                         id_value = string_to_int(row[id_index])
-                        product_id_value = string_to_int(row[product_id_index])
+                        product_name_value = row[product_name_index]
                         name_value = row[name_index]
                         rate_value = string_to_float(row[rate_index])
 
-                        if ProductRate.get_by_productid_and_name(product_id=product_id_value, name=name_value) is None:
-                            product_matches = [p for p in products.values() if p.weighbridge_product_id == product_id_value]
+                        match_product_rate = ProductRate.get_by_productname_and_name(product_name=product_name_value, name=name_value)
+                        if match_product_rate is None:
+                            product_matches = [p for p in products.values() if p.weighbridge_product_id == product_name_value]
                             referenced_product = None
                             if product_matches:
                                 referenced_product = product_matches[0]
@@ -344,7 +345,10 @@ def read_product_rate_csv_and_extract_columns(main_window: Ui_MainWindow):
                                 ProductRate.insert(ProductRate(None, id_value, name_value, rate_value, referenced_product.id))
                                 inserted_product_rate_count += 1
                         else:
-                            ProductRate.update_by_weighbridge_product_rate_id(name_value, rate_value, id_value)
+                            match_product_rate.name = name_value
+                            match_product_rate.rate = rate_value
+                            match_product_rate.weighbridge_product_rate_id = id_value
+                            match_product_rate.update()
                             updated_product_rate_count += 1
 
     except Exception as e:
