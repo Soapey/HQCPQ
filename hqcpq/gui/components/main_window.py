@@ -807,6 +807,22 @@ class Ui_MainWindow(object):
         self.pageProducts.setObjectName("pageProducts")
         self.gridLayout = QtWidgets.QGridLayout(self.pageProducts)
         self.gridLayout.setObjectName("gridLayout")
+        self.tblProducts = QtWidgets.QTableWidget(self.pageProducts)
+        self.tblProducts.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.tblProducts.setStyleSheet("border: 1px solid #003049;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;")
+        self.tblProducts.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tblProducts.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tblProducts.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblProducts.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tblProducts.setColumnCount(0)
+        self.tblProducts.setObjectName("tblProducts")
+        self.tblProducts.setRowCount(0)
+        self.tblProducts.horizontalHeader().setStretchLastSection(True)
+        self.tblProducts.verticalHeader().setVisible(False)
+        self.tblProducts.verticalHeader().setStretchLastSection(False)
+        self.gridLayout.addWidget(self.tblProducts, 3, 0, 1, 4)
         self.txtProductSearch = QtWidgets.QLineEdit(self.pageProducts)
         self.txtProductSearch.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.txtProductSearch.setStyleSheet("border: 1px solid #003049;\n"
@@ -815,25 +831,20 @@ class Ui_MainWindow(object):
 "font-size: 14pt;\n"
 "padding: 5px;")
         self.txtProductSearch.setObjectName("txtProductSearch")
-        self.gridLayout.addWidget(self.txtProductSearch, 2, 0, 1, 3)
-        self.btnDeleteProduct = QtWidgets.QPushButton(self.pageProducts)
-        self.btnDeleteProduct.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnDeleteProduct.setStyleSheet("background-color: #d62828;\n"
-"border: 1px solid rgba(27, 31, 35, .15);\n"
+        self.gridLayout.addWidget(self.txtProductSearch, 2, 0, 1, 4)
+        self.lblProducts_Header = QtWidgets.QLabel(self.pageProducts)
+        self.lblProducts_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
 "border-radius: 6px;\n"
-"color: #fff;\n"
+"background-color: #003049;\n"
+"color: #ffffff;\n"
+"font-size: 20pt;\n"
 "font-family: \"Helvetica\";\n"
-"font-size: 14px;\n"
-"font-weight: 600;\n"
-"line-height: 20px;\n"
-"padding: 6px 16px;\n"
-"position: relative;\n"
-"text-align: center;\n"
-"text-decoration: none;\n"
-"vertical-align: middle;\n"
-"white-space: nowrap;")
-        self.btnDeleteProduct.setObjectName("btnDeleteProduct")
-        self.gridLayout.addWidget(self.btnDeleteProduct, 1, 2, 1, 1)
+"font-style: normal;\n"
+"font-weight: 700;\n"
+"padding: 6px;")
+        self.lblProducts_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblProducts_Header.setObjectName("lblProducts_Header")
+        self.gridLayout.addWidget(self.lblProducts_Header, 0, 0, 1, 4)
         self.btnEditProduct = QtWidgets.QPushButton(self.pageProducts)
         self.btnEditProduct.setFocusPolicy(QtCore.Qt.NoFocus)
         self.btnEditProduct.setStyleSheet("background-color: #f77f00;\n"
@@ -852,22 +863,6 @@ class Ui_MainWindow(object):
 "white-space: nowrap;")
         self.btnEditProduct.setObjectName("btnEditProduct")
         self.gridLayout.addWidget(self.btnEditProduct, 1, 1, 1, 1)
-        self.tblProducts = QtWidgets.QTableWidget(self.pageProducts)
-        self.tblProducts.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.tblProducts.setStyleSheet("border: 1px solid #003049;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;")
-        self.tblProducts.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.tblProducts.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tblProducts.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.tblProducts.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.tblProducts.setColumnCount(0)
-        self.tblProducts.setObjectName("tblProducts")
-        self.tblProducts.setRowCount(0)
-        self.tblProducts.horizontalHeader().setStretchLastSection(True)
-        self.tblProducts.verticalHeader().setVisible(False)
-        self.tblProducts.verticalHeader().setStretchLastSection(False)
-        self.gridLayout.addWidget(self.tblProducts, 3, 0, 1, 3)
         self.btnNewProduct = QtWidgets.QPushButton(self.pageProducts)
         self.btnNewProduct.setFocusPolicy(QtCore.Qt.NoFocus)
         self.btnNewProduct.setStyleSheet("background-color: #4361ee;\n"
@@ -886,25 +881,49 @@ class Ui_MainWindow(object):
 "white-space: nowrap;")
         self.btnNewProduct.setObjectName("btnNewProduct")
         self.gridLayout.addWidget(self.btnNewProduct, 1, 0, 1, 1)
-        self.lblProducts_Header = QtWidgets.QLabel(self.pageProducts)
-        self.lblProducts_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
+        self.btnDeleteProduct = QtWidgets.QPushButton(self.pageProducts)
+        self.btnDeleteProduct.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnDeleteProduct.setStyleSheet("background-color: #d62828;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
 "border-radius: 6px;\n"
-"background-color: #003049;\n"
-"color: #ffffff;\n"
-"font-size: 20pt;\n"
+"color: #fff;\n"
 "font-family: \"Helvetica\";\n"
-"font-style: normal;\n"
-"font-weight: 700;\n"
-"padding: 6px;")
-        self.lblProducts_Header.setAlignment(QtCore.Qt.AlignCenter)
-        self.lblProducts_Header.setObjectName("lblProducts_Header")
-        self.gridLayout.addWidget(self.lblProducts_Header, 0, 0, 1, 3)
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnDeleteProduct.setObjectName("btnDeleteProduct")
+        self.gridLayout.addWidget(self.btnDeleteProduct, 1, 2, 1, 1)
+        self.btnImportProduct = QtWidgets.QPushButton(self.pageProducts)
+        self.btnImportProduct.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnImportProduct.setStyleSheet("background-color: #80ed99;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #000;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnImportProduct.setObjectName("btnImportProduct")
+        self.gridLayout.addWidget(self.btnImportProduct, 1, 3, 1, 1)
         self.tblProducts.raise_()
         self.btnNewProduct.raise_()
         self.btnEditProduct.raise_()
-        self.btnDeleteProduct.raise_()
         self.txtProductSearch.raise_()
         self.lblProducts_Header.raise_()
+        self.btnDeleteProduct.raise_()
+        self.btnImportProduct.raise_()
         self.swPages.addWidget(self.pageProducts)
         self.pageProductEntry = QtWidgets.QWidget()
         self.pageProductEntry.setObjectName("pageProductEntry")
@@ -1071,6 +1090,15 @@ class Ui_MainWindow(object):
 "white-space: nowrap;")
         self.btnSaveProduct.setObjectName("btnSaveProduct")
         self.gridLayout_2.addWidget(self.btnSaveProduct, 4, 0, 1, 1)
+        self.txtProductWeighbridgeProductId = QtWidgets.QLineEdit(self.pageProductEntry)
+        self.txtProductWeighbridgeProductId.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtProductWeighbridgeProductId.setInputMethodHints(QtCore.Qt.ImhDigitsOnly)
+        self.txtProductWeighbridgeProductId.setObjectName("txtProductWeighbridgeProductId")
+        self.gridLayout_2.addWidget(self.txtProductWeighbridgeProductId, 2, 1, 1, 2)
         self.lblProductWeighbridgeProductId = QtWidgets.QLabel(self.pageProductEntry)
         self.lblProductWeighbridgeProductId.setStyleSheet("font-family: \"Helvetica\";\n"
 "font-weight: 700;\n"
@@ -1078,14 +1106,6 @@ class Ui_MainWindow(object):
         self.lblProductWeighbridgeProductId.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblProductWeighbridgeProductId.setObjectName("lblProductWeighbridgeProductId")
         self.gridLayout_2.addWidget(self.lblProductWeighbridgeProductId, 2, 0, 1, 1)
-        self.txtProductWeighbridgeProductId = QtWidgets.QLineEdit(self.pageProductEntry)
-        self.txtProductWeighbridgeProductId.setStyleSheet("border: 1px solid #003049;\n"
-"border-radius: 6px;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;\n"
-"padding: 5px;")
-        self.txtProductWeighbridgeProductId.setObjectName("txtProductWeighbridgeProductId")
-        self.gridLayout_2.addWidget(self.txtProductWeighbridgeProductId, 2, 1, 1, 2)
         self.swPages.addWidget(self.pageProductEntry)
         self.pageProductRateEntry = QtWidgets.QWidget()
         self.pageProductRateEntry.setObjectName("pageProductRateEntry")
@@ -1632,6 +1652,42 @@ class Ui_MainWindow(object):
         self.btnSaveTransportSettings.setObjectName("btnSaveTransportSettings")
         self.gridLayout_8.addWidget(self.btnSaveTransportSettings, 2, 0, 1, 1)
         self.swPages.addWidget(self.pageTransportSettings)
+        self.pageImportProduct = QtWidgets.QWidget()
+        self.pageImportProduct.setObjectName("pageImportProduct")
+        self.gridLayout_11 = QtWidgets.QGridLayout(self.pageImportProduct)
+        self.gridLayout_11.setObjectName("gridLayout_11")
+        self.lblProductImportIdColumn = QtWidgets.QLabel(self.pageImportProduct)
+        self.lblProductImportIdColumn.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblProductImportIdColumn.setObjectName("lblProductImportIdColumn")
+        self.gridLayout_11.addWidget(self.lblProductImportIdColumn, 1, 0, 1, 1)
+        self.lblProductImportNameColumn = QtWidgets.QLabel(self.pageImportProduct)
+        self.lblProductImportNameColumn.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblProductImportNameColumn.setObjectName("lblProductImportNameColumn")
+        self.gridLayout_11.addWidget(self.lblProductImportNameColumn, 2, 0, 1, 1)
+        self.btnSelectProductImportFile = QtWidgets.QPushButton(self.pageImportProduct)
+        self.btnSelectProductImportFile.setObjectName("btnSelectProductImportFile")
+        self.gridLayout_11.addWidget(self.btnSelectProductImportFile, 0, 2, 1, 1)
+        self.cmbProductImportNameColumn = QtWidgets.QComboBox(self.pageImportProduct)
+        self.cmbProductImportNameColumn.setObjectName("cmbProductImportNameColumn")
+        self.gridLayout_11.addWidget(self.cmbProductImportNameColumn, 2, 1, 1, 1)
+        self.cmbProductImportIdColumn = QtWidgets.QComboBox(self.pageImportProduct)
+        self.cmbProductImportIdColumn.setObjectName("cmbProductImportIdColumn")
+        self.gridLayout_11.addWidget(self.cmbProductImportIdColumn, 1, 1, 1, 1)
+        self.txtProductImportFilePath = QtWidgets.QLineEdit(self.pageImportProduct)
+        self.txtProductImportFilePath.setReadOnly(True)
+        self.txtProductImportFilePath.setObjectName("txtProductImportFilePath")
+        self.gridLayout_11.addWidget(self.txtProductImportFilePath, 0, 1, 1, 1)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_11.addItem(spacerItem6, 4, 0, 1, 1)
+        self.lblSelectProductImportFile = QtWidgets.QLabel(self.pageImportProduct)
+        self.lblSelectProductImportFile.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblSelectProductImportFile.setObjectName("lblSelectProductImportFile")
+        self.gridLayout_11.addWidget(self.lblSelectProductImportFile, 0, 0, 1, 1)
+        self.btnProductImportConfirm = QtWidgets.QPushButton(self.pageImportProduct)
+        self.btnProductImportConfirm.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnProductImportConfirm.setObjectName("btnProductImportConfirm")
+        self.gridLayout_11.addWidget(self.btnProductImportConfirm, 3, 0, 1, 1)
+        self.swPages.addWidget(self.pageImportProduct)
         self.gridLayout_10.addWidget(self.swPages, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -1662,7 +1718,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(4)
+        self.swPages.setCurrentIndex(11)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.txtQuote_DateRequired, self.txtQuote_Name)
         MainWindow.setTabOrder(self.txtQuote_Name, self.txtQuote_Address)
@@ -1684,6 +1740,8 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.txtQuoteItem_Tonnes, self.tblTransportSettings)
         MainWindow.setTabOrder(self.tblTransportSettings, self.btnSaveTransportSettings)
         MainWindow.setTabOrder(self.btnSaveTransportSettings, self.txtVehicleCombination_Net)
+        MainWindow.setTabOrder(self.txtVehicleCombination_Net, self.txtProductImportFilePath)
+        MainWindow.setTabOrder(self.txtProductImportFilePath, self.btnSelectProductImportFile)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -1733,12 +1791,13 @@ class Ui_MainWindow(object):
         self.txtQuoteItem_Tonnes.setPlaceholderText(_translate("MainWindow", "(0-9999)"))
         self.txtQuoteItem_TransportRate.setPlaceholderText(_translate("MainWindow", "(0-9999)"))
         self.lblQuoteItem_TransportRateOverride.setText(_translate("MainWindow", "Transport Rate"))
-        self.txtProductSearch.setPlaceholderText(_translate("MainWindow", "Search"))
-        self.btnDeleteProduct.setText(_translate("MainWindow", "Delete Product"))
-        self.btnEditProduct.setText(_translate("MainWindow", "Edit Product"))
         self.tblProducts.setSortingEnabled(True)
-        self.btnNewProduct.setText(_translate("MainWindow", "New Product"))
+        self.txtProductSearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.lblProducts_Header.setText(_translate("MainWindow", "Products"))
+        self.btnEditProduct.setText(_translate("MainWindow", "Edit Product"))
+        self.btnNewProduct.setText(_translate("MainWindow", "New Product"))
+        self.btnDeleteProduct.setText(_translate("MainWindow", "Delete Product"))
+        self.btnImportProduct.setText(_translate("MainWindow", "Import Products"))
         self.lblProductEntry_Header.setText(_translate("MainWindow", "Product Entry/Edit"))
         self.lblProductId_Label.setText(_translate("MainWindow", "Id"))
         self.lblTableHeader.setText(_translate("MainWindow", "Added Product Rates"))
@@ -1748,6 +1807,7 @@ class Ui_MainWindow(object):
         self.btnEditProductRate.setText(_translate("MainWindow", "Edit Product Rate"))
         self.btnDeleteProductRate.setText(_translate("MainWindow", "Delete Product Rate"))
         self.btnSaveProduct.setText(_translate("MainWindow", "Save Product"))
+        self.txtProductWeighbridgeProductId.setPlaceholderText(_translate("MainWindow", "Unique ID for product that the weighbridge program uses"))
         self.lblProductWeighbridgeProductId.setText(_translate("MainWindow", "Weighbridge Product Id"))
         self.lblProductRate_RateType.setText(_translate("MainWindow", "Rate Type"))
         self.lblProductRateId_Label.setText(_translate("MainWindow", "Id"))
@@ -1781,6 +1841,12 @@ class Ui_MainWindow(object):
         self.tblTransportSettings.setSortingEnabled(False)
         self.lblTransportSettings_Header.setText(_translate("MainWindow", "Transport Settings"))
         self.btnSaveTransportSettings.setText(_translate("MainWindow", "Save Transport Settings"))
+        self.lblProductImportIdColumn.setText(_translate("MainWindow", "File ID Column"))
+        self.lblProductImportNameColumn.setText(_translate("MainWindow", "File Name Column"))
+        self.btnSelectProductImportFile.setText(_translate("MainWindow", "Select File"))
+        self.txtProductImportFilePath.setPlaceholderText(_translate("MainWindow", "Please Select an Import File"))
+        self.lblSelectProductImportFile.setText(_translate("MainWindow", "Import File Path"))
+        self.btnProductImportConfirm.setText(_translate("MainWindow", "Import"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionProducts.setText(_translate("MainWindow", "Products"))
         self.actionQuotes.setText(_translate("MainWindow", "Quotes"))

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView, QFileDialog
 
 from hqcpq.classes.Product import Product
 from hqcpq.gui.actions.productrate_actions import (
@@ -12,6 +12,7 @@ from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.conversion import string_to_int
+import csv
 
 products: dict[int, Product] = dict()
 matches: dict[int, Product] = dict()
@@ -64,7 +65,7 @@ def refresh_table(main_window: Ui_MainWindow):
     for index, product in enumerate(matches.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(product.id)))
         tbl.setItem(index, 1, QTableWidgetItem(product.name))
-        tbl.setItem(index, 2, QTableWidgetItem(product.weighbridge_product_id))
+        tbl.setItem(index, 2, QTableWidgetItem(str(product.weighbridge_product_id)))
 
     header: QHeaderView = tbl.horizontalHeader()
     for i in range(len(tbl_headers)):
@@ -173,8 +174,6 @@ def save(main_window: Ui_MainWindow):
 
 
 def form_is_valid(main_window: Ui_MainWindow):
-
-    result = True
     error_string = str()
 
     entity_id: int = string_to_int(main_window.lblProductId.text())
@@ -194,14 +193,109 @@ def form_is_valid(main_window: Ui_MainWindow):
         ]
 
         if len(products_with_same_name) > 0:
-            result = False
             error_string += f"\n- {entity_name} already exists."
 
     if len(error_string) > 0:
         ErrorMessageBox(error_string)
 
-    return result
+    return len(error_string) == 0
 
+
+def clear_import_fields(main_window: Ui_MainWindow):
+    main_window.txtProductImportFilePath.clear()
+    main_window.cmbProductImportIdColumn.clear()
+    main_window.cmbProductImportNameColumn.clear()
+
+
+def start_import(main_window: Ui_MainWindow):
+    clear_import_fields(main_window)
+
+    change_view(main_window.swPages, ViewPage.PRODUCT_IMPORT)
+
+
+def select_import_file(main_window: Ui_MainWindow):
+    options = QFileDialog.Options()
+    options |= QFileDialog.DontUseNativeDialog  # Ensure using the PyQt dialog
+
+    file_path, _ = QFileDialog.getOpenFileName(None, "Select CSV File", "", "CSV Files (*.csv)", options=options)
+    if file_path:
+        # Update the txtProductImportFilePath QLineEdit with the selected file path
+        main_window.txtProductImportFilePath.setText(file_path)
+
+        # Clear comboboxes before loading new data
+        main_window.cmbProductImportIdColumn.clear()
+        main_window.cmbProductImportNameColumn.clear()
+
+        # Read the header row of the CSV file
+        with open(file_path, 'r') as file:
+            header_row = file.readline().strip().split(',')
+
+        # Populate comboboxes with header row values
+        for column_name in header_row:
+            main_window.cmbProductImportIdColumn.addItem(column_name)
+            main_window.cmbProductImportNameColumn.addItem(column_name)
+
+
+def import_form_is_valid(main_window: Ui_MainWindow):
+    error_string = str()
+
+    if not main_window.txtProductImportFilePath.text():
+        error_string += "\n- File Path field cannot be blank."
+
+    if not main_window.cmbProductImportIdColumn.currentText():
+        error_string += "\n- Please select the file ID column from the dropdown."
+
+    if not main_window.cmbProductImportNameColumn.currentText():
+        error_string += "\n- Please select the file Name column from the dropdown."
+
+    if len(error_string) > 0:
+        ErrorMessageBox(error_string)
+
+    return len(error_string) == 0
+
+
+def read_csv_and_extract_columns(main_window: Ui_MainWindow):
+
+    if import_form_is_valid(main_window) is False:
+        return
+
+    file_path = main_window.txtProductImportFilePath.text()
+    id_column_header = main_window.cmbProductImportIdColumn.currentText()
+    name_column_header = main_window.cmbProductImportNameColumn.currentText()
+
+    try:
+        with open(file_path, 'r', newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            header_row = next(reader)  # Read the header row
+
+            # Find the index of the ID column
+            id_index = header_row.index(id_column_header) if id_column_header in header_row else None
+
+            # Find the index of the Name column
+            name_index = header_row.index(name_column_header) if name_column_header in header_row else None
+
+            # Loop through each row and extract ID and Name values
+            inserted_product_count = 0
+            updated_product_count = 0
+            for row in reader:
+                if id_index is not None and name_index is not None:
+                    if 0 <= id_index < len(row) and 0 <= name_index < len(row):
+                        id_value = row[id_index]
+                        name_value = row[name_index]
+
+                        if Product.get_by_weighbridge_id(id_value) is None:
+                            Product.insert(Product(None, string_to_int(id_value), name_value))
+                            inserted_product_count += 1
+                        else:
+                            Product.update_by_weighbridge_id(name_value, id_value)
+                            updated_product_count += 1
+
+    except Exception as e:
+        ErrorMessageBox(message=f"An error occured:{str(e)}\nInserted Products: {inserted_product_count}\nUpdated Products: {updated_product_count}")
+
+    InfoMessageBox(message=f"Import complete.\nInserted Products: {inserted_product_count}\nUpdated Products: {updated_product_count}")
+
+    change_view(main_window.swPages, ViewPage.PRODUCTS)
 
 def connect(main_window: Ui_MainWindow):
 
@@ -214,6 +308,9 @@ def connect(main_window: Ui_MainWindow):
     main_window.btnNewProduct.clicked.connect(lambda: new(main_window))
     main_window.btnEditProduct.clicked.connect(lambda: edit(main_window))
     main_window.btnDeleteProduct.clicked.connect(lambda: delete(main_window))
+    main_window.btnImportProduct.clicked.connect(lambda: start_import(main_window))
+    main_window.btnSelectProductImportFile.clicked.connect(lambda: select_import_file(main_window))
+    main_window.btnProductImportConfirm.clicked.connect(lambda: read_csv_and_extract_columns(main_window))
     main_window.btnSaveProduct.clicked.connect(lambda: save(main_window))
     main_window.txtProductSearch.textChanged.connect(
         lambda: search(main_window, main_window.txtProductSearch.text().lower())
