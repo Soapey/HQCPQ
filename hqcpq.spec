@@ -26,7 +26,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='HQCPQ',
+    name='Hunter Quarries Quoting Application',
     author='Grant Soper',
     description='A small application to produce quotes.',
     icon='hqcpq\\assets\\hqcpq.ico',
