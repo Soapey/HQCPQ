@@ -19,19 +19,17 @@ from hqcpq.helpers.general import get_transport_rate_ex_gst
 vehicle_combinations: dict[int, VehicleCombination] = dict()
 products: dict[int, Product] = dict()
 product_rates: dict[int, ProductRate] = dict()
-rate_types: dict[int, RateType] = dict()
 quotes: dict[int, Quote] = dict()
 quote_items: dict[int, QuoteItem] = dict()
 
 
 def fetch_global_entities():
 
-    global vehicle_combinations, products, product_rates, rate_types, quotes, quote_items
+    global vehicle_combinations, products, product_rates, quotes, quote_items
 
     vehicle_combinations = VehicleCombination.get_all()
     products = Product.get_all()
     product_rates = ProductRate.get_all()
-    rate_types = RateType.get_all()
     quotes = Quote.get_all()
     quote_items = QuoteItem.get_all()
 
@@ -135,7 +133,7 @@ def calculate_quote_item_totals(main_window: Ui_MainWindow, quote_id: int = None
 def update_product_rate(main_window: Ui_MainWindow):
 
     product_name = main_window.cmbQuoteItem_Product.currentText()
-    rate_type_name = main_window.cmbQuoteItem_ProductRate.currentText()
+    product_rate_name = main_window.cmbQuoteItem_ProductRate.currentText()
 
     global product_rates
 
@@ -143,7 +141,7 @@ def update_product_rate(main_window: Ui_MainWindow):
         pr
         for pr in product_rates.values()
         if products[pr.product_id].name == product_name
-        and rate_types[pr.rate_type_id].name == rate_type_name
+        and pr.name == product_rate_name
     ]
 
     product_rate: ProductRate = product_rates_list[0] if product_rates_list else None
@@ -172,16 +170,10 @@ def on_product_select(main_window: Ui_MainWindow):
 
     product: Product = products_list[0] if products_list else None
 
-    match_product_rate_names = [
-        rate_types[pr.rate_type_id].name
-        for pr in sorted(
-            list(product_rates.values()), key=lambda pr: pr.id, reverse=True
-        )
-        if pr.product_id == product.id
-    ]
+    product_rate_names = [pr.name for pr in product_rates.values() if pr.product_id == product.id]
 
     cmb_product_rates.clear()
-    cmb_product_rates.addItems(match_product_rate_names)
+    cmb_product_rates.addItems(product_rate_names)
 
     update_product_rate(main_window)
 

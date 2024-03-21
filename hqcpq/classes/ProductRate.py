@@ -3,27 +3,28 @@ from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 class ProductRate:
     def __init__(
-        self, obj_id: int, product_id: int, rate_type_id: int, rate: float
+        self, obj_id: int, weighbridge_product_rate_id: int, name: str, rate: float, product_id: int
     ):
         self.id = obj_id
-        self.product_id = product_id
-        self.rate_type_id = rate_type_id
+        self.weighbridge_product_rate_id = weighbridge_product_rate_id
+        self.name = name
         self.rate = rate
+        self.product_id = product_id
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
-        query = "INSERT INTO product_rate (product_id, rate_type_id, rate) VALUES (?, ?, ?)"
+        query = "INSERT INTO product_rate (weighbridge_product_rate_id, name, rate, product_id) VALUES (?, ?, ?, ?)"
         with SQLiteConnection() as cur:
-            cur.execute(query, (self.product_id, self.rate_type_id, self.rate))
+            cur.execute(query, (self.weighbridge_product_rate_id, self.name, self.rate, self.product_id))
             self.id = cur.lastrowid
         return self
 
     def update(self):
-        query = "UPDATE product_rate SET product_id = ?, rate_type_id = ?, rate = ? WHERE id = ?"
+        query = "UPDATE product_rate SET weighbridge_product_rate_id = ?, name = ?, rate = ?, product_id = ? WHERE id = ?"
         with SQLiteConnection() as cur:
-            cur.execute(query, (self.product_id, self.rate_type_id, self.rate, self.id))
+            cur.execute(query, (self.weighbridge_product_rate_id, self.name, self.rate, self.product_id, self.id))
         return self
 
     @classmethod
@@ -49,3 +50,29 @@ class ProductRate:
             cur.execute(query)
             rows = cur.fetchall()
             return {row[0]: cls(*row) for row in rows}
+
+    @classmethod
+    def get_by_product_id(cls, product_id):
+        query = "SELECT * FROM product_rate WHERE product_id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (product_id,))
+            rows = cur.fetchall()
+            return {row[0]: cls(*row) for row in rows}
+
+    @classmethod
+    def get_by_productid_and_name(cls, product_id, name):
+        query = "SELECT * FROM product_rate WHERE product_id = ? AND name = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (product_id, name))
+            row = cur.fetchone()
+            if row:
+                return cls(*row)
+        return None
+
+    @classmethod
+    def update_by_weighbridge_product_rate_id(cls, name, rate, weighbridge_product_rate_id):
+        query = "UPDATE product_rate SET name = ?, rate = ? WHERE weighbridge_product_rate_id = ?"
+        with SQLiteConnection() as cur:
+            cur.execute(query, (name, rate, weighbridge_product_rate_id))
+
+

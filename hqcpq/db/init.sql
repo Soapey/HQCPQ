@@ -11,13 +11,11 @@ CREATE TABLE IF NOT EXISTS rate_type (
 
 CREATE TABLE IF NOT EXISTS product_rate (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    product_id INTEGER NOT NULL,
-    rate_type_id INTEGER NOT NULL,
+    weighbridge_product_rate_id INTEGER NOT NULL,
+    name TEXT UNIQUE NOT NULL,
     rate REAL NOT NULL,
+    product_id INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES product (id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    FOREIGN KEY (rate_type_id) REFERENCES rate_type (id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );

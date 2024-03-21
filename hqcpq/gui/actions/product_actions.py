@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView, QFileDialog
 
 from hqcpq.classes.Product import Product
+from hqcpq.classes.ProductRate import ProductRate
 from hqcpq.gui.actions.productrate_actions import (
     refresh_table as refresh_product_rates_table,
     fetch_global_entities as fetch_productrate_global_entities,
@@ -11,7 +12,7 @@ from hqcpq.gui.classes.AskYesNoMessageBox import AskYesNoMessageBox
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.gui.view_enum import ViewPage
-from hqcpq.helpers.conversion import string_to_int
+from hqcpq.helpers.conversion import string_to_int, string_to_float
 import csv
 
 products: dict[int, Product] = dict()
@@ -202,9 +203,15 @@ def form_is_valid(main_window: Ui_MainWindow):
 
 
 def clear_import_fields(main_window: Ui_MainWindow):
-    main_window.txtProductImportFilePath.clear()
-    main_window.cmbProductImportIdColumn.clear()
-    main_window.cmbProductImportNameColumn.clear()
+    main_window.txtProduct_ImportFilePath.clear()
+    main_window.cmbProduct_ImportIdColumn.clear()
+    main_window.cmbProduct_ImportNameColumn.clear()
+
+    main_window.txtProductRate_ImportFilePath.clear()
+    main_window.cmbProductRate_ImportIdColumn.clear()
+    main_window.cmbProductRate_ImportProductIdColumn.clear()
+    main_window.cmbProductRate_ImportNameColumn.clear()
+    main_window.cmbProductRate_ImportRateColumn.clear()
 
 
 def start_import(main_window: Ui_MainWindow):
@@ -213,40 +220,74 @@ def start_import(main_window: Ui_MainWindow):
     change_view(main_window.swPages, ViewPage.PRODUCT_IMPORT)
 
 
-def select_import_file(main_window: Ui_MainWindow):
+def select_product_import_file(main_window: Ui_MainWindow):
     options = QFileDialog.Options()
-    options |= QFileDialog.DontUseNativeDialog  # Ensure using the PyQt dialog
+    options |= QFileDialog.DontUseNativeDialog
 
     file_path, _ = QFileDialog.getOpenFileName(None, "Select CSV File", "", "CSV Files (*.csv)", options=options)
     if file_path:
-        # Update the txtProductImportFilePath QLineEdit with the selected file path
-        main_window.txtProductImportFilePath.setText(file_path)
+        main_window.txtProduct_ImportFilePath.setText(file_path)
 
-        # Clear comboboxes before loading new data
-        main_window.cmbProductImportIdColumn.clear()
-        main_window.cmbProductImportNameColumn.clear()
+        main_window.cmbProduct_ImportIdColumn.clear()
+        main_window.cmbProduct_ImportNameColumn.clear()
 
-        # Read the header row of the CSV file
         with open(file_path, 'r') as file:
             header_row = file.readline().strip().split(',')
 
-        # Populate comboboxes with header row values
         for column_name in header_row:
-            main_window.cmbProductImportIdColumn.addItem(column_name)
-            main_window.cmbProductImportNameColumn.addItem(column_name)
+            main_window.cmbProduct_ImportIdColumn.addItem(column_name)
+            main_window.cmbProduct_ImportNameColumn.addItem(column_name)
+
+
+def select_product_rate_import_file(main_window: Ui_MainWindow):
+    options = QFileDialog.Options()
+    options |= QFileDialog.DontUseNativeDialog
+
+    file_path, _ = QFileDialog.getOpenFileName(None, "Select CSV File", "", "CSV Files (*.csv)", options=options)
+    if file_path:
+        main_window.txtProductRate_ImportFilePath.setText(file_path)
+
+        main_window.cmbProductRate_ImportIdColumn.clear()
+        main_window.cmbProductRate_ImportProductIdColumn.clear()
+        main_window.cmbProductRate_ImportNameColumn.clear()
+        main_window.cmbProductRate_ImportRateColumn.clear()
+
+        with open(file_path, 'r') as file:
+            header_row = file.readline().strip().split(',')
+
+        for column_name in header_row:
+            main_window.cmbProductRate_ImportIdColumn.addItem(column_name)
+            main_window.cmbProductRate_ImportProductIdColumn.addItem(column_name)
+            main_window.cmbProductRate_ImportNameColumn.addItem(column_name)
+            main_window.cmbProductRate_ImportRateColumn.addItem(column_name)
 
 
 def import_form_is_valid(main_window: Ui_MainWindow):
     error_string = str()
 
-    if not main_window.txtProductImportFilePath.text():
-        error_string += "\n- File Path field cannot be blank."
+    if not main_window.txtProduct_ImportFilePath.text():
+        error_string += "\n- PRODUCT: File Path field cannot be blank."
 
-    if not main_window.cmbProductImportIdColumn.currentText():
-        error_string += "\n- Please select the file ID column from the dropdown."
+    if not main_window.cmbProduct_ImportIdColumn.currentText():
+        error_string += "\n- PRODUCT: Please select the file ID column from the dropdown."
 
-    if not main_window.cmbProductImportNameColumn.currentText():
-        error_string += "\n- Please select the file Name column from the dropdown."
+    if not main_window.cmbProduct_ImportNameColumn.currentText():
+        error_string += "\n- PRODUCT: Please select the file Name column from the dropdown."
+
+    if not main_window.txtProductRate_ImportFilePath.text():
+        error_string += "\n- PRODUCT RATE: File Path field cannot be blank."
+
+    if not main_window.cmbProductRate_ImportIdColumn.currentText():
+        error_string += "\n- PRODUCT RATE: Please select the file ID column from the dropdown."
+
+    if not main_window.cmbProductRate_ImportProductIdColumn.currentText():
+        error_string += "\n- PRODUCT RATE: Please select the file Product ID column from the dropdown."
+
+    if not main_window.cmbProductRate_ImportNameColumn.currentText():
+        error_string += "\n- PRODUCT RATE: Please select the file Name column from the dropdown."
+
+    if not main_window.cmbProductRate_ImportRateColumn.currentText():
+        error_string += "\n- PRODUCT RATE: Please select the file Rate column from the dropdown."
 
     if len(error_string) > 0:
         ErrorMessageBox(error_string)
@@ -254,48 +295,101 @@ def import_form_is_valid(main_window: Ui_MainWindow):
     return len(error_string) == 0
 
 
-def read_csv_and_extract_columns(main_window: Ui_MainWindow):
+def read_csv_and_perform_updates(main_window: Ui_MainWindow):
+    inserted_product_count, updated_product_count = read_product_csv_and_extract_columns(main_window)
+    inserted_product_rate_count, updated_product_rate_count = read_product_rate_csv_and_extract_columns(main_window)
+    change_view(main_window.swPages, ViewPage.PRODUCTS)
+    InfoMessageBox(f"PRODUCTS:\nInserted: {inserted_product_count}\nUpdated: {updated_product_count}\n\nPRODUCT "
+                   f"RATES:\nInserted: {inserted_product_rate_count}\nUpdated: {updated_product_rate_count}")
+
+
+def read_product_rate_csv_and_extract_columns(main_window: Ui_MainWindow):
 
     if import_form_is_valid(main_window) is False:
         return
 
-    file_path = main_window.txtProductImportFilePath.text()
-    id_column_header = main_window.cmbProductImportIdColumn.currentText()
-    name_column_header = main_window.cmbProductImportNameColumn.currentText()
+    file_path = main_window.txtProduct_ImportFilePath.text()
+    id_column_header = main_window.cmbProductRate_ImportIdColumn.currentText()
+    product_id_column_header = main_window.cmbProductRate_ImportProductIdColumn.currentText()
+    name_column_header = main_window.cmbProductRate_ImportNameColumn.currentText()
+    rate_column_header = main_window.cmbProductRate_ImportRateColumn.currentText()
 
     try:
         with open(file_path, 'r', newline='') as csvfile:
             reader = csv.reader(csvfile)
-            header_row = next(reader)  # Read the header row
+            header_row = next(reader)
 
-            # Find the index of the ID column
             id_index = header_row.index(id_column_header) if id_column_header in header_row else None
+            product_id_index = header_row.index(product_id_column_header) if product_id_column_header in header_row else None
+            name_index = header_row.index(name_column_header) if name_column_header in header_row else None
+            rate_index = header_row.index(rate_column_header) if rate_column_header in header_row else None
 
-            # Find the index of the Name column
+            inserted_product_rate_count = 0
+            updated_product_rate_count = 0
+            global products
+            for row in reader:
+                if id_index is not None and product_id_index is not None and name_index is not None and rate_index is not None:
+                    if 0 <= id_index < len(row) and 0 <= product_id_index < len(row) and 0 <= name_index < len(row) and 0 <= rate_index < len(row):
+                        id_value = string_to_int(row[id_index])
+                        product_id_value = string_to_int(row[product_id_index])
+                        name_value = row[name_index]
+                        rate_value = string_to_float(row[rate_index])
+
+                        if ProductRate.get_by_productid_and_name(product_id=product_id_value, name=name_value) is None:
+                            product_matches = [p for p in products.values() if p.weighbridge_product_id == product_id_value]
+                            referenced_product = None
+                            if product_matches:
+                                referenced_product = product_matches[0]
+                            if referenced_product:
+                                ProductRate.insert(ProductRate(None, id_value, name_value, rate_value, referenced_product.id))
+                                inserted_product_rate_count += 1
+                        else:
+                            ProductRate.update_by_weighbridge_product_rate_id(name_value, rate_value, id_value)
+                            updated_product_rate_count += 1
+
+    except Exception as e:
+        ErrorMessageBox(message=f"An error occured:{str(e)}\nInserted Product Rates: {inserted_product_rate_count}\nUpdated Product Rates: {updated_product_rate_count}")
+
+    return inserted_product_rate_count, updated_product_rate_count
+
+
+def read_product_csv_and_extract_columns(main_window: Ui_MainWindow):
+
+    if import_form_is_valid(main_window) is False:
+        return
+
+    file_path = main_window.txtProduct_ImportFilePath.text()
+    id_column_header = main_window.cmbProduct_ImportIdColumn.currentText()
+    name_column_header = main_window.cmbProduct_ImportNameColumn.currentText()
+
+    try:
+        with open(file_path, 'r', newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            header_row = next(reader)
+
+            id_index = header_row.index(id_column_header) if id_column_header in header_row else None
             name_index = header_row.index(name_column_header) if name_column_header in header_row else None
 
-            # Loop through each row and extract ID and Name values
             inserted_product_count = 0
             updated_product_count = 0
             for row in reader:
                 if id_index is not None and name_index is not None:
                     if 0 <= id_index < len(row) and 0 <= name_index < len(row):
-                        id_value = row[id_index]
+                        id_value = string_to_int(row[id_index])
                         name_value = row[name_index]
 
-                        if Product.get_by_weighbridge_id(id_value) is None:
-                            Product.insert(Product(None, string_to_int(id_value), name_value))
+                        if Product.get_by_weighbridge_product_id(id_value) is None:
+                            Product.insert(Product(None, id_value, name_value))
                             inserted_product_count += 1
                         else:
-                            Product.update_by_weighbridge_id(name_value, id_value)
+                            Product.update_by_weighbridge_product_id(name_value, id_value)
                             updated_product_count += 1
 
     except Exception as e:
         ErrorMessageBox(message=f"An error occured:{str(e)}\nInserted Products: {inserted_product_count}\nUpdated Products: {updated_product_count}")
 
-    InfoMessageBox(message=f"Import complete.\nInserted Products: {inserted_product_count}\nUpdated Products: {updated_product_count}")
+    return inserted_product_count, updated_product_count
 
-    change_view(main_window.swPages, ViewPage.PRODUCTS)
 
 def connect(main_window: Ui_MainWindow):
 
@@ -309,8 +403,12 @@ def connect(main_window: Ui_MainWindow):
     main_window.btnEditProduct.clicked.connect(lambda: edit(main_window))
     main_window.btnDeleteProduct.clicked.connect(lambda: delete(main_window))
     main_window.btnImportProduct.clicked.connect(lambda: start_import(main_window))
-    main_window.btnSelectProductImportFile.clicked.connect(lambda: select_import_file(main_window))
-    main_window.btnProductImportConfirm.clicked.connect(lambda: read_csv_and_extract_columns(main_window))
+
+    main_window.btnProduct_SelectImportFile.clicked.connect(lambda: select_product_import_file(main_window))
+    main_window.btnProductRate_SelectImportFile.clicked.connect(lambda: select_product_rate_import_file(main_window))
+
+    main_window.btnProductImportConfirm.clicked.connect(lambda: read_product_csv_and_extract_columns(main_window))
+
     main_window.btnSaveProduct.clicked.connect(lambda: save(main_window))
     main_window.txtProductSearch.textChanged.connect(
         lambda: search(main_window, main_window.txtProductSearch.text().lower())

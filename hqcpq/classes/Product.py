@@ -24,13 +24,13 @@ class Product:
         return self
 
     @classmethod
-    def update_by_weighbridge_id(cls, name, weighbridge_product_id):
+    def update_by_weighbridge_product_id(cls, name, weighbridge_product_id):
         query = "UPDATE product SET name = ? WHERE weighbridge_product_id = ?"
         with SQLiteConnection() as cur:
             cur.execute(query, (name, weighbridge_product_id))
 
     @classmethod
-    def get_by_weighbridge_id(cls, weighbridge_product_id):
+    def get_by_weighbridge_product_id(cls, weighbridge_product_id):
         query = "SELECT * FROM product WHERE weighbridge_product_id = ?"
         with SQLiteConnection() as cur:
             cur.execute(query, (weighbridge_product_id,))

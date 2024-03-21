@@ -1822,57 +1822,24 @@ font-size: 10pt;</string>
       </widget>
       <widget class="QWidget" name="pageProductRateEntry">
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="2" column="1">
-         <widget class="QComboBox" name="cmbProductRate_RateType">
+        <item row="0" column="0" colspan="3">
+         <widget class="QLabel" name="lblProductRateEntry_Header">
           <property name="styleSheet">
-           <string notr="true">border: 1px solid #003049;
+           <string notr="true">border: 1px solid rgba(27, 31, 35, .15);
 border-radius: 6px;
+background-color: #003049;
+color: #ffffff;
+font-size: 20pt;
 font-family: &quot;Helvetica&quot;;
-font-size: 10pt;
-padding: 5px;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="lblProductRateId">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(215, 215, 215);
-border-radius: 6px;
-font-family: &quot;Helvetica&quot;;
-padding: 5px;</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="lblProductRate_RateType">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-style: normal;
 font-weight: 700;
-font-size: 10pt;</string>
+padding: 6px;</string>
           </property>
           <property name="text">
-           <string>Rate Type</string>
+           <string>Produce Rate Entry/Edit</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -1901,34 +1868,55 @@ font-size: 10pt</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QLineEdit" name="txtProductRate_Rate">
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid #003049;
-border-radius: 6px;
-font-family: &quot;Helvetica&quot;;
-font-size: 10pt;
-padding: 5px;</string>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lblProductRate_WeighbridgeId">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="placeholderText">
-           <string>(0-9999)</string>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Weighbridge Id</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
-        <item row="5" column="0" colspan="2">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="3" column="0">
+         <widget class="QLabel" name="lblProductRate_Name">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-family: &quot;Helvetica&quot;;
+font-weight: 700;
+font-size: 10pt;</string>
+          </property>
+          <property name="text">
+           <string>Name</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
          <widget class="QLabel" name="lblProductRate_Rate">
           <property name="styleSheet">
            <string notr="true">font-family: &quot;Helvetica&quot;;
@@ -1943,28 +1931,84 @@ font-size: 10pt;</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="0" colspan="2">
-         <widget class="QLabel" name="lblProductRateEntry_Header">
+        <item row="6" column="0">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLineEdit" name="txtProductRate_Rate">
           <property name="styleSheet">
-           <string notr="true">border: 1px solid rgba(27, 31, 35, .15);
+           <string notr="true">border: 1px solid #003049;
 border-radius: 6px;
-background-color: #003049;
-color: #ffffff;
-font-size: 20pt;
 font-family: &quot;Helvetica&quot;;
-font-style: normal;
-font-weight: 700;
-padding: 6px;</string>
+font-size: 10pt;
+padding: 5px;</string>
           </property>
-          <property name="text">
-           <string>Produce Rate Entry/Edit</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+          <property name="placeholderText">
+           <string>(0-9999)</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
+        <item row="3" column="2">
+         <widget class="QLineEdit" name="txtProductRate_Name">
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #003049;
+border-radius: 6px;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;
+padding: 5px;</string>
+          </property>
+          <property name="placeholderText">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLineEdit" name="txtProductRate_WeighbridgeId">
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #003049;
+border-radius: 6px;
+font-family: &quot;Helvetica&quot;;
+font-size: 10pt;
+padding: 5px;</string>
+          </property>
+          <property name="inputMethodHints">
+           <set>Qt::ImhDigitsOnly</set>
+          </property>
+          <property name="placeholderText">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="lblProductRate_Id">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(215, 215, 215);
+border-radius: 6px;
+font-family: &quot;Helvetica&quot;;
+padding: 5px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
          <widget class="QPushButton" name="btnSaveProductRate">
           <property name="focusPolicy">
            <enum>Qt::NoFocus</enum>
@@ -2740,41 +2784,54 @@ white-space: nowrap;</string>
       </widget>
       <widget class="QWidget" name="pageImportProduct">
        <layout class="QGridLayout" name="gridLayout_11">
-        <item row="1" column="0">
-         <widget class="QLabel" name="lblProductImportIdColumn">
+        <item row="3" column="0" colspan="2">
+         <widget class="QLabel" name="lblProduct_ImportNameColumn">
           <property name="text">
-           <string>File ID Column</string>
+           <string>Name</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="lblProductImportNameColumn">
+        <item row="9" column="0" colspan="2">
+         <widget class="QLabel" name="lblProductRate_ImportRateColumn">
           <property name="text">
-           <string>File Name Column</string>
+           <string>Rate</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QPushButton" name="btnSelectProductImportFile">
+        <item row="8" column="0" colspan="2">
+         <widget class="QLabel" name="lblProductRate_ImportNameColumn">
           <property name="text">
-           <string>Select File</string>
+           <string>Name</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="QComboBox" name="cmbProductImportNameColumn"/>
+        <item row="3" column="2">
+         <widget class="QComboBox" name="cmbProduct_ImportNameColumn"/>
         </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="cmbProductImportIdColumn"/>
+        <item row="2" column="0" colspan="2">
+         <widget class="QLabel" name="lblProduct_ImportIdColumn">
+          <property name="text">
+           <string>ID</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="txtProductImportFilePath">
+        <item row="2" column="2">
+         <widget class="QComboBox" name="cmbProduct_ImportIdColumn"/>
+        </item>
+        <item row="5" column="2">
+         <widget class="QLineEdit" name="txtProductRate_ImportFilePath">
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -2783,7 +2840,126 @@ white-space: nowrap;</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
+        <item row="1" column="3">
+         <widget class="QPushButton" name="btnProduct_SelectImportFile">
+          <property name="text">
+           <string>Select File</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QComboBox" name="cmbProductRate_ImportProductIdColumn"/>
+        </item>
+        <item row="8" column="2">
+         <widget class="QComboBox" name="cmbProductRate_ImportNameColumn"/>
+        </item>
+        <item row="6" column="2">
+         <widget class="QComboBox" name="cmbProductRate_ImportIdColumn"/>
+        </item>
+        <item row="5" column="0" colspan="2">
+         <widget class="QLabel" name="lblProductRate_SelectImportFile">
+          <property name="text">
+           <string>File Path</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QLabel" name="lblProduct_SelectImportFile">
+          <property name="text">
+           <string>File Path</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0" colspan="2">
+         <widget class="QLabel" name="lblProductRate_ImportProductIDColumn">
+          <property name="text">
+           <string>Product ID</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="2">
+         <widget class="QComboBox" name="cmbProductRate_ImportRateColumn"/>
+        </item>
+        <item row="5" column="3">
+         <widget class="QPushButton" name="btnProductRate_SelectImportFile">
+          <property name="text">
+           <string>Select File</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="txtProduct_ImportFilePath">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>Please Select an Import File</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" colspan="2">
+         <widget class="QLabel" name="lblProductRate_ImportIdColumn">
+          <property name="text">
+           <string>ID</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="4">
+         <widget class="QLabel" name="label">
+          <property name="styleSheet">
+           <string notr="true">font-weight: bold;
+color: #fff;
+background-color: rgb(85, 170, 255);
+padding: 5px;</string>
+          </property>
+          <property name="text">
+           <string>Product Charge</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="4">
+         <widget class="QLabel" name="label_2">
+          <property name="font">
+           <font>
+            <family>MS Shell Dlg 2</family>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-weight: bold;
+color: #fff;
+background-color: rgb(85, 170, 255);
+padding: 5px;</string>
+          </property>
+          <property name="text">
+           <string>Product</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QPushButton" name="btnProductImportConfirm">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="text">
+           <string>Import</string>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="1" colspan="3">
          <spacer name="verticalSpacer_4">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -2795,26 +2971,6 @@ white-space: nowrap;</string>
            </size>
           </property>
          </spacer>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="lblSelectProductImportFile">
-          <property name="text">
-           <string>Import File Path</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QPushButton" name="btnProductImportConfirm">
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="text">
-           <string>Import</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
@@ -2881,7 +3037,6 @@ white-space: nowrap;</string>
   <tabstop>txtQuote_Kilometres</tabstop>
   <tabstop>txtQuote_Memo</tabstop>
   <tabstop>txtProductRate_Rate</tabstop>
-  <tabstop>cmbProductRate_RateType</tabstop>
   <tabstop>txtVehicleCombination_Name</tabstop>
   <tabstop>txtQuoteItem_ProductRate</tabstop>
   <tabstop>cmbVehicleCombination_ChargeType</tabstop>
@@ -2893,8 +3048,8 @@ white-space: nowrap;</string>
   <tabstop>tblTransportSettings</tabstop>
   <tabstop>btnSaveTransportSettings</tabstop>
   <tabstop>txtVehicleCombination_Net</tabstop>
-  <tabstop>txtProductImportFilePath</tabstop>
-  <tabstop>btnSelectProductImportFile</tabstop>
+  <tabstop>txtProduct_ImportFilePath</tabstop>
+  <tabstop>btnProduct_SelectImportFile</tabstop>
  </tabstops>
  <resources/>
  <connections/>
