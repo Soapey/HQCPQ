@@ -308,7 +308,7 @@ def read_product_rate_csv_and_extract_columns(main_window: Ui_MainWindow):
     if import_form_is_valid(main_window) is False:
         return
 
-    file_path = main_window.txtProduct_ImportFilePath.text()
+    file_path = main_window.txtProductRate_ImportFilePath.text()
     id_column_header = main_window.cmbProductRate_ImportIdColumn.currentText()
     product_name_column_header = main_window.cmbProductRate_ImportProductIdColumn.currentText()
     name_column_header = main_window.cmbProductRate_ImportNameColumn.currentText()
@@ -324,6 +324,8 @@ def read_product_rate_csv_and_extract_columns(main_window: Ui_MainWindow):
             name_index = header_row.index(name_column_header) if name_column_header in header_row else None
             rate_index = header_row.index(rate_column_header) if rate_column_header in header_row else None
 
+            print(id_index, product_name_index, name_index, rate_index)
+
             inserted_product_rate_count = 0
             updated_product_rate_count = 0
             global products
@@ -337,7 +339,7 @@ def read_product_rate_csv_and_extract_columns(main_window: Ui_MainWindow):
 
                         match_product_rate = ProductRate.get_by_productname_and_name(product_name=product_name_value, name=name_value)
                         if match_product_rate is None:
-                            product_matches = [p for p in products.values() if p.weighbridge_product_id == product_name_value]
+                            product_matches = [p for p in products.values() if p.name == product_name_value]
                             referenced_product = None
                             if product_matches:
                                 referenced_product = product_matches[0]
@@ -345,6 +347,7 @@ def read_product_rate_csv_and_extract_columns(main_window: Ui_MainWindow):
                                 ProductRate.insert(ProductRate(None, id_value, name_value, rate_value, referenced_product.id))
                                 inserted_product_rate_count += 1
                         else:
+                            print("UPDATING", name_value, rate_value)
                             match_product_rate.name = name_value
                             match_product_rate.rate = rate_value
                             match_product_rate.weighbridge_product_rate_id = id_value
@@ -411,7 +414,7 @@ def connect(main_window: Ui_MainWindow):
     main_window.btnProduct_SelectImportFile.clicked.connect(lambda: select_product_import_file(main_window))
     main_window.btnProductRate_SelectImportFile.clicked.connect(lambda: select_product_rate_import_file(main_window))
 
-    main_window.btnProductImportConfirm.clicked.connect(lambda: read_product_csv_and_extract_columns(main_window))
+    main_window.btnProductImportConfirm.clicked.connect(lambda: read_csv_and_perform_updates(main_window))
 
     main_window.btnSaveProduct.clicked.connect(lambda: save(main_window))
     main_window.txtProductSearch.textChanged.connect(

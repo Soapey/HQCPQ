@@ -9,6 +9,26 @@ from hqcpq.helpers.io import join_to_project_folder
 from hqcpq.helpers.general import select_directory
 
 
+def write_row(pdf, data, column_widths):
+    max_row_height = 0  # Initialize the maximum row height for the current row
+
+    # Calculate the maximum height needed for each row
+    for datum, width in zip(data, column_widths):
+        # Calculate the number of lines required for text wrapping
+        num_lines = len(datum) // (width * 0.115)  # Adjust this factor as needed
+        # Calculate the total height required for the text
+        total_height = num_lines * pdf.font_size
+        # Update the maximum row height if the current cell's content requires more height
+        max_row_height = max(max_row_height, total_height)
+
+    # Write the data into each cell in the row
+    for datum, width in zip(data, column_widths):
+        # Use multi_cell() for text data to allow wrapping
+        pdf.multi_cell(width, max_row_height, datum, border=1, align="R")
+
+    return max_row_height
+
+
 class QuotePDF(FPDF):
     def __init__(self, quote):
 
@@ -25,7 +45,6 @@ class QuotePDF(FPDF):
         self._header()
         self._body()
         self._footer()
-
 
     def _header(self):
 
@@ -171,17 +190,9 @@ class QuotePDF(FPDF):
         ]
 
         for row in data:
-            for datum in row:
-                self.cell(
-                    self.column_width_mm,
-                    self.row_height_mm,
-                    datum,
-                    border=1,
-                    align="R",
-                )
-            self.ln(self.row_height_mm)
+            write_row(self, row, [self.column_width_mm]*len(row))
 
-        self.ln(self.row_height_mm)
+        self.ln()
 
     def _footer(self):
 
