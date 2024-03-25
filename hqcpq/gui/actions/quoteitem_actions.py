@@ -16,7 +16,7 @@ from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.conversion import string_to_float, string_to_int
 from hqcpq.helpers.general import get_transport_rate_ex_gst
 
-special_conditions: dict[int, VehicleCombination] = dict()
+vehicle_combinations: dict[int, VehicleCombination] = dict()
 products: dict[int, Product] = dict()
 product_rates: dict[int, ProductRate] = dict()
 quotes: dict[int, Quote] = dict()
@@ -25,7 +25,7 @@ quote_items: dict[int, QuoteItem] = dict()
 
 def fetch_global_entities():
 
-    global special_conditions, products, product_rates, quotes, quote_items
+    global vehicle_combinations, products, product_rates, quotes, quote_items
 
     vehicle_combinations = VehicleCombination.get_all()
     products = Product.get_all()
@@ -183,7 +183,7 @@ def update_transport_rate(main_window: Ui_MainWindow):
         main_window.cmbQuoteItem_VehicleCombination.currentText()
     )
 
-    global special_conditions
+    global vehicle_combinations
     vehicle_combinations_list = [
         vc
         for vc in vehicle_combinations.values()
@@ -224,7 +224,7 @@ def clear_entry_fields(main_window: Ui_MainWindow):
     main_window.txtQuoteItem_ProductRate.clear()
     main_window.txtQuoteItem_TransportRate.clear()
 
-    global special_conditions
+    global vehicle_combinations
     cmb_vehicle_combinations: QComboBox = main_window.cmbQuoteItem_VehicleCombination
     cmb_vehicle_combinations.clear()
     cmb_vehicle_combinations.addItems([vc.name for vc in vehicle_combinations.values()])

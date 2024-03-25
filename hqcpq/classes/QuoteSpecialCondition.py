@@ -2,25 +2,26 @@ from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
 class QuoteSpecialCondition:
-    def __init__(self, obj_id: int, quote_id: int, special_condition_id: int):
+    def __init__(self, obj_id: int, quote_id: int, special_condition_id: int, is_checked: int):
         self.id = obj_id
         self.quote_id = quote_id
         self.special_condition_id = special_condition_id
+        self.is_checked = is_checked
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
-        query = "INSERT INTO quote_special_condition (quote_id, special_condition_id) VALUES (?, ?)"
+        query = "INSERT INTO quote_special_condition (quote_id, special_condition_id, is_checked) VALUES (?, ?, ?)"
         with SQLiteConnection() as cur:
-            cur.execute(query, (self.quote_id, self.special_condition_id))
+            cur.execute(query, (self.quote_id, self.special_condition_id, self.is_checked))
             self.id = cur.lastrowid
         return self
 
     def update(self):
-        query = "UPDATE quote_special_condition SET quote_id = ?, special_condition_id = ? WHERE id = ?"
+        query = "UPDATE quote_special_condition SET quote_id = ?, special_condition_id = ?, is_checked = ? WHERE id = ?"
         with SQLiteConnection() as cur:
-            cur.execute(query, (self.quote_id, self.special_condition_id, self.id))
+            cur.execute(query, (self.quote_id, self.special_condition_id, self.is_checked, self.id))
         return self
 
     @classmethod

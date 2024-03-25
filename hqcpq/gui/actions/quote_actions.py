@@ -1,15 +1,17 @@
 from datetime import datetime
 
 from PyQt5.QtGui import QIntValidator
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView, QCheckBox
 
 from hqcpq.classes.Quote import Quote
+from hqcpq.classes.QuoteSpecialCondition import QuoteSpecialCondition
 from hqcpq.db.SQLiteUtil import SQLiteConnection
 from hqcpq.gui.actions.quoteitem_actions import (
     refresh_table as refresh_quote_items_table,
     calculate_quote_item_totals,
     fetch_global_entities as fetch_quote_item_globals,
 )
+from hqcpq.gui.actions.quotespecialcondition_actions import refresh_table as refresh_quotespecialconditions_table
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.classes.InfoMessageBox import InfoMessageBox
 from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
@@ -82,7 +84,6 @@ def refresh_table(main_window: Ui_MainWindow):
 
 
 def on_row_select(main_window: Ui_MainWindow):
-
     selected_id: int = selected_row_id(main_window.tblQuotes)
 
     toggle_buttons(
@@ -96,7 +97,6 @@ def on_row_select(main_window: Ui_MainWindow):
 
 
 def navigate_to_listing_view(main_window: Ui_MainWindow):
-
     fetch_global_entities()
 
     refresh_table(main_window)
@@ -114,7 +114,6 @@ def navigate_to_listing_view(main_window: Ui_MainWindow):
 
 
 def clear_entry_fields(main_window: Ui_MainWindow):
-
     main_window.lblQuoteId.clear()
     main_window.lblQuote_DateCreated.clear()
     main_window.txtQuote_DateRequired.clear()
@@ -134,7 +133,6 @@ def clear_entry_fields(main_window: Ui_MainWindow):
 
 
 def new(main_window: Ui_MainWindow):
-
     fetch_quote_item_globals()
 
     clear_entry_fields(main_window)
@@ -152,6 +150,8 @@ def new(main_window: Ui_MainWindow):
     refresh_quote_items_table(main_window, -1)
 
     calculate_quote_item_totals(main_window, -1)
+
+    refresh_quotespecialconditions_table(main_window, -1)
 
     change_view(main_window.swPages, ViewPage.QUOTE_ENTRY)
 
@@ -182,6 +182,8 @@ def edit(main_window: Ui_MainWindow):
 
     calculate_quote_item_totals(main_window, quote.id)
 
+    refresh_quotespecialconditions_table(main_window, quote_id)
+
     toggle_buttons(
         [
             (main_window.btnNewQuoteItem, True),
@@ -195,12 +197,12 @@ def edit(main_window: Ui_MainWindow):
 
 
 def delete(main_window: Ui_MainWindow):
-
     quote_id: int = selected_row_id(main_window.tblQuotes)
     global quotes
     quote: Quote = quotes[quote_id]
 
-    delete_confirmed: bool = AskYesNoMessageBox(f"Are you sure that you would like to delete {quote.name} - {quote.address}, {quote.suburb}?").state
+    delete_confirmed: bool = AskYesNoMessageBox(
+        f"Are you sure that you would like to delete {quote.name} - {quote.address}, {quote.suburb}?").state
 
     if not delete_confirmed:
         return
@@ -215,7 +217,6 @@ def delete(main_window: Ui_MainWindow):
 
 
 def form_is_valid(main_window: Ui_MainWindow):
-
     result: bool = True
     error_string: str = str()
 
@@ -256,7 +257,6 @@ def form_is_valid(main_window: Ui_MainWindow):
 
 
 def save(main_window: Ui_MainWindow):
-
     if form_is_valid(main_window) is False:
         return
 
@@ -291,8 +291,6 @@ def save(main_window: Ui_MainWindow):
         quote_completed,
     )
 
-    print(quote)
-
     quote.update() if quote_id else quote.insert()
     quotes[quote.id] = quote
 
@@ -311,7 +309,6 @@ def save(main_window: Ui_MainWindow):
         ).fetchall()
 
         for t in quote_item_tuples:
-
             transport_rate_ex_gst = get_transport_rate_ex_gst(
                 quote.kilometres, t[1]
             )
@@ -328,8 +325,6 @@ def save(main_window: Ui_MainWindow):
                 ),
             )
 
-    refresh_quote_items_table(main_window, quote.id)
-
     toggle_buttons(
         [
             (main_window.btnNewQuoteItem, True),
@@ -339,11 +334,28 @@ def save(main_window: Ui_MainWindow):
         ]
     )
 
+    tblSpecialConditions = main_window.tblSpecialConditions
+    for row in range(tblSpecialConditions.rowCount()):
+        special_condition_id = string_to_int(tblSpecialConditions.item(row, 0).text())
+        checkbox_widget = tblSpecialConditions.cellWidget(row, 3)
+        is_checked = int(checkbox_widget.checkState())
+
+        if quote_id:
+            quote_special_condition = QuoteSpecialCondition.get_by_quote_and_special_condition(quote.id,
+                                                                                               special_condition_id)
+            quote_special_condition.is_checked = is_checked
+            print("Updating", special_condition_id, is_checked)
+            quote_special_condition.update()
+        else:
+            quote_special_condition = QuoteSpecialCondition(None, quote.id, special_condition_id, is_checked)
+            print("Inserting", special_condition_id, is_checked)
+            quote_special_condition.insert()
+
+    main_window.lblQuoteId.setText(str(quote.id))
     InfoMessageBox(f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.")
 
 
 def search(main_window: Ui_MainWindow, search_text: str):
-
     global quotes, matches
     matches = (
         quotes
@@ -352,7 +364,7 @@ def search(main_window: Ui_MainWindow, search_text: str):
             q.id: q
             for q in quotes.values()
             if search_text
-            in "".join([str(q.id), q.name.lower(), q.address.lower(), q.suburb.lower()])
+               in "".join([str(q.id), q.name.lower(), q.address.lower(), q.suburb.lower()])
         }
     )
 
@@ -365,7 +377,6 @@ def export(quote_id: int):
 
 
 def connect(main_window: Ui_MainWindow):
-
     main_window.btnExportQuote.clicked.connect(
         lambda: export(selected_row_id(main_window.tblQuotes))
     )

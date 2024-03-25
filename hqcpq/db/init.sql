@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS quote_special_condition (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     quote_id INTEGER NOT NULL,
     special_condition_id INTEGER NOT NULL,
+    is_checked INTEGER NOT NULL,
     FOREIGN KEY (quote_id) REFERENCES quote (id)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
