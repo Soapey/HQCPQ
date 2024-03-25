@@ -6,7 +6,7 @@ from fpdf import FPDF
 from hqcpq.gui.classes.InfoMessageBox import InfoMessageBox
 from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
 from hqcpq.helpers.io import join_to_project_folder
-from hqcpq.helpers.general import select_directory
+from hqcpq.helpers.general import select_directory, insert_newline_at_max_length
 
 
 def write_row(pdf, data, column_widths):
@@ -36,6 +36,7 @@ class QuotePDF(FPDF):
 
         self.quote = quote
         self.items = quote.items()
+        self.special_conditions = quote.special_conditions()
 
         self.add_page()
 
@@ -196,35 +197,35 @@ class QuotePDF(FPDF):
 
     def _footer(self):
 
-        special_conditions = [
-            (
-                "Products are subject to availability and an agreed offtake schedule.",
-                self.row_height_mm,
-            ),
-            ("Rates valid for 8 weeks from time of quoting.", self.row_height_mm),
-            (
-                "Quarry operating hours: Mon to Fri 6:00am to 4:30pm, Sat 6:00am to 12:00pm (noon).",
-                self.row_height_mm,
-            ),
-            (
-                "Conformance to site specifications must be confirmed by the customer prior to supply. Hunter "
-                "Quarries takes no responsibility for checking materials meets site specifications.",
-                self.row_height_mm + 5,
-            ),
-            (
-                "Hunter Quarries can supply test results upon request.",
-                self.row_height_mm,
-            ),
-            (
-                "Payment required via credit card per load once final weights determined & prior to despatch.",
-                self.row_height_mm,
-            ),
-            (
-                "Site access must be suitable to receive goods. If deemed unsuitable on arrival by the driver, "
-                "product will be returned to the quarry & credited, however freight charges will apply.",
-                self.row_height_mm + 5,
-            ),
-        ]
+        # special_conditions = [
+        #     (
+        #         "Products are subject to availability and an agreed offtake schedule.",
+        #         self.row_height_mm,
+        #     ),
+        #     ("Rates valid for 8 weeks from time of quoting.", self.row_height_mm),
+        #     (
+        #         "Quarry operating hours: Mon to Fri 6:00am to 4:30pm, Sat 6:00am to 12:00pm (noon).",
+        #         self.row_height_mm,
+        #     ),
+        #     (
+        #         "Conformance to site specifications must be confirmed by the customer prior to supply. Hunter "
+        #         "Quarries takes no responsibility for checking materials meets site specifications.",
+        #         self.row_height_mm + 5,
+        #     ),
+        #     (
+        #         "Hunter Quarries can supply test results upon request.",
+        #         self.row_height_mm,
+        #     ),
+        #     (
+        #         "Payment required via credit card per load once final weights determined & prior to despatch.",
+        #         self.row_height_mm,
+        #     ),
+        #     (
+        #         "Site access must be suitable to receive goods. If deemed unsuitable on arrival by the driver, "
+        #         "product will be returned to the quarry & credited, however freight charges will apply.",
+        #         self.row_height_mm + 5,
+        #     ),
+        # ]
 
         # Special conditions' header.
         self.set_font("Helvetica", "B", 10)
@@ -240,11 +241,14 @@ class QuotePDF(FPDF):
 
         # Special conditions.
         self.set_font("Helvetica", "", 8)
-        for special_condition in special_conditions:
+        for special_condition in self.special_conditions.values():
+            lines = insert_newline_at_max_length(special_condition.message, 140)
+            message = '\n'.join(lines)
+            added_vertical_space = (len(lines)-1) * 3
             self.multi_cell(
                 w=self.column_width_mm * 4,
-                h=self.row_height_mm,
-                txt=special_condition[0],
+                h=self.row_height_mm + added_vertical_space,
+                txt=message,
                 border=1,
             )
 

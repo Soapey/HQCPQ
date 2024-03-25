@@ -59,3 +59,21 @@ def is_valid_email(email: str) -> bool:
 def select_directory():
     current_dir = os.getcwd()
     return QFileDialog.getExistingDirectory(None, "Select Directory", current_dir)
+
+
+def insert_newline_at_max_length(string, max_length):
+    lines = []
+    words = string.split()  # Split the string into words
+
+    current_line = ''  # Initialize the current line
+
+    for word in words:
+        if len(current_line) + len(word) <= max_length:  # If adding the word fits within the max length
+            current_line += word + ' '  # Add the word to the current line
+        else:
+            lines.append(current_line.strip())  # Add the current line to the list of lines
+            current_line = word + ' '  # Start a new line with the current word
+
+    lines.append(current_line.strip())  # Add the last line
+
+    return lines
