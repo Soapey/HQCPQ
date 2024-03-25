@@ -15,6 +15,7 @@ from hqcpq.gui.actions.transportsettings_actions import connect as connect_trans
 from hqcpq.gui.actions.vehiclecombination_actions import (
     connect as connect_vehicle_combinations,
 )
+from hqcpq.gui.actions.special_condition_actions import connect as connect_special_conditions
 from hqcpq.gui.components.main_window import Ui_MainWindow
 
 
@@ -26,6 +27,7 @@ def connect_main_window_actions(main_window: Ui_MainWindow):
     connect_rate_types(main_window)
     connect_vehicle_combinations(main_window)
     connect_transport_settings(main_window)
+    connect_special_conditions(main_window)
 
 
 def main():

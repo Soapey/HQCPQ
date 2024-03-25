@@ -1770,6 +1770,228 @@ class Ui_MainWindow(object):
         spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout_11.addItem(spacerItem6, 11, 1, 1, 3)
         self.swPages.addWidget(self.pageImportProduct)
+        self.pageSpecialConditions = QtWidgets.QWidget()
+        self.pageSpecialConditions.setObjectName("pageSpecialConditions")
+        self.gridLayout_26 = QtWidgets.QGridLayout(self.pageSpecialConditions)
+        self.gridLayout_26.setObjectName("gridLayout_26")
+        self.lblSpecialConditions_Header = QtWidgets.QLabel(self.pageSpecialConditions)
+        self.lblSpecialConditions_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"background-color: #003049;\n"
+"color: #ffffff;\n"
+"font-size: 20pt;\n"
+"font-family: \"Helvetica\";\n"
+"font-style: normal;\n"
+"font-weight: 700;\n"
+"padding: 6px;")
+        self.lblSpecialConditions_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblSpecialConditions_Header.setObjectName("lblSpecialConditions_Header")
+        self.gridLayout_26.addWidget(self.lblSpecialConditions_Header, 0, 0, 1, 3)
+        self.btnNewSpecialCondition = QtWidgets.QPushButton(self.pageSpecialConditions)
+        self.btnNewSpecialCondition.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnNewSpecialCondition.setStyleSheet("background-color: #4361ee;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnNewSpecialCondition.setObjectName("btnNewSpecialCondition")
+        self.gridLayout_26.addWidget(self.btnNewSpecialCondition, 1, 0, 1, 1)
+        self.btnEditSpecialCondition = QtWidgets.QPushButton(self.pageSpecialConditions)
+        self.btnEditSpecialCondition.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnEditSpecialCondition.setStyleSheet("background-color: #f77f00;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnEditSpecialCondition.setObjectName("btnEditSpecialCondition")
+        self.gridLayout_26.addWidget(self.btnEditSpecialCondition, 1, 1, 1, 1)
+        self.btnDeleteSpecialCondition = QtWidgets.QPushButton(self.pageSpecialConditions)
+        self.btnDeleteSpecialCondition.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnDeleteSpecialCondition.setStyleSheet("background-color: #d62828;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnDeleteSpecialCondition.setObjectName("btnDeleteSpecialCondition")
+        self.gridLayout_26.addWidget(self.btnDeleteSpecialCondition, 1, 2, 1, 1)
+        self.txtSpecialConditionsSearch = QtWidgets.QLineEdit(self.pageSpecialConditions)
+        self.txtSpecialConditionsSearch.setFocusPolicy(QtCore.Qt.ClickFocus)
+        self.txtSpecialConditionsSearch.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14pt;\n"
+"padding: 5px;")
+        self.txtSpecialConditionsSearch.setObjectName("txtSpecialConditionsSearch")
+        self.gridLayout_26.addWidget(self.txtSpecialConditionsSearch, 2, 0, 1, 3)
+        self.tblSpecialConditions = QtWidgets.QTableWidget(self.pageSpecialConditions)
+        self.tblSpecialConditions.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.tblSpecialConditions.setStyleSheet("border: 1px solid #003049;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;")
+        self.tblSpecialConditions.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tblSpecialConditions.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tblSpecialConditions.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblSpecialConditions.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tblSpecialConditions.setColumnCount(0)
+        self.tblSpecialConditions.setObjectName("tblSpecialConditions")
+        self.tblSpecialConditions.setRowCount(0)
+        self.tblSpecialConditions.horizontalHeader().setStretchLastSection(True)
+        self.tblSpecialConditions.verticalHeader().setVisible(False)
+        self.tblSpecialConditions.verticalHeader().setStretchLastSection(False)
+        self.gridLayout_26.addWidget(self.tblSpecialConditions, 3, 0, 1, 3)
+        self.swPages.addWidget(self.pageSpecialConditions)
+        self.pageSpecialConditionEntry = QtWidgets.QWidget()
+        self.pageSpecialConditionEntry.setObjectName("pageSpecialConditionEntry")
+        self.gridLayout_12 = QtWidgets.QGridLayout(self.pageSpecialConditionEntry)
+        self.gridLayout_12.setObjectName("gridLayout_12")
+        self.lblSpecialConditionEntry_Header = QtWidgets.QLabel(self.pageSpecialConditionEntry)
+        self.lblSpecialConditionEntry_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"background-color: #003049;\n"
+"color: #ffffff;\n"
+"font-size: 20pt;\n"
+"font-family: \"Helvetica\";\n"
+"font-style: normal;\n"
+"font-weight: 700;\n"
+"padding: 6px;")
+        self.lblSpecialConditionEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblSpecialConditionEntry_Header.setObjectName("lblSpecialConditionEntry_Header")
+        self.gridLayout_12.addWidget(self.lblSpecialConditionEntry_Header, 0, 0, 1, 2)
+        self.lblSpecialConditionId_Label = QtWidgets.QLabel(self.pageSpecialConditionEntry)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblSpecialConditionId_Label.sizePolicy().hasHeightForWidth())
+        self.lblSpecialConditionId_Label.setSizePolicy(sizePolicy)
+        self.lblSpecialConditionId_Label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.lblSpecialConditionId_Label.setStyleSheet("color: #6c757d;\n"
+"font-family: \"Helvetica\";\n"
+"font-weight: 300;\n"
+"font-size: 10pt")
+        self.lblSpecialConditionId_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblSpecialConditionId_Label.setObjectName("lblSpecialConditionId_Label")
+        self.gridLayout_12.addWidget(self.lblSpecialConditionId_Label, 1, 0, 1, 1)
+        self.lblSpecialConditionId = QtWidgets.QLabel(self.pageSpecialConditionEntry)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblSpecialConditionId.sizePolicy().hasHeightForWidth())
+        self.lblSpecialConditionId.setSizePolicy(sizePolicy)
+        self.lblSpecialConditionId.setStyleSheet("background-color: rgb(215, 215, 215);\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"padding: 5px;")
+        self.lblSpecialConditionId.setText("")
+        self.lblSpecialConditionId.setObjectName("lblSpecialConditionId")
+        self.gridLayout_12.addWidget(self.lblSpecialConditionId, 1, 1, 1, 1)
+        self.lblSpecialCondition_Name = QtWidgets.QLabel(self.pageSpecialConditionEntry)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblSpecialCondition_Name.sizePolicy().hasHeightForWidth())
+        self.lblSpecialCondition_Name.setSizePolicy(sizePolicy)
+        self.lblSpecialCondition_Name.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.lblSpecialCondition_Name.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblSpecialCondition_Name.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblSpecialCondition_Name.setObjectName("lblSpecialCondition_Name")
+        self.gridLayout_12.addWidget(self.lblSpecialCondition_Name, 2, 0, 1, 1)
+        self.txtSpecialCondition_Name = QtWidgets.QLineEdit(self.pageSpecialConditionEntry)
+        self.txtSpecialCondition_Name.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtSpecialCondition_Name.setMaxLength(32767)
+        self.txtSpecialCondition_Name.setObjectName("txtSpecialCondition_Name")
+        self.gridLayout_12.addWidget(self.txtSpecialCondition_Name, 2, 1, 1, 1)
+        self.lblSpecialCondition_Message = QtWidgets.QLabel(self.pageSpecialConditionEntry)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblSpecialCondition_Message.sizePolicy().hasHeightForWidth())
+        self.lblSpecialCondition_Message.setSizePolicy(sizePolicy)
+        self.lblSpecialCondition_Message.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.lblSpecialCondition_Message.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblSpecialCondition_Message.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblSpecialCondition_Message.setObjectName("lblSpecialCondition_Message")
+        self.gridLayout_12.addWidget(self.lblSpecialCondition_Message, 3, 0, 1, 1)
+        self.txtSpecialCondition_Message = QtWidgets.QPlainTextEdit(self.pageSpecialConditionEntry)
+        self.txtSpecialCondition_Message.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtSpecialCondition_Message.setObjectName("txtSpecialCondition_Message")
+        self.gridLayout_12.addWidget(self.txtSpecialCondition_Message, 3, 1, 1, 1)
+        self.lblSpecialCondition_IsDefault = QtWidgets.QLabel(self.pageSpecialConditionEntry)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblSpecialCondition_IsDefault.sizePolicy().hasHeightForWidth())
+        self.lblSpecialCondition_IsDefault.setSizePolicy(sizePolicy)
+        self.lblSpecialCondition_IsDefault.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.lblSpecialCondition_IsDefault.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblSpecialCondition_IsDefault.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblSpecialCondition_IsDefault.setObjectName("lblSpecialCondition_IsDefault")
+        self.gridLayout_12.addWidget(self.lblSpecialCondition_IsDefault, 4, 0, 1, 1)
+        self.chkSpecialCondition_IsDefault = QtWidgets.QCheckBox(self.pageSpecialConditionEntry)
+        self.chkSpecialCondition_IsDefault.setText("")
+        self.chkSpecialCondition_IsDefault.setObjectName("chkSpecialCondition_IsDefault")
+        self.gridLayout_12.addWidget(self.chkSpecialCondition_IsDefault, 4, 1, 1, 1)
+        self.btnSaveSpecialCondition = QtWidgets.QPushButton(self.pageSpecialConditionEntry)
+        self.btnSaveSpecialCondition.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnSaveSpecialCondition.setStyleSheet("background-color: #2ea44f;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnSaveSpecialCondition.setObjectName("btnSaveSpecialCondition")
+        self.gridLayout_12.addWidget(self.btnSaveSpecialCondition, 5, 0, 1, 1)
+        spacerItem7 = QtWidgets.QSpacerItem(824, 378, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_12.addItem(spacerItem7, 6, 0, 1, 2)
+        self.swPages.addWidget(self.pageSpecialConditionEntry)
         self.gridLayout_10.addWidget(self.swPages, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -1791,16 +2013,18 @@ class Ui_MainWindow(object):
         self.actionVehicle_Combinations.setObjectName("actionVehicle_Combinations")
         self.actionTransport_Settings = QtWidgets.QAction(MainWindow)
         self.actionTransport_Settings.setObjectName("actionTransport_Settings")
+        self.actionSpecial_Conditions = QtWidgets.QAction(MainWindow)
+        self.actionSpecial_Conditions.setObjectName("actionSpecial_Conditions")
         self.menuMenu.addAction(self.actionQuotes)
+        self.menuMenu.addAction(self.actionSpecial_Conditions)
         self.menuMenu.addAction(self.actionProducts)
-        self.menuMenu.addAction(self.actionRate_Types)
         self.menuMenu.addAction(self.actionVehicle_Combinations)
         self.menuMenu.addSeparator()
         self.menuMenu.addAction(self.actionTransport_Settings)
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(11)
+        self.swPages.setCurrentIndex(12)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.txtQuote_DateRequired, self.txtQuote_Name)
         MainWindow.setTabOrder(self.txtQuote_Name, self.txtQuote_Address)
@@ -1924,23 +2148,36 @@ class Ui_MainWindow(object):
         self.lblTransportSettings_Header.setText(_translate("MainWindow", "Transport Settings"))
         self.btnSaveTransportSettings.setText(_translate("MainWindow", "Save Transport Settings"))
         self.lblProduct_ImportNameColumn.setText(_translate("MainWindow", "Name"))
-        self.lblProductRate_ImportRateColumn.setText(_translate("MainWindow", "Rate"))
+        self.lblProductRate_ImportRateColumn.setText(_translate("MainWindow", "Unit Cost"))
         self.lblProductRate_ImportNameColumn.setText(_translate("MainWindow", "Name"))
-        self.lblProduct_ImportIdColumn.setText(_translate("MainWindow", "ID"))
+        self.lblProduct_ImportIdColumn.setText(_translate("MainWindow", "Product No"))
         self.txtProductRate_ImportFilePath.setPlaceholderText(_translate("MainWindow", "Please Select an Import File"))
         self.btnProduct_SelectImportFile.setText(_translate("MainWindow", "Select File"))
         self.lblProductRate_SelectImportFile.setText(_translate("MainWindow", "File Path"))
         self.lblProduct_SelectImportFile.setText(_translate("MainWindow", "File Path"))
-        self.lblProductRate_ImportProductIDColumn.setText(_translate("MainWindow", "Product ID"))
+        self.lblProductRate_ImportProductIDColumn.setText(_translate("MainWindow", "Product"))
         self.btnProductRate_SelectImportFile.setText(_translate("MainWindow", "Select File"))
         self.txtProduct_ImportFilePath.setPlaceholderText(_translate("MainWindow", "Please Select an Import File"))
-        self.lblProductRate_ImportIdColumn.setText(_translate("MainWindow", "ID"))
+        self.lblProductRate_ImportIdColumn.setText(_translate("MainWindow", "Product Charge No"))
         self.label.setText(_translate("MainWindow", "Product Charge"))
         self.label_2.setText(_translate("MainWindow", "Product"))
         self.btnProductImportConfirm.setText(_translate("MainWindow", "Import"))
+        self.lblSpecialConditions_Header.setText(_translate("MainWindow", "Special Conditions"))
+        self.btnNewSpecialCondition.setText(_translate("MainWindow", "New Special Condition"))
+        self.btnEditSpecialCondition.setText(_translate("MainWindow", "Edit Special Condition"))
+        self.btnDeleteSpecialCondition.setText(_translate("MainWindow", "Delete Special Condition"))
+        self.txtSpecialConditionsSearch.setPlaceholderText(_translate("MainWindow", "Search"))
+        self.tblSpecialConditions.setSortingEnabled(True)
+        self.lblSpecialConditionEntry_Header.setText(_translate("MainWindow", "Special Condition Entry/Edit"))
+        self.lblSpecialConditionId_Label.setText(_translate("MainWindow", "Id"))
+        self.lblSpecialCondition_Name.setText(_translate("MainWindow", "Name"))
+        self.lblSpecialCondition_Message.setText(_translate("MainWindow", "Message"))
+        self.lblSpecialCondition_IsDefault.setText(_translate("MainWindow", "Is Default"))
+        self.btnSaveSpecialCondition.setText(_translate("MainWindow", "Save Special Condition"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionProducts.setText(_translate("MainWindow", "Products"))
         self.actionQuotes.setText(_translate("MainWindow", "Quotes"))
         self.actionRate_Types.setText(_translate("MainWindow", "Rate Types"))
         self.actionVehicle_Combinations.setText(_translate("MainWindow", "Vehicle Combinations"))
         self.actionTransport_Settings.setText(_translate("MainWindow", "Transport Settings"))
+        self.actionSpecial_Conditions.setText(_translate("MainWindow", "Special Conditions"))

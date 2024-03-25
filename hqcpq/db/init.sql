@@ -54,3 +54,22 @@ CREATE TABLE IF NOT EXISTS quote_item (
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS special_condition (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    name TEXT NOT NULL,
+    message TEXT NOT NULL,
+    is_default INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS quote_special_condition (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    quote_id INTEGER NOT NULL,
+    special_condition_id INTEGER NOT NULL,
+    FOREIGN KEY (quote_id) REFERENCES quote (id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY (special_condition_id) REFERENCES special_condition (id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);

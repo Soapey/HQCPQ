@@ -166,9 +166,9 @@ def form_is_valid(main_window: Ui_MainWindow):
 
 def connect(main_window: Ui_MainWindow):
 
-    main_window.actionRate_Types.triggered.connect(
-        lambda: navigate_to_listing_view(main_window)
-    )
+    #main_window.actionRate_Types.triggered.connect(
+        #lambda: navigate_to_listing_view(main_window)
+    #)
     main_window.tblRateTypes.selectionModel().selectionChanged.connect(
         lambda: on_row_select(main_window)
     )

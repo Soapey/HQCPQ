@@ -16,13 +16,13 @@ from hqcpq.gui.view_enum import ViewPage
 from hqcpq.helpers.conversion import string_to_float
 from hqcpq.helpers.conversion import string_to_int
 
-vehicle_combinations: dict[int, VehicleCombination] = dict()
+special_conditions: dict[int, VehicleCombination] = dict()
 matches: dict[int, VehicleCombination] = dict()
 
 
 def navigate_to_listing_view(main_window: Ui_MainWindow):
 
-    global vehicle_combinations, matches
+    global special_conditions, matches
     vehicle_combinations = VehicleCombination.get_all()
     matches = vehicle_combinations
 
@@ -33,7 +33,7 @@ def navigate_to_listing_view(main_window: Ui_MainWindow):
 
 def search(main_window: Ui_MainWindow, search_text: str):
 
-    global vehicle_combinations, matches
+    global special_conditions, matches
     matches = (
         vehicle_combinations
         if not search_text
@@ -120,7 +120,7 @@ def edit(main_window: Ui_MainWindow):
 
     selected_id = selected_row_id(main_window.tblVehicleCombinations)
 
-    global vehicle_combinations
+    global special_conditions
     vehicle_combination: VehicleCombination = vehicle_combinations[selected_id]
 
     clear_entry_fields(main_window)
@@ -136,7 +136,7 @@ def delete(main_window: Ui_MainWindow):
 
     selected_id = selected_row_id(main_window.tblVehicleCombinations)
 
-    global vehicle_combinations
+    global special_conditions
     vehicle_combination: VehicleCombination = vehicle_combinations[selected_id]
 
     delete_confirmed: bool = AskYesNoMessageBox(f"Are you sure that you would like to delete {vehicle_combination.name}?")
@@ -197,7 +197,7 @@ def form_is_valid(main_window: Ui_MainWindow):
 
     else:
 
-        global vehicle_combinations
+        global special_conditions
         entities_with_same_name = [
             vc
             for vc in vehicle_combinations.values()
