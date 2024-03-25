@@ -12,7 +12,7 @@ class SpecialCondition:
         return f"{self.__class__.__name__}({vars(self)})"
 
     def insert(self):
-        query = "INSERT INTO special_condition (name, message, is_default) VALUES (?, ?)"
+        query = "INSERT INTO special_condition (name, message, is_default) VALUES (?, ?, ?)"
         with SQLiteConnection() as cur:
             cur.execute(query, (self.name, self.message, self.is_default))
             self.id = cur.lastrowid

@@ -1,8 +1,6 @@
-from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import (
     QTableWidget,
     QTableWidgetItem,
-    QComboBox,
     QHeaderView,
 )
 
@@ -13,7 +11,6 @@ from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
 from hqcpq.gui.classes.AskYesNoMessageBox import AskYesNoMessageBox
 from hqcpq.gui.helpers import change_view, selected_row_id, toggle_buttons
 from hqcpq.gui.view_enum import ViewPage
-from hqcpq.helpers.conversion import string_to_float
 from hqcpq.helpers.conversion import string_to_int
 
 special_conditions: dict[int, SpecialCondition] = dict()
@@ -66,7 +63,7 @@ def refresh_table(main_window: Ui_MainWindow):
 
     tbl_headers = ["ID", "Name", "Message", "Is Default"]
 
-    tbl: QTableWidget = main_window.tblVehicleCombinations
+    tbl: QTableWidget = main_window.tblSpecialConditions
     tbl.clear()
     tbl.setRowCount(len(matches.values()))
     tbl.setColumnCount(len(tbl_headers))
@@ -122,7 +119,7 @@ def edit(main_window: Ui_MainWindow):
 
     main_window.lblSpecialConditionId.setText(str(special_condition.id))
     main_window.txtSpecialCondition_Name.setText(special_condition.name)
-    main_window.txtSpecialCondition_Message.setText(special_condition.message)
+    main_window.txtSpecialCondition_Message.setPlainText(special_condition.message)
     main_window.chkSpecialCondition_IsDefault.setChecked(bool(special_condition.is_default))
 
     change_view(main_window.swPages, ViewPage.SPECIAL_CONDITION_ENTRY)
@@ -154,9 +151,9 @@ def save(main_window: Ui_MainWindow):
     if form_is_valid(main_window) is False:
         return
 
-    special_condition_id: int = string_to_int(main_window.lblVehicleCombinationId.text())
+    special_condition_id: int = string_to_int(main_window.lblSpecialConditionId.text())
     special_condition_name: str = main_window.txtSpecialCondition_Name.text()
-    special_condition_message: str = main_window.txtSpecialCondition_Message.text()
+    special_condition_message: str = main_window.txtSpecialCondition_Message.toPlainText()
     special_condition_is_default: bool = main_window.chkSpecialCondition_IsDefault.isChecked()
 
     special_condition = SpecialCondition(
@@ -180,7 +177,7 @@ def form_is_valid(main_window: Ui_MainWindow):
     error_string = str()
 
     special_condition_name: str = main_window.txtSpecialCondition_Name.text()
-    special_condition_message: str = main_window.txtSpecialCondition_Message.text()
+    special_condition_message: str = main_window.txtSpecialCondition_Message.toPlainText()
 
     if len(special_condition_name) == 0:
         error_string += "\n- Name field cannot be blank."
