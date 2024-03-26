@@ -238,9 +238,9 @@ font-size: 10pt;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-28</y>
+             <y>0</y>
              <width>808</width>
-             <height>840</height>
+             <height>844</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_29">

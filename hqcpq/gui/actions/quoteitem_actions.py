@@ -42,9 +42,6 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
 
     quote = Quote.get(selected_quote_id)
 
-    if not quote:
-        return
-
     global quote_items
     items: dict[int, QuoteItem] = quote.items()
 
@@ -63,6 +60,18 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
     tbl.setRowCount(len(items.values()))
     tbl.setColumnCount(len(tbl_headers))
     tbl.setHorizontalHeaderLabels(tbl_headers)
+
+    header = tbl.horizontalHeader()
+    for i in range(len(tbl_headers)):
+        header.setSectionResizeMode(
+            i,
+            QHeaderView.ResizeMode.ResizeToContents
+            if i < len(tbl_headers) - 1
+            else QHeaderView.ResizeMode.Stretch,
+        )
+
+    if not quote:
+        return
 
     for index, quote_item in enumerate(items.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(quote_item.id)))
@@ -83,15 +92,6 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
             index,
             6,
             QTableWidgetItem("${:,.2f}".format(quote_item.total_inc_gst())),
-        )
-
-    header = tbl.horizontalHeader()
-    for i in range(len(tbl_headers)):
-        header.setSectionResizeMode(
-            i,
-            QHeaderView.ResizeMode.ResizeToContents
-            if i < len(tbl_headers) - 1
-            else QHeaderView.ResizeMode.Stretch,
         )
 
 

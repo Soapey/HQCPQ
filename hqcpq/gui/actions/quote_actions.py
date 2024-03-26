@@ -11,7 +11,8 @@ from hqcpq.gui.actions.quoteitem_actions import (
     calculate_quote_item_totals,
     fetch_global_entities as fetch_quote_item_globals,
 )
-from hqcpq.gui.actions.quotespecialcondition_actions import refresh_table as refresh_quotespecialconditions_table
+from hqcpq.gui.actions.quotespecialcondition_actions import refresh_table as refresh_quotespecialconditions_table, \
+    get_checkbox_state
 from hqcpq.gui.components.main_window import Ui_MainWindow
 from hqcpq.gui.classes.InfoMessageBox import InfoMessageBox
 from hqcpq.gui.classes.ErrorMessageBox import ErrorMessageBox
@@ -334,11 +335,11 @@ def save(main_window: Ui_MainWindow):
         ]
     )
 
-    tblSpecialConditions = main_window.tblSpecialConditions
-    for row in range(tblSpecialConditions.rowCount()):
-        special_condition_id = string_to_int(tblSpecialConditions.item(row, 0).text())
-        checkbox_widget = tblSpecialConditions.cellWidget(row, 3)
-        is_checked = int(checkbox_widget.checkState())
+    quote_special_conditions_table = main_window.tblQuoteSpecialConditions
+    for row in range(quote_special_conditions_table.rowCount()):
+        special_condition_id = string_to_int(quote_special_conditions_table.item(row, 0).text())
+        is_checked = get_checkbox_state(quote_special_conditions_table, row)
+        print("looping row", row)
 
         if quote_id:
             quote_special_condition = QuoteSpecialCondition.get_by_quote_and_special_condition(quote.id,

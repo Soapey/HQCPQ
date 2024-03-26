@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView, QCheckBox
+from PyQt5.QtWidgets import QTableWidgetItem, QHeaderView, QCheckBox
 
 from hqcpq.classes.Quote import Quote
 from hqcpq.classes.SpecialCondition import SpecialCondition
@@ -24,7 +24,13 @@ def on_checkbox_state_changed(state, table_widget, row):
             checkbox_widget.setCheckState(Qt.Unchecked)  # Set the checkbox state to unchecked
 
 
-def refresh_table(main_window, quote_id=None):
+def get_checkbox_state(table_widget, row):
+    checkbox_widget = table_widget.cellWidget(row, 3)  # Get the checkbox widget in the specified cell
+    if isinstance(checkbox_widget, QCheckBox):  # Ensure it's a checkbox widget
+        return checkbox_widget.isChecked()  # Return whether the checkbox is checked or not
+
+
+def refresh_table(main_window: Ui_MainWindow, quote_id=None):
     fetch_global_entities()
 
     selected_quote_id = quote_id or selected_row_id(main_window.tblQuotes)
@@ -38,11 +44,20 @@ def refresh_table(main_window, quote_id=None):
         "Is Added"
     ]
 
-    tbl = main_window.tblQuoteItems
+    tbl = main_window.tblQuoteSpecialConditions
     tbl.clear()
     tbl.setRowCount(len(special_conditions.values()))
     tbl.setColumnCount(len(tbl_headers))
     tbl.setHorizontalHeaderLabels(tbl_headers)
+
+    header = tbl.horizontalHeader()
+    for i in range(len(tbl_headers)):
+        header.setSectionResizeMode(
+            i,
+            QHeaderView.ResizeToContents
+            if i < len(tbl_headers) - 1
+            else QHeaderView.Stretch,
+        )
 
     for index, special_condition in enumerate(special_conditions.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(special_condition.id)))
@@ -58,17 +73,9 @@ def refresh_table(main_window, quote_id=None):
         else:
             checkbox_item_ischecked = special_condition.is_default
 
-        # Connect the checkbox state changed signal to the on_checkbox_state_changed slot
+        # Create checkbox
         checkbox = QCheckBox()
+        checkbox.setChecked(checkbox_item_ischecked)  # Set initial checked state
         checkbox.stateChanged.connect(lambda state, tw=tbl, r=index: on_checkbox_state_changed(state, tw, r))
+
         tbl.setCellWidget(index, 3, checkbox)
-
-    header = tbl.horizontalHeader()
-    for i in range(len(tbl_headers)):
-        header.setSectionResizeMode(
-            i,
-            QHeaderView.ResizeToContents
-            if i < len(tbl_headers) - 1
-            else QHeaderView.Stretch,
-        )
-
