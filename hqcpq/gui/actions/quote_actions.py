@@ -339,17 +339,18 @@ def save(main_window: Ui_MainWindow):
     for row in range(quote_special_conditions_table.rowCount()):
         special_condition_id = string_to_int(quote_special_conditions_table.item(row, 0).text())
         is_checked = get_checkbox_state(quote_special_conditions_table, row)
-        print("looping row", row)
 
         if quote_id:
             quote_special_condition = QuoteSpecialCondition.get_by_quote_and_special_condition(quote.id,
                                                                                                special_condition_id)
-            quote_special_condition.is_checked = is_checked
-            print("Updating", special_condition_id, is_checked)
-            quote_special_condition.update()
+            if quote_special_condition is None:
+                quote_special_condition = QuoteSpecialCondition(None, quote.id, special_condition_id, is_checked)
+                quote_special_condition.insert()
+            else:
+                quote_special_condition.is_checked = is_checked
+                quote_special_condition.update()
         else:
             quote_special_condition = QuoteSpecialCondition(None, quote.id, special_condition_id, is_checked)
-            print("Inserting", special_condition_id, is_checked)
             quote_special_condition.insert()
 
     main_window.lblQuoteId.setText(str(quote.id))

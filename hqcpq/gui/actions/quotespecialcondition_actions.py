@@ -67,8 +67,7 @@ def refresh_table(main_window: Ui_MainWindow, quote_id=None):
         if quote:
             quote_special_condition = QuoteSpecialCondition.get_by_quote_and_special_condition(quote.id, special_condition.id)
             if quote_special_condition is None:
-                quote_special_condition = QuoteSpecialCondition(None, quote.id, special_condition.id, special_condition.is_default)
-                quote_special_condition.insert()
+                quote_special_condition = QuoteSpecialCondition(0, quote.id, special_condition.id, special_condition.is_default)
             checkbox_item_ischecked = quote_special_condition.is_checked
         else:
             checkbox_item_ischecked = special_condition.is_default
