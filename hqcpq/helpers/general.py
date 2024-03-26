@@ -63,17 +63,20 @@ def select_directory():
 
 def insert_newline_at_max_length(string, max_length):
     lines = []
-    words = string.split()  # Split the string into words
+    current_line = ''
 
-    current_line = ''  # Initialize the current line
-
-    for word in words:
-        if len(current_line) + len(word) <= max_length:  # If adding the word fits within the max length
-            current_line += word + ' '  # Add the word to the current line
+    for char in string:
+        if char == '\n':
+            lines.append(current_line.strip())  # Add the current line to the list of lines
+            current_line = ''  # Start a new line
+        elif len(current_line) < max_length:  # If the current line length is less than the max length
+            current_line += char  # Add the character to the current line
         else:
             lines.append(current_line.strip())  # Add the current line to the list of lines
-            current_line = word + ' '  # Start a new line with the current word
+            current_line = char  # Start a new line with the current character
 
-    lines.append(current_line.strip())  # Add the last line
+    if current_line:
+        lines.append(current_line.strip())  # Add the last line if there's any remaining text
 
     return lines
+

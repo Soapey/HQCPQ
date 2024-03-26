@@ -2,6 +2,7 @@ from datetime import datetime
 from hqcpq.classes.QuoteItem import QuoteItem
 from hqcpq.classes.QuotePDF import QuotePDF
 from hqcpq.classes.QuoteSpecialCondition import QuoteSpecialCondition
+from hqcpq.classes.SpecialCondition import SpecialCondition
 from hqcpq.db.SQLiteUtil import SQLiteConnection
 
 
@@ -42,7 +43,9 @@ class Quote:
         return QuoteItem.get_all_by_quote_id(self.id)
 
     def special_conditions(self):
-        return QuoteSpecialCondition.get_by_quote(self.id)
+        all_special_conditions = SpecialCondition.get_all()
+        quote_special_conditions = QuoteSpecialCondition.get_by_quote(self.id)
+        return {qsc.special_condition_id: all_special_conditions[qsc.special_condition_id] for qsc in quote_special_conditions.values()}
 
     def total_inc_gst(self):
         quote_items = self.items()
