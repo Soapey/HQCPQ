@@ -166,22 +166,38 @@ class Quote:
         bullet_points = '\n'.join(bullet_points)
 
         # Construct email body
-        email_body = f"""Hi {self.name},
+        email_body = """Hi XXXX,
 
-I hope this message finds you well.
+Thanks for giving Hunter Quarries the opportunity to provide a quotation for the Project Name. 
 
-Attached to this email, you will find the quotation document outlining the pricing details and conditions.
+Please find quotation XXXX attached 
 
-"""
-        if bullet_points:
-            email_body += f"Please note the following conditions:\n{bullet_points}\n\n"
+*Please note*  
+* Quotation only. Price may vary once final truck weights are determined.
+* Rocks vary in size within specified range.
 
-        email_body += """
-Should you have any questions or require further clarification regarding the quotation, please do not hesitate to reach out to us.
+Special Conditions:
+-	Products are subject to availability and an agreed offtake schedule.
+-	Bookings E: orders@hunterquarries.com.au, M: 0490 084 048 or T: 4050 0304 option 1.
+-	Quarry Operating Hours: Mon to Fri 6am to 4.30pm, Sat 6am to 12 noon.
+-	Delivery by Truck and Dog with min freight of 32t unless Rigids are specified in the quotation. 
+-	Conformance to site specifications must be confirmed by the customer prior to supply. Hunter Quarries takes no responsibility for checking materials meets site specifications. 
+-	Hunter Quarries can supply materials test results upon request.
+-	Site access must be suitable to receive goods. If deemed unsuitable on arrival by the driver, product will be returned to the quarry & credited, however freight charges will apply. 
+-	Site inspection & VMP required prior to acceptance of supply & delivery. 
+-	Booking to be confirmed by 12 noon business day prior to delivery. Transport cancellation fee applicable if canceled after this time (T&D $880 ex gst, Rigid $600 ex gst).
+-	Waiting time fee applicable after the first 20 minutes on-site, charged in 15-minute increments.
+-	If the delivery vehicle is damaged and/or becomes bogged, the customer shall be responsible for all costs of repairs and/or towing. 
+-	Payment required via credit card per load once final weights are determined, prior to despatch. 
+-	COD terms are required for 8 weeks till a trading history is established, then payment terms will be reviewed.
+-	SMZ20 requires the following RFI’s - i) PSD increase on the 19.0mm sieve to 100% passing - ii) PSD increase on the 2.36mm lower limit to 30% passing - iii) T103 Exemption.
+-	CMS R11 BH requires the following RFI’s – i) 0.075mm sieve 0-12% passing – ii) frequency of testing. R11 SO requires RFI i) frequency of testing. 
+-	Large rocks are supplied within listed size ranges only, picked by the operator with a reference stockpile as a guide. 
 
-Best regards,
-Hunter Quarries
-""".strip()
+Please be in contact if you require any further information.
+
+Kind regards,""".strip()
+
 
         try:
             attachment_path = self.export(notification=False)
