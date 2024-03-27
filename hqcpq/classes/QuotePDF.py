@@ -9,24 +9,7 @@ from hqcpq.helpers.io import join_to_project_folder
 from hqcpq.helpers.general import select_directory, insert_newline_at_max_length
 
 
-def write_row(pdf, data, column_widths):
-    max_row_height = 0  # Initialize the maximum row height for the current row
 
-    # Calculate the maximum height needed for each row
-    for datum, width in zip(data, column_widths):
-        # Calculate the number of lines required for text wrapping
-        num_lines = len(datum) // (width * 0.115)  # Adjust this factor as needed
-        # Calculate the total height required for the text
-        total_height = num_lines * pdf.font_size
-        # Update the maximum row height if the current cell's content requires more height
-        max_row_height = max(max_row_height, total_height)
-
-    # Write the data into each cell in the row
-    for datum, width in zip(data, column_widths):
-        # Use multi_cell() for text data to allow wrapping
-        pdf.multi_cell(width, max_row_height, datum, border=1, align="R")
-
-    return max_row_height
 
 
 class QuotePDF(FPDF):
@@ -46,6 +29,16 @@ class QuotePDF(FPDF):
         self._header()
         self._body()
         self._footer()
+
+    def adjust_font_size(self, cell_width_mm, datum, max_characters):
+        font_size = 8  # Initial font size
+
+        if len(datum) > max_characters:
+            overflow = len(datum) - max_characters
+            increments = overflow // 5
+            font_size -= 1.1 * increments
+
+        return font_size
 
     def _header(self):
 
@@ -179,6 +172,7 @@ class QuotePDF(FPDF):
         self.ln(self.row_height_mm)
 
         # QuoteItems
+        max_quote_item_character_width = 35
         self.set_font("Helvetica", "", 8)
         data = [
             [
@@ -190,8 +184,13 @@ class QuotePDF(FPDF):
             for quote_item in self.items.values()
         ]
 
-        for row in data:
-            write_row(self, row, [self.column_width_mm]*len(row))
+        # QuoteItems
+        for row_index, row in enumerate(data):
+            for datum in row:
+                font_size = self.adjust_font_size(self.column_width_mm, datum, 35)
+                self.set_font("Helvetica", "", font_size)
+                self.cell(self.column_width_mm, self.row_height_mm, datum, border=1, align="L")
+            self.ln()
 
         self.ln()
 
@@ -213,7 +212,7 @@ class QuotePDF(FPDF):
             lines = insert_newline_at_max_length(special_condition.message, 140)
             print(lines)
             message = '\n'.join(lines)
-            added_vertical_space = (len(lines)-1) * 1
+            added_vertical_space = (len(lines) - 1) * 1
             self.multi_cell(
                 w=self.column_width_mm * 4,
                 h=(self.row_height_mm - 4) + added_vertical_space,
