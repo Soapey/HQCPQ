@@ -229,10 +229,12 @@ class QuotePDF(FPDF):
             "Karuah East Quarry Pty Ltd trading as Hunter Quarries - ABN: 80 141 505 035",
         )
 
-    def export(self, notification=True):
+    def export(self, notification=True, save_directory_path=None):
 
         # Dialog box requests user to select destination folder.
-        directory_path = select_directory()
+        directory_path = save_directory_path
+        if not directory_path:
+            directory_path = select_directory()
 
         # Return if no destination folder was selected.
         if not directory_path:

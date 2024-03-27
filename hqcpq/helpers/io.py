@@ -42,3 +42,8 @@ def get_email_body():
     with open(email_body_path(), 'r') as file:
         email_body = file.read()
     return email_body
+
+
+def get_documents_directory():
+    home_directory = os.path.expanduser('~')
+    return os.path.join(home_directory, 'Documents')

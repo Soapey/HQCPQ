@@ -8,7 +8,7 @@ from hqcpq.classes.QuotePDF import QuotePDF
 from hqcpq.classes.QuoteSpecialCondition import QuoteSpecialCondition
 from hqcpq.classes.SpecialCondition import SpecialCondition
 from hqcpq.db.SQLiteUtil import SQLiteConnection
-from hqcpq.helpers.io import get_email_body
+from hqcpq.helpers.io import get_email_body, get_documents_directory
 
 
 class Quote:
@@ -41,8 +41,8 @@ class Quote:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
 
-    def export(self, notification=True):
-        return QuotePDF(self).export(notification)
+    def export(self, notification=True, save_directory_path=None):
+        return QuotePDF(self).export(notification, save_directory_path)
 
     def items(self):
         return QuoteItem.get_all_by_quote_id(self.id)
@@ -156,10 +156,12 @@ class Quote:
     def create_email(self):
         email_to = self.email.strip() if self.email else ""
         email_subject = f"Hunter Quarries Quote #{self.id} - {self.name} ({datetime.strftime(self.date_created, '%d-%m-%Y')})"
-        email_body = get_email_body().replace("[customer_name]", self.name).replace("[quote_id]", self.id)
+        email_body = get_email_body().replace("[customer_name]", self.name).replace("[quote_id]", str(self.id))
+
+        save_directory_path = get_documents_directory()
 
         try:
-            attachment_path = self.export(notification=False)
+            attachment_path = self.export(notification=False, save_directory_path=save_directory_path)
 
             # Create Outlook application object
             outlook = win32com.client.Dispatch("Outlook.Application")
