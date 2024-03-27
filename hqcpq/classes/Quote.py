@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import win32com
+import win32com.client
 
 from hqcpq.classes.QuoteItem import QuoteItem
 from hqcpq.classes.QuotePDF import QuotePDF
@@ -39,8 +39,8 @@ class Quote:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({vars(self)})"
 
-    def export(self):
-        return QuotePDF(self).export()
+    def export(self, notification=True):
+        return QuotePDF(self).export(notification)
 
     def items(self):
         return QuoteItem.get_all_by_quote_id(self.id)
@@ -154,24 +154,37 @@ class Quote:
     def create_email(self):
         email_to = self.email.strip()
         email_subject = f"Hunter Quarries Quote #{self.id} - {self.name} ({datetime.strftime(self.date_created, '%d-%m-%Y')})"
-        email_special_conditions = '\n'.join(
-            ["Please note the following:"] + [sc.message for sc in self.special_conditions().values()])
-        email_body = f"""
-        Dear {self.name},
+        special_conditions = self.special_conditions().values()
 
-        I hope this message finds you well.
+        # Create bulleted list of special conditions
+        bullet_point = u"\u2022"
+        bullet_points = []
+        if special_conditions:
+            for special_condition in special_conditions:
+                message = special_condition.message.replace("\n", "\n   ")
+                bullet_points.append(f"{bullet_point} {message}")
+        bullet_points = '\n'.join(bullet_points)
 
-        Attached to this email, you will find the quotation document outlining the pricing details and conditions.
+        # Construct email body
+        email_body = f"""Hi {self.name},
 
-        {email_special_conditions}
+I hope this message finds you well.
 
-        Should you have any questions or require further clarification regarding the quotation, please do not hesitate to reach out to us.
+Attached to this email, you will find the quotation document outlining the pricing details and conditions.
 
-        Best regards,
-        Hunter Quarries
-        """
+"""
+        if bullet_points:
+            email_body += f"Please note the following conditions:\n{bullet_points}\n\n"
+
+        email_body += """
+Should you have any questions or require further clarification regarding the quotation, please do not hesitate to reach out to us.
+
+Best regards,
+Hunter Quarries
+""".strip()
+
         try:
-            attachment_path = self.export()
+            attachment_path = self.export(notification=False)
 
             # Create Outlook application object
             outlook = win32com.client.Dispatch("Outlook.Application")
@@ -180,7 +193,7 @@ class Quote:
             mail = outlook.CreateItem(0)  # 0 represents olMailItem enumeration constant
 
             # Set recipients
-            mail.To = email_to # Use ";" to separate multiple recipients
+            mail.To = email_to  # Use ";" to separate multiple recipients
 
             # Set subject and body
             mail.Subject = email_subject
@@ -194,3 +207,7 @@ class Quote:
 
         except Exception as e:
             print("An error occurred:", e)
+
+
+
+

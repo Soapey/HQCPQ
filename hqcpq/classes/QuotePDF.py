@@ -230,7 +230,7 @@ class QuotePDF(FPDF):
             "Karuah East Quarry Pty Ltd trading as Hunter Quarries - ABN: 80 141 505 035",
         )
 
-    def export(self):
+    def export(self, notification=True):
 
         # Dialog box requests user to select destination folder.
         directory_path = select_directory()
@@ -254,7 +254,8 @@ class QuotePDF(FPDF):
             self.output(full_path)
 
             # Confirmation messagebox to confirm that the Quote was exported to a pdf successfully.
-            InfoMessageBox(f"Quote was successfully exported to path:\n\n{full_path}")
+            if notification:
+                InfoMessageBox(f"Quote was successfully exported to path:\n\n{full_path}")
 
             return full_path
 

@@ -93,6 +93,7 @@ def on_row_select(main_window: Ui_MainWindow):
             (main_window.btnEditQuote, selected_id is not None),
             (main_window.btnDeleteQuote, selected_id is not None),
             (main_window.btnExportQuote, selected_id is not None),
+            (main_window.btnOpenEmailQuote, selected_id is not None),
         ]
     )
 
@@ -108,6 +109,7 @@ def navigate_to_listing_view(main_window: Ui_MainWindow):
             (main_window.btnEditQuote, False),
             (main_window.btnDeleteQuote, False),
             (main_window.btnExportQuote, False),
+            (main_window.btnOpenEmailQuote, False),
         ]
     )
 
