@@ -221,10 +221,7 @@ def start_import(main_window: Ui_MainWindow):
 
 
 def select_product_import_file(main_window: Ui_MainWindow):
-    options = QFileDialog.Options()
-    options |= QFileDialog.DontUseNativeDialog
-
-    file_path, _ = QFileDialog.getOpenFileName(None, "Select CSV File", "", "CSV Files (*.csv)", options=options)
+    file_path, _ = QFileDialog.getOpenFileName(None, "Select CSV File", "", "CSV Files (*.csv)")
     if file_path:
         main_window.txtProduct_ImportFilePath.setText(file_path)
 
@@ -240,10 +237,7 @@ def select_product_import_file(main_window: Ui_MainWindow):
 
 
 def select_product_rate_import_file(main_window: Ui_MainWindow):
-    options = QFileDialog.Options()
-    options |= QFileDialog.DontUseNativeDialog
-
-    file_path, _ = QFileDialog.getOpenFileName(None, "Select CSV File", "", "CSV Files (*.csv)", options=options)
+    file_path, _ = QFileDialog.getOpenFileName(None, "Select CSV File", "", "CSV Files (*.csv)")
     if file_path:
         main_window.txtProductRate_ImportFilePath.setText(file_path)
 
