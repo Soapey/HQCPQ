@@ -378,7 +378,15 @@ def export(quote_id: int):
     quotes[quote_id].export()
 
 
+def open_email(quote_id: int):
+    global quotes
+    quotes[quote_id].create_email()
+
+
 def connect(main_window: Ui_MainWindow):
+    main_window.btnOpenEmailQuote.clicked.connect(
+        lambda: open_email(selected_row_id(main_window.tblQuotes))
+    )
     main_window.btnExportQuote.clicked.connect(
         lambda: export(selected_row_id(main_window.tblQuotes))
     )

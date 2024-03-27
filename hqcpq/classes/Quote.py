@@ -1,4 +1,7 @@
 from datetime import datetime
+
+import win32com
+
 from hqcpq.classes.QuoteItem import QuoteItem
 from hqcpq.classes.QuotePDF import QuotePDF
 from hqcpq.classes.QuoteSpecialCondition import QuoteSpecialCondition
@@ -37,7 +40,7 @@ class Quote:
         return f"{self.__class__.__name__}({vars(self)})"
 
     def export(self):
-        QuotePDF(self).export()
+        return QuotePDF(self).export()
 
     def items(self):
         return QuoteItem.get_all_by_quote_id(self.id)
@@ -147,3 +150,47 @@ class Quote:
                     completed=bool(row[10]))
                 for row in rows
             }
+
+    def create_email(self):
+        email_to = self.email.strip()
+        email_subject = f"Hunter Quarries Quote #{self.id} - {self.name} ({datetime.strftime(self.date_created, '%d-%m-%Y')})"
+        email_special_conditions = '\n'.join(
+            ["Please note the following:"] + [sc.message for sc in self.special_conditions().values()])
+        email_body = f"""
+        Dear {self.name},
+
+        I hope this message finds you well.
+
+        Attached to this email, you will find the quotation document outlining the pricing details and conditions.
+
+        {email_special_conditions}
+
+        Should you have any questions or require further clarification regarding the quotation, please do not hesitate to reach out to us.
+
+        Best regards,
+        Hunter Quarries
+        """
+        try:
+            attachment_path = self.export()
+
+            # Create Outlook application object
+            outlook = win32com.client.Dispatch("Outlook.Application")
+
+            # Create a new mail item
+            mail = outlook.CreateItem(0)  # 0 represents olMailItem enumeration constant
+
+            # Set recipients
+            mail.To = email_to # Use ";" to separate multiple recipients
+
+            # Set subject and body
+            mail.Subject = email_subject
+            mail.Body = email_body
+
+            # Add attachments
+            mail.Attachments.Add(attachment_path)
+
+            # Display the email
+            mail.Display()
+
+        except Exception as e:
+            print("An error occurred:", e)

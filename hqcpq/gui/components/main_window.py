@@ -38,42 +38,6 @@ class Ui_MainWindow(object):
         self.pageQuotes.setObjectName("pageQuotes")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.pageQuotes)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.btnNewQuote = QtWidgets.QPushButton(self.pageQuotes)
-        self.btnNewQuote.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnNewQuote.setStyleSheet("background-color: #4361ee;\n"
-"border: 1px solid rgba(27, 31, 35, .15);\n"
-"border-radius: 6px;\n"
-"color: #fff;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 14px;\n"
-"font-weight: 600;\n"
-"line-height: 20px;\n"
-"padding: 6px 16px;\n"
-"position: relative;\n"
-"text-align: center;\n"
-"text-decoration: none;\n"
-"vertical-align: middle;\n"
-"white-space: nowrap;")
-        self.btnNewQuote.setObjectName("btnNewQuote")
-        self.gridLayout_3.addWidget(self.btnNewQuote, 1, 0, 1, 1)
-        self.btnDeleteQuote = QtWidgets.QPushButton(self.pageQuotes)
-        self.btnDeleteQuote.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnDeleteQuote.setStyleSheet("background-color: #d62828;\n"
-"border: 1px solid rgba(27, 31, 35, .15);\n"
-"border-radius: 6px;\n"
-"color: #fff;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 14px;\n"
-"font-weight: 600;\n"
-"line-height: 20px;\n"
-"padding: 6px 16px;\n"
-"position: relative;\n"
-"text-align: center;\n"
-"text-decoration: none;\n"
-"vertical-align: middle;\n"
-"white-space: nowrap;")
-        self.btnDeleteQuote.setObjectName("btnDeleteQuote")
-        self.gridLayout_3.addWidget(self.btnDeleteQuote, 1, 2, 1, 1)
         self.btnEditQuote = QtWidgets.QPushButton(self.pageQuotes)
         self.btnEditQuote.setFocusPolicy(QtCore.Qt.NoFocus)
         self.btnEditQuote.setStyleSheet("background-color: #f77f00;\n"
@@ -91,7 +55,43 @@ class Ui_MainWindow(object):
 "vertical-align: middle;\n"
 "white-space: nowrap;")
         self.btnEditQuote.setObjectName("btnEditQuote")
-        self.gridLayout_3.addWidget(self.btnEditQuote, 1, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.btnEditQuote, 2, 1, 1, 1)
+        self.btnDeleteQuote = QtWidgets.QPushButton(self.pageQuotes)
+        self.btnDeleteQuote.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnDeleteQuote.setStyleSheet("background-color: #d62828;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnDeleteQuote.setObjectName("btnDeleteQuote")
+        self.gridLayout_3.addWidget(self.btnDeleteQuote, 2, 2, 1, 1)
+        self.btnOpenEmailQuote = QtWidgets.QPushButton(self.pageQuotes)
+        self.btnOpenEmailQuote.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnOpenEmailQuote.setStyleSheet("background-color: #8338ec;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnOpenEmailQuote.setObjectName("btnOpenEmailQuote")
+        self.gridLayout_3.addWidget(self.btnOpenEmailQuote, 2, 4, 1, 1)
         self.btnExportQuote = QtWidgets.QPushButton(self.pageQuotes)
         self.btnExportQuote.setFocusPolicy(QtCore.Qt.NoFocus)
         self.btnExportQuote.setStyleSheet("background-color: #2a9d8f;\n"
@@ -109,7 +109,25 @@ class Ui_MainWindow(object):
 "vertical-align: middle;\n"
 "white-space: nowrap;")
         self.btnExportQuote.setObjectName("btnExportQuote")
-        self.gridLayout_3.addWidget(self.btnExportQuote, 1, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.btnExportQuote, 2, 3, 1, 1)
+        self.btnNewQuote = QtWidgets.QPushButton(self.pageQuotes)
+        self.btnNewQuote.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnNewQuote.setStyleSheet("background-color: #4361ee;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnNewQuote.setObjectName("btnNewQuote")
+        self.gridLayout_3.addWidget(self.btnNewQuote, 2, 0, 1, 1)
         self.lblQuotes_Header = QtWidgets.QLabel(self.pageQuotes)
         self.lblQuotes_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
 "border-radius: 6px;\n"
@@ -122,7 +140,7 @@ class Ui_MainWindow(object):
 "padding: 6px;")
         self.lblQuotes_Header.setAlignment(QtCore.Qt.AlignCenter)
         self.lblQuotes_Header.setObjectName("lblQuotes_Header")
-        self.gridLayout_3.addWidget(self.lblQuotes_Header, 0, 0, 1, 4)
+        self.gridLayout_3.addWidget(self.lblQuotes_Header, 0, 0, 1, 5)
         self.txtQuoteSearch = QtWidgets.QLineEdit(self.pageQuotes)
         self.txtQuoteSearch.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.txtQuoteSearch.setStyleSheet("border: 1px solid #003049;\n"
@@ -132,7 +150,7 @@ class Ui_MainWindow(object):
 "padding: 5px;")
         self.txtQuoteSearch.setClearButtonEnabled(True)
         self.txtQuoteSearch.setObjectName("txtQuoteSearch")
-        self.gridLayout_3.addWidget(self.txtQuoteSearch, 2, 0, 1, 4)
+        self.gridLayout_3.addWidget(self.txtQuoteSearch, 3, 0, 1, 5)
         self.tblQuotes = QtWidgets.QTableWidget(self.pageQuotes)
         self.tblQuotes.setFocusPolicy(QtCore.Qt.NoFocus)
         self.tblQuotes.setStyleSheet("border: 1px solid #003049;\n"
@@ -148,7 +166,7 @@ class Ui_MainWindow(object):
         self.tblQuotes.horizontalHeader().setStretchLastSection(True)
         self.tblQuotes.verticalHeader().setVisible(False)
         self.tblQuotes.verticalHeader().setStretchLastSection(False)
-        self.gridLayout_3.addWidget(self.tblQuotes, 3, 0, 1, 4)
+        self.gridLayout_3.addWidget(self.tblQuotes, 4, 0, 1, 5)
         self.swPages.addWidget(self.pageQuotes)
         self.pageQuoteEntry = QtWidgets.QWidget()
         self.pageQuoteEntry.setObjectName("pageQuoteEntry")
@@ -2025,7 +2043,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(1)
+        self.swPages.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.txtQuote_DateRequired, self.txtQuote_Name)
         MainWindow.setTabOrder(self.txtQuote_Name, self.txtQuote_Address)
@@ -2051,11 +2069,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "HQCPQ"))
-        self.btnNewQuote.setText(_translate("MainWindow", "New Quote"))
-        self.btnDeleteQuote.setText(_translate("MainWindow", "Delete Quote"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Hunter Quarries Quoting Application"))
         self.btnEditQuote.setText(_translate("MainWindow", "Edit Quote"))
+        self.btnDeleteQuote.setText(_translate("MainWindow", "Delete Quote"))
+        self.btnOpenEmailQuote.setText(_translate("MainWindow", "Open In Email"))
         self.btnExportQuote.setText(_translate("MainWindow", "Export Quote"))
+        self.btnNewQuote.setText(_translate("MainWindow", "New Quote"))
         self.lblQuotes_Header.setText(_translate("MainWindow", "Quotes"))
         self.txtQuoteSearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.tblQuotes.setSortingEnabled(True)

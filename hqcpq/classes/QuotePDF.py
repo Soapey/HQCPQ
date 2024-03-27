@@ -30,32 +30,6 @@ class QuotePDF(FPDF):
         self._body()
         self._footer()
 
-    def create_email(self, to, subject, body, attachments=None):
-        try:
-            # Create Outlook application object
-            outlook = win32com.client.Dispatch("Outlook.Application")
-
-            # Create a new mail item
-            mail = outlook.CreateItem(0)  # 0 represents olMailItem enumeration constant
-
-            # Set recipients
-            mail.To = ";".join(to)  # Use ";" to separate multiple recipients
-
-            # Set subject and body
-            mail.Subject = subject
-            mail.Body = body
-
-            # Add attachments
-            if attachments:
-                for attachment in attachments:
-                    mail.Attachments.Add(attachment)
-
-            # Display the email
-            mail.Display()
-
-        except Exception as e:
-            print("An error occurred:", e)
-
     def adjust_font_size(self, cell_width_mm, datum, max_characters):
         font_size = 8  # Initial font size
 
@@ -263,7 +237,7 @@ class QuotePDF(FPDF):
 
         # Return if no destination folder was selected.
         if not directory_path:
-            return
+            return None
 
         try:
             # Clean file name of illegal characters before exporting with it.
@@ -282,5 +256,8 @@ class QuotePDF(FPDF):
             # Confirmation messagebox to confirm that the Quote was exported to a pdf successfully.
             InfoMessageBox(f"Quote was successfully exported to path:\n\n{full_path}")
 
+            return full_path
+
         except Exception as e:
             ErrorMessageBox(str(e))
+            return None
