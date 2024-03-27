@@ -210,7 +210,6 @@ class QuotePDF(FPDF):
         self.set_font("Helvetica", "", 8)
         for special_condition in self.special_conditions.values():
             lines = insert_newline_at_max_length(special_condition.message, 140)
-            print(lines)
             message = '\n'.join(lines)
             added_vertical_space = (len(lines) - 1) * 1
             self.multi_cell(

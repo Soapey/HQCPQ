@@ -152,7 +152,7 @@ class Quote:
             }
 
     def create_email(self):
-        email_to = self.email.strip()
+        email_to = self.email.strip() if self.email else ""
         email_subject = f"Hunter Quarries Quote #{self.id} - {self.name} ({datetime.strftime(self.date_created, '%d-%m-%Y')})"
         special_conditions = self.special_conditions().values()
 
