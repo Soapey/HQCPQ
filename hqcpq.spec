@@ -56,7 +56,10 @@ if not os.path.exists(sub_directory_path):
         join_to_project_folder(os.path.join("hqcpq", "config.ini")),
         os.path.join(sub_directory_path, "config.ini"),
     )
-
+    shutil.copyfile(
+        join_to_project_folder(os.path.join("hqcpq", "quote_email_body.txt")),
+        os.path.join(sub_directory_path, "quote_email_body.txt"),
+    )
 # Set up db folder and include init.sql file
 db_directory_path = join_to_project_folder(os.path.join(sub_directory_path, "db"))
 if not os.path.exists(db_directory_path):
