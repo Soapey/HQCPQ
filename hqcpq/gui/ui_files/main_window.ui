@@ -266,7 +266,7 @@ font-size: 10pt;</string>
              <x>0</x>
              <y>0</y>
              <width>808</width>
-             <height>844</height>
+             <height>1502</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_29">
@@ -821,6 +821,12 @@ white-space: nowrap;</string>
             </item>
             <item row="22" column="0" colspan="5">
              <widget class="QTableWidget" name="tblQuoteSpecialConditions">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>600</height>
+               </size>
+              </property>
               <property name="focusPolicy">
                <enum>Qt::ClickFocus</enum>
               </property>
@@ -913,6 +919,12 @@ padding: 5px;</string>
             </item>
             <item row="17" column="0" colspan="5">
              <widget class="QTableWidget" name="tblQuoteItems">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
+              </property>
               <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>

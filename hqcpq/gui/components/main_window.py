@@ -176,7 +176,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 808, 844))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 808, 1502))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_29 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_29.setObjectName("gridLayout_29")
@@ -502,6 +502,7 @@ class Ui_MainWindow(object):
         self.btnEditQuoteItem.setObjectName("btnEditQuoteItem")
         self.gridLayout_29.addWidget(self.btnEditQuoteItem, 18, 1, 1, 1)
         self.tblQuoteSpecialConditions = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
+        self.tblQuoteSpecialConditions.setMinimumSize(QtCore.QSize(0, 600))
         self.tblQuoteSpecialConditions.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.tblQuoteSpecialConditions.setStyleSheet("border: 1px solid #003049;\n"
 "font-family: \"Helvetica\";\n"
@@ -551,6 +552,7 @@ class Ui_MainWindow(object):
         self.lblQuote_TransportTotalExGST.setObjectName("lblQuote_TransportTotalExGST")
         self.gridLayout_29.addWidget(self.lblQuote_TransportTotalExGST, 12, 1, 1, 3)
         self.tblQuoteItems = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
+        self.tblQuoteItems.setMinimumSize(QtCore.QSize(0, 200))
         self.tblQuoteItems.setFocusPolicy(QtCore.Qt.NoFocus)
         self.tblQuoteItems.setStyleSheet("border: 1px solid #003049;\n"
 "font-family: \"Helvetica\";\n"
