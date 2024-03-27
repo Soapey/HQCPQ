@@ -42,9 +42,6 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
 
     quote = Quote.get(selected_quote_id)
 
-    global quote_items
-    items: dict[int, QuoteItem] = quote.items()
-
     tbl_headers: list[str] = [
         "ID",
         "Vehicle Combination",
@@ -57,7 +54,7 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
 
     tbl: QTableWidget = main_window.tblQuoteItems
     tbl.clear()
-    tbl.setRowCount(len(items.values()))
+    tbl.setRowCount(0)
     tbl.setColumnCount(len(tbl_headers))
     tbl.setHorizontalHeaderLabels(tbl_headers)
 
@@ -72,6 +69,10 @@ def refresh_table(main_window: Ui_MainWindow, quote_id: int = None):
 
     if not quote:
         return
+
+    global quote_items
+    items: dict[int, QuoteItem] = quote.items()
+    tbl.setRowCount(len(items))
 
     for index, quote_item in enumerate(items.values()):
         tbl.setItem(index, 0, QTableWidgetItem(str(quote_item.id)))

@@ -358,7 +358,7 @@ def save(main_window: Ui_MainWindow):
             quote_special_condition = QuoteSpecialCondition(None, quote.id, special_condition_id, is_checked)
             quote_special_condition.insert()
 
-    main_window.lblQuoteId.setText(str(quote.id))
+    quote_id = quote.id
     InfoMessageBox(f"Successfully saved {quote.name} - {quote.address}, {quote.suburb}.")
 
 
@@ -378,28 +378,32 @@ def search(main_window: Ui_MainWindow, search_text: str):
     refresh_table(main_window)
 
 
-def export(quote_id: int):
+def export(main_window: Ui_MainWindow, quote_id: int):
+    if quote_id is None:
+        quote_id = int(main_window.lblQuoteId.text())
     global quotes
     quotes[quote_id].export()
 
 
-def open_email(quote_id: int):
+def open_email(main_window: Ui_MainWindow, quote_id: int):
+    if quote_id is None:
+        quote_id = int(main_window.lblQuoteId.text())
     global quotes
     quotes[quote_id].create_email()
 
 
 def connect(main_window: Ui_MainWindow):
     main_window.btnOpenEmailQuote.clicked.connect(
-        lambda: open_email(selected_row_id(main_window.tblQuotes))
+        lambda: open_email(main_window, selected_row_id(main_window.tblQuotes))
     )
     main_window.btnExportQuote.clicked.connect(
-        lambda: export(selected_row_id(main_window.tblQuotes))
+        lambda: export(main_window, selected_row_id(main_window.tblQuotes))
     )
     main_window.btnOpenEmailQuote_Entry.clicked.connect(
-        lambda: open_email(selected_row_id(main_window.tblQuotes))
+        lambda: open_email(main_window, selected_row_id(main_window.tblQuotes))
     )
     main_window.btnExportQuote_Entry.clicked.connect(
-        lambda: export(string_to_int(main_window.lblQuoteId.text()))
+        lambda: export(main_window, string_to_int(main_window.lblQuoteId.text()))
     )
     main_window.btnNewQuote.clicked.connect(lambda: new(main_window))
     main_window.btnEditQuote.clicked.connect(lambda: edit(main_window))

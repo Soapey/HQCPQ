@@ -48,7 +48,7 @@ class Quote:
     def special_conditions(self):
         all_special_conditions = SpecialCondition.get_all()
         quote_special_conditions = QuoteSpecialCondition.get_by_quote(self.id)
-        return {qsc.special_condition_id: all_special_conditions[qsc.special_condition_id] for qsc in quote_special_conditions.values()}
+        return {qsc.special_condition_id: all_special_conditions[qsc.special_condition_id] for qsc in quote_special_conditions.values() if qsc.is_checked}
 
     def total_inc_gst(self):
         quote_items = self.items()
