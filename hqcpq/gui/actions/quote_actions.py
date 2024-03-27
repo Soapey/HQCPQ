@@ -385,22 +385,28 @@ def export(main_window: Ui_MainWindow, quote_id: int):
     quotes[quote_id].export()
 
 
-def open_email(main_window: Ui_MainWindow, quote_id: int):
-    if quote_id is None:
-        quote_id = int(main_window.lblQuoteId.text())
+def open_email_from_table(main_window: Ui_MainWindow):
+    quote_id = selected_row_id(main_window.tblQuotes)
     global quotes
     quotes[quote_id].create_email()
 
+def open_email_from_entry(main_window: Ui_MainWindow):
+    quote_id_text = main_window.lblQuoteId.text()
+    if not quote_id_text:
+        return
+    quote_id = int(quote_id_text)
+    global quotes
+    quotes[quote_id].create_email()
 
 def connect(main_window: Ui_MainWindow):
     main_window.btnOpenEmailQuote.clicked.connect(
-        lambda: open_email(main_window, selected_row_id(main_window.tblQuotes))
+        lambda: open_email_from_table(main_window)
     )
     main_window.btnExportQuote.clicked.connect(
         lambda: export(main_window, selected_row_id(main_window.tblQuotes))
     )
     main_window.btnOpenEmailQuote_Entry.clicked.connect(
-        lambda: open_email(main_window, selected_row_id(main_window.tblQuotes))
+        lambda: open_email_from_entry(main_window)
     )
     main_window.btnExportQuote_Entry.clicked.connect(
         lambda: export(main_window, string_to_int(main_window.lblQuoteId.text()))
