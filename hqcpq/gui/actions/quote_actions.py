@@ -146,6 +146,7 @@ def new(main_window: Ui_MainWindow):
             (main_window.btnEditQuoteItem, False),
             (main_window.btnDeleteQuoteItem, False),
             (main_window.btnExportQuote_Entry, False),
+            (main_window.btnOpenEmailQuote_Entry, False),
         ]
     )
 
@@ -193,6 +194,7 @@ def edit(main_window: Ui_MainWindow):
             (main_window.btnEditQuoteItem, False),
             (main_window.btnDeleteQuoteItem, False),
             (main_window.btnExportQuote_Entry, True),
+            (main_window.btnOpenEmailQuote_Entry, True),
         ]
     )
 
@@ -334,6 +336,7 @@ def save(main_window: Ui_MainWindow):
             (main_window.btnEditQuoteItem, False),
             (main_window.btnDeleteQuoteItem, False),
             (main_window.btnExportQuote_Entry, True),
+            (main_window.btnOpenEmailQuote_Entry, True),
         ]
     )
 
@@ -391,6 +394,9 @@ def connect(main_window: Ui_MainWindow):
     )
     main_window.btnExportQuote.clicked.connect(
         lambda: export(selected_row_id(main_window.tblQuotes))
+    )
+    main_window.btnOpenEmailQuote_Entry.clicked.connect(
+        lambda: open_email(selected_row_id(main_window.tblQuotes))
     )
     main_window.btnExportQuote_Entry.clicked.connect(
         lambda: export(string_to_int(main_window.lblQuoteId.text()))

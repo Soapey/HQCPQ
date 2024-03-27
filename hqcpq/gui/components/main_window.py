@@ -180,57 +180,6 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_29 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_29.setObjectName("gridLayout_29")
-        self.lblQuote_Suburb = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuote_Suburb.setStyleSheet("font-family: \"Helvetica\";\n"
-"font-weight: 700;\n"
-"font-size: 10pt;")
-        self.lblQuote_Suburb.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_Suburb.setObjectName("lblQuote_Suburb")
-        self.gridLayout_29.addWidget(self.lblQuote_Suburb, 6, 0, 1, 1)
-        self.btnExportQuote_Entry = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.btnExportQuote_Entry.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnExportQuote_Entry.setStyleSheet("background-color: #2a9d8f;\n"
-"border: 1px solid rgba(27, 31, 35, .15);\n"
-"border-radius: 6px;\n"
-"color: #fff;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 14px;\n"
-"font-weight: 600;\n"
-"line-height: 20px;\n"
-"padding: 6px 16px;\n"
-"position: relative;\n"
-"text-align: center;\n"
-"text-decoration: none;\n"
-"vertical-align: middle;\n"
-"white-space: nowrap;")
-        self.btnExportQuote_Entry.setObjectName("btnExportQuote_Entry")
-        self.gridLayout_29.addWidget(self.btnExportQuote_Entry, 15, 1, 1, 1)
-        self.txtQuote_Memo = QtWidgets.QPlainTextEdit(self.scrollAreaWidgetContents)
-        self.txtQuote_Memo.setStyleSheet("border: 1px solid #003049;\n"
-"border-radius: 6px;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;\n"
-"padding: 5px;")
-        self.txtQuote_Memo.setObjectName("txtQuote_Memo")
-        self.gridLayout_29.addWidget(self.txtQuote_Memo, 2, 3, 8, 1)
-        self.btnDeleteQuoteItem = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.btnDeleteQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnDeleteQuoteItem.setStyleSheet("background-color: #d62828;\n"
-"border: 1px solid rgba(27, 31, 35, .15);\n"
-"border-radius: 6px;\n"
-"color: #fff;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 14px;\n"
-"font-weight: 600;\n"
-"line-height: 20px;\n"
-"padding: 6px 16px;\n"
-"position: relative;\n"
-"text-align: center;\n"
-"text-decoration: none;\n"
-"vertical-align: middle;\n"
-"white-space: nowrap;")
-        self.btnDeleteQuoteItem.setObjectName("btnDeleteQuoteItem")
-        self.gridLayout_29.addWidget(self.btnDeleteQuoteItem, 18, 3, 1, 1)
         self.txtQuote_Suburb = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.txtQuote_Suburb.setStyleSheet("border: 1px solid #003049;\n"
 "border-radius: 6px;\n"
@@ -239,120 +188,55 @@ class Ui_MainWindow(object):
 "padding: 5px;")
         self.txtQuote_Suburb.setMaxLength(32767)
         self.txtQuote_Suburb.setObjectName("txtQuote_Suburb")
-        self.gridLayout_29.addWidget(self.txtQuote_Suburb, 6, 1, 1, 2)
-        self.btnEditQuoteItem = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.btnEditQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.btnEditQuoteItem.setStyleSheet("background-color: #f77f00;\n"
-"border: 1px solid rgba(27, 31, 35, .15);\n"
-"border-radius: 6px;\n"
-"color: #fff;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 14px;\n"
-"font-weight: 600;\n"
-"line-height: 20px;\n"
-"padding: 6px 16px;\n"
-"position: relative;\n"
-"text-align: center;\n"
-"text-decoration: none;\n"
-"vertical-align: middle;\n"
-"white-space: nowrap;")
-        self.btnEditQuoteItem.setObjectName("btnEditQuoteItem")
-        self.gridLayout_29.addWidget(self.btnEditQuoteItem, 18, 1, 1, 1)
-        self.txtQuote_Address = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.txtQuote_Address.setStyleSheet("border: 1px solid #003049;\n"
-"border-radius: 6px;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;\n"
-"padding: 5px;")
-        self.txtQuote_Address.setMaxLength(32767)
-        self.txtQuote_Address.setObjectName("txtQuote_Address")
-        self.gridLayout_29.addWidget(self.txtQuote_Address, 5, 1, 1, 2)
-        self.lblQuote_DateCreated_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(37)
-        self.lblQuote_DateCreated_Label.setFont(font)
-        self.lblQuote_DateCreated_Label.setStyleSheet("color: #6c757d;\n"
-"font-family: \"Helvetica\";\n"
-"font-weight: 300;\n"
-"font-size: 10pt")
-        self.lblQuote_DateCreated_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_DateCreated_Label.setObjectName("lblQuote_DateCreated_Label")
-        self.gridLayout_29.addWidget(self.lblQuote_DateCreated_Label, 2, 0, 1, 1)
-        self.txtQuote_DateRequired = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.txtQuote_DateRequired.setStyleSheet("border: 1px solid #003049;\n"
-"border-radius: 6px;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;\n"
-"padding: 5px;")
-        self.txtQuote_DateRequired.setClearButtonEnabled(False)
-        self.txtQuote_DateRequired.setObjectName("txtQuote_DateRequired")
-        self.gridLayout_29.addWidget(self.txtQuote_DateRequired, 3, 1, 1, 2)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_29.addItem(spacerItem, 15, 2, 1, 2)
-        self.txtQuote_Name = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.txtQuote_Name.setStyleSheet("border: 1px solid #003049;\n"
-"border-radius: 6px;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;\n"
-"padding: 5px;")
-        self.txtQuote_Name.setMaxLength(32767)
-        self.txtQuote_Name.setObjectName("txtQuote_Name")
-        self.gridLayout_29.addWidget(self.txtQuote_Name, 4, 1, 1, 2)
-        self.lblQuote_DateCreated = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuote_DateCreated.setStyleSheet("background-color: rgb(215, 215, 215);\n"
-"border-radius: 6px;\n"
-"font-family: \"Helvetica\";\n"
-"padding: 5px;")
-        self.lblQuote_DateCreated.setText("")
-        self.lblQuote_DateCreated.setObjectName("lblQuote_DateCreated")
-        self.gridLayout_29.addWidget(self.lblQuote_DateCreated, 2, 1, 1, 2)
-        self.lblQuote_Memo = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuote_Memo.setStyleSheet("font-family: \"Helvetica\";\n"
+        self.gridLayout_29.addWidget(self.txtQuote_Suburb, 6, 1, 1, 3)
+        self.lblQuote_Name = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuote_Name.setStyleSheet("font-family: \"Helvetica\";\n"
 "font-weight: 700;\n"
 "font-size: 10pt;")
-        self.lblQuote_Memo.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
-        self.lblQuote_Memo.setObjectName("lblQuote_Memo")
-        self.gridLayout_29.addWidget(self.lblQuote_Memo, 1, 3, 1, 1)
-        self.lblQuote_TotalExGST_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuote_Name.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_Name.setObjectName("lblQuote_Name")
+        self.gridLayout_29.addWidget(self.lblQuote_Name, 4, 0, 1, 1)
+        self.lblQuote_ProductTotalExGST = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         font = QtGui.QFont()
         font.setFamily("Helvetica")
         font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(37)
-        self.lblQuote_TotalExGST_Label.setFont(font)
-        self.lblQuote_TotalExGST_Label.setStyleSheet("color: #6c757d;\n"
-"font-family: \"Helvetica\";\n"
-"font-weight: 300;\n"
-"font-size: 10pt")
-        self.lblQuote_TotalExGST_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_TotalExGST_Label.setObjectName("lblQuote_TotalExGST_Label")
-        self.gridLayout_29.addWidget(self.lblQuote_TotalExGST_Label, 13, 0, 1, 1)
-        self.lblQuoteId_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(37)
-        self.lblQuoteId_Label.setFont(font)
-        self.lblQuoteId_Label.setStyleSheet("color: #6c757d;\n"
-"font-family: \"Helvetica\";\n"
-"font-weight: 300;\n"
-"font-size: 10pt")
-        self.lblQuoteId_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuoteId_Label.setObjectName("lblQuoteId_Label")
-        self.gridLayout_29.addWidget(self.lblQuoteId_Label, 1, 0, 1, 1)
-        self.txtQuote_Email = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.txtQuote_Email.setStyleSheet("border: 1px solid #003049;\n"
+        self.lblQuote_ProductTotalExGST.setFont(font)
+        self.lblQuote_ProductTotalExGST.setStyleSheet("background-color: #edf6f9;\n"
 "border-radius: 6px;\n"
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtQuote_Email.setMaxLength(32767)
-        self.txtQuote_Email.setObjectName("txtQuote_Email")
-        self.gridLayout_29.addWidget(self.txtQuote_Email, 8, 1, 1, 2)
+        self.lblQuote_ProductTotalExGST.setText("")
+        self.lblQuote_ProductTotalExGST.setObjectName("lblQuote_ProductTotalExGST")
+        self.gridLayout_29.addWidget(self.lblQuote_ProductTotalExGST, 11, 1, 1, 3)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_29.addItem(spacerItem, 18, 3, 1, 1)
+        self.lblQuote_TotalExGST = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        self.lblQuote_TotalExGST.setFont(font)
+        self.lblQuote_TotalExGST.setStyleSheet("background-color: #edf6f9;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.lblQuote_TotalExGST.setText("")
+        self.lblQuote_TotalExGST.setObjectName("lblQuote_TotalExGST")
+        self.gridLayout_29.addWidget(self.lblQuote_TotalExGST, 13, 1, 1, 3)
+        self.lblQuoteSpecialCondition_Header = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuoteSpecialCondition_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"background-color: #003049;\n"
+"color: #ffffff;\n"
+"font-size: 14pt;\n"
+"font-family: \"Helvetica\";\n"
+"font-style: normal;\n"
+"font-weight: 700;\n"
+"padding: 6px;")
+        self.lblQuoteSpecialCondition_Header.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblQuoteSpecialCondition_Header.setObjectName("lblQuoteSpecialCondition_Header")
+        self.gridLayout_29.addWidget(self.lblQuoteSpecialCondition_Header, 19, 0, 1, 5)
         self.btnSaveQuote = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.btnSaveQuote.setFocusPolicy(QtCore.Qt.NoFocus)
         self.btnSaveQuote.setStyleSheet("background-color: #2ea44f;\n"
@@ -371,6 +255,15 @@ class Ui_MainWindow(object):
 "white-space: nowrap;")
         self.btnSaveQuote.setObjectName("btnSaveQuote")
         self.gridLayout_29.addWidget(self.btnSaveQuote, 15, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_29.addItem(spacerItem1, 15, 3, 1, 2)
+        self.lblQuote_Memo = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuote_Memo.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblQuote_Memo.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
+        self.lblQuote_Memo.setObjectName("lblQuote_Memo")
+        self.gridLayout_29.addWidget(self.lblQuote_Memo, 1, 4, 1, 1)
         self.lblQuoteEntry_Header = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.lblQuoteEntry_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
 "border-radius: 6px;\n"
@@ -383,89 +276,7 @@ class Ui_MainWindow(object):
 "padding: 6px;")
         self.lblQuoteEntry_Header.setAlignment(QtCore.Qt.AlignCenter)
         self.lblQuoteEntry_Header.setObjectName("lblQuoteEntry_Header")
-        self.gridLayout_29.addWidget(self.lblQuoteEntry_Header, 0, 0, 1, 4)
-        self.lblQuoteId = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuoteId.setStyleSheet("background-color: rgb(215, 215, 215);\n"
-"border-radius: 6px;\n"
-"font-family: \"Helvetica\";\n"
-"padding: 5px;")
-        self.lblQuoteId.setText("")
-        self.lblQuoteId.setObjectName("lblQuoteId")
-        self.gridLayout_29.addWidget(self.lblQuoteId, 1, 1, 1, 2)
-        self.txtQuote_Kilometres = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.txtQuote_Kilometres.setStyleSheet("border: 1px solid #003049;\n"
-"border-radius: 6px;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;\n"
-"padding: 5px;")
-        self.txtQuote_Kilometres.setObjectName("txtQuote_Kilometres")
-        self.gridLayout_29.addWidget(self.txtQuote_Kilometres, 9, 1, 1, 2)
-        self.lblQuote_ProductTotalExGst_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(37)
-        self.lblQuote_ProductTotalExGst_Label.setFont(font)
-        self.lblQuote_ProductTotalExGst_Label.setStyleSheet("color: #6c757d;\n"
-"font-family: \"Helvetica\";\n"
-"font-weight: 300;\n"
-"font-size: 10pt")
-        self.lblQuote_ProductTotalExGst_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_ProductTotalExGst_Label.setObjectName("lblQuote_ProductTotalExGst_Label")
-        self.gridLayout_29.addWidget(self.lblQuote_ProductTotalExGst_Label, 11, 0, 1, 1)
-        self.chkQuote_Completed = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.chkQuote_Completed.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.chkQuote_Completed.setStyleSheet("font-family: \"Helvetica\";\n"
-"font-weight: 700;\n"
-"font-size: 10pt;")
-        self.chkQuote_Completed.setTristate(False)
-        self.chkQuote_Completed.setObjectName("chkQuote_Completed")
-        self.gridLayout_29.addWidget(self.chkQuote_Completed, 10, 1, 1, 2)
-        self.lblQuote_Name = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuote_Name.setStyleSheet("font-family: \"Helvetica\";\n"
-"font-weight: 700;\n"
-"font-size: 10pt;")
-        self.lblQuote_Name.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_Name.setObjectName("lblQuote_Name")
-        self.gridLayout_29.addWidget(self.lblQuote_Name, 4, 0, 1, 1)
-        self.tblQuoteSpecialConditions = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
-        self.tblQuoteSpecialConditions.setFocusPolicy(QtCore.Qt.ClickFocus)
-        self.tblQuoteSpecialConditions.setStyleSheet("border: 1px solid #003049;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;")
-        self.tblQuoteSpecialConditions.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tblQuoteSpecialConditions.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.tblQuoteSpecialConditions.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.tblQuoteSpecialConditions.setObjectName("tblQuoteSpecialConditions")
-        self.tblQuoteSpecialConditions.setColumnCount(0)
-        self.tblQuoteSpecialConditions.setRowCount(0)
-        self.tblQuoteSpecialConditions.horizontalHeader().setStretchLastSection(True)
-        self.tblQuoteSpecialConditions.verticalHeader().setVisible(False)
-        self.tblQuoteSpecialConditions.verticalHeader().setStretchLastSection(False)
-        self.gridLayout_29.addWidget(self.tblQuoteSpecialConditions, 22, 0, 1, 4)
-        self.lblQuote_Email = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuote_Email.setStyleSheet("font-family: \"Helvetica\";\n"
-"font-weight: 700;\n"
-"font-size: 10pt;")
-        self.lblQuote_Email.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_Email.setObjectName("lblQuote_Email")
-        self.gridLayout_29.addWidget(self.lblQuote_Email, 8, 0, 1, 1)
-        self.tblQuoteItems = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
-        self.tblQuoteItems.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.tblQuoteItems.setStyleSheet("border: 1px solid #003049;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;")
-        self.tblQuoteItems.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tblQuoteItems.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.tblQuoteItems.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.tblQuoteItems.setObjectName("tblQuoteItems")
-        self.tblQuoteItems.setColumnCount(0)
-        self.tblQuoteItems.setRowCount(0)
-        self.tblQuoteItems.horizontalHeader().setStretchLastSection(True)
-        self.tblQuoteItems.verticalHeader().setVisible(False)
-        self.tblQuoteItems.verticalHeader().setStretchLastSection(False)
-        self.gridLayout_29.addWidget(self.tblQuoteItems, 17, 0, 1, 4)
+        self.gridLayout_29.addWidget(self.lblQuoteEntry_Header, 0, 0, 1, 5)
         self.btnNewQuoteItem = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.btnNewQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
         self.btnNewQuoteItem.setStyleSheet("background-color: #4361ee;\n"
@@ -484,6 +295,30 @@ class Ui_MainWindow(object):
 "white-space: nowrap;")
         self.btnNewQuoteItem.setObjectName("btnNewQuoteItem")
         self.gridLayout_29.addWidget(self.btnNewQuoteItem, 18, 0, 1, 1)
+        self.lblQuote_TotalIncGST = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(87)
+        self.lblQuote_TotalIncGST.setFont(font)
+        self.lblQuote_TotalIncGST.setStyleSheet("background-color: #cfe1b9;\n"
+"border-radius: 6px;\n"
+"color: #283618;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"font-weight: 700;\n"
+"padding: 5px;")
+        self.lblQuote_TotalIncGST.setText("")
+        self.lblQuote_TotalIncGST.setObjectName("lblQuote_TotalIncGST")
+        self.gridLayout_29.addWidget(self.lblQuote_TotalIncGST, 14, 1, 1, 3)
+        self.lblQuote_Kilometres = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuote_Kilometres.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblQuote_Kilometres.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_Kilometres.setObjectName("lblQuote_Kilometres")
+        self.gridLayout_29.addWidget(self.lblQuote_Kilometres, 9, 0, 1, 1)
         self.lblQuote_TotalIncGST_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         font = QtGui.QFont()
         font.setFamily("Helvetica")
@@ -498,6 +333,189 @@ class Ui_MainWindow(object):
         self.lblQuote_TotalIncGST_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblQuote_TotalIncGST_Label.setObjectName("lblQuote_TotalIncGST_Label")
         self.gridLayout_29.addWidget(self.lblQuote_TotalIncGST_Label, 14, 0, 1, 1)
+        self.lblQuote_Email = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuote_Email.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblQuote_Email.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_Email.setObjectName("lblQuote_Email")
+        self.gridLayout_29.addWidget(self.lblQuote_Email, 8, 0, 1, 1)
+        self.txtQuote_Memo = QtWidgets.QPlainTextEdit(self.scrollAreaWidgetContents)
+        self.txtQuote_Memo.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtQuote_Memo.setObjectName("txtQuote_Memo")
+        self.gridLayout_29.addWidget(self.txtQuote_Memo, 2, 4, 8, 1)
+        self.btnExportQuote_Entry = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.btnExportQuote_Entry.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnExportQuote_Entry.setStyleSheet("background-color: #2a9d8f;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnExportQuote_Entry.setObjectName("btnExportQuote_Entry")
+        self.gridLayout_29.addWidget(self.btnExportQuote_Entry, 15, 1, 1, 1)
+        self.lblQuote_TotalExGST_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(37)
+        self.lblQuote_TotalExGST_Label.setFont(font)
+        self.lblQuote_TotalExGST_Label.setStyleSheet("color: #6c757d;\n"
+"font-family: \"Helvetica\";\n"
+"font-weight: 300;\n"
+"font-size: 10pt")
+        self.lblQuote_TotalExGST_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_TotalExGST_Label.setObjectName("lblQuote_TotalExGST_Label")
+        self.gridLayout_29.addWidget(self.lblQuote_TotalExGST_Label, 13, 0, 1, 1)
+        self.chkQuote_Completed = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+        self.chkQuote_Completed.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.chkQuote_Completed.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.chkQuote_Completed.setTristate(False)
+        self.chkQuote_Completed.setObjectName("chkQuote_Completed")
+        self.gridLayout_29.addWidget(self.chkQuote_Completed, 10, 1, 1, 3)
+        self.lblQuoteId_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(37)
+        self.lblQuoteId_Label.setFont(font)
+        self.lblQuoteId_Label.setStyleSheet("color: #6c757d;\n"
+"font-family: \"Helvetica\";\n"
+"font-weight: 300;\n"
+"font-size: 10pt")
+        self.lblQuoteId_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuoteId_Label.setObjectName("lblQuoteId_Label")
+        self.gridLayout_29.addWidget(self.lblQuoteId_Label, 1, 0, 1, 1)
+        self.txtQuote_DateRequired = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.txtQuote_DateRequired.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtQuote_DateRequired.setClearButtonEnabled(False)
+        self.txtQuote_DateRequired.setObjectName("txtQuote_DateRequired")
+        self.gridLayout_29.addWidget(self.txtQuote_DateRequired, 3, 1, 1, 3)
+        self.lblQuoteId = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuoteId.setStyleSheet("background-color: rgb(215, 215, 215);\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"padding: 5px;")
+        self.lblQuoteId.setText("")
+        self.lblQuoteId.setObjectName("lblQuoteId")
+        self.gridLayout_29.addWidget(self.lblQuoteId, 1, 1, 1, 3)
+        self.txtQuote_ContactNumber = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.txtQuote_ContactNumber.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtQuote_ContactNumber.setMaxLength(32767)
+        self.txtQuote_ContactNumber.setObjectName("txtQuote_ContactNumber")
+        self.gridLayout_29.addWidget(self.txtQuote_ContactNumber, 7, 1, 1, 3)
+        self.lblQuote_Suburb = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuote_Suburb.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblQuote_Suburb.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_Suburb.setObjectName("lblQuote_Suburb")
+        self.gridLayout_29.addWidget(self.lblQuote_Suburb, 6, 0, 1, 1)
+        self.btnDeleteQuoteItem = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.btnDeleteQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnDeleteQuoteItem.setStyleSheet("background-color: #d62828;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnDeleteQuoteItem.setObjectName("btnDeleteQuoteItem")
+        self.gridLayout_29.addWidget(self.btnDeleteQuoteItem, 18, 4, 1, 1)
+        self.lblQuote_DateCreated_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(37)
+        self.lblQuote_DateCreated_Label.setFont(font)
+        self.lblQuote_DateCreated_Label.setStyleSheet("color: #6c757d;\n"
+"font-family: \"Helvetica\";\n"
+"font-weight: 300;\n"
+"font-size: 10pt")
+        self.lblQuote_DateCreated_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_DateCreated_Label.setObjectName("lblQuote_DateCreated_Label")
+        self.gridLayout_29.addWidget(self.lblQuote_DateCreated_Label, 2, 0, 1, 1)
+        self.lblQuote_ContactNumber = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuote_ContactNumber.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblQuote_ContactNumber.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_ContactNumber.setObjectName("lblQuote_ContactNumber")
+        self.gridLayout_29.addWidget(self.lblQuote_ContactNumber, 7, 0, 1, 1)
+        self.txtQuote_Email = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.txtQuote_Email.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtQuote_Email.setMaxLength(32767)
+        self.txtQuote_Email.setObjectName("txtQuote_Email")
+        self.gridLayout_29.addWidget(self.txtQuote_Email, 8, 1, 1, 3)
+        self.btnEditQuoteItem = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.btnEditQuoteItem.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnEditQuoteItem.setStyleSheet("background-color: #f77f00;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnEditQuoteItem.setObjectName("btnEditQuoteItem")
+        self.gridLayout_29.addWidget(self.btnEditQuoteItem, 18, 1, 1, 1)
+        self.tblQuoteSpecialConditions = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
+        self.tblQuoteSpecialConditions.setFocusPolicy(QtCore.Qt.ClickFocus)
+        self.tblQuoteSpecialConditions.setStyleSheet("border: 1px solid #003049;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;")
+        self.tblQuoteSpecialConditions.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tblQuoteSpecialConditions.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblQuoteSpecialConditions.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tblQuoteSpecialConditions.setObjectName("tblQuoteSpecialConditions")
+        self.tblQuoteSpecialConditions.setColumnCount(0)
+        self.tblQuoteSpecialConditions.setRowCount(0)
+        self.tblQuoteSpecialConditions.horizontalHeader().setStretchLastSection(True)
+        self.tblQuoteSpecialConditions.verticalHeader().setVisible(False)
+        self.tblQuoteSpecialConditions.verticalHeader().setStretchLastSection(False)
+        self.gridLayout_29.addWidget(self.tblQuoteSpecialConditions, 22, 0, 1, 5)
         self.lblQuote_TransportTotalExGST_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         font = QtGui.QFont()
         font.setFamily("Helvetica")
@@ -512,29 +530,6 @@ class Ui_MainWindow(object):
         self.lblQuote_TransportTotalExGST_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.lblQuote_TransportTotalExGST_Label.setObjectName("lblQuote_TransportTotalExGST_Label")
         self.gridLayout_29.addWidget(self.lblQuote_TransportTotalExGST_Label, 12, 0, 1, 1)
-        self.lblQuote_DateRequired = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuote_DateRequired.setStyleSheet("font-family: \"Helvetica\";\n"
-"font-weight: 700;\n"
-"font-size: 10pt;")
-        self.lblQuote_DateRequired.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_DateRequired.setObjectName("lblQuote_DateRequired")
-        self.gridLayout_29.addWidget(self.lblQuote_DateRequired, 3, 0, 1, 1)
-        self.lblQuote_Kilometres = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuote_Kilometres.setStyleSheet("font-family: \"Helvetica\";\n"
-"font-weight: 700;\n"
-"font-size: 10pt;")
-        self.lblQuote_Kilometres.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_Kilometres.setObjectName("lblQuote_Kilometres")
-        self.gridLayout_29.addWidget(self.lblQuote_Kilometres, 9, 0, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_29.addItem(spacerItem1, 18, 2, 1, 1)
-        self.lblQuote_ContactNumber = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuote_ContactNumber.setStyleSheet("font-family: \"Helvetica\";\n"
-"font-weight: 700;\n"
-"font-size: 10pt;")
-        self.lblQuote_ContactNumber.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblQuote_ContactNumber.setObjectName("lblQuote_ContactNumber")
-        self.gridLayout_29.addWidget(self.lblQuote_ContactNumber, 7, 0, 1, 1)
         self.lblQuote_Address = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.lblQuote_Address.setStyleSheet("font-family: \"Helvetica\";\n"
 "font-weight: 700;\n"
@@ -554,20 +549,60 @@ class Ui_MainWindow(object):
 "padding: 5px;")
         self.lblQuote_TransportTotalExGST.setText("")
         self.lblQuote_TransportTotalExGST.setObjectName("lblQuote_TransportTotalExGST")
-        self.gridLayout_29.addWidget(self.lblQuote_TransportTotalExGST, 12, 1, 1, 2)
-        self.lblQuote_TotalExGST = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        self.lblQuote_TotalExGST.setFont(font)
-        self.lblQuote_TotalExGST.setStyleSheet("background-color: #edf6f9;\n"
+        self.gridLayout_29.addWidget(self.lblQuote_TransportTotalExGST, 12, 1, 1, 3)
+        self.tblQuoteItems = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
+        self.tblQuoteItems.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.tblQuoteItems.setStyleSheet("border: 1px solid #003049;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;")
+        self.tblQuoteItems.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tblQuoteItems.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblQuoteItems.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tblQuoteItems.setObjectName("tblQuoteItems")
+        self.tblQuoteItems.setColumnCount(0)
+        self.tblQuoteItems.setRowCount(0)
+        self.tblQuoteItems.horizontalHeader().setStretchLastSection(True)
+        self.tblQuoteItems.verticalHeader().setVisible(False)
+        self.tblQuoteItems.verticalHeader().setStretchLastSection(False)
+        self.gridLayout_29.addWidget(self.tblQuoteItems, 17, 0, 1, 5)
+        self.txtQuote_Address = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.txtQuote_Address.setStyleSheet("border: 1px solid #003049;\n"
 "border-radius: 6px;\n"
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.lblQuote_TotalExGST.setText("")
-        self.lblQuote_TotalExGST.setObjectName("lblQuote_TotalExGST")
-        self.gridLayout_29.addWidget(self.lblQuote_TotalExGST, 13, 1, 1, 2)
+        self.txtQuote_Address.setMaxLength(32767)
+        self.txtQuote_Address.setObjectName("txtQuote_Address")
+        self.gridLayout_29.addWidget(self.txtQuote_Address, 5, 1, 1, 3)
+        self.txtQuote_Kilometres = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.txtQuote_Kilometres.setStyleSheet("border: 1px solid #003049;\n"
+"border-radius: 6px;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 10pt;\n"
+"padding: 5px;")
+        self.txtQuote_Kilometres.setObjectName("txtQuote_Kilometres")
+        self.gridLayout_29.addWidget(self.txtQuote_Kilometres, 9, 1, 1, 3)
+        self.lblQuote_DateRequired = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuote_DateRequired.setStyleSheet("font-family: \"Helvetica\";\n"
+"font-weight: 700;\n"
+"font-size: 10pt;")
+        self.lblQuote_DateRequired.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_DateRequired.setObjectName("lblQuote_DateRequired")
+        self.gridLayout_29.addWidget(self.lblQuote_DateRequired, 3, 0, 1, 1)
+        self.lblQuote_ProductTotalExGst_Label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(37)
+        self.lblQuote_ProductTotalExGst_Label.setFont(font)
+        self.lblQuote_ProductTotalExGst_Label.setStyleSheet("color: #6c757d;\n"
+"font-family: \"Helvetica\";\n"
+"font-weight: 300;\n"
+"font-size: 10pt")
+        self.lblQuote_ProductTotalExGst_Label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.lblQuote_ProductTotalExGst_Label.setObjectName("lblQuote_ProductTotalExGst_Label")
+        self.gridLayout_29.addWidget(self.lblQuote_ProductTotalExGst_Label, 11, 0, 1, 1)
         self.lblQuoteItem_Header = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.lblQuoteItem_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
 "border-radius: 6px;\n"
@@ -580,59 +615,42 @@ class Ui_MainWindow(object):
 "padding: 6px;")
         self.lblQuoteItem_Header.setAlignment(QtCore.Qt.AlignCenter)
         self.lblQuoteItem_Header.setObjectName("lblQuoteItem_Header")
-        self.gridLayout_29.addWidget(self.lblQuoteItem_Header, 16, 0, 1, 4)
-        self.lblQuoteSpecialCondition_Header = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.lblQuoteSpecialCondition_Header.setStyleSheet("border: 1px solid rgba(27, 31, 35, .15);\n"
-"border-radius: 6px;\n"
-"background-color: #003049;\n"
-"color: #ffffff;\n"
-"font-size: 14pt;\n"
-"font-family: \"Helvetica\";\n"
-"font-style: normal;\n"
-"font-weight: 700;\n"
-"padding: 6px;")
-        self.lblQuoteSpecialCondition_Header.setAlignment(QtCore.Qt.AlignCenter)
-        self.lblQuoteSpecialCondition_Header.setObjectName("lblQuoteSpecialCondition_Header")
-        self.gridLayout_29.addWidget(self.lblQuoteSpecialCondition_Header, 19, 0, 1, 4)
-        self.txtQuote_ContactNumber = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.txtQuote_ContactNumber.setStyleSheet("border: 1px solid #003049;\n"
+        self.gridLayout_29.addWidget(self.lblQuoteItem_Header, 16, 0, 1, 5)
+        self.txtQuote_Name = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.txtQuote_Name.setStyleSheet("border: 1px solid #003049;\n"
 "border-radius: 6px;\n"
 "font-family: \"Helvetica\";\n"
 "font-size: 10pt;\n"
 "padding: 5px;")
-        self.txtQuote_ContactNumber.setMaxLength(32767)
-        self.txtQuote_ContactNumber.setObjectName("txtQuote_ContactNumber")
-        self.gridLayout_29.addWidget(self.txtQuote_ContactNumber, 7, 1, 1, 2)
-        self.lblQuote_TotalIncGST = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(87)
-        self.lblQuote_TotalIncGST.setFont(font)
-        self.lblQuote_TotalIncGST.setStyleSheet("background-color: #cfe1b9;\n"
-"border-radius: 6px;\n"
-"color: #283618;\n"
-"font-family: \"Helvetica\";\n"
-"font-size: 10pt;\n"
-"font-weight: 700;\n"
-"padding: 5px;")
-        self.lblQuote_TotalIncGST.setText("")
-        self.lblQuote_TotalIncGST.setObjectName("lblQuote_TotalIncGST")
-        self.gridLayout_29.addWidget(self.lblQuote_TotalIncGST, 14, 1, 1, 2)
-        self.lblQuote_ProductTotalExGST = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        font = QtGui.QFont()
-        font.setFamily("Helvetica")
-        font.setPointSize(10)
-        self.lblQuote_ProductTotalExGST.setFont(font)
-        self.lblQuote_ProductTotalExGST.setStyleSheet("background-color: #edf6f9;\n"
+        self.txtQuote_Name.setMaxLength(32767)
+        self.txtQuote_Name.setObjectName("txtQuote_Name")
+        self.gridLayout_29.addWidget(self.txtQuote_Name, 4, 1, 1, 3)
+        self.lblQuote_DateCreated = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.lblQuote_DateCreated.setStyleSheet("background-color: rgb(215, 215, 215);\n"
 "border-radius: 6px;\n"
 "font-family: \"Helvetica\";\n"
-"font-size: 10pt;\n"
 "padding: 5px;")
-        self.lblQuote_ProductTotalExGST.setText("")
-        self.lblQuote_ProductTotalExGST.setObjectName("lblQuote_ProductTotalExGST")
-        self.gridLayout_29.addWidget(self.lblQuote_ProductTotalExGST, 11, 1, 1, 2)
+        self.lblQuote_DateCreated.setText("")
+        self.lblQuote_DateCreated.setObjectName("lblQuote_DateCreated")
+        self.gridLayout_29.addWidget(self.lblQuote_DateCreated, 2, 1, 1, 3)
+        self.btnOpenEmailQuote_Entry = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.btnOpenEmailQuote_Entry.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.btnOpenEmailQuote_Entry.setStyleSheet("background-color: #8338ec;\n"
+"border: 1px solid rgba(27, 31, 35, .15);\n"
+"border-radius: 6px;\n"
+"color: #fff;\n"
+"font-family: \"Helvetica\";\n"
+"font-size: 14px;\n"
+"font-weight: 600;\n"
+"line-height: 20px;\n"
+"padding: 6px 16px;\n"
+"position: relative;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"vertical-align: middle;\n"
+"white-space: nowrap;")
+        self.btnOpenEmailQuote_Entry.setObjectName("btnOpenEmailQuote_Entry")
+        self.gridLayout_29.addWidget(self.btnOpenEmailQuote_Entry, 15, 2, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout_28.addWidget(self.scrollArea, 0, 0, 1, 1)
         self.swPages.addWidget(self.pageQuoteEntry)
@@ -2043,7 +2061,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.swPages.setCurrentIndex(0)
+        self.swPages.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.txtQuote_DateRequired, self.txtQuote_Name)
         MainWindow.setTabOrder(self.txtQuote_Name, self.txtQuote_Address)
@@ -2078,33 +2096,34 @@ class Ui_MainWindow(object):
         self.lblQuotes_Header.setText(_translate("MainWindow", "Quotes"))
         self.txtQuoteSearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.tblQuotes.setSortingEnabled(True)
-        self.lblQuote_Suburb.setText(_translate("MainWindow", "Suburb"))
-        self.btnExportQuote_Entry.setText(_translate("MainWindow", "Export Quote"))
-        self.btnDeleteQuoteItem.setText(_translate("MainWindow", "Delete Quote Item"))
-        self.btnEditQuoteItem.setText(_translate("MainWindow", "Edit Quote Item"))
-        self.lblQuote_DateCreated_Label.setText(_translate("MainWindow", "Date Created"))
-        self.txtQuote_DateRequired.setPlaceholderText(_translate("MainWindow", "dd/mm/yyyy"))
-        self.lblQuote_Memo.setText(_translate("MainWindow", "Memo"))
-        self.lblQuote_TotalExGST_Label.setText(_translate("MainWindow", "Total ex. GST"))
-        self.lblQuoteId_Label.setText(_translate("MainWindow", "Id"))
-        self.btnSaveQuote.setText(_translate("MainWindow", "Save Quote"))
-        self.lblQuoteEntry_Header.setText(_translate("MainWindow", "Quote Entry/Edit"))
-        self.txtQuote_Kilometres.setPlaceholderText(_translate("MainWindow", "(0-9999)"))
-        self.lblQuote_ProductTotalExGst_Label.setText(_translate("MainWindow", "Product Total ex. GST"))
-        self.chkQuote_Completed.setText(_translate("MainWindow", "Is Complete"))
         self.lblQuote_Name.setText(_translate("MainWindow", "Customer Name"))
-        self.tblQuoteSpecialConditions.setSortingEnabled(True)
-        self.lblQuote_Email.setText(_translate("MainWindow", "Email"))
-        self.tblQuoteItems.setSortingEnabled(True)
-        self.btnNewQuoteItem.setText(_translate("MainWindow", "New Quote Item"))
-        self.lblQuote_TotalIncGST_Label.setText(_translate("MainWindow", "Total inc. GST"))
-        self.lblQuote_TransportTotalExGST_Label.setText(_translate("MainWindow", "Transport Total ex. GST"))
-        self.lblQuote_DateRequired.setText(_translate("MainWindow", "Date Required"))
-        self.lblQuote_Kilometres.setText(_translate("MainWindow", "Kilometres"))
-        self.lblQuote_ContactNumber.setText(_translate("MainWindow", "Contact Number"))
-        self.lblQuote_Address.setText(_translate("MainWindow", "Address"))
-        self.lblQuoteItem_Header.setText(_translate("MainWindow", "Added Quote Items"))
         self.lblQuoteSpecialCondition_Header.setText(_translate("MainWindow", "Special Conditions"))
+        self.btnSaveQuote.setText(_translate("MainWindow", "Save Quote"))
+        self.lblQuote_Memo.setText(_translate("MainWindow", "Memo"))
+        self.lblQuoteEntry_Header.setText(_translate("MainWindow", "Quote Entry/Edit"))
+        self.btnNewQuoteItem.setText(_translate("MainWindow", "New Quote Item"))
+        self.lblQuote_Kilometres.setText(_translate("MainWindow", "Kilometres"))
+        self.lblQuote_TotalIncGST_Label.setText(_translate("MainWindow", "Total inc. GST"))
+        self.lblQuote_Email.setText(_translate("MainWindow", "Email"))
+        self.btnExportQuote_Entry.setText(_translate("MainWindow", "Export Quote"))
+        self.lblQuote_TotalExGST_Label.setText(_translate("MainWindow", "Total ex. GST"))
+        self.chkQuote_Completed.setText(_translate("MainWindow", "Is Complete"))
+        self.lblQuoteId_Label.setText(_translate("MainWindow", "Id"))
+        self.txtQuote_DateRequired.setPlaceholderText(_translate("MainWindow", "dd/mm/yyyy"))
+        self.lblQuote_Suburb.setText(_translate("MainWindow", "Suburb"))
+        self.btnDeleteQuoteItem.setText(_translate("MainWindow", "Delete Quote Item"))
+        self.lblQuote_DateCreated_Label.setText(_translate("MainWindow", "Date Created"))
+        self.lblQuote_ContactNumber.setText(_translate("MainWindow", "Contact Number"))
+        self.btnEditQuoteItem.setText(_translate("MainWindow", "Edit Quote Item"))
+        self.tblQuoteSpecialConditions.setSortingEnabled(True)
+        self.lblQuote_TransportTotalExGST_Label.setText(_translate("MainWindow", "Transport Total ex. GST"))
+        self.lblQuote_Address.setText(_translate("MainWindow", "Address"))
+        self.tblQuoteItems.setSortingEnabled(True)
+        self.txtQuote_Kilometres.setPlaceholderText(_translate("MainWindow", "(0-9999)"))
+        self.lblQuote_DateRequired.setText(_translate("MainWindow", "Date Required"))
+        self.lblQuote_ProductTotalExGst_Label.setText(_translate("MainWindow", "Product Total ex. GST"))
+        self.lblQuoteItem_Header.setText(_translate("MainWindow", "Added Quote Items"))
+        self.btnOpenEmailQuote_Entry.setText(_translate("MainWindow", "Open In Email"))
         self.lblQuoteItemId_Label.setText(_translate("MainWindow", "Id"))
         self.lblQuoteItemEntry_Header.setText(_translate("MainWindow", "Quote Item Entry/Edit"))
         self.lblQuoteItem_ProductRate.setText(_translate("MainWindow", "Rate Type"))
